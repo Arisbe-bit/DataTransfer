@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+/* Style the header */
+.header {
+    background-color: #f1f1f1;
+    padding         : 10px;
+    text-align      : center;
+}
+
+/* Style the top navigation bar */
+.topnav {
+    text-align     : left;
+    padding        : 14px 16px;
+}
+
+.content {
+    width: 100%;
+}
+
+.footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 5px;
+}
