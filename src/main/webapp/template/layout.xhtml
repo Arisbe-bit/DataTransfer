@@ -8,7 +8,22 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<h:outputStylesheet name="datatransfer-style.css" library="css" />
+	<ui:insert name="title">
+	<title>Data Transfer</title>
+	</ui:insert>
+	<ui:insert name="css">
+		<style type="text/css">
+        </style>
+	</ui:insert>
+	<ui:insert name="cssfiles">
+		<h:outputStylesheet name="datatransfer-style.css" library="css" />
+	</ui:insert>
+	<ui:insert name="js">
+		<script lang="javascript">			
+		</script>
+	</ui:insert>
+	<ui:insert name="jsfiles">
+	</ui:insert>
 </h:head>
 <body>
 	<div class="header">

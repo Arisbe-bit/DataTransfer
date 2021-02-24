@@ -1,0 +1,61 @@
+/**
+ * 
+ */
+package com.neoris.tcl.utils;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.faces.context.FacesContext;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.config.Scope;
+
+/**
+ * Add a Custom "view" scope for JSF in Spring Framework.
+ * 
+ * @author Marco Vargas
+ *
+ */
+public class ViewScope implements Scope {
+    
+    private Map<String, Runnable> destructionCallbacks = Collections.synchronizedMap(new HashMap<String, Runnable>());
+
+    @Override
+    public Object get(String name, ObjectFactory<?> objectFactory) {
+        Map<String, Object> viewMap = FacesContext.getCurrentInstance().getViewRoot().getViewMap();
+        if (viewMap.containsKey(name)) {
+            return viewMap.get(name);
+        } else {
+            Object object = objectFactory.getObject();
+            viewMap.put(name, object);
+            return object;
+        }
+    }
+
+    @Override
+    public Object remove(String name) {
+        return FacesContext.getCurrentInstance().getViewRoot().getViewMap().remove(name);
+    }
+
+    @Override
+    public void registerDestructionCallback(String name, Runnable callback) {
+        destructionCallbacks.put(name, callback);
+    }
+
+    @Override
+    public Object resolveContextualObject(String key) {
+        Object retval = FacesContext.getCurrentInstance().getViewRoot().getViewMap().get(key);
+        return retval;
+    }
+
+    @Override
+    public String getConversationId() {
+        String retval = FacesContext.getCurrentInstance().getViewRoot().getId();
+        return retval;
+    }
+
+}

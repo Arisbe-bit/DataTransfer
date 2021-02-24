@@ -11,13 +11,10 @@ import com.neoris.tcl.model.HFMcodes;
 public interface IHFMcodesService {
 
     List<HFMcodes> listar();
-
     Page<HFMcodes> findPaginated(Pageable pageable, List<HFMcodes> hfmCodesList);
-
     HFMcodes save(HFMcodes hfMcodes);
-
     void delete(HFMcodes hfmcodes);
-
+    void deleteAll(List<HFMcodes> lstHfmcodes);
     Optional<HFMcodes> listarID(String code);
 
 }
