@@ -2,155 +2,132 @@ package com.neoris.tcl.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import javax.servlet.http.HttpSession;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.neoris.tcl.model.HFMcodes;
 import com.neoris.tcl.services.IHFMcodesService;
 
 @Controller(value = "hfmControllerBean")
-@Scope(value = "session")
+@Scope("view")
 public class HfmController {
     private final static Logger LOG = LoggerFactory.getLogger(HfmController.class);
     
     @Autowired
     private IHFMcodesService service;
     
-    @Autowired
-    private HttpSession httpSession;
+    private List<HFMcodes> lstHfmcodes;
+    private List<HFMcodes> lstSelectdHfmcodes; 
+    private HFMcodes hfmcode;
     
-    public String index(Model model) {       
-        model.addAttribute("title", "Main Page");
-        cleanSession();
-        return "index";
+    @PostConstruct
+    public void init() {
+        LOG.info("Initializing lstHfmcodes...");
+        this.lstHfmcodes = service.listar();
     }
     
-    /**
-     * 
-     * @param model
-     * @param page
-     * @param size
-     * @return
-     */
-    public String hfmCodesPage(Model model, 
-            @RequestParam("page") Optional<Integer> page, 
-            @RequestParam("size") Optional<Integer> size) {
-        
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
+    public void openNew() {
+        this.hfmcode = new HFMcodes();
+    }
+      
+    public void save() {
+        LOG.info("Entering to save hfmcode => {}", hfmcode);
+        hfmcode = service.save(hfmcode);
+        this.lstHfmcodes = service.listar();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("HFMcode Saved"));
+        PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+    }
+    
+    public void delete() {
+        LOG.info("Entering to delete hfmcode => {}", this.hfmcode);
+        service.delete(this.hfmcode);
+        this.hfmcode = null;
+        this.lstHfmcodes = service.listar();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Code Removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+    }
+    
+    public void deleteSelectedCodes() {
+        LOG.info("Entering to delete codes: {}", this.lstSelectdHfmcodes);
+        service.deleteAll(this.lstSelectdHfmcodes);
+        this.lstSelectdHfmcodes = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Codes Removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+    }
+    
+    public void update() {
+        LOG.info("Entering to update hfmcode => {}", hfmcode);
+        save();
+    }
 
-        List<HFMcodes> hfmcodes = getHFMcodesList(page.isPresent());
-        Page<HFMcodes> hfmCodesPage = listToPage(hfmcodes, currentPage, pageSize);
+    public boolean hasSelectedCodes() {
+        return this.lstSelectdHfmcodes != null && !this.lstSelectdHfmcodes.isEmpty();
+    }
 
-        model.addAttribute("HFMcodesPage", hfmCodesPage);
-        model.addAttribute("title", "HFM Codes");
-        
-        int totalPages = hfmCodesPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                .boxed()
-                .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
+    public String getDeleteButtonMessage() {
+        String message = "delete %s code%s selected";
+        String retval = "Delete";
+        if (hasSelectedCodes()) {
+            int size = this.lstSelectdHfmcodes.size();
+            if (size > 1) {
+                retval = String.format(message, size, "s");
+            } else {
+                retval = String.format(message, size, "");
+            }
         }
-    
-        return "hfmcodes";
+        return retval;
     }
 
-    /**
-     * 
-     * @param model
-     * @return
-     */
-    public String Listar(Model model) {
-        cleanSession();
-        model.addAttribute("title", "HFM Codes Accounts");
-        model.addAttribute("message", "This is hfmcodes-accounts");
-        return "hfmcodes-accounts";
-    }
- 
-    public String hfmcodesEdit(@RequestParam Optional<String> code, Model model) {
-        if(code.isPresent()) {
-            LOG.info("hfmcodesEdit:Id = {}", code.get());
-            model.addAttribute("hfmcodes", service.listarID(code.get()));
-        } else {
-            LOG.info("hfmcodesEdit:Id no presente. Creando nuevo.");
-            model.addAttribute("hfmcodes", new HFMcodes());
-        }
-        return "hfmcodes-edit";
-    }
-    
-    public String hfmcodesDeletePost(HFMcodes hfmcodes, Model model) {
-        LOG.info("Entering to delete in POST code = {}", hfmcodes.getHfmcode());
-        service.delete(hfmcodes);
-        model.addAttribute("message", String.format("HFM Code [%s] deleted", hfmcodes.getHfmcode()));
-        return this.hfmCodesPage(model, Optional.empty(), Optional.empty());
-    }
-    
-    public String hfmcodesDelete(@RequestParam String code, Model model) {
-        LOG.info("Entering to delete in GET code = {}", code);
-        Optional<HFMcodes> hfmcodes = service.listarID(code);
-        if(hfmcodes.isPresent()) {
-            service.delete(hfmcodes.get());
-            model.addAttribute("message", String.format("HFM Code [%s] deleted", code));
-        } else {
-            model.addAttribute("message", String.format("HFM Code [%s] NOT found. Not Deleted!!", code));
-        }        
-        return this.hfmCodesPage(model, Optional.empty(), Optional.empty());
-    }
-    
-    @PostMapping("/hfmcodes-save")
-    public String hfmcodesSave(HFMcodes hfmcodes, Model model) {
-        cleanSession();
-        LOG.info("hfmcodesSave: hfmcodes = {}", hfmcodes);
-        hfmcodes = service.save(hfmcodes);
-        LOG.info("hfmcodesSave: hfmcodes saved = {}", hfmcodes);
-        return this.hfmCodesPage(model, Optional.empty(), Optional.empty());
-    }
-    
-    /**
-     * 
-     * @param hfmcodes
-     * @param currentPage
-     * @param pageSize
-     * @return
-     */
-    private Page<HFMcodes> listToPage(List<HFMcodes> hfmcodes, int currentPage, int pageSize) {
-        Page<HFMcodes> page = service.findPaginated(PageRequest.of(currentPage - 1, pageSize), hfmcodes);
-        return page;
+    public List<HFMcodes> getLstHfmcodes() {
+        return lstHfmcodes;
     }
 
-    /**
-     * 
-     * @param isNew
-     * @return
-     */
-    private List<HFMcodes> getHFMcodesList(boolean isPresent) {
-        List<HFMcodes> hfmcodes = null;
-        if(!isPresent) {
-            LOG.info("getting List from Service");
-            hfmcodes = service.listar();
-            httpSession.setAttribute("HFMcodes", hfmcodes);
-        } else {
-            LOG.info("getting List from User Session...");
-            hfmcodes = (List<HFMcodes>) httpSession.getAttribute("HFMcodes");
-        }
-        return hfmcodes;
+    public void setLstHfmcodes(List<HFMcodes> lstHfmcodes) {
+        this.lstHfmcodes = lstHfmcodes;
+    }
+
+    public Optional<HFMcodes> getOptionaHfmcode(String code) {
+        return service.listarID(code);
     }
     
-    private void cleanSession() {
-        httpSession.removeAttribute("HFMcodes");
+    public List<HFMcodes> getLstSelectdHfmcodes() {
+        return lstSelectdHfmcodes;
+    }
+
+    public void setLstSelectdHfmcodes(List<HFMcodes> lstSelectdHfmcodes) {
+        LOG.info("Recibo Lista de seleccionados => {}", lstSelectdHfmcodes);
+        this.lstSelectdHfmcodes = lstSelectdHfmcodes;
+    }
+    
+    public HFMcodes getHfmcode() {
+        return hfmcode;
+    }
+
+    public void setHfmcode(HFMcodes hfmcode) {
+        LOG.info("Recibo HFMcodes => {}", hfmcode);
+        this.hfmcode = hfmcode;
+    }
+
+    public String getTitle() {
+        return "HFM Codes Mantaince";
+    }
+    
+    public String getDialogName() {
+        return "manageCodeDialog";
+    }
+    
+    public String getDataTableName() {
+        return "dt-codes";
     }
 }

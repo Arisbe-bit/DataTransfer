@@ -45,7 +45,6 @@ public class HFMcodes implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("HFMcodes [hfmcode=%s, tptype=%s, id=%s]", hfmcode, tptype);
+        return String.format("HFMcodes [hfmcode=%s, tptype=%s]", hfmcode, tptype);
     }
-    
 }

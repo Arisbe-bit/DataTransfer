@@ -60,4 +60,9 @@ public class HFMcodesService implements IHFMcodesService {
     public Optional<HFMcodes> listarID(String code) {
         return data.findById(code);
     }
+
+    @Override
+    public void deleteAll(List<HFMcodes> lstHfmcodes) {
+        data.deleteAll(lstHfmcodes);        
+    }
 }

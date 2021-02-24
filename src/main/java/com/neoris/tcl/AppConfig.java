@@ -8,9 +8,12 @@ import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.neoris.tcl.utils.ViewScope;
 
 @Configuration
 public class AppConfig {
@@ -40,5 +43,24 @@ public class AppConfig {
         WebConfigProvider provider = new DefaultWebConfigProvider();
         return provider;
     }
+    
+    @Bean
+    public static CustomScopeConfigurer viewScope() {
+        LOG.info("Configuring Custom View Scope...");
+        CustomScopeConfigurer viewScope = new CustomScopeConfigurer();
+        viewScope.addScope("view", new ViewScope());
+        return viewScope;
+    }
+    
+//    @Bean
+//    public BeanFactoryPostProcessor viewScopePostProcesor() {
+//        
+//        return new BeanFactoryPostProcessor () {
+//            @Override
+//            public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//                beanFactory.registerScope("view", new ViewScope());                
+//            }            
+//        };
+//    }
 
 }
