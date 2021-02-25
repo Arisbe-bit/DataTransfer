@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.model.HFMcodes;
 import com.neoris.tcl.services.IHFMcodesService;
+import com.neoris.tcl.utils.Functions;
 
 @Controller(value = "hfmControllerBean")
 @Scope("view")
@@ -43,9 +43,10 @@ public class HfmController {
         LOG.info("Entering to save hfmcode => {}", hfmcode);
         hfmcode = service.save(hfmcode);
         this.lstHfmcodes = service.listar();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("HFMcode Saved"));
+        Functions.addInfoMessage("Succes", "HFMCode saved");
         PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
     
     public void delete() {
@@ -53,15 +54,17 @@ public class HfmController {
         service.delete(this.hfmcode);
         this.hfmcode = null;
         this.lstHfmcodes = service.listar();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Code Removed"));
+        Functions.addInfoMessage("Succes", "Code Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
     
-    public void deleteSelectedCodes() {
-        LOG.info("Entering to delete codes: {}", this.lstSelectdHfmcodes);
+    public void deleteSelected(ActionEvent event) {
+        LOG.info("[deleteSelected] = > Entering to delete codes: {}", this.lstSelectdHfmcodes);
         service.deleteAll(this.lstSelectdHfmcodes);
         this.lstSelectdHfmcodes = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Codes Removed"));
+        this.lstHfmcodes = service.listar();
+        Functions.addInfoMessage("Succes", "Codes Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
@@ -76,7 +79,7 @@ public class HfmController {
     }
 
     public String getDeleteButtonMessage() {
-        String message = "delete %s code%s selected";
+        String message = "Delete %s code%s selected";
         String retval = "Delete";
         if (hasSelectedCodes()) {
             int size = this.lstSelectdHfmcodes.size();
@@ -106,7 +109,6 @@ public class HfmController {
     }
 
     public void setLstSelectdHfmcodes(List<HFMcodes> lstSelectdHfmcodes) {
-        LOG.info("Recibo Lista de seleccionados => {}", lstSelectdHfmcodes);
         this.lstSelectdHfmcodes = lstSelectdHfmcodes;
     }
     
@@ -129,5 +131,9 @@ public class HfmController {
     
     public String getDataTableName() {
         return "dt-codes";
+    }
+    
+    public String getDeleteCodesButton() {
+        return "delete-codes-button-id";
     }
 }

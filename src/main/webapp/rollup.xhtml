@@ -1,25 +1,146 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>RollUp</title>
-</h:head>
-<h:body>
-	<ui:composition template="/template/layout.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
 
-		<ui:define name="content">
-			<h2>This is RollUp content</h2>
-		</ui:define>
+    <ui:define name="css">
+        <style type="text/css">
+			.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: center;
+			}			
+			.customPanelGrid .ui-panelgrid-content {
+				align-items: center;
+			}
+			.ui-panelgrid.showcase-text-align-left .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: left;
+			}	
+        </style>
+    </ui:define>
 
-		<ui:define name="footer">
-			<h2>This is RollUp Footer</h2>
-		</ui:define>
+	<ui:define name="content">
 
-	</ui:composition>
-</h:body>
-</html>
+		<h:form id="rollupForm">
+
+			<p:panelGrid style="margin-top:20px" id="panelGridRU">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="3">RollUps</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">Form</p:column>
+						<p:column colspan="1">Monitor Status</p:column>
+					</p:row>
+				</f:facet>
+				<p:row>
+					<p:column><p:outputLabel for="entity" value="Entity"/></p:column>
+					<p:column>
+						<p:selectOneMenu id="entity">
+							<f:selectItem itemLabel="Select One" itemValue=""/>
+							<f:selectItem itemLabel="Xbox One" itemValue="Xbox One"/>
+							<f:selectItem itemLabel="PS4" itemValue="PS4"/>
+							<f:selectItem itemLabel="Wii U" itemValue="Wii U"/>
+						</p:selectOneMenu>
+					</p:column>
+					<p:column rowspan="9" style="vertical-align: top">
+					
+					
+					<p:panelGrid style="margin-top:20px" id="panelGridMonitor">
+						<f:facet name="header">
+							<p:row>
+								<p:column>Form</p:column>
+								<p:column>Monitor Status</p:column>
+							</p:row>
+						</f:facet>
+						<p:row>
+							<p:column>TrialBalore</p:column>
+							<p:column>OK</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Payables</p:column>
+							<p:column>OK</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Receibable</p:column>
+							<p:column>OK</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Bills</p:column>
+							<p:column>OK</p:column>
+						</p:row>
+						<p:row>
+							<p:column>Validation</p:column>
+							<p:column>IN PROGRESS</p:column>
+						</p:row>
+						<f:facet name="footer">
+							<p:row>
+								<p:column colspan="2" style="text-align: center;">
+									<p:commandButton
+										value="View"
+										styleClass="ui-button-success"
+										style="margin: 0.5em"/>
+									<p:commandButton
+										value="Exit"
+										styleClass="ui-button-warning"
+										style="margin: 0.5em"/>								
+								</p:column>
+							</p:row>
+						</f:facet>
+					</p:panelGrid>
+					
+				
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="application" value="Application"/></p:column>
+					<p:column><p:inputText id="application"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="scenario" value="Scenario"/></p:column>
+					<p:column><p:inputText id="scenario"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="year" value="Year"/></p:column>
+					<p:column><p:inputText id="year"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="period" value="Period"/></p:column>
+					<p:column>
+						<p:selectOneMenu id="period">
+							<f:selectItem itemLabel="JANUARY" itemValue="1"/>
+							<f:selectItem itemLabel="FEBRUARY" itemValue="2"/>
+							<f:selectItem itemLabel="MARCH" itemValue="3"/>
+							<f:selectItem itemLabel="MAY" itemValue="4"/>
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="view" value="View"/></p:column>
+					<p:column><p:inputText id="view"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="value" value="Value"/></p:column>
+					<p:column><p:inputText id="value"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column><p:outputLabel for="segment" value="Segment"/></p:column>
+					<p:column><p:inputText id="segment"/></p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2" style="text-align: center;">						
+						<p:commandButton 
+							value="Run" 
+							styleClass="rounded-button ui-button-success" 
+							/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

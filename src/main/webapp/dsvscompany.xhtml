@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<title>DataSource Vs Company</title>
-</h:head>
-<h:body>
-	<ui:composition template="/template/layout.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
 
-		<ui:define name="content">
-			<h2>DataSource Vs Company Company</h2>
-		</ui:define>
+	<ui:define name="title">
+		<title>${menuController.dataSourceVsCompany}</title>
+	</ui:define>
 
-		<ui:define name="footer">
-			<h2>This is DataSource Vs Company Footer</h2>
-		</ui:define>
+	<ui:define name="header">
+		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
+		<p:card>			
+			<h2>${menuController.dataSourceVsCompany}</h2>
+			<div class="content">This is content one</div>
+		</p:card>
+		<p:card>
+			<h2>${menuController.dataSourceVsCompany}</h2>
+			<div class="content">This is content two</div>
+		</p:card>		
+	</ui:define>
 
-	</ui:composition>
-</h:body>
-</html>
+</ui:composition>
