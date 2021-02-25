@@ -1,12 +1,8 @@
 package com.neoris.tcl.controller;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
-import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,21 +106,21 @@ public class MenuController {
     public MenuModel getModel() {
         return model;
     }
-
-//    public void save() {
-//        addMessage("Success", "Data saved");
-//    }
-//
-//    public void update() {
-//        addMessage("Success", "Data updated");
-//    }
-//
-//    public void delete() {
-//        addMessage("Success", "Data deleted");
-//    }
-
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    
+    public String getDataSourceVsCompany() {
+        return "DataSource Vs Company";
     }
+    
+    public String getRollUpText() {
+        return "RollUp";
+    }
+    
+    public String getReclasificationText() {
+        return "Reclasification";
+    }
+    
+    public String getHfmCodesOAText() {
+        return "Hfm Codes OA";
+    }
+    
 }

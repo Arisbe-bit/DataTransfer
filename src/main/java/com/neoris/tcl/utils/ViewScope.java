@@ -9,8 +9,6 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
@@ -48,14 +46,12 @@ public class ViewScope implements Scope {
 
     @Override
     public Object resolveContextualObject(String key) {
-        Object retval = FacesContext.getCurrentInstance().getViewRoot().getViewMap().get(key);
-        return retval;
+        return FacesContext.getCurrentInstance().getViewRoot().getViewMap().get(key);
     }
 
     @Override
     public String getConversationId() {
-        String retval = FacesContext.getCurrentInstance().getViewRoot().getId();
-        return retval;
+        return FacesContext.getCurrentInstance().getViewRoot().getId();
     }
 
 }

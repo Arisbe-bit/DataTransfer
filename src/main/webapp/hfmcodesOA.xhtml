@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>HFMCodes Oracle Accounts</title>
-</h:head>
-<h:body>
-	<ui:composition template="/template/layout.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+	
+	<ui:define name="header">
+		<h1><h:outputText value="${menuController.hfmCodesOAText}"/></h1>
+	</ui:define>
+	<ui:define name="content">
+		<h1>${menuController.hfmCodesOAText}</h1>
+		<p:card>
+			<h2>${menuController.hfmCodesOAText}</h2>
+			<div class="content">
+				<h:outputText value="${menuController.hfmCodesOAText}"/>
+			</div>
+		</p:card>
+		<p:separator/>
+		<p:card>			
+			<h2>${menuController.dataSourceVsCompany}</h2>
+			<div class="content">This is content one</div>
+		</p:card>
+	</ui:define>
 
-		<ui:define name="content">
-			<h2>This is hfmcodesOA content</h2>
-		</ui:define>
-
-		<ui:define name="footer">
-			<h2>This is hfmcodesOA Footer</h2>
-		</ui:define>
-
-	</ui:composition>
-</h:body>
-</html>
+</ui:composition>

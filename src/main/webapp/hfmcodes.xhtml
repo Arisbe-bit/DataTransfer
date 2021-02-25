@@ -10,6 +10,10 @@
 		<title>${hfmControllerBean.title}</title>
 	</ui:define>
 	
+	<ui:define name="header">
+		<h1>${hfmControllerBean.title}</h1>
+	</ui:define>
+	
 	<ui:define name="content">
 		<h:form id="form">
 			<div class="card">
@@ -23,16 +27,21 @@
 							update=":form:manage-code-content"
 							oncomplete="PF('#{hfmControllerBean.dialogName}').show()"
 							styleClass="ui-button-success" 
-							style="margin-right: .5rem">
+							style="margin-right: 0.3em">
 							<p:resetInput target=":form:manage-code-content" />
-						</p:commandButton>				
-		                <p:commandButton id="delete-codes-button" value="#{hfmControllerBean.deleteButtonMessage}"
-		                                 icon="pi pi-trash" actionListener="#{hfmControllerBean.deleteSelectedCodes}"
-		                                 styleClass="ui-button-danger" disabled="#{!hfmControllerBean.hasSelectedCodes()}"
-		                                 update="@this">
-		                    <p:confirm header="Confirmation" message="Delete the selected products?"
-		                               icon="pi pi-exclamation-triangle"/>
-		                </p:commandButton>
+						</p:commandButton>						
+						<p:commandButton value="#{hfmControllerBean.deleteButtonMessage}"
+							id="#{hfmControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{hfmControllerBean.deleteSelected}"
+							styleClass="ui-button-danger"
+							style="margin-left: 0.3em"
+							disabled="#{!hfmControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation" 
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle"/>
+						</p:commandButton>
 					</div>
 				</div>
 
@@ -47,47 +56,56 @@
 					paginator="true" 
 					rows="10" 
 					rowSelectMode="add"
+					size="small"
 					paginatorPosition="bottom">
 					<f:facet name="header">
 					</f:facet>
-					<p:ajax event="rowSelect" update=":form:delete-codes-button" />
-					<p:ajax event="rowUnselect" update=":form:delete-codes-button" />
-					<p:ajax event="rowSelectCheckbox" update=":form:delete-codes-button" />
-					<p:ajax event="rowUnselectCheckbox" update=":form:delete-codes-button" />
-					<p:ajax event="toggleSelect" update=":form:delete-codes-button" />
+					<p:ajax event="rowSelect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{hfmControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{hfmControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
 
-					<p:column selectionMode="multiple" exportable="false"></p:column>
-
+					<p:column headerText="Select" 
+						selectionMode="multiple" 
+						exportable="false" 
+						width="10%">
+					</p:column>
+					
 					<p:column headerText="Code" 
 						sortBy="#{hfmcodes.hfmcode}" 
 						filterBy="#{hfmcodes.hfmcode}">
 						<h:outputText value="#{hfmcodes.hfmcode}" />
 					</p:column>
+					
 					<p:column headerText="Type" 
 						sortBy="#{hfmcodes.tptype}"
 						filterBy="#{hfmcodes.tptype}">
 						<h:outputText value="#{hfmcodes.tptype}" />
 					</p:column>
-
-					<p:column exportable="false">
+					
+					<p:column headerText="Actions"  exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
 							update=":form:manage-code-content"
 							oncomplete="PF('#{hfmControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em"
 							process="@this">
 							<f:setPropertyActionListener value="#{hfmcodes}" target="#{hfmControllerBean.hfmcode}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
+						
 						<p:commandButton class="ui-button-warning rounded-button"
 							icon="pi pi-trash" 
 							process="@this"
+							style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
 							<f:setPropertyActionListener value="#{hfmcodes}" target="#{hfmControllerBean.hfmcode}" />
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
-
+				<!-- This form is for add new o modify a code -->
 				<p:dialog header="HFMCodes Details" 
 					width="450" 
 					showEffect="fade"
@@ -140,13 +158,14 @@
 						icon="pi pi-times"
 						onclick="PF('deleteCodeDialog').hide()" />
 				</p:confirmDialog>
-
+				
+		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+		            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+		        </p:confirmDialog>
 			</div>
 		</h:form>
 
-	</ui:define>
-	<ui:define name="footer">
-		<h5>This is hfmcodes Footer</h5>
 	</ui:define>
 
 </ui:composition>

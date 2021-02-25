@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<ui:insert name="title">
 	<title>Data Transfer</title>
 	</ui:insert>
 	<ui:insert name="css">
-		<style type="text/css">
-        </style>
 	</ui:insert>
 	<ui:insert name="cssfiles">
 		<h:outputStylesheet name="datatransfer-style.css" library="css" />
 	</ui:insert>
 	<ui:insert name="js">
-		<script lang="javascript">			
-		</script>
 	</ui:insert>
 	<ui:insert name="jsfiles">
 	</ui:insert>
 </h:head>
 <body>
+	<div class="card">
 	<div class="header">
 		<ui:insert name="header">
 			<ui:include src="/template/header.xhtml" />
@@ -49,7 +45,7 @@
 			<ui:include src="/template/footer.xhtml" />
 		</ui:insert>
 	</div>
-
+</div>
 </body>
 
 </html>
