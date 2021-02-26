@@ -38,11 +38,8 @@
 				<p:row>
 					<p:column><p:outputLabel for="entity" value="Entity"/></p:column>
 					<p:column>
-						<p:selectOneMenu id="entity">
-							<f:selectItem itemLabel="Select One" itemValue=""/>
-							<f:selectItem itemLabel="Xbox One" itemValue="Xbox One"/>
-							<f:selectItem itemLabel="PS4" itemValue="PS4"/>
-							<f:selectItem itemLabel="Wii U" itemValue="Wii U"/>
+						<p:selectOneMenu id="entity" value="#{rollupController.rollUpBean.entity}">
+							<f:selectItems value="#{rollupController.mapEntities}"/>
 						</p:selectOneMenu>
 					</p:column>
 					<p:column rowspan="9" style="vertical-align: top">
@@ -96,45 +93,42 @@
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="application" value="Application"/></p:column>
-					<p:column><p:inputText id="application"/></p:column>
+					<p:column><p:inputText id="application" value="#{rollupController.rollUpBean.application}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="scenario" value="Scenario"/></p:column>
-					<p:column><p:inputText id="scenario"/></p:column>
+					<p:column><p:inputText id="scenario" value="#{rollupController.rollUpBean.scenario}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="year" value="Year"/></p:column>
-					<p:column><p:inputText id="year"/></p:column>
+					<p:column><p:inputText id="year" value="#{rollupController.rollUpBean.year}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="period" value="Period"/></p:column>
 					<p:column>
-						<p:selectOneMenu id="period">
-							<f:selectItem itemLabel="JANUARY" itemValue="1"/>
-							<f:selectItem itemLabel="FEBRUARY" itemValue="2"/>
-							<f:selectItem itemLabel="MARCH" itemValue="3"/>
-							<f:selectItem itemLabel="MAY" itemValue="4"/>
+						<p:selectOneMenu id="period" value="#{rollupController.rollUpBean.period}">
+							<f:selectItems value="#{rollupController.months}"/>
 						</p:selectOneMenu>
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="view" value="View"/></p:column>
-					<p:column><p:inputText id="view"/></p:column>
+					<p:column><p:inputText id="view" value="#{rollupController.rollUpBean.view}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="value" value="Value"/></p:column>
-					<p:column><p:inputText id="value"/></p:column>
+					<p:column><p:inputText id="value" value="#{rollupController.rollUpBean.value}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column><p:outputLabel for="segment" value="Segment"/></p:column>
-					<p:column><p:inputText id="segment"/></p:column>
+					<p:column><p:inputText id="segment" value="#{rollupController.rollUpBean.segment}"/></p:column>
 				</p:row>
 				<p:row>
 					<p:column colspan="2" style="text-align: center;">						
-						<p:commandButton 
-							value="Run" 
-							styleClass="rounded-button ui-button-success" 
-							/>
+						<p:commandButton  
+							value="Run"
+							actionListener="#{rollupController.run}" 
+							styleClass="rounded-button ui-button-success"/>
 					</p:column>
 				</p:row>
 			</p:panelGrid>

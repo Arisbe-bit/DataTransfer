@@ -17,7 +17,7 @@ import com.neoris.tcl.dao.IHFMcodes;
 import com.neoris.tcl.model.HFMcodes;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
-@Service(value = "hfmCodesService")
+@Service()
 public class HFMcodesService implements IHFMcodesService {
 
     @Autowired
