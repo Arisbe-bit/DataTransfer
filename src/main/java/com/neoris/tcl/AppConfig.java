@@ -1,5 +1,9 @@
 package com.neoris.tcl;
 
+import java.time.Month;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
@@ -12,11 +16,13 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.neoris.tcl.utils.ViewScope;
 
 @Configuration
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
     
     private final static Logger LOG = LoggerFactory.getLogger(AppConfig.class);
     
@@ -52,15 +58,22 @@ public class AppConfig {
         return viewScope;
     }
     
-//    @Bean
-//    public BeanFactoryPostProcessor viewScopePostProcesor() {
-//        
-//        return new BeanFactoryPostProcessor () {
-//            @Override
-//            public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-//                beanFactory.registerScope("view", new ViewScope());                
-//            }            
-//        };
-//    }
+    @Bean("mapMonths")
+    public Map<String, Integer> mapMonths() {
+        LOG.info("Configuring Map For Month Names...");
+        Map<String, Integer> months = new LinkedHashMap<>();        
+        for (int i = 1; i <= Month.values().length; i++) {
+            months.put(Month.of(i).toString(), i);
+        }
+        return months;
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        LOG.info("Configuring addViewControllers...");
+        // registry.addViewController("/").setViewName("/faces/index.xhtml");
+        registry.addViewController("/").setViewName("/index.xhtml");
+    }
+
 
 }

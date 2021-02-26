@@ -19,6 +19,7 @@ public class MenuController {
 
     @PostConstruct
     public void init() {
+        LOG.debug("Initializing MenuController...");
         model = new DefaultMenuModel();
 //        LOG.info("Building model for menu");
 //
