@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.neoris.tcl</groupId>
 	<artifactId>DataTransfer</artifactId>
@@ -17,6 +18,55 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<env>dev</env>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<env>prod</env>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<dependencies>
+				<!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
+				<dependency>
+				    <groupId>com.oracle.ojdbc</groupId>
+				    <artifactId>ojdbc8</artifactId>
+				    <version>19.3.0.0</version>
+				</dependency>
+				<dependency>
+				    <groupId>com.oracle.ojdbc</groupId>
+				    <artifactId>osdt_cert</artifactId>
+				    <version>19.3.0.0</version>
+				</dependency>
+				<dependency>
+				    <groupId>com.oracle.ojdbc</groupId>
+				    <artifactId>osdt_core</artifactId>
+				    <version>19.3.0.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -34,51 +84,35 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.oracle.database.jdbc</groupId> -->
-<!-- 			<artifactId>ojdbc8</artifactId> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
 		<dependency>
-		    <groupId>org.primefaces</groupId>
-		    <artifactId>primefaces</artifactId>
-		    <version>10.0.0-RC1</version>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>10.0.0-RC1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.myfaces.core/myfaces-api -->
 		<dependency>
-		    <groupId>org.apache.myfaces.core</groupId>
-		    <artifactId>myfaces-api</artifactId>
-		    <version>2.3.8</version>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-api</artifactId>
+			<version>2.3.8</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.myfaces.core/myfaces-impl -->
 		<dependency>
-		    <groupId>org.apache.myfaces.core</groupId>
-		    <artifactId>myfaces-impl</artifactId>
-		    <version>2.3.8</version>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>2.3.8</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>javax.servlet.jsp.jstl</groupId> -->
-<!-- 		    <artifactId>javax.servlet.jsp.jstl-api</artifactId> -->
-<!-- 		    <version>1.2.2</version> -->
-<!-- 		</dependency> -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
 		<dependency>
-		    <groupId>org.apache.tomcat.embed</groupId>
-		    <artifactId>tomcat-embed-jasper</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -89,6 +123,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>datatransfer</finalName>
 	</build>
 
 </project>

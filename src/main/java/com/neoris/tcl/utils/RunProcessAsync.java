@@ -1,10 +1,21 @@
 package com.neoris.tcl.utils;
 
-public class RunProcessAsync {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
+import com.neoris.tcl.services.HFMcodesService;
 
-    }
+public class RunProcessAsync implements Runnable {
+
+	private final static Logger LOG = LoggerFactory.getLogger(RunProcessAsync.class);
+
+	@Autowired
+	private HFMcodesService service;
+
+	@Override
+	public void run() {
+		LOG.info("service listar= {}", service.listar());
+	}
 
 }

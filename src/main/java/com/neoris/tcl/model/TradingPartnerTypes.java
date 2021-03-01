@@ -1,5 +1,6 @@
 package com.neoris.tcl.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,7 +10,10 @@ import javax.persistence.Table;
 public class TradingPartnerTypes {
 
     @Id
+    @Column(name="TPTYPE", nullable=false, length=12)
     private String tptype;
+
+    @Column(name="DESCRIPTION", nullable=false, length=20)
     private String description;
 
     public TradingPartnerTypes() {

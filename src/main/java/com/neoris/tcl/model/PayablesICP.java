@@ -5,10 +5,18 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="SET_PAYABLES_ICP")
+@Table(name ="SET_PAYABLES_ICP",
+		   indexes = {
+				   @Index(name = "ROLL_SET_PAY_ICP1", columnList = "SUPPLIERNO"),
+				   @Index(name = "ROLL_SET_PAY_ICP2", columnList = "COMPANYID")
+		   }
+		)
+@IdClass(PayablesICPId.class)
 public class PayablesICP implements Serializable{
 	
 	/**
@@ -16,31 +24,39 @@ public class PayablesICP implements Serializable{
      */
     private static final long serialVersionUID = -5696847616125787970L;
 
+
     @Id
-    @Column(name = "COMPANYID")
-    private Long companyId; //from other  oracle table schema
-	
-    @Column(name = "ICPCODE")
+    @Column(name = "ICPCODE", nullable = false)
     private String icpCode; //SET_ICPCODES
     
-    @Column(name = "SUPPLIERNO")
+    @Id
+    @Column(name = "SUPPLIERNO", nullable = false)
     private int supplierno;  // from other  oracle table schema
     
-    @Column(name = "TPARTNERTYPE")
+    @Id
+    @Column(name = "TPARTNERTYPE", nullable = false)
     private String tPartnerType; //from  SET_TRADING_PARTNERS_TYPES table
+
+    @Id
+    @Column(name = "COMPANYID", nullable = false)
+    private Long companyId; //from other  oracle table schema
+
+    @Column(name = "HFMCODE")
+    private String hfmcode;
 
 	public PayablesICP() {
 	    
 	}
 
-    public PayablesICP(Long companyId, String icpCode, int supplierno, String tPartnerType) {
-        this.companyId = companyId;
-        this.icpCode = icpCode;
-        this.supplierno = supplierno;
-        this.tPartnerType = tPartnerType;
-    }
+    public PayablesICP(String icpCode, Long companyId, int supplierno, String tPartnerType, String hfmcode) {
+		this.icpCode = icpCode;
+		this.companyId = companyId;
+		this.supplierno = supplierno;
+		this.tPartnerType = tPartnerType;
+		this.hfmcode = hfmcode;
+	}
 
-    public Long getCompanyId() {
+	public Long getCompanyId() {
         return companyId;
     }
 
@@ -72,10 +88,10 @@ public class PayablesICP implements Serializable{
         this.tPartnerType = tPartnerType;
     }
 
-    @Override
-    public String toString() {
-        return String.format("PayablesICP [companyId=%s, icpCode=%s, supplierno=%s, tPartnerType=%s]", companyId,
-                icpCode, supplierno, tPartnerType);
-    }
+	@Override
+	public String toString() {
+		return "PayablesICP [icpCode=" + icpCode + ", companyId=" + companyId + ", supplierno=" + supplierno
+				+ ", tPartnerType=" + tPartnerType + ", hfmcode=" + hfmcode + "]";
+	}
     
 }

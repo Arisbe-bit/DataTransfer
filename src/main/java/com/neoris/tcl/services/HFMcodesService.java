@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.neoris.tcl.dao.IHFMcodes;
+import com.neoris.tcl.dao.IHFMcodesDao;
 import com.neoris.tcl.model.HFMcodes;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
@@ -21,7 +21,7 @@ import com.neoris.tcl.model.HFMcodes;
 public class HFMcodesService implements IHFMcodesService {
 
     @Autowired
-    private IHFMcodes data;
+    private IHFMcodesDao data;
 
     @Override
     public List<HFMcodes> listar() {
