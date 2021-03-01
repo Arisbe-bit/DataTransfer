@@ -10,6 +10,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.neoris.tcl.dao.IReceivablesICPDao;
 import com.neoris.tcl.model.ReceivablesICP;
+import com.neoris.tcl.model.ReceivablesICPId;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
@@ -19,7 +20,7 @@ public class ReceivablesICPService implements IReceivablesICPService {
     private IReceivablesICPDao data;
 
     @Override
-    public Optional<ReceivablesICP> find(Long id) {
+    public Optional<ReceivablesICP> find(ReceivablesICPId id) {
         return data.findById(id);
     }
 

@@ -10,37 +10,38 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.neoris.tcl.dao.IPayablesICPDao;
 import com.neoris.tcl.model.PayablesICP;
+import com.neoris.tcl.model.PayablesICPId;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
-public class PayablesICPService implements IPayablesICPService{
+public class PayablesICPService implements IPayablesICPService {
 
-    @Autowired
-    private IPayablesICPDao data; 
-    
-    @Override
-    public Optional<PayablesICP> find(Long id) {
-        return data.findById(id);
-    }
+	@Autowired
+	private IPayablesICPDao data;
 
-    @Override
-    public List<PayablesICP> findAll() {
-        return (List<PayablesICP>) data.findAll();
-    }
+	@Override
+	public Optional<PayablesICP> find(PayablesICPId id) {
+		return data.findById(id);
+	}
 
-    @Override
-    public PayablesICP save(PayablesICP entity) {
-        return data.save(entity);
-    }
+	@Override
+	public List<PayablesICP> findAll() {
+		return (List<PayablesICP>) data.findAll();
+	}
 
-    @Override
-    public List<PayablesICP> saveAll(List<PayablesICP> entityList) {
-        return (List<PayablesICP>) data.saveAll(entityList);
-    }
+	@Override
+	public PayablesICP save(PayablesICP entity) {
+		return data.save(entity);
+	}
 
-    @Override
-    public void delete(PayablesICP entity) {
-        data.delete(entity);        
-    }
+	@Override
+	public List<PayablesICP> saveAll(List<PayablesICP> entityList) {
+		return (List<PayablesICP>) data.saveAll(entityList);
+	}
+
+	@Override
+	public void delete(PayablesICP entity) {
+		data.delete(entity);
+	}
 
 }
