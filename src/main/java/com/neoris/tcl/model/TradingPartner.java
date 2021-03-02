@@ -11,19 +11,17 @@ public class TradingPartner {
 	@Id
     private String ICPcode;
     private String ICPid;  
-    private String TPtype;
     private String ICPdesc;
     
     public TradingPartner() {
         
     }
   
-    public TradingPartner(String iCPcode, String iCPid, String tPtype, String iCPdesc) {
+    public TradingPartner(String icpcode, String icpid,  String icpdesc) {
         super();
-        ICPcode = iCPcode;
-        ICPid = iCPid;
-        TPtype = tPtype;
-        ICPdesc = iCPdesc;
+        ICPcode = ICPcode;
+        ICPid = ICPcode;
+        ICPdesc = ICPcode;
     }
     
     public String getICPcode() {
@@ -42,13 +40,7 @@ public class TradingPartner {
 		ICPid = iCPid;
 	}
 
-	public String getTPtype() {
-		return TPtype;
-	}
-
-	public void setTPtype(String tPtype) {
-		TPtype = tPtype;
-	}
+	
 
 	public String getICPdesc() {
 		return ICPdesc;
@@ -60,8 +52,7 @@ public class TradingPartner {
 
     @Override
     public String toString() {
-        return String.format("TradingPartner [ICPcode=%s, ICPid=%s, TPtype=%s, ICPdesc=%s]", ICPcode, ICPid, TPtype,
-                ICPdesc);
+        return String.format("TradingPartner [ICPcode=%s, ICPid=%s,  ICPdesc=%s]", ICPcode, ICPid,    ICPdesc);
     }
 
 

@@ -72,6 +72,12 @@ public class MenuController {
         return String.format(REDIRECT, "hfmcodes");
     }
     
+    public String hfmcodestypes() {
+        return String.format(REDIRECT, "tradingpartnertypes");
+    }
+    
+  
+    
     public String hfmcodesOA() {
         return String.format(REDIRECT, "hfmcodesOA");
     }
