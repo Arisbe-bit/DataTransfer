@@ -1,7 +1,7 @@
 package com.neoris.tcl.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
 
@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.model.TradingPartner;
-import com.neoris.tcl.services.TradingPartnerService;
+import com.neoris.tcl.models.SetIcpcodes;
+import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.utils.Functions;
 
 @Controller(value = "tradingpartnerControllerBean")
@@ -24,19 +24,19 @@ public class TradingPartnerController {
 	private final static Logger LOG = LoggerFactory.getLogger(TradingPartnerController.class);
 	
 	@Autowired
-	private TradingPartnerService service;	
-	private List<TradingPartner> lstTP;
-    private List<TradingPartner> lstSelectdTP; 
-    private TradingPartner curtp; // actual iterator
+	private ISetIcpcodesService service;	
+	private List<SetIcpcodes> lstTP;
+    private List<SetIcpcodes> lstSelectdTP; 
+    private SetIcpcodes curtp; // actual iterator
     
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstTradingPartner...");
-        this.lstTP = service.listar();
+        this.lstTP = service.findAll();
     }
     
     public void openNew() {
-        this.curtp = new TradingPartner();
+        this.curtp = new SetIcpcodes();
     }
       
     public void save() {
@@ -44,7 +44,7 @@ public class TradingPartnerController {
         this.curtp = service.save(curtp);
         Functions.addInfoMessage("Succes", "Trading Partner Type saved");
         
-        this.lstTP = service.listar();
+        this.lstTP = service.findAll();
         if(this.lstTP != null)
         LOG.info("La lista viene con {} registros 1ro={}", lstTP.size(), lstTP.get(0));
         
@@ -57,7 +57,7 @@ public class TradingPartnerController {
         LOG.info("Entering to delete Trading Partner Type => {}", this.curtp);
         service.delete(this.curtp);
         this.curtp = null;
-        this.lstTP = service.listar();
+        this.lstTP = service.findAll();
         Functions.addInfoMessage("Succes", "Code Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -67,7 +67,7 @@ public class TradingPartnerController {
         LOG.info("[deleteSelected] = > Entering to delete Trading Partner Type: {}", this.lstSelectdTP);
         service.deleteAll(this.lstSelectdTP);
         this.lstSelectdTP = null;
-        this.lstTP = service.listar();
+        this.lstTP = service.findAll();
         Functions.addInfoMessage("Succes", "Trading Partner Type Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -96,26 +96,26 @@ public class TradingPartnerController {
         return retval;
     }
     
-	public TradingPartner getCurtp() {
+	public SetIcpcodes getCurtp() {
 		return curtp;
 	}
-	public void setCurtp(TradingPartner curtp) {
+	public void setCurtp(SetIcpcodes curtp) {
 		this.curtp = curtp;
 	}
 
-	public List<TradingPartner> getLstTP() {
+	public List<SetIcpcodes> getLstTP() {
 		return lstTP;
 	}
 
-	public void setLstTP(List<TradingPartner> lstTP) {
+	public void setLstTP(List<SetIcpcodes> lstTP) {
 		this.lstTP = lstTP;
 	}
 
-	public List<TradingPartner> getLstSelectdTP() {
+	public List<SetIcpcodes> getLstSelectdTP() {
 		return lstSelectdTP;
 	}
 
-	public void setLstSelectdTP(List<TradingPartner> lstSelectdTP) {
+	public void setLstSelectdTP(List<SetIcpcodes> lstSelectdTP) {
 		this.lstSelectdTP = lstSelectdTP;
 	}
     

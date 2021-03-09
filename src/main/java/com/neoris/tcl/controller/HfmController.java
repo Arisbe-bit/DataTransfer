@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.model.HFMcodes;
-import com.neoris.tcl.services.IHFMcodesService;
+import com.neoris.tcl.models.SetHfmCodes;
+import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.utils.Functions;
 
 @Controller(value = "hfmControllerBean")
@@ -23,26 +23,26 @@ public class HfmController {
     private final static Logger LOG = LoggerFactory.getLogger(HfmController.class);
     
     @Autowired
-    private IHFMcodesService service;
+    private ISetHfmCodesService service;
     
-    private List<HFMcodes> lstHfmcodes;
-    private List<HFMcodes> lstSelectdHfmcodes; 
-    private HFMcodes hfmcode;
+    private List<SetHfmCodes> lstHfmcodes;
+    private List<SetHfmCodes> lstSelectdHfmcodes; 
+    private SetHfmCodes hfmcode;
     
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstHfmcodes...");
-        this.lstHfmcodes = service.listar();
+        this.lstHfmcodes = service.findAll();
     }
     
     public void openNew() {
-        this.hfmcode = new HFMcodes();
+        this.hfmcode = new SetHfmCodes();
     }
       
     public void save() {
         LOG.info("Entering to save hfmcode => {}", hfmcode);
         hfmcode = service.save(hfmcode);
-        this.lstHfmcodes = service.listar();
+        this.lstHfmcodes = service.findAll();
         Functions.addInfoMessage("Succes", "HFMCode saved");
         PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
@@ -53,7 +53,7 @@ public class HfmController {
         LOG.info("Entering to delete hfmcode => {}", this.hfmcode);
         service.delete(this.hfmcode);
         this.hfmcode = null;
-        this.lstHfmcodes = service.listar();
+        this.lstHfmcodes = service.findAll();
         Functions.addInfoMessage("Succes", "Code Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -61,9 +61,10 @@ public class HfmController {
     
     public void deleteSelected(ActionEvent event) {
         LOG.info("[deleteSelected] = > Entering to delete codes: {}", this.lstSelectdHfmcodes);
+        //service.deleteAll(this.lstSelectdHfmcodes);
         service.deleteAll(this.lstSelectdHfmcodes);
         this.lstSelectdHfmcodes = null;
-        this.lstHfmcodes = service.listar();
+        this.lstHfmcodes = service.findAll();
         Functions.addInfoMessage("Succes", "Codes Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -92,32 +93,32 @@ public class HfmController {
         return retval;
     }
 
-    public List<HFMcodes> getLstHfmcodes() {
+    public List<SetHfmCodes> getLstHfmcodes() {
         return lstHfmcodes;
     }
 
-    public void setLstHfmcodes(List<HFMcodes> lstHfmcodes) {
+    public void setLstHfmcodes(List<SetHfmCodes> lstHfmcodes) {
         this.lstHfmcodes = lstHfmcodes;
     }
 
-    public Optional<HFMcodes> getOptionaHfmcode(String code) {
-        return service.listarID(code);
+    public Optional<SetHfmCodes> getOptionaHfmcode(String code) {
+        return service.findById(code);
     }
     
-    public List<HFMcodes> getLstSelectdHfmcodes() {
+    public List<SetHfmCodes> getLstSelectdHfmcodes() {
         return lstSelectdHfmcodes;
     }
 
-    public void setLstSelectdHfmcodes(List<HFMcodes> lstSelectdHfmcodes) {
+    public void setLstSelectdHfmcodes(List<SetHfmCodes> lstSelectdHfmcodes) {
         this.lstSelectdHfmcodes = lstSelectdHfmcodes;
     }
     
-    public HFMcodes getHfmcode() {
+    public SetHfmCodes getHfmcode() {
         return hfmcode;
     }
 
-    public void setHfmcode(HFMcodes hfmcode) {
-        LOG.info("Recibo HFMcodes => {}", hfmcode);
+    public void setHfmcode(SetHfmCodes hfmcode) {
+        LOG.info("Recibo SetHfmCodes => {}", hfmcode);
         this.hfmcode = hfmcode;
     }
 

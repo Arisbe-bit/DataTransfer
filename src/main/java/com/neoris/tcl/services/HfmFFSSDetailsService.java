@@ -8,44 +8,40 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.neoris.tcl.dao.HfmFFSSDetailsDao;
-import com.neoris.tcl.model.HfmFFSSDetails;
-import com.neoris.tcl.model.HfmFFSSDetailsId;
+import com.neoris.tcl.dao.IHfmFfssDetailsDao;
+import com.neoris.tcl.models.HfmFfssDetails;
+import com.neoris.tcl.models.HfmFfssDetailsPK;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
-public class HfmFFSSDetailsService implements HfmFFSSDetailsServiceI {
-	
+public class HfmFfssDetailsService implements IHfmFfssDetailsService {
+
 	@Autowired
-	private HfmFFSSDetailsDao data;
-	
+	private IHfmFfssDetailsDao data;
+
 	@Override
-	public Optional<HfmFFSSDetails> find(HfmFFSSDetailsId id) {
+	public Optional<HfmFfssDetails> findById(HfmFfssDetailsPK id) {
 		return data.findById(id);
 	}
 
 	@Override
-	public List<HfmFFSSDetails> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<HfmFfssDetails> findAll() {
+		return (List<HfmFfssDetails>) data.findAll();
 	}
 
 	@Override
-	public HfmFFSSDetails save(HfmFFSSDetails entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public HfmFfssDetails save(HfmFfssDetails entity) {
+		return data.save(entity);
 	}
 
 	@Override
-	public List<HfmFFSSDetails> saveAll(List<HfmFFSSDetails> entityList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<HfmFfssDetails> saveAll(List<HfmFfssDetails> entityList) {
+		return (List<HfmFfssDetails>) data.saveAll(entityList);
 	}
 
 	@Override
-	public void delete(HfmFFSSDetails entity) {
-		// TODO Auto-generated method stub
-		
+	public void delete(HfmFfssDetails entity) {
+		data.delete(entity);
 	}
 
 }
