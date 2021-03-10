@@ -15,45 +15,50 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "tradingpartnerControllerBean")
-@Scope("view")
-
+@Scope(ViewScope.VIEW)
 public class TradingPartnerController {
 
-	private final static Logger LOG = LoggerFactory.getLogger(TradingPartnerController.class);
-	
-	@Autowired
-	private ISetIcpcodesService service;	
-	private List<SetIcpcodes> lstTP;
-    private List<SetIcpcodes> lstSelectdTP; 
+    private final static Logger LOG = LoggerFactory.getLogger(TradingPartnerController.class);
+
+    @Autowired
+    private ISetIcpcodesService service;
+
+    private List<SetIcpcodes> lstTP;
+    private List<SetIcpcodes> lstSelectdTP;
     private SetIcpcodes curtp; // actual iterator
-    
+
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstTradingPartner...");
         this.lstTP = service.findAll();
     }
-    
+
     public void openNew() {
         this.curtp = new SetIcpcodes();
     }
-      
-    public void save() {
-        LOG.info("Entering to save Trading Partner Type => {}", this.curtp);
+
+    /**
+     * 
+     * @param event
+     */
+    public void save(ActionEvent event) {
+        LOG.info("Entering to save Trading Partner Type => {}, event ={}", this.curtp, event);
         this.curtp = service.save(curtp);
         Functions.addInfoMessage("Succes", "Trading Partner Type saved");
-        
+
         this.lstTP = service.findAll();
-        if(this.lstTP != null)
-        LOG.info("La lista viene con {} registros 1ro={}", lstTP.size(), lstTP.get(0));
-        
+        if (this.lstTP != null)
+            LOG.info("La lista viene con {} registros. 1ro={}", lstTP.size(), lstTP.get(0));
+
         PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
-    
-    public void delete() {
+
+    public void delete(ActionEvent event) {
         LOG.info("Entering to delete Trading Partner Type => {}", this.curtp);
         service.delete(this.curtp);
         this.curtp = null;
@@ -62,7 +67,7 @@ public class TradingPartnerController {
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
-    
+
     public void deleteSelected(ActionEvent event) {
         LOG.info("[deleteSelected] = > Entering to delete Trading Partner Type: {}", this.lstSelectdTP);
         service.deleteAll(this.lstSelectdTP);
@@ -71,11 +76,6 @@ public class TradingPartnerController {
         Functions.addInfoMessage("Succes", "Trading Partner Type Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
-    }
-    
-    public void update() {
-        LOG.info("Entering to update Trading Partner Type => {}", curtp);
-        save();
     }
 
     public boolean hasSelectedCodes() {
@@ -95,44 +95,45 @@ public class TradingPartnerController {
         }
         return retval;
     }
-    
-	public SetIcpcodes getCurtp() {
-		return curtp;
-	}
-	public void setCurtp(SetIcpcodes curtp) {
-		this.curtp = curtp;
-	}
 
-	public List<SetIcpcodes> getLstTP() {
-		return lstTP;
-	}
+    public SetIcpcodes getCurtp() {
+        return curtp;
+    }
 
-	public void setLstTP(List<SetIcpcodes> lstTP) {
-		this.lstTP = lstTP;
-	}
+    public void setCurtp(SetIcpcodes curtp) {
+        this.curtp = curtp;
+    }
 
-	public List<SetIcpcodes> getLstSelectdTP() {
-		return lstSelectdTP;
-	}
+    public List<SetIcpcodes> getLstTP() {
+        return lstTP;
+    }
 
-	public void setLstSelectdTP(List<SetIcpcodes> lstSelectdTP) {
-		this.lstSelectdTP = lstSelectdTP;
-	}
-    
-	public String getTitle() {
+    public void setLstTP(List<SetIcpcodes> lstTP) {
+        this.lstTP = lstTP;
+    }
+
+    public List<SetIcpcodes> getLstSelectdTP() {
+        return lstSelectdTP;
+    }
+
+    public void setLstSelectdTP(List<SetIcpcodes> lstSelectdTP) {
+        this.lstSelectdTP = lstSelectdTP;
+    }
+
+    public String getTitle() {
         return "Trading Partner Type Setting";
     }
-    
+
     public String getDialogName() {
         return "manageCodeDialog";
     }
-    
+
     public String getDataTableName() {
         return "dt-codes";
     }
-    
+
     public String getDeleteCodesButton() {
         return "delete-codes-button-id";
     }
-	
+
 }

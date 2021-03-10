@@ -66,5 +66,9 @@ public class SetIcpcodesPK implements Serializable {
 	public String toString() {
 		return "SetIcpcodesPK [icpcode=" + icpcode + ", icpid=" + icpid + "]";
 	}
+	
+	public String getRowKey() {
+	    return this.icpcode + this.icpid;
+	}
 
 }

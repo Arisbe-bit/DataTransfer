@@ -16,9 +16,10 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "hfmControllerBean")
-@Scope("view")
+@Scope(ViewScope.VIEW)
 public class HfmController {
     private final static Logger LOG = LoggerFactory.getLogger(HfmController.class);
     

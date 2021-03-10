@@ -14,9 +14,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.beans.RollUpBean;
+import com.neoris.tcl.utils.ViewScope;
 
 @Controller
-@Scope("view")
+@Scope(ViewScope.VIEW)
 public class RollupController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);

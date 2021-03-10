@@ -17,9 +17,10 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.SetTradingPartnersTypes;
 import com.neoris.tcl.services.ISetTradingPartnersTypesService;
 import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "tptypesControllerBean")
-@Scope("view")
+@Scope(ViewScope.VIEW)
 public class TradingTypeController {
 
 	
