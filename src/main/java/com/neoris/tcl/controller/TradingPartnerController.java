@@ -42,8 +42,7 @@ public class TradingPartnerController {
     public void save() {
         LOG.info("Entering to save Trading Partner Type => {}", this.curtp);
         this.curtp = service.save(curtp);
-        Functions.addInfoMessage("Succes", "Trading Partner Type saved");
-        
+        Functions.addInfoMessage("Succes", "Trading Partner Type saved");        
         this.lstTP = service.listar();
         if(this.lstTP != null)
         LOG.info("La lista viene con {} registros 1ro={}", lstTP.size(), lstTP.get(0));

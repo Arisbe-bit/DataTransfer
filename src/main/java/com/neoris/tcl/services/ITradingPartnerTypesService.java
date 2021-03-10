@@ -18,5 +18,6 @@ public interface ITradingPartnerTypesService {
     void delete(TradingPartnerTypes tptype);
     void deleteAll(List<TradingPartnerTypes> lstTPtype);
     Optional<TradingPartnerTypes> listarID(String tptype);
+    
 
 }

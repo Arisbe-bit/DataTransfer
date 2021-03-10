@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
 
-	<ui:define name="Trading Partner Types">
+	<ui:define name="title">
 		<title>${tptypesControllerBean.title}</title>
 	</ui:define>
 	
@@ -30,7 +30,7 @@
 							style="margin-right: 0.3em">
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>						
-						<p:commandButton value="#{tptypesControllerBean.deleteButtonMessage}"
+						<p:commandButton value="delete-codes-button-id"
 							id="#{tptypesControllerBean.deleteCodesButton}"
 							icon="pi pi-trash"
 							actionListener="#{tptypesControllerBean.deleteSelected}"
@@ -39,7 +39,7 @@
 							disabled="#{!tptypesControllerBean.hasSelectedCodes()}"
 							update="@this">
 							<p:confirm header="Confirmation" 
-								message="Delete the selected codes Types?"
+								message="Delete the selected codes?"
 								icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
 					</div>

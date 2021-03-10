@@ -28,6 +28,7 @@ public class TradingPartnerTypesService implements ITradingPartnerTypesService{
 		 return (List<TradingPartnerTypes>) data.findAll();
 	}
 
+	
 	@Override
 	public Page<TradingPartnerTypes> findPaginated(Pageable pageable, List<TradingPartnerTypes> tradingTypesList) {
 		int pageSize = pageable.getPageSize();

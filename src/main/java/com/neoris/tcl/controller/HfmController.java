@@ -24,22 +24,28 @@ public class HfmController {
     
     @Autowired
     private IHFMcodesService service;
+
     
     private List<HFMcodes> lstHfmcodes;
     private List<HFMcodes> lstSelectdHfmcodes; 
     private HFMcodes hfmcode;
+     
+  
     
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstHfmcodes...");
         this.lstHfmcodes = service.listar();
+      
     }
     
     public void openNew() {
         this.hfmcode = new HFMcodes();
     }
       
-    public void save() {
+  
+
+	public void save() {
         LOG.info("Entering to save hfmcode => {}", hfmcode);
         hfmcode = service.save(hfmcode);
         this.lstHfmcodes = service.listar();

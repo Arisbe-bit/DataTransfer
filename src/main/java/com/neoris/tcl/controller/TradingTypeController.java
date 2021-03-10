@@ -27,6 +27,7 @@ public class TradingTypeController {
 	
 	@Autowired
 	private TradingPartnerTypesService service;
+	
 	private List<TradingPartnerTypes> lsttpType;
     private List<TradingPartnerTypes> lstSelectdtpType; 
     private TradingPartnerTypes curtptypes; // actual iterator
@@ -35,6 +36,7 @@ public class TradingTypeController {
     public void init() {
         LOG.info("Initializing lstTradingPartnerTypes...");
         this.lsttpType = service.listar();
+        
     }
     
     public void openNew() {
