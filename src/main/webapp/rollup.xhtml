@@ -52,15 +52,20 @@ keyframes blinker { 50% {
 	</ui:define>
 	<ui:define name="js">
 		<script>
-			$(document).ready(function() {
-				$("p").click(function() {
-					$(this).hide();
-				});
-			});
-
 			function year_onblur(e) {
-				//alert(e.name);
-				// validate year
+				var message = '';
+				if(isNaN(e.value)){
+					message = 'The year must be a number';
+				} else {
+					if( !(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950) ){
+						message = 'The year must be between #{rollupControllerBean.currYear} and 1950';
+					}
+				}
+				if(message !== '') {
+					$("#dialogMsgId").get(0).innerText = message;
+					PF('dlgMessage').show();
+					e.focus();
+				}
 			}
 		</script>
 	</ui:define>
@@ -180,9 +185,12 @@ keyframes blinker { 50% {
 
 					<p:column headerText="Action" exportable="false">
 						<p:commandButton icon="pi pi-eye"
-							oncomplete="PF('managerollupDialog').show()"
+							oncomplete="PF('manageRollupDialog').show()"
+							update=":#{rollupControllerBean.formNameId}:dt-hfm-ffss-details"
 							styleClass="edit-button rounded-button ui-button-success"
-							process="@this">
+							process="@this"
+							alt="view detail"
+							value="view">
 							<f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
 						</p:commandButton>
 					</p:column>
@@ -194,6 +202,54 @@ keyframes blinker { 50% {
 		        </p:confirmDialog>
 
 			</div>
+
+			<p:dialog header="View RollUp Details" widgetVar="manageRollupDialog"
+				width="600" height="400" showEffect="fade" modal="true">
+				<p class="p-m-0" id="dialogViewRollUpId">
+
+					<p:dataTable id="dt-hfm-ffss-details" 
+						widgetVar="dtHfmFfssDetails"
+						var="hfmffss" 
+						value="#{rollupControllerBean.lstHfmFfss}"
+						reflow="true" 
+						styleClass="hfmffss-table"
+						rowKey="#{hfmffss.companyid}" 
+						paginator="true" rows="10"
+						resizableColumns="true" 
+						resizeMode="expand"
+						paginatorPosition="bottom">
+						<f:facet name="header">
+							<div class="hfmffss-table-header">
+								<span style="font-weight: bold">HFM FFSS</span>
+							</div>
+						</f:facet>
+						<p:column headerText="Error">
+							<h:outputText value="" />
+						</p:column>
+						<p:column headerText="HFMCODE">
+							<h:outputText value="#{hfmffss.id.hfmcode}" />
+						</p:column>
+						<p:column headerText="Amount">
+							<h:outputText value="#{hfmffss.balance}" />
+						</p:column>
+					</p:dataTable>
+				</p>
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('manageRollupDialog').hide()" />
+					<p:commandButton type="button" value="Refresh" style="width: 5rem">
+						<f:ajax execute="@none" render="rollupForm:dt-hfm-ffss-details" />
+					</p:commandButton>
+				</f:facet>
+			</p:dialog>
+
+			<p:dialog header="Information" widgetVar="dlgMessage" minHeight="40" width="350" showEffect="fade" modal="true">
+			 <p class="p-m-0" id="dialogMsgId">
+			 </p>
+			 <f:facet name="footer">
+			     <p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()"/>
+			    </f:facet>
+			</p:dialog>
+			
 		</h:form>
 	</ui:define>
 

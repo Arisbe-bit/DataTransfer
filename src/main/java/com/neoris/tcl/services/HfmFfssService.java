@@ -3,6 +3,8 @@ package com.neoris.tcl.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import com.neoris.tcl.models.HfmFfssPK;
 @Service()
 public class HfmFfssService implements IHfmFfssService {
 
+    private final static Logger LOG = LoggerFactory.getLogger(HfmFfssService.class);
+    
 	@Autowired
 	private IHfmFfssDao data;
 
@@ -43,5 +47,11 @@ public class HfmFfssService implements IHfmFfssService {
 	public void delete(HfmFfss entity) {
 		data.delete(entity);
 	}
+
+    @Override
+    public List<HfmFfss> findByCompanyIdAndPeriod(Long companyId, String period) {
+        LOG.info("Getting HfmFfss list with companyId ={} and period = {}", companyId, period);
+        return data.findByIdCompanyIdAndIdPeriod(companyId, period);
+    }
 
 }

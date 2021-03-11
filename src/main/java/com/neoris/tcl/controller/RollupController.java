@@ -18,8 +18,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.beans.RollUpBean;
+import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.services.IHfmFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -30,8 +31,6 @@ public class RollupController {
 
     private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);
 
-    private RollUpBean rollUpBean;
-
     @Autowired
     @Qualifier("mapMonths")
     private Map<String, Integer> months;
@@ -41,16 +40,18 @@ public class RollupController {
     private List<HfmRollupEntries> lstSelectedRollups;
     private HfmRollupEntries curRollUp;
     private List<String> lstMonths;
+    private List<HfmFfss> lstHfmFfss;
 
     @Autowired
     private IHfmRollupEntriesService service;
+    
+    @Autowired
+    private IHfmFfssService hfmFfSsService;
 
     @PostConstruct
     public void init() {
 
         setLstRollUps(service.findAll());
-
-        rollUpBean = new RollUpBean();
 
         LOG.info("months = {}", months);
 
@@ -102,6 +103,12 @@ public class RollupController {
         PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-rollup");
         PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
     }
+    
+    public void viewRollUp(ActionEvent event) {
+        LOG.info("eneting to view detail of rollUpBean = {}, event = {}", this.curRollUp, event);
+        PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-rollup");
+        PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");  
+    }
 
     public Map<String, Integer> getMonths() {
         return months;
@@ -119,14 +126,6 @@ public class RollupController {
         this.mapEntities = mapEntities;
     }
 
-    public RollUpBean getRollUpBean() {
-        return rollUpBean;
-    }
-
-    public void setRollUpBean(RollUpBean rollUpBean) {
-        this.rollUpBean = rollUpBean;
-    }
-
     public List<HfmRollupEntries> getLstRollUps() {
         return lstRollUps;
     }
@@ -142,6 +141,17 @@ public class RollupController {
     public void setCurRollUp(HfmRollupEntries curRollUp) {
         LOG.info("Recibo curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
+        String period = curRollUp.getRperiod() + "-" + Integer.toString(curRollUp.getRyear()).substring(2) ;
+
+        LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
+        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period);
+        if(this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
+            Functions.addWarnMessage("Attention", 
+                    String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
+        }
+        LOG.info("Lista = {}", this.lstHfmFfss);
+        LOG.info("Actualizo vista...");
+        PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-hfm-ffss-details");
     }
 
     public List<HfmRollupEntries> getLstSelectedRollups() {
@@ -151,7 +161,7 @@ public class RollupController {
     public void setLstSelectedRollups(List<HfmRollupEntries> lstSelectedRollups) {
         this.lstSelectedRollups = lstSelectedRollups;
     }
-    
+
     public List<String> getLstMonths() {
         return lstMonths;
     }
@@ -160,11 +170,18 @@ public class RollupController {
         this.lstMonths = lstMonths;
     }
 
+    public List<HfmFfss> getLstHfmFfss() {
+        return lstHfmFfss;
+    }
+
+    public void setLstHfmFfss(List<HfmFfss> lstHfmFfss) {
+        this.lstHfmFfss = lstHfmFfss;
+    }
+
     public int getCurrYear() {
-        // return Calendar.getInstance().get(Calendar.YEAR);
         return Year.now().getValue();
     }
-    
+
     public int validateYear(ValueChangeListener listener) {
         return 0;        
     }

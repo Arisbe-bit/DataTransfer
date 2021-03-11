@@ -17,5 +17,7 @@ public interface IHfmFfssService {
 	List<HfmFfss> saveAll(List<HfmFfss> entityList);
 
 	void delete(HfmFfss entity);
+	
+	List<HfmFfss> findByCompanyIdAndPeriod(Long companyId, String period);
 
 }
