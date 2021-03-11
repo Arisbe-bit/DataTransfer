@@ -21,6 +21,8 @@ public class HfmRollupEntries implements Serializable {
 
 	@Id
 	private Long companyid;
+	
+	private String entity;
 
 	private String attribute1;
 
@@ -34,8 +36,6 @@ public class HfmRollupEntries implements Serializable {
 
 	private String attribute6;
 
-	private String entity;
-
 	private String rapplication;
 
 	private String reclassifications;
@@ -46,7 +46,7 @@ public class HfmRollupEntries implements Serializable {
 
 	private String rview;
 
-	private String ryear;
+	private int ryear;
 
 	private String scenario;
 
@@ -59,7 +59,7 @@ public class HfmRollupEntries implements Serializable {
 
 	public HfmRollupEntries(Long companyid, String attribute1, String attribute2, String attribute3,
 			String attribute4, String attribute5, String attribute6, String entity, String rapplication,
-			String reclassifications, String rperiod, String rvalue, String rview, String ryear, String scenario,
+			String reclassifications, String rperiod, String rvalue, String rview, int ryear, String scenario,
 			String segment, String validations) {
 		this.companyid = companyid;
 		this.attribute1 = attribute1;
@@ -184,11 +184,11 @@ public class HfmRollupEntries implements Serializable {
 		this.rview = rview;
 	}
 
-	public String getRyear() {
+	public int getRyear() {
 		return this.ryear;
 	}
 
-	public void setRyear(String ryear) {
+	public void setRyear(int ryear) {
 		this.ryear = ryear;
 	}
 

@@ -72,6 +72,8 @@ public class AppConfig implements WebMvcConfigurer {
     public ServletContextListener getContextListener() {
         LOG.info("Configuring ServletContextListener...");
         StartupServletContextListener listener = new StartupServletContextListener();
+//        org.springframework.web.context.ContextLoaderListener cl;
+//        org.springframework.web.context.request.RequestContextListener rl;
         return listener;
     }
 

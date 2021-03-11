@@ -25,6 +25,7 @@ public class SetMatchAccounts implements Serializable {
 	private String sign;
 
 	public SetMatchAccounts() {
+	    this.setId(new SetMatchAccountsPK());
 	}
 
 	public SetMatchAccounts(SetMatchAccountsPK id, String sign) {

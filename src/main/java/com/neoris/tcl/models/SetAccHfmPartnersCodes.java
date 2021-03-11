@@ -33,6 +33,7 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	private String tpartnertype;
 
 	public SetAccHfmPartnersCodes() {
+	    this.setId(new SetAccHfmPartnersCodesPK());
 	}
 
 	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id, String areaid, Long companyid, String icpcode,

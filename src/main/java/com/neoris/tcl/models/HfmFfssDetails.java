@@ -35,6 +35,7 @@ public class HfmFfssDetails implements Serializable {
 	private String userid;
 
 	public HfmFfssDetails() {
+	    this.setId(new HfmFfssDetailsPK());
 	}
 
 	public HfmFfssDetails(HfmFfssDetailsPK id, String batchName, String docnumber, String tpname, String userid) {

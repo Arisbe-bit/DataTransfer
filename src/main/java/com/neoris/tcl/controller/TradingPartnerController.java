@@ -1,6 +1,7 @@
 package com.neoris.tcl.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
@@ -29,6 +30,7 @@ public class TradingPartnerController {
     private List<SetIcpcodes> lstTP;
     private List<SetIcpcodes> lstSelectdTP;
     private SetIcpcodes curtp; // actual iterator
+    private boolean newCode;
 
     @PostConstruct
     public void init() {
@@ -37,6 +39,7 @@ public class TradingPartnerController {
     }
 
     public void openNew() {
+        this.newCode = true;
         this.curtp = new SetIcpcodes();
     }
 
@@ -46,6 +49,17 @@ public class TradingPartnerController {
      */
     public void save(ActionEvent event) {
         LOG.info("Entering to save Trading Partner Type => {}, event ={}", this.curtp, event);
+        
+        if(newCode) {
+            Optional<SetIcpcodes> icp = service.findById(curtp.getId());
+            if(icp.isPresent()) {
+                String errorMessage = String.format("The record with ICPid = %s and ICPCode = %s already exist. Can't create new record.", curtp.getId().getIcpid(), curtp.getId().getIcpcode()); 
+                Functions.addErrorMessage("Error adding new Code", errorMessage);
+                PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+                return;
+            }
+        }
+        
         this.curtp = service.save(curtp);
         Functions.addInfoMessage("Succes", "Trading Partner Type saved");
 
@@ -101,7 +115,9 @@ public class TradingPartnerController {
     }
 
     public void setCurtp(SetIcpcodes curtp) {
+        this.newCode = false;
         this.curtp = curtp;
+        LOG.info("Recibo curtp = {}", curtp);
     }
 
     public List<SetIcpcodes> getLstTP() {

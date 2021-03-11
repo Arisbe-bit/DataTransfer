@@ -36,6 +36,7 @@ public class HfmLayout implements Serializable {
 	private Timestamp updated;
 
 	public HfmLayout() {
+	    this.setId(new HfmLayoutPK());
 	}
 
 	public HfmLayout(HfmLayoutPK id, String accountOld, String data, String entity, Timestamp updated) {

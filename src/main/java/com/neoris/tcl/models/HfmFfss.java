@@ -33,6 +33,7 @@ public class HfmFfss implements Serializable {
 	private String userid;
 
 	public HfmFfss() {
+	    this.setId(new HfmFfssPK());
 	}
 
 	public HfmFfssPK getId() {

@@ -29,6 +29,7 @@ public class HfmController {
     private List<SetHfmCodes> lstHfmcodes;
     private List<SetHfmCodes> lstSelectdHfmcodes; 
     private SetHfmCodes hfmcode;
+    private boolean isNewHfmcode;
     
     @PostConstruct
     public void init() {
@@ -37,11 +38,23 @@ public class HfmController {
     }
     
     public void openNew() {
+        this.isNewHfmcode = true;
         this.hfmcode = new SetHfmCodes();
     }
       
     public void save() {
         LOG.info("Entering to save hfmcode => {}", hfmcode);
+        
+        if(this.isNewHfmcode) {
+            Optional<SetHfmCodes> code = service.findById(hfmcode.getHfmcode());
+            if(code.isPresent()) {
+                String errorMessage = String.format("The record with code = %s already exist with value= %s. Can't create new record.", hfmcode.getHfmcode(), hfmcode.getTptype()); 
+                Functions.addErrorMessage("Error adding new HFMCode", errorMessage);
+                PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+                return;
+            }
+        }
+        
         hfmcode = service.save(hfmcode);
         this.lstHfmcodes = service.findAll();
         Functions.addInfoMessage("Succes", "HFMCode saved");
@@ -120,6 +133,7 @@ public class HfmController {
 
     public void setHfmcode(SetHfmCodes hfmcode) {
         LOG.info("Recibo SetHfmCodes => {}", hfmcode);
+        this.isNewHfmcode = false;
         this.hfmcode = hfmcode;
     }
 

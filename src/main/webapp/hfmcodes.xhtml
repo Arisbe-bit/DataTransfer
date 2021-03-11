@@ -121,11 +121,16 @@
 									value="#{hfmControllerBean.hfmcode.hfmcode}"
 									required="true" />
 							</div>
-							<div class="p-field">
-								<p:outputLabel for="type">Type</p:outputLabel>
-								<p:inputText id="type" 
-									value="#{hfmControllerBean.hfmcode.tptype}"
-									required="true" />
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="tptype" value="Type" />
+								<p:selectOneMenu id="tptype"
+									value="#{hfmControllerBean.hfmcode.tptype}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{tptypesControllerBean.lsttpType}"
+										var="item" 
+										itemLabel="#{item.tptype}"
+										itemValue="#{item.tptype}" />
+								</p:selectOneMenu>
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>

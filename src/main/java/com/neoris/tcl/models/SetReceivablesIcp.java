@@ -27,6 +27,7 @@ public class SetReceivablesIcp implements Serializable {
 	private String tpartnertype;
 
 	public SetReceivablesIcp() {
+	    this.setId(new SetReceivablesIcpPK());
 	}
 
 	public SetReceivablesIcpPK getId() {

@@ -25,6 +25,7 @@ public class SetIcpcodes implements Serializable {
 	private String icpdesc;
 
 	public SetIcpcodes() {
+	    this.setId(new SetIcpcodesPK());
 	}
 
 	public SetIcpcodesPK getId() {

@@ -27,6 +27,7 @@ public class SetReclassifAccounts implements Serializable {
 	private String origincc;
 
 	public SetReclassifAccounts() {
+	    this.setId(new SetReclassifAccountsPK());
 	}
 
 	public SetReclassifAccountsPK getId() {

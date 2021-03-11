@@ -27,6 +27,7 @@ public class SetPayablesIcp implements Serializable {
 	private String tpartnertype;
 
 	public SetPayablesIcp() {
+	    this.setId(new SetPayablesIcpPK());
 	}
 
 	public SetPayablesIcp(SetPayablesIcpPK id, String hfmcode, String tpartnertype) {
