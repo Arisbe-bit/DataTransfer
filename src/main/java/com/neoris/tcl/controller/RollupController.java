@@ -2,19 +2,15 @@ package com.neoris.tcl.controller;
 
 import java.time.Year;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeListener;
 
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -23,6 +19,7 @@ import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.services.IHfmFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ProcessRollUps;
 import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "rollupControllerBean")
@@ -31,11 +28,6 @@ public class RollupController {
 
     private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);
 
-    @Autowired
-    @Qualifier("mapMonths")
-    private Map<String, Integer> months;
-    private Map<String, Integer> mapEntities;
-    
     private List<HfmRollupEntries> lstRollUps;
     private List<HfmRollupEntries> lstSelectedRollups;
     private HfmRollupEntries curRollUp;
@@ -44,22 +36,17 @@ public class RollupController {
 
     @Autowired
     private IHfmRollupEntriesService service;
-    
+
     @Autowired
     private IHfmFfssService hfmFfSsService;
 
     @PostConstruct
     public void init() {
 
+        // Fill the rollup entity list
         setLstRollUps(service.findAll());
 
-        LOG.info("months = {}", months);
-
-        mapEntities = new HashMap<String, Integer>();
-        for (int i = 1; i <= 10; i++) {
-            mapEntities.put(String.format("Entity %s", i), i);
-        }
-        
+        // Fill List for months
         lstMonths = Arrays.asList("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
 
     }
@@ -88,6 +75,7 @@ public class RollupController {
     public String getFormNameId() {
         return "rollupForm";
     }
+
     public boolean hasSelectedRollUps() {
         return this.lstSelectedRollups != null && !this.lstSelectedRollups.isEmpty();
     }
@@ -96,34 +84,44 @@ public class RollupController {
         return "/resources/img/loading.gif";
     }
 
+    /**
+     * 
+     * @param event
+     */
     public void processSelectedRollUps(ActionEvent event) {
         LOG.info("Running process with rollUpBean = {}, event = {}", lstSelectedRollups, event);
+        lstSelectedRollups.stream().forEach(roll -> processRollUp(roll) );
+
+        //clean the selected rollups list...
         lstSelectedRollups = null;
         Functions.addInfoMessage("Succes", "RollUps Proceced!!");
-        PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-rollup");
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-rollup");
         PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
     }
     
+    /**
+     * 
+     * @param rollUp
+     */
+    private void processRollUp(HfmRollupEntries rollUp) {
+        ProcessRollUps process = new ProcessRollUps();
+        process.setRollUp(rollUp);
+ 
+        LOG.info("Openning new Thread for rollUp companyId:{}", rollUp.getCompanyid());
+        Thread hilo = new Thread(process);
+        hilo.setName("Th-RollUp-" + rollUp.getCompanyid());
+        hilo.start();
+        LOG.info("Thread for rollUp Finish!");
+    }
+
+    /**
+     * 
+     * @param event
+     */
     public void viewRollUp(ActionEvent event) {
         LOG.info("eneting to view detail of rollUpBean = {}, event = {}", this.curRollUp, event);
-        PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-rollup");
-        PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");  
-    }
-
-    public Map<String, Integer> getMonths() {
-        return months;
-    }
-
-    public void setMonths(Map<String, Integer> months) {
-        this.months = months;
-    }
-
-    public Map<String, Integer> getMapEntities() {
-        return mapEntities;
-    }
-
-    public void setMapEntities(Map<String, Integer> mapEntities) {
-        this.mapEntities = mapEntities;
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-rollup");
+        PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
     }
 
     public List<HfmRollupEntries> getLstRollUps() {
@@ -138,22 +136,29 @@ public class RollupController {
         return curRollUp;
     }
 
+    /**
+     * 
+     * @param curRollUp
+     */
     public void setCurRollUp(HfmRollupEntries curRollUp) {
         LOG.info("Recibo curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
-        String period = curRollUp.getRperiod() + "-" + Integer.toString(curRollUp.getRyear()).substring(2) ;
+        String period = curRollUp.getFullPeriod();
 
         LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
         this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period);
-        if(this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
-            Functions.addWarnMessage("Attention", 
+        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
+            Functions.addWarnMessage("Attention",
                     String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
         }
-        LOG.info("Lista = {}", this.lstHfmFfss);
         LOG.info("Actualizo vista...");
-        PrimeFaces.current().ajax().update( "rollupForm:messages", "rollupForm:dt-hfm-ffss-details");
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-hfm-ffss-details");
     }
 
+    /**
+     * 
+     * @return
+     */
     public List<HfmRollupEntries> getLstSelectedRollups() {
         return lstSelectedRollups;
     }
@@ -182,7 +187,4 @@ public class RollupController {
         return Year.now().getValue();
     }
 
-    public int validateYear(ValueChangeListener listener) {
-        return 0;        
-    }
 }

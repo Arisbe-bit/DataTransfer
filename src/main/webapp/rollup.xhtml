@@ -237,19 +237,19 @@ keyframes blinker { 50% {
 				<f:facet name="footer">
 					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('manageRollupDialog').hide()" />
 					<p:commandButton type="button" value="Refresh" style="width: 5rem">
-						<f:ajax execute="@none" render="rollupForm:dt-hfm-ffss-details" />
+						<f:ajax execute="@none" render="#{rollupControllerBean.formNameId}:dt-hfm-ffss-details" />
 					</p:commandButton>
 				</f:facet>
 			</p:dialog>
 
-			<p:dialog header="Information" widgetVar="dlgMessage" minHeight="40" width="350" showEffect="fade" modal="true">
-			 <p class="p-m-0" id="dialogMsgId">
-			 </p>
-			 <f:facet name="footer">
-			     <p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()"/>
-			    </f:facet>
+			<p:dialog header="Information" widgetVar="dlgMessage" minHeight="40"
+				width="350" showEffect="fade" modal="true">
+				<p class="p-m-0" id="dialogMsgId"></p>
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
+				</f:facet>
 			</p:dialog>
-			
+
 		</h:form>
 	</ui:define>
 

@@ -215,6 +215,10 @@ public class HfmRollupEntries implements Serializable {
 	public void setValidations(String validations) {
 		this.validations = validations;
 	}
+	
+	public String getFullPeriod() {
+	    return this.getRperiod() + "-" + Integer.toString(this.getRyear()).substring(2);
+	}
 
 	@Override
 	public String toString() {
