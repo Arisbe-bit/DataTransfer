@@ -8,47 +8,46 @@
 
 	<ui:define name="css">
 		<style type="text/css">
-.ui-datatable-tablewrapper {
-	font-size: small;
-	font-family: system-ui;
-}
-
-.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: center;
-}
-
-.customPanelGrid .ui-panelgrid-content {
-	align-items: center;
-}
-
-.ui-panelgrid.showcase-text-align-left .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: left;
-}
-
-.blink_me {
-	animation: blinker 1s linear infinite;
-}
-
-@
-keyframes blinker { 50% {
-	opacity: 0;
-}
-
-}
-.blink_me.red {
-	background: red;
-	color: white;
-}
-
-.blink_me.blue {
-	background: blue;
-	color: white;
-	width: 33%;
-	text-align: center;
-}
-</style>
+			.ui-datatable-tablewrapper {
+				font-size: small;
+				font-family: system-ui;
+			}
+			
+			.ui-panelgrid.rollup-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: center;
+			}
+			
+			.customPanelGrid .ui-panelgrid-content {
+				align-items: center;
+			}
+			
+			.ui-panelgrid.rollup-text-align-left .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: left;
+			}
+			
+			.blink_me {
+				animation: blinker 1s linear infinite;
+			}
+			
+			@keyframes blinker { 50% {
+				opacity: 0;
+			}
+			
+			}
+			.blink_me.red {
+				background: red;
+				color: white;
+			}
+			
+			.blink_me.blue {
+				background: blue;
+				color: white;
+				width: 33%;
+				text-align: center;
+			}
+		</style>
 	</ui:define>
 	<ui:define name="js">
 		<script>
@@ -58,7 +57,7 @@ keyframes blinker { 50% {
 					message = 'The year must be a number';
 				} else {
 					if( !(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950) ){
-						message = 'The year must be between #{rollupControllerBean.currYear} and 1950';
+						message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
 					}
 				}
 				if(message !== '') {
@@ -97,7 +96,7 @@ keyframes blinker { 50% {
 					var="rollup"
 					value="#{rollupControllerBean.lstRollUps}" 
 					reflow="true"
-					styleClass="rollups-table"
+					styleClass="ui-datatable-tablewrapper"
 					selection="#{rollupControllerBean.lstSelectedRollups}" 
 					rowKey="#{rollup.companyid}"
 					paginator="true"
@@ -117,7 +116,7 @@ keyframes blinker { 50% {
 					<p:ajax event="rowUnselectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
 					<p:ajax event="toggleSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
 
-					<p:column selectionMode="multiple" exportable="false"></p:column>
+					<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
 
 					<p:column headerText="Entity">
 						<h:outputText value="#{rollup.entity}" />
