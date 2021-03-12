@@ -14,37 +14,38 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 
-import com.neoris.tcl.model.TradingPartnerTypes;
-import com.neoris.tcl.services.TradingPartnerTypesService;
+import com.neoris.tcl.models.SetTradingPartnersTypes;
+import com.neoris.tcl.services.ISetTradingPartnersTypesService;
 import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "tptypesControllerBean")
-@Scope("view")
+@Scope(ViewScope.VIEW)
 public class TradingTypeController {
 
 	
 	private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.class);
 	
 	@Autowired
-	private TradingPartnerTypesService service;
-	private List<TradingPartnerTypes> lsttpType;
-    private List<TradingPartnerTypes> lstSelectdtpType; 
-    private TradingPartnerTypes curtptypes; // actual iterator
+	private ISetTradingPartnersTypesService service;
+	private List<SetTradingPartnersTypes> lsttpType;
+    private List<SetTradingPartnersTypes> lstSelectdtpType; 
+    private SetTradingPartnersTypes curtptypes; // actual iterator
     
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstTradingPartnerTypes...");
-        this.lsttpType = service.listar();
+        this.lsttpType = service.findAll();
     }
     
     public void openNew() {
-        this.curtptypes = new TradingPartnerTypes();
+        this.curtptypes = new SetTradingPartnersTypes();
     }
       
     public void save() {
         LOG.info("Entering to save Trading Partner Type => {}", this.curtptypes);
         this.curtptypes = service.save(curtptypes);
-        this.lsttpType = service.listar();
+        this.lsttpType = service.findAll();
         Functions.addInfoMessage("Succes", "Trading Partner Type saved");
         PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
@@ -55,7 +56,7 @@ public class TradingTypeController {
         LOG.info("Entering to delete Trading Partner Type => {}", this.curtptypes);
         service.delete(this.curtptypes);
         this.curtptypes = null;
-        this.lsttpType = service.listar();
+        this.lsttpType = service.findAll();
         Functions.addInfoMessage("Succes", "Code Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -65,7 +66,7 @@ public class TradingTypeController {
         LOG.info("[deleteSelected] = > Entering to delete Trading Partner Type: {}", this.lstSelectdtpType);
         service.deleteAll(this.lstSelectdtpType);
         this.lstSelectdtpType = null;
-        this.lsttpType = service.listar();
+        this.lsttpType = service.findAll();
         Functions.addInfoMessage("Succes", "Trading Partner Type Removed");
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -94,32 +95,32 @@ public class TradingTypeController {
         return retval;
     }
 
-    public List<TradingPartnerTypes> getlsttpType() {
+    public List<SetTradingPartnersTypes> getlsttpType() {
         return lsttpType;
     }
 
-    public void setlsttpType(List<TradingPartnerTypes> lsttpType) {
+    public void setlsttpType(List<SetTradingPartnersTypes> lsttpType) {
         this.lsttpType = lsttpType;
     }
 
-    public Optional<TradingPartnerTypes> getOptionatpTypes(String tpType) {
-        return service.listarID(tpType);
+    public Optional<SetTradingPartnersTypes> getOptionatpTypes(String tpType) {
+        return service.findById(tpType);
     }
     
-    public List<TradingPartnerTypes> getLstSelectdtpType() {
+    public List<SetTradingPartnersTypes> getLstSelectdtpType() {
         return lstSelectdtpType;
     }
 
-    public void setLstSelectdtpType(List<TradingPartnerTypes> lstSelectdtpType) {
+    public void setLstSelectdtpType(List<SetTradingPartnersTypes> lstSelectdtpType) {
         this.lstSelectdtpType = lstSelectdtpType;
     }
     
    
-    public TradingPartnerTypes getCurtptypes() {
+    public SetTradingPartnersTypes getCurtptypes() {
 		return curtptypes;
 	}
 
-	public void setCurtptypes(TradingPartnerTypes curtptypes) {
+	public void setCurtptypes(SetTradingPartnersTypes curtptypes) {
 		this.curtptypes = curtptypes;
 	}
 
