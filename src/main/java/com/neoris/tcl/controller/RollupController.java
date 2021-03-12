@@ -1,82 +1,190 @@
 package com.neoris.tcl.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Year;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.beans.RollUpBean;
+import com.neoris.tcl.models.HfmFfss;
+import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.services.IHfmFfssService;
+import com.neoris.tcl.services.IHfmRollupEntriesService;
+import com.neoris.tcl.utils.Functions;
+import com.neoris.tcl.utils.ProcessRollUps;
+import com.neoris.tcl.utils.ViewScope;
 
-@Controller
-@Scope("view")
+@Controller(value = "rollupControllerBean")
+@Scope(ViewScope.VIEW)
 public class RollupController {
 
-	private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);
+    private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);
 
-	private RollUpBean rollUpBean;
+    private List<HfmRollupEntries> lstRollUps;
+    private List<HfmRollupEntries> lstSelectedRollups;
+    private HfmRollupEntries curRollUp;
+    private List<String> lstMonths;
+    private List<HfmFfss> lstHfmFfss;
 
-	@Autowired
-	@Qualifier("mapMonths")
-	private Map<String, Integer> months;
+    @Autowired
+    private IHfmRollupEntriesService service;
 
-	private Map<String, Integer> mapEntities;
+    @Autowired
+    private IHfmFfssService hfmFfSsService;
 
-	@PostConstruct
-	public void init() {
+    @PostConstruct
+    public void init() {
 
-		rollUpBean = new RollUpBean();
+        // Fill the rollup entity list
+        setLstRollUps(service.findAll());
 
-		LOG.info("months = {}", months);
+        // Fill List for months
+        lstMonths = Arrays.asList("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
 
-		mapEntities = new HashMap<String, Integer>();
-		for (int i = 1; i <= 10; i++) {
-			mapEntities.put(String.format("Entity %s", i), i);
-		}
+    }
 
-	}
+    public void openNew() {
+        this.setCurRollUp(new HfmRollupEntries());
+    }
 
-	public String getPending() {
-		return "Pending";
-	}
+    public String getprocessButtonMessage() {
+        String retval = "Process";
+        String message = "Start processing %s Rollups";
+        if (hasSelectedRollUps()) {
+            retval = String.format(message, lstSelectedRollups.size());
+        }
+        return retval;
+    }
 
-	public String getImageCemex() {
-		return "/resources/img/loading.gif";
-	}
+    public String getProcessButtonStyleClass() {
+        if (hasSelectedRollUps()) {
+            return "ui-button-primary";
+        } else {
+            return "ui-button-secondary";
+        }
+    }
 
-	public void run(ActionEvent event) {
-		LOG.info("Running process with rollUpBean = {}", rollUpBean);
-	}
+    public String getFormNameId() {
+        return "rollupForm";
+    }
 
-	public Map<String, Integer> getMonths() {
-		return months;
-	}
+    public boolean hasSelectedRollUps() {
+        return this.lstSelectedRollups != null && !this.lstSelectedRollups.isEmpty();
+    }
 
-	public void setMonths(Map<String, Integer> months) {
-		this.months = months;
-	}
+    public String getImageCemex() {
+        return "/resources/img/loading.gif";
+    }
 
-	public Map<String, Integer> getMapEntities() {
-		return mapEntities;
-	}
+    /**
+     * 
+     * @param event
+     */
+    public void processSelectedRollUps(ActionEvent event) {
+        LOG.info("Running process with rollUpBean = {}, event = {}", lstSelectedRollups, event);
+        lstSelectedRollups.stream().forEach(roll -> processRollUp(roll) );
 
-	public void setMapEntities(Map<String, Integer> mapEntities) {
-		this.mapEntities = mapEntities;
-	}
+        //clean the selected rollups list...
+        lstSelectedRollups = null;
+        Functions.addInfoMessage("Succes", "RollUps Proceced!!");
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-rollup");
+        PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
+    }
+    
+    /**
+     * 
+     * @param rollUp
+     */
+    private void processRollUp(HfmRollupEntries rollUp) {
+        ProcessRollUps process = new ProcessRollUps();
+        process.setRollUp(rollUp);
+ 
+        LOG.info("Openning new Thread for rollUp companyId:{}", rollUp.getCompanyid());
+        Thread hilo = new Thread(process);
+        hilo.setName("Th-RollUp-" + rollUp.getCompanyid());
+        hilo.start();
+        LOG.info("Thread for rollUp Finish!");
+    }
 
-	public RollUpBean getRollUpBean() {
-		return rollUpBean;
-	}
+    /**
+     * 
+     * @param event
+     */
+    public void viewRollUp(ActionEvent event) {
+        LOG.info("eneting to view detail of rollUpBean = {}, event = {}", this.curRollUp, event);
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-rollup");
+        PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
+    }
 
-	public void setRollUpBean(RollUpBean rollUpBean) {
-		this.rollUpBean = rollUpBean;
-	}
+    public List<HfmRollupEntries> getLstRollUps() {
+        return lstRollUps;
+    }
+
+    public void setLstRollUps(List<HfmRollupEntries> lstRollUps) {
+        this.lstRollUps = lstRollUps;
+    }
+
+    public HfmRollupEntries getCurRollUp() {
+        return curRollUp;
+    }
+
+    /**
+     * 
+     * @param curRollUp
+     */
+    public void setCurRollUp(HfmRollupEntries curRollUp) {
+        LOG.info("Recibo curRollUp = {}", curRollUp);
+        this.curRollUp = curRollUp;
+        String period = curRollUp.getFullPeriod();
+
+        LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
+        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period);
+        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
+            Functions.addWarnMessage("Attention",
+                    String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
+        }
+        LOG.info("Actualizo vista...");
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-hfm-ffss-details");
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<HfmRollupEntries> getLstSelectedRollups() {
+        return lstSelectedRollups;
+    }
+
+    public void setLstSelectedRollups(List<HfmRollupEntries> lstSelectedRollups) {
+        this.lstSelectedRollups = lstSelectedRollups;
+    }
+
+    public List<String> getLstMonths() {
+        return lstMonths;
+    }
+
+    public void setLstMonths(List<String> lstMonths) {
+        this.lstMonths = lstMonths;
+    }
+
+    public List<HfmFfss> getLstHfmFfss() {
+        return lstHfmFfss;
+    }
+
+    public void setLstHfmFfss(List<HfmFfss> lstHfmFfss) {
+        this.lstHfmFfss = lstHfmFfss;
+    }
+
+    public int getCurrYear() {
+        return Year.now().getValue();
+    }
 
 }

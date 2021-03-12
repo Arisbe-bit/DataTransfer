@@ -21,6 +21,7 @@ import org.springframework.beans.factory.config.Scope;
 public class ViewScope implements Scope {
     
     private Map<String, Runnable> destructionCallbacks = Collections.synchronizedMap(new HashMap<String, Runnable>());
+    public final static String VIEW = "view";
 
     @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {

@@ -8,197 +8,246 @@
 
 	<ui:define name="css">
 		<style type="text/css">
-.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: center;
-}
-
-.customPanelGrid .ui-panelgrid-content {
-	align-items: center;
-}
-
-.ui-panelgrid.showcase-text-align-left .ui-grid-responsive .ui-panelgrid-cell
-	{
-	text-align: left;
-}
-
-.blink_me {
-	animation: blinker 1s linear infinite;
-}
-
-@
-keyframes blinker { 50% {
-	opacity: 0;
-}
-
-}
-.blink_me.red {
-	background: red;
-	color: white;
-}
-
-.blink_me.blue {
-	background: blue;
-	color: white;
-	width: 33%;
-	text-align: center;
-}
-</style>
+			.ui-datatable-tablewrapper {
+				font-size: small;
+				font-family: system-ui;
+			}
+			
+			.ui-panelgrid.rollup-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: center;
+			}
+			
+			.customPanelGrid .ui-panelgrid-content {
+				align-items: center;
+			}
+			
+			.ui-panelgrid.rollup-text-align-left .ui-grid-responsive .ui-panelgrid-cell
+				{
+				text-align: left;
+			}
+			
+			.blink_me {
+				animation: blinker 1s linear infinite;
+			}
+			
+			@keyframes blinker { 50% {
+				opacity: 0;
+			}
+			
+			}
+			.blink_me.red {
+				background: red;
+				color: white;
+			}
+			
+			.blink_me.blue {
+				background: blue;
+				color: white;
+				width: 33%;
+				text-align: center;
+			}
+		</style>
+	</ui:define>
+	<ui:define name="js">
+		<script>
+			function year_onblur(e) {
+				var message = '';
+				if(isNaN(e.value)){
+					message = 'The year must be a number';
+				} else {
+					if( !(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950) ){
+						message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
+					}
+				}
+				if(message !== '') {
+					$("#dialogMsgId").get(0).innerText = message;
+					PF('dlgMessage').show();
+					e.focus();
+				}
+			}
+		</script>
 	</ui:define>
 
 	<ui:define name="content">
+		<h:form id="#{rollupControllerBean.formNameId}">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<h:messages globalOnly="true" id="globalMsgId"/>
 
-		<h:form id="rollupForm">
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton id="start-rollup-process-button"
+							value="#{rollupControllerBean.processButtonMessage}"
+							icon="pi pi-cog"
+							actionListener="#{rollupControllerBean.processSelectedRollUps}"
+							styleClass="#{rollupControllerBean.processButtonStyleClass}"
+							disabled="#{!rollupControllerBean.hasSelectedRollUps()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Start Processing RollUps?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
 
-			<p:panelGrid style="margin-top:20px" id="panelGridRU">
-				<f:facet name="header">
-					<p:row>
-						<p:column colspan="3">RollUps</p:column>
-					</p:row>
-					<p:row>
-						<p:column colspan="2">Form</p:column>
-						<p:column colspan="1">Monitor Status</p:column>
-					</p:row>
+				<p:dataTable id="dt-rollup" 
+					widgetVar="dtRollUps"
+					var="rollup"
+					value="#{rollupControllerBean.lstRollUps}" 
+					reflow="true"
+					styleClass="ui-datatable-tablewrapper"
+					selection="#{rollupControllerBean.lstSelectedRollups}" 
+					rowKey="#{rollup.companyid}"
+					paginator="true"
+					rows="10"
+					resizableColumns="true"
+					resizeMode="expand"
+					rowSelectMode="add"
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<div class="rollups-table-header">
+							<span style="font-weight: bold">ROLLUP</span>
+						</div>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+					<p:ajax event="rowUnselect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+					<p:ajax event="rowSelectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+					<p:ajax event="rowUnselectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+					<p:ajax event="toggleSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+
+					<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
+
+					<p:column headerText="Entity">
+						<h:outputText value="#{rollup.entity}" />
+					</p:column>
+
+					<p:column headerText="Application">
+						<h:outputText value="#{rollup.rapplication}" />
+					</p:column>
+
+					<p:column headerText="Scenario">
+						<h:outputText value="#{rollup.scenario}" />
+					</p:column>
+
+					<p:column headerText="Year">
+						<h:inputText id="year" ariaValueMax="#{rollupControllerBean.currYear}" ariaValueMin="1950" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
+							<f:validateLength maximum="4" minimum="4"/>
+							<f:convertNumber integerOnly="true" minIntegerDigits="4" type="number" pattern="####" />
+						</h:inputText>
+					</p:column>
+
+					<p:column headerText="Period">
+                        <h:selectOneMenu id="month" value="#{rollup.rperiod}">
+                          <f:selectItem itemLabel="JAN" itemValue="JAN" />
+                          <f:selectItem itemLabel="FEB" itemValue="FEB"/>
+                          <f:selectItem itemLabel="MAR" itemValue="MAR"/>
+                          <f:selectItem itemLabel="APR" itemValue="APR"/>
+                          <f:selectItem itemLabel="MAY" itemValue="MAY"/>
+                          <f:selectItem itemLabel="JUN" itemValue="JUN"/>
+                          <f:selectItem itemLabel="JUL" itemValue="JUL"/>
+                          <f:selectItem itemLabel="AUG" itemValue="AUG"/>
+                          <f:selectItem itemLabel="SEP" itemValue="SEP"/>
+                          <f:selectItem itemLabel="OCT" itemValue="OCT"/>
+                          <f:selectItem itemLabel="NOV" itemValue="NOV"/>
+                          <f:selectItem itemLabel="DEC" itemValue="DEC"/>
+                        </h:selectOneMenu>
+					</p:column>
+
+					<p:column headerText="view">
+						<h:outputText value="#{rollup.rview}" />
+					</p:column>
+
+					<p:column headerText="value">
+						<h:outputText value="#{rollup.rvalue}" />
+					</p:column>
+
+					<p:column headerText="Trial Balance">
+						<h:outputText value="#{rollup.attribute1}" />
+					</p:column>
+
+					<p:column headerText="Payables">
+						<h:outputText value="#{rollup.attribute2}" />
+					</p:column>
+
+					<p:column headerText="Receivables">
+						<h:outputText value="#{rollup.attribute3}" />
+					</p:column>
+
+					<p:column headerText="Gains/looses">
+						<h:outputText value="#{rollup.attribute4}" />
+					</p:column>
+
+					<p:column headerText="Export sales">
+						<h:outputText value="#{rollup.attribute5}" id="cellExport"/>
+					</p:column>
+
+					<p:column headerText="Action" exportable="false">
+						<p:commandButton icon="pi pi-eye"
+							oncomplete="PF('manageRollupDialog').show()"
+							update=":#{rollupControllerBean.formNameId}:dt-hfm-ffss-details"
+							styleClass="edit-button rounded-button ui-button-success"
+							process="@this"
+							alt="view detail"
+							value="view">
+							<f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+		        <p:confirmDialog global="true" showEffect="fade" width="300">
+		            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times"/>
+		        </p:confirmDialog>
+
+			</div>
+
+			<p:dialog header="View RollUp Details" widgetVar="manageRollupDialog"
+				width="600" height="400" showEffect="fade" modal="true">
+				<p class="p-m-0" id="dialogViewRollUpId">
+
+					<p:dataTable id="dt-hfm-ffss-details" 
+						widgetVar="dtHfmFfssDetails"
+						var="hfmffss" 
+						value="#{rollupControllerBean.lstHfmFfss}"
+						reflow="true" 
+						styleClass="hfmffss-table"
+						rowKey="#{hfmffss.companyid}" 
+						paginator="true" rows="10"
+						resizableColumns="true" 
+						resizeMode="expand"
+						paginatorPosition="bottom">
+						<f:facet name="header">
+							<div class="hfmffss-table-header">
+								<span style="font-weight: bold">HFM FFSS</span>
+							</div>
+						</f:facet>
+						<p:column headerText="Error">
+							<h:outputText value="" />
+						</p:column>
+						<p:column headerText="HFMCODE">
+							<h:outputText value="#{hfmffss.id.hfmcode}" />
+						</p:column>
+						<p:column headerText="Amount">
+							<h:outputText value="#{hfmffss.balance}" />
+						</p:column>
+					</p:dataTable>
+				</p>
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('manageRollupDialog').hide()" />
+					<p:commandButton type="button" value="Refresh" style="width: 5rem">
+						<f:ajax execute="@none" render="#{rollupControllerBean.formNameId}:dt-hfm-ffss-details" />
+					</p:commandButton>
 				</f:facet>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="entity" value="Entity" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="entity"
-							value="#{rollupController.rollUpBean.entity}">
-							<f:selectItems value="#{rollupController.mapEntities}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column rowspan="9" style="vertical-align: top">
+			</p:dialog>
 
-
-						<p:panelGrid style="margin-top:20px" id="panelGridMonitor">
-							<f:facet name="header">
-								<p:row>
-									<p:column>Form</p:column>
-									<p:column>Monitor Status</p:column>
-								</p:row>
-							</f:facet>
-							<p:row>
-								<p:column>TrialBalore</p:column>
-								<p:column id="trialBaloreCol">
-									<h:outputText value="PROCESANDO" styleClass="blink_me blue" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>Payables</p:column>
-								<p:column id="payablesCol">
-									<p:graphicImage value="/resources/img/processing.svg"
-										width="100" height="50" />
-									<p:graphicImage value="/resources/img/gear.svg" width="100"
-										height="50" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>Receivable</p:column>
-								<p:column id="receivavleCol">
-									<p:graphicImage value="/resources/img/gear.svg" width="100"
-										height="50" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>Bills</p:column>
-								<p:column id="billsCol">
-									<p:graphicImage value="/resources/img/loadinf.svg" width="100"
-										height="50" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>Validation</p:column>
-								<p:column id="validationCol"></p:column>
-							</p:row>
-							<f:facet name="footer">
-								<p:row>
-									<p:column colspan="2" style="text-align: center;">
-										<p:commandButton value="View" styleClass="ui-button-success"
-											style="margin: 0.5em" />
-										<p:commandButton value="Exit" styleClass="ui-button-warning"
-											style="margin: 0.5em" />
-									</p:column>
-								</p:row>
-							</f:facet>
-						</p:panelGrid>
-
-
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="application" value="Application" />
-					</p:column>
-					<p:column>
-						<p:inputText id="application"
-							value="#{rollupController.rollUpBean.application}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="scenario" value="Scenario" />
-					</p:column>
-					<p:column>
-						<p:inputText id="scenario"
-							value="#{rollupController.rollUpBean.scenario}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="year" value="Year" />
-					</p:column>
-					<p:column>
-						<p:inputText id="year" value="#{rollupController.rollUpBean.year}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="period" value="Period" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="period"
-							value="#{rollupController.rollUpBean.period}">
-							<f:selectItems value="#{rollupController.months}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="view" value="View" />
-					</p:column>
-					<p:column>
-						<p:inputText id="view" value="#{rollupController.rollUpBean.view}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="value" value="Value" />
-					</p:column>
-					<p:column>
-						<p:inputText id="value"
-							value="#{rollupController.rollUpBean.value}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel for="segment" value="Segment" />
-					</p:column>
-					<p:column>
-						<p:inputText id="segment"
-							value="#{rollupController.rollUpBean.segment}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column colspan="2" style="text-align: center;">
-						<p:commandButton value="Run"
-							actionListener="#{rollupController.run}"
-							styleClass="rounded-button ui-button-success" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+			<p:dialog header="Information" widgetVar="dlgMessage" minHeight="40"
+				width="350" showEffect="fade" modal="true">
+				<p class="p-m-0" id="dialogMsgId"></p>
+				<f:facet name="footer">
+					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
+				</f:facet>
+			</p:dialog>
 
 		</h:form>
 	</ui:define>
