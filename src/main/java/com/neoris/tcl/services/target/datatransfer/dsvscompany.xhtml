@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="title">
+		<title>${menuController.dataSourceVsCompany}</title>
+	</ui:define>
+
+	<ui:define name="header">
+		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
+	</ui:define>
+	
+	<ui:define name="content">
+		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
+		<p:card>			
+			<h2>${menuController.dataSourceVsCompany}</h2>
+			<div class="content">This is content one</div>
+		</p:card>
+		<p:card>
+			<h2>${menuController.dataSourceVsCompany}</h2>
+			<div class="content">This is content two</div>
+		</p:card>		
+	</ui:define>
+
+</ui:composition>

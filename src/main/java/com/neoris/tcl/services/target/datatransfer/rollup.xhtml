@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="css">
+		<style type="text/css">
+.ui-panelgrid.showcase-text-align-center .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: center;
+}
+
+.customPanelGrid .ui-panelgrid-content {
+	align-items: center;
+}
+
+.ui-panelgrid.showcase-text-align-left .ui-grid-responsive .ui-panelgrid-cell
+	{
+	text-align: left;
+}
+
+.blink_me {
+	animation: blinker 1s linear infinite;
+}
+
+@
+keyframes blinker { 50% {
+	opacity: 0;
+}
+
+}
+.blink_me.red {
+	background: red;
+	color: white;
+}
+
+.blink_me.blue {
+	background: blue;
+	color: white;
+	width: 33%;
+	text-align: center;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="rollupForm">
+
+			<p:panelGrid style="margin-top:20px" id="panelGridRU">
+				<f:facet name="header">
+					<p:row>
+						<p:column colspan="3">RollUps</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">Form</p:column>
+						<p:column colspan="1">Monitor Status</p:column>
+					</p:row>
+				</f:facet>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="entity" value="Entity" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="entity"
+							value="#{rollupController.rollUpBean.entity}">
+							<f:selectItems value="#{rollupController.mapEntities}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column rowspan="9" style="vertical-align: top">
+
+
+						<p:panelGrid style="margin-top:20px" id="panelGridMonitor">
+							<f:facet name="header">
+								<p:row>
+									<p:column>Form</p:column>
+									<p:column>Monitor Status</p:column>
+								</p:row>
+							</f:facet>
+							<p:row>
+								<p:column>TrialBalore</p:column>
+								<p:column id="trialBaloreCol">
+									<h:outputText value="PROCESANDO" styleClass="blink_me blue" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>Payables</p:column>
+								<p:column id="payablesCol">
+									<p:graphicImage value="/resources/img/processing.svg"
+										width="100" height="50" />
+									<p:graphicImage value="/resources/img/gear.svg" width="100"
+										height="50" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>Receivable</p:column>
+								<p:column id="receivavleCol">
+									<p:graphicImage value="/resources/img/gear.svg" width="100"
+										height="50" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>Bills</p:column>
+								<p:column id="billsCol">
+									<p:graphicImage value="/resources/img/loadinf.svg" width="100"
+										height="50" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>Validation</p:column>
+								<p:column id="validationCol"></p:column>
+							</p:row>
+							<f:facet name="footer">
+								<p:row>
+									<p:column colspan="2" style="text-align: center;">
+										<p:commandButton value="View" styleClass="ui-button-success"
+											style="margin: 0.5em" />
+										<p:commandButton value="Exit" styleClass="ui-button-warning"
+											style="margin: 0.5em" />
+									</p:column>
+								</p:row>
+							</f:facet>
+						</p:panelGrid>
+
+
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="application" value="Application" />
+					</p:column>
+					<p:column>
+						<p:inputText id="application"
+							value="#{rollupController.rollUpBean.application}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="scenario" value="Scenario" />
+					</p:column>
+					<p:column>
+						<p:inputText id="scenario"
+							value="#{rollupController.rollUpBean.scenario}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="year" value="Year" />
+					</p:column>
+					<p:column>
+						<p:inputText id="year" value="#{rollupController.rollUpBean.year}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="period" value="Period" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="period"
+							value="#{rollupController.rollUpBean.period}">
+							<f:selectItems value="#{rollupController.months}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="view" value="View" />
+					</p:column>
+					<p:column>
+						<p:inputText id="view" value="#{rollupController.rollUpBean.view}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="value" value="Value" />
+					</p:column>
+					<p:column>
+						<p:inputText id="value"
+							value="#{rollupController.rollUpBean.value}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel for="segment" value="Segment" />
+					</p:column>
+					<p:column>
+						<p:inputText id="segment"
+							value="#{rollupController.rollUpBean.segment}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2" style="text-align: center;">
+						<p:commandButton value="Run"
+							actionListener="#{rollupController.run}"
+							styleClass="rounded-button ui-button-success" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

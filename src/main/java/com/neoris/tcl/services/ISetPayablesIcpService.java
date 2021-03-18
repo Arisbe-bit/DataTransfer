@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.SetPayablesIcpPK;
+import com.neoris.tcl.models.SetReceivablesIcp;
 
 public interface ISetPayablesIcpService {
 
@@ -17,5 +18,7 @@ public interface ISetPayablesIcpService {
 	List<SetPayablesIcp> saveAll(List<SetPayablesIcp> entityList);
 
 	void delete(SetPayablesIcp entity);
+	
+	void deleteAll(List<SetPayablesIcp> entityList);
 
 }
