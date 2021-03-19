@@ -2,9 +2,15 @@ package com.neoris.tcl.models;
 
 import java.io.Serializable;
 
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The persistent class for the hfm_rollup_entries database table.
@@ -18,10 +24,11 @@ public class HfmRollupEntries implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4557949662258406721L;
+	private final static Logger LOG = LoggerFactory.getLogger(HfmRollupEntries.class);
 
 	@Id
 	private Long companyid;
-	
+
 	private String entity;
 
 	private String attribute1;
@@ -57,10 +64,10 @@ public class HfmRollupEntries implements Serializable {
 	public HfmRollupEntries() {
 	}
 
-	public HfmRollupEntries(Long companyid, String attribute1, String attribute2, String attribute3,
-			String attribute4, String attribute5, String attribute6, String entity, String rapplication,
-			String reclassifications, String rperiod, String rvalue, String rview, int ryear, String scenario,
-			String segment, String validations) {
+	public HfmRollupEntries(Long companyid, String attribute1, String attribute2, String attribute3, String attribute4,
+			String attribute5, String attribute6, String entity, String rapplication, String reclassifications,
+			String rperiod, String rvalue, String rview, int ryear, String scenario, String segment,
+			String validations) {
 		this.companyid = companyid;
 		this.attribute1 = attribute1;
 		this.attribute2 = attribute2;
@@ -215,19 +222,35 @@ public class HfmRollupEntries implements Serializable {
 	public void setValidations(String validations) {
 		this.validations = validations;
 	}
-	
+
 	public String getFullPeriod() {
-	    return this.getRperiod() + "-" + Integer.toString(this.getRyear()).substring(2);
+		return this.getRperiod() + "-" + Integer.toString(this.getRyear()).substring(2);
+	}
+
+	/**
+	 * This method is needed for the rollup.xhtml form when changing the year or
+	 * period in the page. This does  nothing, but is required with ajax callback.
+	 * 
+	 * @param ev
+	 */
+	public void changeItemValue(AjaxBehaviorEvent ev) {
+		if (ev.getSource() instanceof HtmlSelectOneMenu) {
+			HtmlSelectOneMenu selectOne = (HtmlSelectOneMenu) ev.getSource();
+			LOG.info("Receive HtmlSelectOneMenu Componet. Id = {}, value = {}", selectOne.getId(), selectOne.getValue());
+		}
+
+		if (ev.getSource() instanceof HtmlInputText) {
+			HtmlInputText inputText = (HtmlInputText) ev.getSource();
+			LOG.info("Receive HtmlInputText Componet. Id = {}, value = {}", inputText.getId(), inputText.getValue());
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "HfmRollupEntries [companyid=" + companyid + ", attribute1=" + attribute1 + ", attribute2=" + attribute2
-				+ ", attribute3=" + attribute3 + ", attribute4=" + attribute4 + ", attribute5=" + attribute5
-				+ ", attribute6=" + attribute6 + ", entity=" + entity + ", rapplication=" + rapplication
-				+ ", reclassifications=" + reclassifications + ", rperiod=" + rperiod + ", rvalue=" + rvalue
-				+ ", rview=" + rview + ", ryear=" + ryear + ", scenario=" + scenario + ", segment=" + segment
-				+ ", validations=" + validations + "]";
+		return String.format(
+				"HfmRollupEntries [companyid=%s, entity=%s, attribute1=%s, attribute2=%s, attribute3=%s, attribute4=%s, attribute5=%s, attribute6=%s, rapplication=%s, reclassifications=%s, rperiod=%s, rvalue=%s, rview=%s, ryear=%s, scenario=%s, segment=%s, validations=%s]",
+				companyid, entity, attribute1, attribute2, attribute3, attribute4, attribute5, attribute6, rapplication,
+				reclassifications, rperiod, rvalue, rview, ryear, scenario, segment, validations);
 	}
 
 }

@@ -68,12 +68,20 @@
 			}
 		</script>
 	</ui:define>
-
+	
+	<ui:define name="title">
+		<title>${rollupControllerBean.title}</title>
+	</ui:define>
+	
+	<ui:define name="header">
+		<h1><i class="fa fa-cogs fa-lg"></i><h:outputText value=" ${rollupControllerBean.title}" /></h1>
+	</ui:define>
+	
 	<ui:define name="content">
 		<h:form id="#{rollupControllerBean.formNameId}">
 			<div class="card">
 				<p:growl id="messages" showDetail="true" />
-				<h:messages globalOnly="true" id="globalMsgId"/>
+				<h:messages globalOnly="true" id="globalMsgId"/>			
 
 				<p:toolbar>
 					<p:toolbarGroup>
@@ -103,13 +111,14 @@
 					rows="10"
 					resizableColumns="true"
 					resizeMode="expand"
-					rowSelectMode="add"
-					paginatorPosition="bottom">
+					rowSelectMode="checkbox"
+					paginatorPosition="bottom"
+					rowIndexVar="ruItem">
 					<f:facet name="header">
 						<div class="rollups-table-header">
 							<span style="font-weight: bold">ROLLUP</span>
 						</div>
-					</f:facet>
+					</f:facet>					
 					<p:ajax event="rowSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
 					<p:ajax event="rowUnselect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
 					<p:ajax event="rowSelectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
@@ -118,22 +127,21 @@
 
 					<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
 
-					<p:column headerText="Entity">
+					<p:column headerText="Entity" styleClass="ui-panelgrid.rollup-text-align-left">
 						<h:outputText value="#{rollup.entity}" />
 					</p:column>
 
-					<p:column headerText="Application">
+					<p:column headerText="Application" styleClass="ui-panelgrid.rollup-text-align-left">
 						<h:outputText value="#{rollup.rapplication}" />
 					</p:column>
 
-					<p:column headerText="Scenario">
+					<p:column headerText="Scenario" styleClass="ui-panelgrid.rollup-text-align-left">
 						<h:outputText value="#{rollup.scenario}" />
 					</p:column>
 
 					<p:column headerText="Year">
-						<h:inputText id="year" ariaValueMax="#{rollupControllerBean.currYear}" ariaValueMin="1950" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
-							<f:validateLength maximum="4" minimum="4"/>
-							<f:convertNumber integerOnly="true" minIntegerDigits="4" type="number" pattern="####" />
+						<h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
+							<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none"/>							
 						</h:inputText>
 					</p:column>
 
@@ -151,6 +159,7 @@
                           <f:selectItem itemLabel="OCT" itemValue="OCT"/>
                           <f:selectItem itemLabel="NOV" itemValue="NOV"/>
                           <f:selectItem itemLabel="DEC" itemValue="DEC"/>
+                          <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none"/>
                         </h:selectOneMenu>
 					</p:column>
 
@@ -162,24 +171,34 @@
 						<h:outputText value="#{rollup.rvalue}" />
 					</p:column>
 
-					<p:column headerText="Trial Balance">
-						<h:outputText value="#{rollup.attribute1}" />
+					<p:column headerText="Trial Balance" styleClass="ui-panelgrid.rollup-text-align-center">
+						<i class="fa fa-cog fa-spin fa-3x fa-fw" id="i-ru-tb-#{rollup.companyid}">
+							<h:outputText value="#{rollup.attribute1}" class="sr-only"/>
+						</i>
 					</p:column>
 
-					<p:column headerText="Payables">
-						<h:outputText value="#{rollup.attribute2}" />
+					<p:column headerText="Payables" styleClass="ui-panelgrid.rollup-text-align-center">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="i-ru-py-#{rollup.companyid}">
+							<h:outputText value="#{rollup.attribute2}" class="sr-only"/>
+						</i>
 					</p:column>
 
-					<p:column headerText="Receivables">
-						<h:outputText value="#{rollup.attribute3}" />
+					<p:column headerText="Receivables" styleClass="ui-panelgrid.rollup-text-align-center">
+						<i class="fa fa-refresh fa-spin fa-3x fa-fw" id="i-ru-rc-#{rollup.companyid}">
+						<h:outputText value="#{rollup.attribute3}" class="sr-only"/>
+						</i>
 					</p:column>
 
-					<p:column headerText="Gains/looses">
-						<h:outputText value="#{rollup.attribute4}" />
+					<p:column headerText="Gains/looses" styleClass="ui-panelgrid.rollup-text-align-center">
+						<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" id="i-ru-gl-#{rollup.companyid}">
+						<h:outputText value="#{rollup.attribute4}" class="sr-only"/>
+						</i>
 					</p:column>
 
 					<p:column headerText="Export sales">
-						<h:outputText value="#{rollup.attribute5}" id="cellExport"/>
+						<i class="fa fa-spinner fa-spin fa-3x fa-fw" id="i-ru-es-#{rollup.companyid}">
+						<h:outputText value="#{rollup.attribute5}" class="sr-only"/>
+						</i>
 					</p:column>
 
 					<p:column headerText="Action" exportable="false">
@@ -225,7 +244,7 @@
 						<p:column headerText="Error">
 							<h:outputText value="" />
 						</p:column>
-						<p:column headerText="HFMCODE">
+						<p:column headerText="Hfmcode">
 							<h:outputText value="#{hfmffss.id.hfmcode}" />
 						</p:column>
 						<p:column headerText="Amount">
@@ -241,8 +260,8 @@
 				</f:facet>
 			</p:dialog>
 
-			<p:dialog header="Information" widgetVar="dlgMessage" minHeight="40"
-				width="350" showEffect="fade" modal="true">
+			<p:dialog header="Information" widgetVar="dlgMessage" id="dlgMessageId" minHeight="40" minWidth="350"
+				showEffect="fade" modal="true" closable="true">
 				<p class="p-m-0" id="dialogMsgId"></p>
 				<f:facet name="footer">
 					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
