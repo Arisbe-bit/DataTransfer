@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.neoris.tcl.models.SetAccHfmPartnersCodes;
 import com.neoris.tcl.models.SetAccHfmPartnersCodesPK;
 
+
 public interface ISetAccHfmPartnersCodesService {
 
 	Optional<SetAccHfmPartnersCodes> findById(SetAccHfmPartnersCodesPK id);
@@ -17,5 +18,7 @@ public interface ISetAccHfmPartnersCodesService {
 	List<SetAccHfmPartnersCodes> saveAll(List<SetAccHfmPartnersCodes> entityList);
 
 	void delete(SetAccHfmPartnersCodes entity);
+	
+	void deleteAll(List<SetAccHfmPartnersCodes> entityList);
 
 }

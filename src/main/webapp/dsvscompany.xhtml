@@ -7,23 +7,199 @@
 	template="/template/layout.xhtml">
 
 	<ui:define name="title">
-		<title>${menuController.dataSourceVsCompany}</title>
+		<title>${rollupentriesControllerBean</title>
 	</ui:define>
 
 	<ui:define name="header">
-		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
+		<h1>${rollupentriesControllerBean.title}</h1>
 	</ui:define>
-	
+
 	<ui:define name="content">
-		<h1><h:outputText value="${menuController.dataSourceVsCompany}"/></h1>
-		<p:card>			
-			<h2>${menuController.dataSourceVsCompany}</h2>
-			<div class="content">This is content one</div>
-		</p:card>
-		<p:card>
-			<h2>${menuController.dataSourceVsCompany}</h2>
-			<div class="content">This is content two</div>
-		</p:card>		
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{rollupentriesControllerBean.openNew}"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{rollupentriesControllerBean.dialogName}').show()"
+							styleClass="ui-button-success" style="margin-right: 0.3em">
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+						<p:commandButton
+							value="#{rollupentriesControllerBean.deleteButtonMessage}"
+							id="#{rollupentriesControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{rollupentriesControllerBean.deleteSelected}"
+							styleClass="ui-button-danger" style="margin-left: 0.3em"
+							disabled="#{!rollupentriesControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{rollupentriesControllerBean.dataTableName}"
+								fileName="${rollupentriesControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="#{rollupentriesControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentid"
+					value="#{rollupentriesControllerBean.lstEntries}" reflow="true"
+					styleClass="products-table"
+					selection="#{rollupentriesControllerBean.lstSelectedEnt}"
+					rowKey="#{currentid.entity}" 
+					paginator="true" 
+					rows="10"
+					rowSelectMode="add" 
+					size="small" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${rollupentriesControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Entity" sortBy="#{currentid.entity}" filterBy="#{currentid.entity}">
+						<h:outputText value="#{currentid.entity}" />
+					</p:column>
+
+					<p:column headerText="Application"  sortBy="#{currentid.rapplication}" filterBy="#{currentid.rapplication}">
+						<h:outputText value="#{currentid.rapplication}" />
+					</p:column>
+
+					<p:column headerText="Scenario"  sortBy="#{currentid.scenario}" filterBy="#{currentid.scenario}">
+						<h:outputText value="#{currentid.scenario}" />
+					</p:column>
+
+					<p:column headerText="View"  sortBy="#{currentrapplication}" filterBy="#{currentid.rview}">
+						<h:outputText value="#{currentid.rview}" />
+					</p:column>
+					
+					<p:column headerText="Value"  sortBy="#{currentid.rvalue}" filterBy="#{currentid.rvalue}">
+						<h:outputText value="#{currentid.rvalue}" />
+					</p:column>
+					
+					<p:column headerText="Company Id"  sortBy="#{currentid.rvalue}" filterBy="#{currentid.companyid}">
+						<h:outputText value="#{currentid.companyid}" />
+					</p:column>
+					
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{rollupentriesControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" 
+							process="@this">
+							<f:setPropertyActionListener value="#{currentid}" target="#{rollupentriesControllerBean.currEntries}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" 
+							process="@this" 
+							style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentid}" target="#{rollupentriesControllerBean.currEntries}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Product Details" showEffect="fade" modal="true"
+					widgetVar="#{rollupentriesControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty rollupentriesControllerBean.curracc}">
+							<div class="p-field">
+								<p:outputLabel for="entity">Entity</p:outputLabel>
+								<p:inputText id="entity" value="#{rollupentriesControllerBean.curracc.entity}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="rapplic">Application</p:outputLabel>
+								<p:inputText id="rapplic" value="#{rollupentriesControllerBean.curracc.rapplication}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="scenario">Scenario</p:outputLabel>
+								<p:inputText id="scenario"
+									value="#{rollupentriesControllerBean.curracc.scenario}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="rview">View</p:outputLabel>
+								<p:inputText id="rview"
+									value="#{rollupentriesControllerBean.curracc.rview}"	required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="rvalue">Value</p:outputLabel>
+								<p:inputText id="rvalue"value="#{rollupentriesControllerBean.curracc.rvalue}"	required="true" />
+							</div>
+							
+							<div class="p-field">
+							<p:outputLabel for="rvalue">Company Id</p:outputLabel>
+							<p:inputText id="rvalue"value="#{rollupentriesControllerBean.curracc.companyid}" required="true" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" 
+							id="btnSave"
+							icon="pi pi-check"
+							actionListener="#{rollupentriesControllerBean.save}"
+							update="manage-code-content" 
+							process="manage-code-content @this" />
+						<p:commandButton value="Cancel" 
+							id="btnCancel"
+							icon="pi pi-times"
+							onclick="PF('#{rollupentriesControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{rollupentriesControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

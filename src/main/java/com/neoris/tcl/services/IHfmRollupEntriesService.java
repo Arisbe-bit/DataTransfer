@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.SetHfmCodes;
 
 public interface IHfmRollupEntriesService {
 
@@ -16,5 +17,7 @@ public interface IHfmRollupEntriesService {
 	List<HfmRollupEntries> saveAll(List<HfmRollupEntries> entityList);
 
 	void delete(HfmRollupEntries entity);
-
+	
+	 void deleteAll(List<HfmRollupEntries> entityList) ;
+		
 }

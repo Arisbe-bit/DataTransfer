@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.SetReceivablesIcp;
-import com.neoris.tcl.models.ViewPartnersICP;
+import com.neoris.tcl.models.ViewCustReceivables;
 import com.neoris.tcl.models.ViewPartnersRecICP;
 import com.neoris.tcl.services.ISetReceivablesIcpService;
+import com.neoris.tcl.services.IViewCustReceivablesService;
 import com.neoris.tcl.services.IViewPartnersRecICPService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -43,12 +43,21 @@ public class ReceivablesAccController {
 	private SetReceivablesIcp currentRecTab;
 	private ViewPartnersRecICP currentVRec;
 	
+	private IViewCustReceivablesService servicecust;
 	
+	private List<ViewCustReceivables> lstCustno;
+	
+	
+	
+
 	@PostConstruct
 	public void init() {
         LOG.info("Initializing lstReceivablesicp...");
         this.lstVRec = serviceVRec.findAll();
         LOG.info("reg= {}", lstVRec.size());
+        
+      //  LOG.info("Initializing Customers List...");
+       // this.lstCustno = servicecust.findAll();
     }
 	
 	public void openNew() {
@@ -191,6 +200,14 @@ public class ReceivablesAccController {
 	}
 	
 	
+
+	public List<ViewCustReceivables> getLstCustno() {
+		return lstCustno;
+	}
+
+	public void setLstCustno(List<ViewCustReceivables> lstCustno) {
+		this.lstCustno = lstCustno;
+	}
 	 
 	 
 	 

@@ -126,15 +126,6 @@
 									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"
 									required="true" />
 							</div>
-							
-							
-							<div class="p-field">
-								<p:outputLabel for="custno">Customer Num</p:outputLabel>
-								<p:inputText id="custno" 
-									value="#{receivablesaccControllerBean.currentRecTab.id.custno}"
-									required="true" />
-							</div>
-							
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="icpcode" value="icpcode" />
 								<p:selectOneMenu id="icpcode"
@@ -146,6 +137,21 @@
 										itemValue="#{item.id.icpcode}" />
 								</p:selectOneMenu>
 							</div>
+							
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="custno" value="custno" />
+								<p:selectOneMenu id="custno"
+									value="#{receivablesaccControllerBean.currentRecTab.id.custno}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{viewcustreceivablesControllerBean.lstCustno}"
+										var="itemc" 
+										itemLabel="#{itemc.custno}"
+										itemValue="#{itemc.custno}" 
+										/>
+								</p:selectOneMenu>
+							</div>
+							
+							
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">

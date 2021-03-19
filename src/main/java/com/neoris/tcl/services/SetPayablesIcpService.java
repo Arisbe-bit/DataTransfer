@@ -11,7 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.neoris.tcl.dao.ISetPayablesIcpDao;
 import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.SetPayablesIcpPK;
-import com.neoris.tcl.models.SetTradingPartnersTypes;
+
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
