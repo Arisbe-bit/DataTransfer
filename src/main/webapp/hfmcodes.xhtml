@@ -59,6 +59,7 @@
 					size="small"
 					paginatorPosition="bottom">
 					<f:facet name="header">
+						<span style="font-weight: bold">${hfmControllerBean.title}</span>
 					</f:facet>
 					<p:ajax event="rowSelect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
 					<p:ajax event="rowUnselect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
@@ -84,6 +85,30 @@
 						<h:outputText value="#{hfmcodes.tptype}" />
 					</p:column>
 					
+					<p:column headerText="Classification" 
+						sortBy="#{hfmcodes.classification}"
+						filterBy="#{hfmcodes.classification}">
+						<h:outputText value="#{hfmcodes.classification}" />
+					</p:column>
+					
+					<p:column headerText="Natural Sign" 
+						sortBy="#{hfmcodes.naturalb}"
+						filterBy="#{hfmcodes.naturalb}">
+						<h:outputText value="#{hfmcodes.naturalb}" />
+					</p:column>
+					
+					<p:column headerText="Global Validation?" 
+						sortBy="#{hfmcodes.global_val}"
+						filterBy="#{hfmcodes.global_val}">
+						<h:outputText value="#{hfmcodes.global_val}" />
+					</p:column>
+					
+					<p:column headerText="Order no." 
+						sortBy="#{hfmcodes.ordernuml}"
+						filterBy="#{hfmcodes.ordernum}">
+						<h:outputText value="#{hfmcodes.ordernum}" />
+					</p:column>
+					
 					<p:column headerText="Actions"  exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
 							update=":form:manage-code-content"
@@ -102,6 +127,8 @@
 							oncomplete="PF('deleteCodeDialog').show()">
 							<f:setPropertyActionListener value="#{hfmcodes}" target="#{hfmControllerBean.hfmcode}" />
 						</p:commandButton>
+						
+						
 					</p:column>
 
 				</p:dataTable>
@@ -132,6 +159,30 @@
 										itemValue="#{item.tptype}" />
 								</p:selectOneMenu>
 							</div>
+								
+								<div class="p-field p-col-12 p-md-4">
+									<p:outputLabel for="classification" value="Classification" />
+									<p:selectOneMenu id="classification"
+										value="#{hfmControllerBean.hfmcode.classification}">
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItem itemLabel="Input" itemValue="INPUT"/>
+	                   					<f:selectItem itemLabel="Calculated" itemValue="CALCULATED"/>
+									</p:selectOneMenu>								                   
+								</div>
+								<div class="p-field p-col-12 p-md-4">
+									<p:outputLabel for="global_val" value="Global validation?" />
+									<p:selectOneMenu id="global_val"
+										value="#{hfmControllerBean.hfmcode.global_val}">
+										<f:selectItem itemLabel="Select One" itemValue="" />
+										<f:selectItem itemLabel="YES" itemValue="Y"/>
+	                   					<f:selectItem itemLabel="NO" itemValue="N"/>
+									</p:selectOneMenu>								                   
+								</div>
+								<div class="p-field p-col-12 p-md-4">
+									<p:outputLabel for="ordernum" value="Ordering" />
+									<p:inputText id="ordernum" 
+									value="#{hfmControllerBean.hfmcode.ordernum}" />						                   
+								</div>
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">

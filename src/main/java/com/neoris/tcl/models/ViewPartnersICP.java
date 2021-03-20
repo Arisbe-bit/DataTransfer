@@ -19,13 +19,13 @@ public class ViewPartnersICP implements Serializable{
 	private Long num;
 	
 	@Column
-	private int organization_id;
+	private int organizationid;
 	@Column
 	private String companynm;
 	@Column
-	private String supplier_num;
+	private String suppliernum;
 	@Column
-	private String vendor_name;
+	private String vendorname;
 	@Column
 	private String icpcode;
 	
@@ -46,13 +46,13 @@ public class ViewPartnersICP implements Serializable{
 	}
 	
 	
-	public ViewPartnersICP(Long num,int organization_id, String companynm, String supplier_num,String vendor_name , String icpcode) {
+	public ViewPartnersICP(Long num,int organizationid, String companynm, String suppliernum,String vendorname , String icpcode) {
 		
 		this.num = num;
-		this.organization_id = organization_id;
+		this.organizationid = organizationid;
 		this.companynm = companynm;
-		this.supplier_num = supplier_num;
-		this.vendor_name = vendor_name;
+		this.suppliernum = suppliernum;
+		this.vendorname = vendorname;
 		this.icpcode = icpcode;
 	}
 
@@ -67,13 +67,13 @@ public class ViewPartnersICP implements Serializable{
 	}
 
 
-	public int getorganization_id() {
-		return organization_id;
+	public int getorganizationid() {
+		return organizationid;
 	}
 
 
-	public void setorganization_id(int organization_id) {
-		this.organization_id = organization_id;
+	public void setorganizationid(int organizationid) {
+		this.organizationid = organizationid;
 	}
 
 
@@ -87,30 +87,30 @@ public class ViewPartnersICP implements Serializable{
 	}
 
 
-	public String getSupplier_num() {
-		return supplier_num;
+	public String getSuppliernum() {
+		return suppliernum;
 	}
 
 
-	public void setSupplier_num(String supplier_num) {
-		this.supplier_num = supplier_num;
+	public void setSuppliernum(String suppliernum) {
+		this.suppliernum = suppliernum;
 	}
 
 
-	public String getVendor_name() {
-		return vendor_name;
+	public String getVendorname() {
+		return vendorname;
 	}
 
 
-	public void setVendor_name(String vendor_name) {
-		this.vendor_name = vendor_name;
+	public void setVendorname(String vendorname) {
+		this.vendorname = vendorname;
 	}
 
 
 	@Override
 	public String toString() {
-		return "ViewPartnersICP [num=" + num + ", organization_id=" + organization_id + ", companynm=" + companynm
-				+ ", supplier_num=" + supplier_num + ", vendor_name=" + vendor_name + ", icpcode=" + icpcode + "]";
+		return "ViewPartnersICP [num=" + num + ", organizationid=" + organizationid + ", companynm=" + companynm
+				+ ", suppliernum=" + suppliernum + ", vendorname=" + vendorname + ", icpcode=" + icpcode + "]";
 	}
 
 

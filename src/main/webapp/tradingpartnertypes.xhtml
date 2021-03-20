@@ -59,6 +59,7 @@
 					size="small"
 					paginatorPosition="bottom">
 					<f:facet name="header">
+						<span style="font-weight: bold">${tptypesControllerBean.title}</span>
 					</f:facet>
 					<p:ajax event="rowSelect" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
 					<p:ajax event="rowUnselect" update=":form:#{tptypesControllerBean.deleteCodesButton}" />

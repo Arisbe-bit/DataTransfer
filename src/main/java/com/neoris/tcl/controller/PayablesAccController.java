@@ -73,7 +73,7 @@ public class PayablesAccController {
 	 public void deleteSelected(ActionEvent event) {
 	        LOG.info("[deleteSelected] = > Entering to delete Trading Partner : {}", this.lstSelectdPaytab);
 	        service.deleteAll(this.lstSelectdPaytab);
-	        this.lstSelectdPay = null;
+	        this.lstSelectdPaytab = null;
 	        this.lstpay = servicesupplierview.findAll();
 	        Functions.addInfoMessage("Succes", "Trading Partner  Removed");
 	        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
@@ -87,14 +87,14 @@ public class PayablesAccController {
 	    }
 
 	    public boolean hasSelectedCodes() {
-	        return this.lstSelectdPay != null && !this.lstSelectdPay.isEmpty();
+	        return this.lstSelectdPaytab != null && !this.lstSelectdPaytab.isEmpty();
 	    }
 
 	    public String getDeleteButtonMessage() {
 	        String message = "Delete %s code%s selected";
 	        String retval = "Delete";
 	        if (hasSelectedCodes()) {
-	            int size = this.lstSelectdPay.size();
+	            int size = this.lstSelectdPaytab.size();
 	            if (size > 1) {
 	                retval = String.format(message, size, "s");
 	            } else {
@@ -141,8 +141,8 @@ public class PayablesAccController {
 				SetPayablesIcp currentPaytabx = new SetPayablesIcp();
 				
 				
-				currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganization_id()));
-				currentPaytabx.getId().setSupplierno(viewPartnersICP.getSupplier_num());
+				currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganizationid()));
+				currentPaytabx.getId().setSupplierno(viewPartnersICP.getSuppliernum());
 				currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
 				
 				lstSelectdPaytab.add(currentPaytabx);
@@ -165,8 +165,8 @@ public class PayablesAccController {
 		public void setCurrentPay(ViewPartnersICP currentPay) {
 			this.currentPay = currentPay;
 			this.currentPaytab = new SetPayablesIcp();
-			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganization_id()));
-			this.currentPaytab.getId().setSupplierno(currentPay.getSupplier_num());
+			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganizationid()));
+			this.currentPaytab.getId().setSupplierno(currentPay.getSuppliernum());
 			this.currentPaytab.setIcpcode(currentPay.getIcpcode());
 		}
 
