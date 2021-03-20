@@ -26,13 +26,15 @@ private final static Logger LOG = LoggerFactory.getLogger(ViewPartnersRecICPCont
 	private IViewCustReceivablesService service;
 	
 	private List<ViewCustReceivables> lstCustno;
-	private List<ViewCustReceivables> lstSelectdcustno;
+	
+	
 	
 	
 	@PostConstruct
 	public void init() {
         LOG.info("Initializing Customers List...");
         this.lstCustno = service.findAll();
+        
     }
 
 

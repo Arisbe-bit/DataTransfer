@@ -12,7 +12,7 @@
 
 	<ui:define name="header">
 		<h1>${setacchfmcodesControllerBean.title}</h1>
-	</ui:define>
+	</ui:define>a
 
 	<ui:define name="content">
 		<h:form id="form">
@@ -101,7 +101,7 @@
 							styleClass="edit-button rounded-button ui-button-success"
 							style="margin-right: 0.3em" 
 							process="@this">
-							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.curracc}" />
+							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.currentAcc}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
 
@@ -110,7 +110,7 @@
 							process="@this" 
 							style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.curracc}" />
+							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.currentAcc}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
@@ -122,31 +122,31 @@
 					responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
 						<p:outputPanel
-							rendered="#{not empty setacchfmcodesControllerBean.curracc}">
+							rendered="#{not empty setacchfmcodesControllerBean.currentAcc}">
 							<div class="p-field">
 								<p:outputLabel for="maccount">Cost Center</p:outputLabel>
-								<p:inputText id="maccount" value="#{setacchfmcodesControllerBean.curracc.id.costcenter}" required="true" />
+								<p:inputText id="maccount" value="#{setacchfmcodesControllerBean.currentAcc.id.costcenter}" required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="chaccount">Account Id</p:outputLabel>
-								<p:inputText id="chaccount" value="#{setacchfmcodesControllerBean.curracc.id.accountid}" required="true" />
+								<p:inputText id="chaccount" value="#{setacchfmcodesControllerBean.currentAcc.id.accountid}" required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="hfmcode">HFM Code</p:outputLabel>
 								<p:inputText id="hfmcode"
-									value="#{setacchfmcodesControllerBean.curracc.id.hfmcode}"
+									value="#{setacchfmcodesControllerBean.currentAcc.id.hfmcode}"
 									required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="icpcode">ICP Code</p:outputLabel>
 								<p:inputText id="icpcode"
-									value="#{setacchfmcodesControllerBean.curracc.icpcode}"
+									value="#{setacchfmcodesControllerBean.currentAcc.icpcode}"
 									required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="areaid">Area Code</p:outputLabel>
 								<p:inputText id="areaid"
-									value="#{setacchfmcodesControllerBean.curracc.areaid}"
+									value="#{setacchfmcodesControllerBean.currentAcc.areaid}"
 									required="true" />
 							</div>
 						</p:outputPanel>

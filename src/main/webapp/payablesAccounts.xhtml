@@ -52,13 +52,14 @@
 					reflow="true"
 					styleClass="products-table"
 					selection="#{payablesaccControllerBean.lstSelectdPay}" 
-					rowKey="#{currentId.supplier_num}"
+					rowKey="#{currentId.suppliernum}"
 					paginator="true" 
 					rows="10" 
 					rowSelectMode="add"
 					size="small"
 					paginatorPosition="bottom">
 					<f:facet name="header">
+						<span style="font-weight: bold">${payablesaccControllerBean.title}</span>
 					</f:facet>
 					<p:ajax event="rowSelect" update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
 					<p:ajax event="rowUnselect" update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
@@ -79,14 +80,14 @@
 					</p:column>
 					
 					<p:column headerText="Supplier No." 
-						sortBy="#{currentId.supplier_num}"
-						filterBy="#{currentId.supplier_num}">
-						<h:outputText value="#{currentId.supplier_num}" />
+						sortBy="#{currentId.suppliernum}"
+						filterBy="#{currentId.suppliernum}">
+						<h:outputText value="#{currentId.suppliernum}" />
 					</p:column>
 					<p:column headerText="Supplier Name" 
-						sortBy="#{currentId.vendor_name}"
-						filterBy="#{currentId.vendor_name}">
-						<h:outputText value="#{currentId.vendor_name}" />
+						sortBy="#{currentId.vendorname}"
+						filterBy="#{currentId.vendorname}">
+						<h:outputText value="#{currentId.vendorname}" />
 					</p:column>
 					<p:column headerText="ICP Code" 
 						sortBy="#{currentId.icpcode}"
@@ -102,7 +103,7 @@
 							styleClass="edit-button rounded-button ui-button-success"
 							style="margin-right: 0.3em"
 							process="@this">
-							<f:setPropertyActionListener value="#{currentId}" target="#{payablesaccControllerBean.currentPaytab}" />
+							<f:setPropertyActionListener value="#{currentId}" target="#{payablesaccControllerBean.currentPay}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
 						
@@ -111,7 +112,7 @@
 							process="@this"
 							style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentId}" target="#{payablesaccControllerBean.currentPaytab}" />
+							<f:setPropertyActionListener value="#{currentId}" target="#{payablesaccControllerBean.currentPay}" />
 						</p:commandButton>
 					</p:column>
 
@@ -138,9 +139,9 @@
 									required="true" />
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="ipccode">Supplier No.</p:outputLabel>
-								<p:inputText id="ipccode" 
-									value="#{payablesaccControllerBean.currentPaytab.id.ipccode}"
+								<p:outputLabel for="icpcode">Supplier No.</p:outputLabel>
+								<p:inputText id="icpcode" 
+									value="#{payablesaccControllerBean.currentPaytab.icpcode}"
 									required="true" />
 							</div>
 						</p:outputPanel>
