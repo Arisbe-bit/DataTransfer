@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="HFM Layout">
+		<title>HFM Layout</title>
+	</ui:define>
+	<ui:define name="header">
+		<h1>${hfmlayoutControllerBean.title}</h1>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{hfmlayoutControllerBean.dataTableName}"
+								fileName="${hfmlayoutControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="#{hfmlayoutControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="curtps"
+					value="#{hfmlayoutControllerBean.lstLay}" reflow="true"
+					styleClass="products-table"
+					rowKey="#{curtps.id.companyid}" 
+					paginator="true" 
+					rows="10"
+					rowSelectMode="add" 
+					size="small" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${hfmlayoutControllerBean.title}</span>
+					</f:facet>
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="HFM Code" sortBy="#{curtps.id.account}" filterBy="#{curtps.id.account}">
+						<h:outputText value="#{curtps.id.account}" />
+					</p:column>
+					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
+						<h:outputText value="#{curtps.entity}" />
+					</p:column>					
+					<p:column headerText="Period"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.period}">
+						<h:outputText value="#{curtps.id.period}" />
+					</p:column>					
+					<p:column headerText="Year"  sortBy="#{curtps.id.zyear}" filterBy="#{curtps.id.zyear}">
+						<h:outputText value="#{curtps.id.zyear}" />
+					</p:column>					
+					<p:column headerText="Scenario"  sortBy="#{curtps.id.scenario}" filterBy="#{curtps.id.scenario}">
+						<h:outputText value="#{curtps.id.scenario}" />
+					</p:column>
+					<p:column headerText="View"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.zview}">
+						<h:outputText value="#{curtps.id.zview}" />
+					</p:column>
+					<p:column headerText="Cust1"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust1}">
+						<h:outputText value="#{curtps.id.cust1}" />
+					</p:column>
+					<p:column headerText="Cust2"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust2}">
+						<h:outputText value="#{curtps.id.cust2}" />
+					</p:column>
+					<p:column headerText="Cust3"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust3}">
+						<h:outputText value="#{curtps.id.cust3}" />
+					</p:column>
+					<p:column headerText="Cust4"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust4}">
+						<h:outputText value="#{curtps.id.cust4}" />
+					</p:column>
+					
+
+					
+				</p:dataTable>
+
+				
+
+				
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

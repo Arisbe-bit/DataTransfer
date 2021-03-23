@@ -18,6 +18,8 @@
 
 				<div class="products-buttonbar">
 					<div>
+					<p:toolbar>
+					<p:toolbarGroup>
 						<p:commandButton value="New" 
 							icon="pi pi-plus"
 							actionListener="#{receivablesaccControllerBean.openNew}"
@@ -39,6 +41,16 @@
 								message="Delete the selected codes Types?"
 								icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{receivablesaccControllerBean.dataTableName}"
+								fileName="${receivablesaccControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
 					</div>
 				</div>
 
