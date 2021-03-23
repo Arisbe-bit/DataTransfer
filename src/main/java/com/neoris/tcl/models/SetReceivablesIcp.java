@@ -21,10 +21,20 @@ public class SetReceivablesIcp implements Serializable {
 
 	@EmbeddedId
 	private SetReceivablesIcpPK id;
+	
+	private String icpcode;
 
-	private String hfmcode;
+	public String getIcpcode() {
+		return icpcode;
+	}
 
-	private String tpartnertype;
+	public void setIcpcode(String icpcode) {
+		this.icpcode = icpcode;
+	}
+
+	private String userid;
+
+	private String modified;
 
 	public SetReceivablesIcp() {
 	    this.setId(new SetReceivablesIcpPK());
@@ -33,30 +43,40 @@ public class SetReceivablesIcp implements Serializable {
 	public SetReceivablesIcpPK getId() {
 		return this.id;
 	}
+	
+	public SetReceivablesIcp(SetReceivablesIcpPK id,  String userid, String modified) {
+		this.id = id;
+		this.userid = userid;
+		this.modified = modified;
+		
+	}
 
 	public void setId(SetReceivablesIcpPK id) {
 		this.id = id;
 	}
 
-	public String getHfmcode() {
-		return this.hfmcode;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setHfmcode(String hfmcode) {
-		this.hfmcode = hfmcode;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
-	public String getTpartnertype() {
-		return this.tpartnertype;
+	public String getModified() {
+		return modified;
 	}
 
-	public void setTpartnertype(String tpartnertype) {
-		this.tpartnertype = tpartnertype;
+	public void setModified(String modified) {
+		this.modified = modified;
 	}
 
 	@Override
 	public String toString() {
-		return "SetReceivablesIcp [id=" + id + ", hfmcode=" + hfmcode + ", tpartnertype=" + tpartnertype + "]";
+		return "SetReceivablesIcp [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", modified=" + modified
+				+ "]";
 	}
+
+	
 
 }

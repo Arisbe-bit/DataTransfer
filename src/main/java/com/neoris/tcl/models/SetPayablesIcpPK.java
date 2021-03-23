@@ -19,16 +19,14 @@ public class SetPayablesIcpPK implements Serializable {
 
 	private Long companyid;
 
-	private String icpcode;
 
 	private String supplierno;
 
 	public SetPayablesIcpPK() {
 	}
 
-	public SetPayablesIcpPK(Long companyid, String icpcode, String supplierno) {
+	public SetPayablesIcpPK(Long companyid,  String supplierno) {
 		this.companyid = companyid;
-		this.icpcode = icpcode;
 		this.supplierno = supplierno;
 	}
 
@@ -40,13 +38,7 @@ public class SetPayablesIcpPK implements Serializable {
 		this.companyid = companyid;
 	}
 
-	public String getIcpcode() {
-		return this.icpcode;
-	}
-
-	public void setIcpcode(String icpcode) {
-		this.icpcode = icpcode;
-	}
+	
 
 	public String getSupplierno() {
 		return this.supplierno;
@@ -58,7 +50,7 @@ public class SetPayablesIcpPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyid, icpcode, supplierno);
+		return Objects.hash(companyid, supplierno);
 	}
 
 	@Override
@@ -70,13 +62,13 @@ public class SetPayablesIcpPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetPayablesIcpPK other = (SetPayablesIcpPK) obj;
-		return Objects.equals(companyid, other.companyid) && Objects.equals(icpcode, other.icpcode)
+		return Objects.equals(companyid, other.companyid) 
 				&& Objects.equals(supplierno, other.supplierno);
 	}
 
 	@Override
 	public String toString() {
-		return "SetPayablesIcpPK [companyid=" + companyid + ", icpcode=" + icpcode + ", supplierno=" + supplierno + "]";
+		return "SetPayablesIcpPK [companyid=" + companyid + ",  supplierno=" + supplierno + "]";
 	}
 
 }

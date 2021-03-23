@@ -12,6 +12,7 @@ import com.neoris.tcl.dao.ISetReclassifAccountsDao;
 import com.neoris.tcl.models.SetReclassifAccounts;
 import com.neoris.tcl.models.SetReclassifAccountsPK;
 
+
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetReclassifAccountsService implements ISetReclassifAccountsService {
@@ -42,6 +43,11 @@ public class SetReclassifAccountsService implements ISetReclassifAccountsService
 	@Override
 	public void delete(SetReclassifAccounts entity) {
 		data.delete(entity);
+	}
+
+	@Override
+	public void deleteAll(List<SetReclassifAccounts> entityList) {
+		data.deleteAll(entityList);		
 	}
 
 }

@@ -15,6 +15,8 @@ public interface ISetReceivablesIcpService {
 	SetReceivablesIcp save(SetReceivablesIcp entity);
 
 	List<SetReceivablesIcp> saveAll(List<SetReceivablesIcp> entityList);
+	
+	void deleteAll(List<SetReceivablesIcp> entityList);
 
 	void delete(SetReceivablesIcp entity);
 

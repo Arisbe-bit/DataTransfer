@@ -22,18 +22,29 @@ public class SetPayablesIcp implements Serializable {
 	@EmbeddedId
 	private SetPayablesIcpPK id;
 
-	private String hfmcode;
+	private String icpcode;
+	public String getIcpcode() {
+		return icpcode;
+	}
 
-	private String tpartnertype;
+	public void setIcpcode(String icpcode) {
+		this.icpcode = icpcode;
+	}
+
+	private String userid;
+	private String modified;
+	
+
 
 	public SetPayablesIcp() {
 	    this.setId(new SetPayablesIcpPK());
 	}
 
-	public SetPayablesIcp(SetPayablesIcpPK id, String hfmcode, String tpartnertype) {
+	public SetPayablesIcp(SetPayablesIcpPK id,  String userid, String modified) {
 		this.id = id;
-		this.hfmcode = hfmcode;
-		this.tpartnertype = tpartnertype;
+		this.userid = userid;
+		this.modified = modified;
+		
 	}
 
 	public SetPayablesIcpPK getId() {
@@ -44,25 +55,27 @@ public class SetPayablesIcp implements Serializable {
 		this.id = id;
 	}
 
-	public String getHfmcode() {
-		return this.hfmcode;
-	}
-
-	public void setHfmcode(String hfmcode) {
-		this.hfmcode = hfmcode;
-	}
-
-	public String getTpartnertype() {
-		return this.tpartnertype;
-	}
-
-	public void setTpartnertype(String tpartnertype) {
-		this.tpartnertype = tpartnertype;
-	}
-
 	@Override
 	public String toString() {
-		return "SetPayablesIcp [id=" + id + ", hfmcode=" + hfmcode + ", tpartnertype=" + tpartnertype + "]";
+		return "SetPayablesIcp [id=" + id + ", userid=" + userid + ", modified=" + modified + "]";
 	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getModified() {
+		return modified;
+	}
+
+	public void setModified(String modified) {
+		this.modified = modified;
+	}
+
+
 
 }

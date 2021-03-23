@@ -63,24 +63,24 @@
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
-			<dependencies>
-				<!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
-				<dependency>
-				    <groupId>com.oracle.ojdbc</groupId>
-				    <artifactId>ojdbc8</artifactId>
-				    <!-- version>19.3.0.0</version -->
-				</dependency>
-				<dependency>
-				    <groupId>com.oracle.ojdbc</groupId>
-				    <artifactId>osdt_cert</artifactId>
-				    <!-- version>19.3.0.0</version -->
-				</dependency>
-				<dependency>
-				    <groupId>com.oracle.ojdbc</groupId>
-				    <artifactId>osdt_core</artifactId>
-				    <!-- version>19.3.0.0</version -->
-				</dependency>
-			</dependencies>
+<!-- 			<dependencies> -->
+<!-- 				https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
+<!-- 				<dependency> -->
+<!-- 				    <groupId>com.oracle.ojdbc</groupId> -->
+<!-- 				    <artifactId>ojdbc8</artifactId> -->
+<!-- 				    version>19.3.0.0</version -->
+<!-- 				</dependency> -->
+<!-- 				<dependency> -->
+<!-- 				    <groupId>com.oracle.ojdbc</groupId> -->
+<!-- 				    <artifactId>osdt_cert</artifactId> -->
+<!-- 				    version>19.3.0.0</version -->
+<!-- 				</dependency> -->
+<!-- 				<dependency> -->
+<!-- 				    <groupId>com.oracle.ojdbc</groupId> -->
+<!-- 				    <artifactId>osdt_core</artifactId> -->
+<!-- 				    version>19.3.0.0</version -->
+<!-- 				</dependency> -->
+<!-- 			</dependencies> -->
 		</profile>
 	</profiles>
 
@@ -127,6 +127,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
+		<dependency>
+				    <groupId>com.oracle</groupId>
+				    <artifactId>ojdbc7</artifactId>
+				    <version>12.1.0.1</version>
+	</dependency>	
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>

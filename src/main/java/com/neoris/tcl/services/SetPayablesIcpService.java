@@ -12,6 +12,7 @@ import com.neoris.tcl.dao.ISetPayablesIcpDao;
 import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.SetPayablesIcpPK;
 
+
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetPayablesIcpService implements ISetPayablesIcpService {
@@ -42,6 +43,11 @@ public class SetPayablesIcpService implements ISetPayablesIcpService {
 	@Override
 	public void delete(SetPayablesIcp entity) {
 		data.delete(entity);
+	}
+
+	@Override
+	public void deleteAll(List<SetPayablesIcp> entityList) {
+		data.deleteAll(entityList);		
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.SetHfmCodes;
 
 public interface IHfmRollupEntriesService {
 
