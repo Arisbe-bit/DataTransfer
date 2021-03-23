@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetReceivablesIcp;
 import com.neoris.tcl.models.ViewCustReceivables;
 import com.neoris.tcl.models.ViewPartnersRecICP;
@@ -26,38 +27,52 @@ import javax.faces.event.ActionEvent;
 @Scope(ViewScope.VIEW)
 public class ReceivablesAccController {
 
-    private final static Logger LOG = LoggerFactory.getLogger(PayablesAccController.class);
+	
+	private final static Logger LOG = LoggerFactory.getLogger(PayablesAccController.class);
+	
+	@Autowired 
+	private ISetReceivablesIcpService service;
+	
+	@Autowired 
+	private IViewPartnersRecICPService serviceVRec;	
+	private List<SetReceivablesIcp> lstSelectdRectab;
+	private SetReceivablesIcp currentRecTab;
+	
+	
+	// partners view for data table
+	private List<ViewPartnersRecICP> lstVRec;	
+	private List<ViewPartnersRecICP> lstSelectdVRec;
+	private ViewPartnersRecICP currentVRec;
+	
+	//customer view
+	private IViewCustReceivablesService servicecust;	
+	private List<ViewCustReceivables> lstCustno;
+	
+	//Company
+	private List<HfmRollupEntries> lstcompany;
+	
 
-    @Autowired
-    private ISetReceivablesIcpService service;
+	public List<HfmRollupEntries> getLstcompany() {
+		return lstcompany;
+	}
 
-    @Autowired
-    private IViewPartnersRecICPService serviceVRec;
+	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
+		this.lstcompany = lstcompany;
+	}
 
-    private List<SetReceivablesIcp> lstSelectdRectab;
-
-    private List<ViewPartnersRecICP> lstVRec;
-    private List<ViewPartnersRecICP> lstSelectdVRec;
-
-    private SetReceivablesIcp currentRecTab;
-    private ViewPartnersRecICP currentVRec;
-
-    private IViewCustReceivablesService servicecust;
-
-    private List<ViewCustReceivables> lstCustno;
-
-    @PostConstruct
-    public void init() {
+	@PostConstruct
+	public void init() {
         LOG.info("Initializing lstReceivablesicp...");
         this.lstVRec = serviceVRec.findAll();
         LOG.info("reg= {}", lstVRec.size());
-
-        // LOG.info("Initializing Customers List...");
-        // this.lstCustno = servicecust.findAll();
+        
+      //  LOG.info("Initializing Customers List...");
+       // this.lstCustno = servicecust.findAll();
     }
 
     public void openNew() {
         this.currentRecTab = new SetReceivablesIcp();
+        
     }
 
     public void save() {

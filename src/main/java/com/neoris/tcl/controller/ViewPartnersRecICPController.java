@@ -31,7 +31,7 @@ public class ViewPartnersRecICPController {
 	@PostConstruct
 	public void init() {
         LOG.info("Initializing Trading Partners Vs ICPcodes...");
-        this.lstCustomers = service.findAll();
+       // this.lstCustomers = service.findAll();
     }
 
 

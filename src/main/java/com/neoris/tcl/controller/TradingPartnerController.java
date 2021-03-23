@@ -137,7 +137,7 @@ public class TradingPartnerController {
     }
 
     public String getTitle() {
-        return "Trading Partner Type Setting";
+        return "Trading Partners Setting";
     }
 
     public String getDialogName() {

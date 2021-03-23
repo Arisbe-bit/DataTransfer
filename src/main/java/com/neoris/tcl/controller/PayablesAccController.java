@@ -83,9 +83,9 @@ public class PayablesAccController {
         save();
     }
 
-    public boolean hasSelectedCodes() {
-        return this.lstSelectdPay != null && !this.lstSelectdPay.isEmpty();
-    }
+	    public boolean hasSelectedCodes() {
+	        return this.lstSelectdPaytab != null && !this.lstSelectdPaytab.isEmpty();
+	    }
 
     public String getDeleteButtonMessage() {
         String message = "Delete %s record%s selected";
@@ -129,22 +129,23 @@ public class PayablesAccController {
         return lstSelectdPay;
     }
 
-    public void setLstSelectdPay(List<ViewPartnersICP> lstSelectdPay) {
-        this.lstSelectdPay = lstSelectdPay;
-
-        this.lstSelectdPaytab = new ArrayList<SetPayablesIcp>();
-
-        for (ViewPartnersICP viewPartnersICP : lstSelectdPay) {
-            SetPayablesIcp currentPaytabx = new SetPayablesIcp();
-
-            currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganization_id()));
-            currentPaytabx.getId().setSupplierno(viewPartnersICP.getSupplier_num());
-            currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
-
-            lstSelectdPaytab.add(currentPaytabx);
-        }
-
-    }
+		public void setLstSelectdPay(List<ViewPartnersICP> lstSelectdPay) {
+			this.lstSelectdPay = lstSelectdPay;
+			
+			this.lstSelectdPaytab = new ArrayList<SetPayablesIcp>();
+			
+			for (ViewPartnersICP viewPartnersICP : lstSelectdPay) {
+				SetPayablesIcp currentPaytabx = new SetPayablesIcp();
+				
+				
+				currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganizationid()));
+				currentPaytabx.getId().setSupplierno(viewPartnersICP.getSuppliernum());
+				currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
+				
+				lstSelectdPaytab.add(currentPaytabx);
+			}
+			
+		}
 
     public List<SetPayablesIcp> getLstSelectdPaytab() {
         return lstSelectdPaytab;
@@ -158,13 +159,13 @@ public class PayablesAccController {
         return currentPay;
     }
 
-    public void setCurrentPay(ViewPartnersICP currentPay) {
-        this.currentPay = currentPay;
-        this.currentPaytab = new SetPayablesIcp();
-        this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganization_id()));
-        this.currentPaytab.getId().setSupplierno(currentPay.getSupplier_num());
-        this.currentPaytab.setIcpcode(currentPay.getIcpcode());
-    }
+		public void setCurrentPay(ViewPartnersICP currentPay) {
+			this.currentPay = currentPay;
+			this.currentPaytab = new SetPayablesIcp();
+			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganizationid()));
+			this.currentPaytab.getId().setSupplierno(currentPay.getSuppliernum());
+			this.currentPaytab.setIcpcode(currentPay.getIcpcode());
+		}
 
     public SetPayablesIcp getCurrentPaytab() {
         return currentPaytab;

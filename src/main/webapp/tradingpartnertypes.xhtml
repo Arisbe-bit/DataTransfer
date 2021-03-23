@@ -9,11 +9,11 @@
 	<ui:define name="Trading Partner Types">
 		<title>${tptypesControllerBean.title}</title>
 	</ui:define>
-	
+
 	<ui:define name="header">
 		<h1>${tptypesControllerBean.title}</h1>
 	</ui:define>
-	
+
 	<ui:define name="content">
 		<h:form id="form">
 			<div class="card">
@@ -21,148 +21,144 @@
 
 				<div class="products-buttonbar">
 					<div>
-						<p:commandButton value="New" 
-							icon="pi pi-plus"
-							actionListener="#{tptypesControllerBean.openNew}"
-							update=":form:manage-code-content"
-							oncomplete="PF('#{tptypesControllerBean.dialogName}').show()"
-							styleClass="ui-button-success" 
-							style="margin-right: 0.3em">
-							<p:resetInput target=":form:manage-code-content" />
-						</p:commandButton>						
-						<p:commandButton value="#{tptypesControllerBean.deleteButtonMessage}"
-							id="#{tptypesControllerBean.deleteCodesButton}"
-							icon="pi pi-trash"
-							actionListener="#{tptypesControllerBean.deleteSelected}"
-							styleClass="ui-button-danger"
-							style="margin-left: 0.3em"
-							disabled="#{!tptypesControllerBean.hasSelectedCodes()}"
-							update="@this">
-							<p:confirm header="Confirmation" 
-								message="Delete the selected codes Types?"
-								icon="pi pi-exclamation-triangle"/>
-						</p:commandButton>
+						<p:toolbar>
+							<p:toolbarGroup>
+								<p:commandButton value="New" icon="pi pi-plus"
+									actionListener="#{tptypesControllerBean.openNew}"
+									update=":form:manage-code-content"
+									oncomplete="PF('#{tptypesControllerBean.dialogName}').show()"
+									styleClass="ui-button-success" style="margin-right: 0.3em">
+									<p:resetInput target=":form:manage-code-content" />
+								</p:commandButton>
+								<p:commandButton
+									value="#{tptypesControllerBean.deleteButtonMessage}"
+									id="#{tptypesControllerBean.deleteCodesButton}"
+									icon="pi pi-trash"
+									actionListener="#{tptypesControllerBean.deleteSelected}"
+									styleClass="ui-button-danger" style="margin-left: 0.3em"
+									disabled="#{!tptypesControllerBean.hasSelectedCodes()}"
+									update="@this">
+									<p:confirm header="Confirmation"
+										message="Delete the selected codes Types?"
+										icon="pi pi-exclamation-triangle" />
+								</p:commandButton>
+							</p:toolbarGroup>
+							<p:toolbarGroup align="right">
+								<p:commandButton value="Export" icon="pi pi-upload"
+									styleClass="ui-button-help" ajax="false">
+									<p:dataExporter type="xls"
+										target="#{payablesaccControllerBean.dataTableName}"
+										fileName="${payablesaccControllerBean.title}" />
+								</p:commandButton>
+							</p:toolbarGroup>
+						</p:toolbar>
 					</div>
 				</div>
 
-				<p:dataTable id="#{tptypesControllerBean.dataTableName}" 
-					widgetVar="dtCodes" 
-					var="current"
-					value="#{tptypesControllerBean.lsttpType}" 
-					reflow="true"
+				<p:dataTable id="#{tptypesControllerBean.dataTableName}"
+					widgetVar="dtCodes" var="current"
+					value="#{tptypesControllerBean.lsttpType}" reflow="true"
 					styleClass="products-table"
-					selection="#{tptypesControllerBean.lstSelectdtpType}" 
-					rowKey="#{current.tptype}"
-					paginator="true" 
-					rows="10" 
-					rowSelectMode="add"
-					size="small"
-					paginatorPosition="bottom">
+					selection="#{tptypesControllerBean.lstSelectdtpType}"
+					rowKey="#{current.tptype}" paginator="true" rows="10"
+					rowSelectMode="add" size="small" paginatorPosition="bottom">
 					<f:facet name="header">
+						<span style="font-weight: bold">${tptypesControllerBean.title}</span>
 					</f:facet>
-					<p:ajax event="rowSelect" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowUnselect" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowSelectCheckbox" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowUnselectCheckbox" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
-					<p:ajax event="toggleSelect" update=":form:#{tptypesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelect"
+						update=":form:#{tptypesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect"
+						update=":form:#{tptypesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox"
+						update=":form:#{tptypesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox"
+						update=":form:#{tptypesControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect"
+						update=":form:#{tptypesControllerBean.deleteCodesButton}" />
 
-					<p:column headerText="Select" 
-						selectionMode="multiple" 
-						exportable="false" 
-						width="10%">
+					<p:column headerText="Select" selectionMode="multiple"
+						exportable="false" width="10%">
 					</p:column>
-					
-					<p:column headerText="Type" 
-						sortBy="#{current.tptype}" 
+
+					<p:column headerText="Type" sortBy="#{current.tptype}"
 						filterBy="#{current.tptype}">
 						<h:outputText value="#{current.tptype}" />
 					</p:column>
-					
-					<p:column headerText="Description" 
-						sortBy="#{current.description}"
+
+					<p:column headerText="Description" sortBy="#{current.description}"
 						filterBy="#{current.description}">
 						<h:outputText value="#{current.description}" />
 					</p:column>
-					
-					<p:column headerText="Actions"  exportable="false" width="10%">
+
+					<p:column headerText="Actions" exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
 							update=":form:manage-code-content"
 							oncomplete="PF('#{tptypesControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
-							style="margin-right: 0.3em"
-							process="@this">
-							<f:setPropertyActionListener value="#{current}" target="#{tptypesControllerBean.curtptypes}" />
+							style="margin-right: 0.3em" process="@this">
+							<f:setPropertyActionListener value="#{current}"
+								target="#{tptypesControllerBean.curtptypes}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
-						
+
 						<p:commandButton class="ui-button-warning rounded-button"
-							icon="pi pi-trash" 
-							process="@this"
-							style="margin-left: 0.3em"
+							icon="pi pi-trash" process="@this" style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{current}" target="#{tptypesControllerBean.curtptypes}" />
+							<f:setPropertyActionListener value="#{current}"
+								target="#{tptypesControllerBean.curtptypes}" />
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
 				<!-- This form is for add new o modify a trading partner type -->
-				<p:dialog header="Trading PArtner Types Details" 
-					width="450" 
-					showEffect="fade"
-					modal="true" 
-					widgetVar="#{tptypesControllerBean.dialogName}" 
-					responsive="true">
+				<p:dialog header="Trading PArtner Types Details" width="450"
+					showEffect="fade" modal="true"
+					widgetVar="#{tptypesControllerBean.dialogName}" responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
-						<p:outputPanel rendered="#{not empty tptypesControllerBean.curtptypes}">
+						<p:outputPanel
+							rendered="#{not empty tptypesControllerBean.curtptypes}">
 							<div class="p-field">
 								<p:outputLabel for="type">Type</p:outputLabel>
-								<p:inputText id="type" 
+								<p:inputText id="type"
 									value="#{tptypesControllerBean.curtptypes.tptype}"
 									required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="description">Description</p:outputLabel>
-								<p:inputText id="description" 
+								<p:inputText id="description"
 									value="#{tptypesControllerBean.curtptypes.description}"
 									required="true" />
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">
-						<p:commandButton value="Save" 
-							icon="pi pi-check"
+						<p:commandButton value="Save" icon="pi pi-check"
 							actionListener="#{tptypesControllerBean.save}"
-							update="manage-code-content"
-							process="manage-code-content @this" />
-						<p:commandButton value="Cancel" 
-							icon="pi pi-times"
+							update="manage-code-content" process="manage-code-content @this" />
+						<p:commandButton value="Cancel" icon="pi pi-times"
 							onclick="PF('#{tptypesControllerBean.dialogName}').hide()"
 							class="ui-button-secondary" />
 					</f:facet>
 				</p:dialog>
 
-				<p:confirmDialog widgetVar="deleteCodeDialog" 
-					showEffect="fade"
-					width="300" 
-					message="Delete the Tradign Type?" 
-					header="Confirm"
+				<p:confirmDialog widgetVar="deleteCodeDialog" showEffect="fade"
+					width="300" message="Delete the Tradign Type?" header="Confirm"
 					severity="warn">
-					<p:commandButton value="Yes" 
-						icon="pi pi-check"
-						actionListener="#{tptypesControllerBean.delete}" 
-						process="@this"
+					<p:commandButton value="Yes" icon="pi pi-check"
+						actionListener="#{tptypesControllerBean.delete}" process="@this"
 						oncomplete="PF('deleteCodeDialog').hide()" />
-					<p:commandButton value="No" 
-						type="button"
-						styleClass="ui-button-secondary" 
-						icon="pi pi-times"
+					<p:commandButton value="No" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
 						onclick="PF('deleteCodeDialog').hide()" />
 				</p:confirmDialog>
-				
-		        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
-		            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
-		        </p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" />
+				</p:confirmDialog>
 			</div>
 		</h:form>
 
