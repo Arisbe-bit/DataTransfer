@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
-
 	<ui:define name="HFM Layout">
 		<title>HFM Layout</title>
 	</ui:define>
 	<ui:define name="header">
 		<h1>${hfmlayoutControllerBean.title}</h1>
 	</ui:define>
-
 	<ui:define name="content">
 		<h:form id="form">
 			<div class="card">
@@ -27,7 +25,6 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
-
 				<p:dataTable id="#{hfmlayoutControllerBean.dataTableName}"
 					widgetVar="dtCodes" 
 					var="curtps"
@@ -35,7 +32,7 @@
 					styleClass="products-table"
 					rowKey="#{curtps.id.companyid}" 
 					paginator="true" 
-					rows="10"
+					rows="20"
 					rowSelectMode="add" 
 					size="small" 
 					paginatorPosition="bottom">
@@ -45,10 +42,6 @@
 
 					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
 					</p:column>
-
-					<p:column headerText="HFM Code" sortBy="#{curtps.id.account}" filterBy="#{curtps.id.account}">
-						<h:outputText value="#{curtps.id.account}" />
-					</p:column>
 					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
 						<h:outputText value="#{curtps.entity}" />
 					</p:column>					
@@ -57,7 +50,16 @@
 					</p:column>					
 					<p:column headerText="Year"  sortBy="#{curtps.id.zyear}" filterBy="#{curtps.id.zyear}">
 						<h:outputText value="#{curtps.id.zyear}" />
+					</p:column>
+					<p:column headerText="HFM Code" sortBy="#{curtps.id.account}" filterBy="#{curtps.id.account}">
+						<h:outputText value="#{curtps.id.account}" />
 					</p:column>					
+					<p:column headerText="ICP Code" sortBy="#{curtps.id.icp}" filterBy="#{curtps.id.icp}">
+						<h:outputText value="#{curtps.id.icp}" />
+					</p:column>
+					<p:column headerText="Balance" sortBy="#{curtps.data}" filterBy="#{curtps.data}">
+						<h:outputText value="#{curtps.data}" />
+					</p:column>
 					<p:column headerText="Scenario"  sortBy="#{curtps.id.scenario}" filterBy="#{curtps.id.scenario}">
 						<h:outputText value="#{curtps.id.scenario}" />
 					</p:column>
@@ -78,13 +80,7 @@
 					</p:column>
 					
 
-					
 				</p:dataTable>
-
-				
-
-				
-
 			</div>
 		</h:form>
 	</ui:define>
