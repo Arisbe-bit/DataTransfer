@@ -132,7 +132,7 @@ public class HfmController {
     }
 
     public void setHfmcode(SetHfmCodes hfmcode) {
-        LOG.info("Recibo SetHfmCodes => {}", hfmcode);
+        LOG.info("Receive SetHfmCodes => {}", hfmcode);
         this.isNewHfmcode = false;
         this.hfmcode = hfmcode;
     }

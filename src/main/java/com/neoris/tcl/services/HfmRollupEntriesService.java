@@ -188,4 +188,9 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		}
 	}
 
+    @Override
+    public void deleteAll(List<HfmRollupEntries> entityList) {
+        data.deleteAll(entityList);        
+    }
+
 }

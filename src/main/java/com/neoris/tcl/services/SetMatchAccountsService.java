@@ -12,6 +12,7 @@ import com.neoris.tcl.dao.ISetMatchAccountsDao;
 import com.neoris.tcl.models.SetMatchAccounts;
 import com.neoris.tcl.models.SetMatchAccountsPK;
 
+
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetMatchAccountsService implements ISetMatchAccountsService {
@@ -42,6 +43,11 @@ public class SetMatchAccountsService implements ISetMatchAccountsService {
 	@Override
 	public void delete(SetMatchAccounts entity) {
 		data.delete(entity);
+	}
+	
+	@Override
+	public void deleteAll(List<SetMatchAccounts> entityList) {
+		data.deleteAll(entityList);		
 	}
 
 }

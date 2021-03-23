@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.neoris.tcl.models.SetMatchAccounts;
 import com.neoris.tcl.models.SetMatchAccountsPK;
 
+
 public interface ISetMatchAccountsService {
 
 	Optional<SetMatchAccounts> findById(SetMatchAccountsPK id);
@@ -17,5 +18,6 @@ public interface ISetMatchAccountsService {
 	List<SetMatchAccounts> saveAll(List<SetMatchAccounts> entityList);
 
 	void delete(SetMatchAccounts entity);
-
+	
+	void deleteAll(List<SetMatchAccounts> entityList);
 }

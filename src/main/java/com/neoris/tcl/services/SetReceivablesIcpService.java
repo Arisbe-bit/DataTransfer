@@ -44,4 +44,10 @@ public class SetReceivablesIcpService implements ISetReceivablesIcpService {
 		data.delete(entity);
 	}
 
+	@Override
+	public void deleteAll(List<SetReceivablesIcp> entityList) {
+		data.deleteAll(entityList);	
+		
+	}
+
 }

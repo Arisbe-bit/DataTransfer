@@ -24,7 +24,7 @@ public class SetAccHfmPartnersCodes implements Serializable {
 
 	private String areaid;
 
-	private Long companyid;
+	private int companyid;
 
 	private String icpcode;
 
@@ -36,7 +36,7 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	    this.setId(new SetAccHfmPartnersCodesPK());
 	}
 
-	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id, String areaid, Long companyid, String icpcode,
+	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id, String areaid, int companyid, String icpcode,
 			String partnerid, String tpartnertype) {
 		this.id = id;
 		this.areaid = areaid;
@@ -62,11 +62,11 @@ public class SetAccHfmPartnersCodes implements Serializable {
 		this.areaid = areaid;
 	}
 
-	public Long getCompanyid() {
+	public int getCompanyid() {
 		return this.companyid;
 	}
 
-	public void setCompanyid(Long companyid) {
+	public void setCompanyid(int companyid) {
 		this.companyid = companyid;
 	}
 
