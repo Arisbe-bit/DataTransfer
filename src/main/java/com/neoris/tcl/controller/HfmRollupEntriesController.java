@@ -18,139 +18,135 @@ import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
-
 @Controller(value = "rollupentriesControllerBean")
 @Scope(ViewScope.VIEW)
 public class HfmRollupEntriesController {
-	
-	private final static Logger LOG = LoggerFactory.getLogger(HfmRollupEntriesController.class);
-	
-	@Autowired
+
+    private final static Logger LOG = LoggerFactory.getLogger(HfmRollupEntriesController.class);
+
+    @Autowired
     private IHfmRollupEntriesService service;
-	
-	private List<HfmRollupEntries> lstEntries;
-	private List<HfmRollupEntries> lstSelectedEnt;
-	private HfmRollupEntries currEntries;
-	private boolean newCode;
-	
-	  @PostConstruct
-	    public void init() {
-	        LOG.info("Initializing Rollup Entries...");
-	        this.lstEntries = service.findAll();
-	    }
-	    
-	  public void openNew() {
-	        
-	        this.currEntries = new HfmRollupEntries();
-	        
-	    }
-	  
-	  public void save() {
-	        LOG.info("Entering to save Entries => {}", currEntries);
-	        
-	        if(this.newCode) {
-	            Optional<HfmRollupEntries> code = service.findById(currEntries.getCompanyid());
-	            if(code.isPresent()) {
-	                String errorMessage = String.format("The record with code = %s already exist with value= %s. Can't create new record.", currEntries.getCompanyid(), currEntries.getEntity()); 
-	                Functions.addErrorMessage("Error adding new Company", errorMessage);
-	                PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-	                return;
-	            }
-	        }
-	        
-	        currEntries = service.save(currEntries);
-	        this.lstEntries = service.findAll();
-	        Functions.addInfoMessage("Succes", "Company saved");
-	        PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
-	        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-	        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
-	    }
-	  
-	  public void delete() {
-	        LOG.info("Entering to delete Company => {}", this.currEntries);
-	        service.delete(this.currEntries);
-	        this.currEntries = null;
-	        this.lstEntries = service.findAll();
-	        Functions.addInfoMessage("Succes", "CompanyRemoved");
-	        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-	        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
-	    }
-	    
-	    public void deleteSelected(ActionEvent event) {
-	        LOG.info("[deleteSelected] = > Entering to delete codes: {}", this.lstSelectedEnt);
-	        //service.deleteAll(this.lstSelectdHfmcodes);
-	        service.deleteAll(this.lstSelectedEnt);
-	        this.lstSelectedEnt = null;
-	        this.lstEntries = service.findAll();
-	        Functions.addInfoMessage("Succes", "CompanyRemoved");
-	        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-	        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
-	    }
-	    
-	    
-	    public void update() {
-	        LOG.info("Entering to update Company=> {}", currEntries);
-	        save();
-	    }
 
-	    public boolean hasSelectedCodes() {
-	        return this.lstSelectedEnt != null && !this.lstSelectedEnt.isEmpty();
-	    }
+    private List<HfmRollupEntries> lstEntries;
+    private List<HfmRollupEntries> lstSelectedEnt;
+    private HfmRollupEntries currEntries;
+    private boolean newCode;
 
-	    public String getDeleteButtonMessage() {
-	        String message = "Delete %s code%s selected";
-	        String retval = "Delete";
-	        if (hasSelectedCodes()) {
-	            int size = this.lstSelectedEnt.size();
-	            if (size > 1) {
-	                retval = String.format(message, size, "s");
-	            } else {
-	                retval = String.format(message, size, "");
-	            }
-	        }
-	        return retval;
-	    }
+    @PostConstruct
+    public void init() {
+        LOG.info("Initializing Rollup Entries...");
+        this.lstEntries = service.findAll();
+    }
 
-	    
-	  public String getTitle() {
-	        return "Trading Partner Type Setting";
-	    }
+    public void openNew() {
+        this.currEntries = new HfmRollupEntries();
+    }
 
-	    public String getDialogName() {
-	        return "manageCodeDialog";
-	    }
+    public void save() {
+        LOG.info("Entering to save Entries => {}", currEntries);
 
-	    public String getDataTableName() {
-	        return "dt-codes";
-	    }
+        if (this.newCode) {
+            Optional<HfmRollupEntries> code = service.findById(currEntries.getCompanyid());
+            if (code.isPresent()) {
+                String errorMessage = String.format(
+                        "The record with code = %s already exist with value= %s. Can't create new record.",
+                        currEntries.getCompanyid(), currEntries.getEntity());
+                Functions.addErrorMessage("Error adding new Company", errorMessage);
+                PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+                return;
+            }
+        }
 
-	    public String getDeleteCodesButton() {
-	        return "delete-codes-button-id";
-	    }
+        currEntries = service.save(currEntries);
+        this.lstEntries = service.findAll();
+        Functions.addInfoMessage("Succes", "Company saved");
+        PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+    }
 
-		public List<HfmRollupEntries> getLstEntries() {
-			return lstEntries;
-		}
+    public void delete() {
+        LOG.info("Entering to delete Company => {}", this.currEntries);
+        service.delete(this.currEntries);
+        this.currEntries = null;
+        this.lstEntries = service.findAll();
+        Functions.addInfoMessage("Succes", "CompanyRemoved");
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+    }
 
-		public void setLstEntries(List<HfmRollupEntries> lstEntries) {
-			this.lstEntries = lstEntries;
-		}
+    public void deleteSelected(ActionEvent event) {
+        LOG.info("[deleteSelected] = > Entering to delete entires: {}", this.lstSelectedEnt);
+        //service.deleteAll(this.lstSelectdHfmcodes);
+        service.deleteAll(this.lstSelectedEnt);
+        this.lstSelectedEnt = null;
+        this.lstEntries = service.findAll();
+        Functions.addInfoMessage("Succes", "Company Removed");
+        PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+        PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+    }
 
-		public List<HfmRollupEntries> getLstSelectedEnt() {
-			return lstSelectedEnt;
-		}
+    public void update() {
+        LOG.info("Entering to update Company=> {}", currEntries);
+        save();
+    }
 
-		public void setLstSelectedEnt(List<HfmRollupEntries> lstSelectedEnt) {
-			this.lstSelectedEnt = lstSelectedEnt;
-		}
+    public boolean hasSelectedCodes() {
+        return this.lstSelectedEnt != null && !this.lstSelectedEnt.isEmpty();
+    }
 
-		public HfmRollupEntries getCurrEntries() {
-			return currEntries;
-		}
+    public String getDeleteButtonMessage() {
+        String message = "Delete %s entr%s selected";
+        String retval = "Delete";
+        if (hasSelectedCodes()) {
+            int size = this.lstSelectedEnt.size();
+            if (size > 1) {
+                retval = String.format(message, size, "ies");
+            } else {
+                retval = String.format(message, size, "y");
+            }
+        }
+        return retval;
+    }
 
-		public void setCurrEntries(HfmRollupEntries currEntries) {
-			this.currEntries = currEntries;
-		}
-	  
-	  
+    public String getTitle() {
+        return "Trading Partner Type Setting";
+    }
+
+    public String getDialogName() {
+        return "manageCodeDialog";
+    }
+
+    public String getDataTableName() {
+        return "dt-codes";
+    }
+
+    public String getDeleteCodesButton() {
+        return "delete-codes-button-id";
+    }
+
+    public List<HfmRollupEntries> getLstEntries() {
+        return lstEntries;
+    }
+
+    public void setLstEntries(List<HfmRollupEntries> lstEntries) {
+        this.lstEntries = lstEntries;
+    }
+
+    public List<HfmRollupEntries> getLstSelectedEnt() {
+        return lstSelectedEnt;
+    }
+
+    public void setLstSelectedEnt(List<HfmRollupEntries> lstSelectedEnt) {
+        this.lstSelectedEnt = lstSelectedEnt;
+    }
+
+    public HfmRollupEntries getCurrEntries() {
+        return currEntries;
+    }
+
+    public void setCurrEntries(HfmRollupEntries currEntries) {
+        this.currEntries = currEntries;
+    }
+
 }

@@ -12,63 +12,58 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class SetPayablesIcpPK implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4625003557488333132L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4625003557488333132L;
 
-	private Long companyid;
+    private Long companyid;
+    private String supplierno;
 
+    public SetPayablesIcpPK() {
+    }
 
-	private String supplierno;
+    public SetPayablesIcpPK(Long companyid, String supplierno) {
+        this.companyid = companyid;
+        this.supplierno = supplierno;
+    }
 
-	public SetPayablesIcpPK() {
-	}
+    public Long getCompanyid() {
+        return this.companyid;
+    }
 
-	public SetPayablesIcpPK(Long companyid,  String supplierno) {
-		this.companyid = companyid;
-		this.supplierno = supplierno;
-	}
+    public void setCompanyid(Long companyid) {
+        this.companyid = companyid;
+    }
 
-	public Long getCompanyid() {
-		return this.companyid;
-	}
+    public String getSupplierno() {
+        return this.supplierno;
+    }
 
-	public void setCompanyid(Long companyid) {
-		this.companyid = companyid;
-	}
+    public void setSupplierno(String supplierno) {
+        this.supplierno = supplierno;
+    }
 
-	
+    @Override
+    public int hashCode() {
+        return Objects.hash(companyid, supplierno);
+    }
 
-	public String getSupplierno() {
-		return this.supplierno;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SetPayablesIcpPK other = (SetPayablesIcpPK) obj;
+        return Objects.equals(companyid, other.companyid) && Objects.equals(supplierno, other.supplierno);
+    }
 
-	public void setSupplierno(String supplierno) {
-		this.supplierno = supplierno;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(companyid, supplierno);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SetPayablesIcpPK other = (SetPayablesIcpPK) obj;
-		return Objects.equals(companyid, other.companyid) 
-				&& Objects.equals(supplierno, other.supplierno);
-	}
-
-	@Override
-	public String toString() {
-		return "SetPayablesIcpPK [companyid=" + companyid + ",  supplierno=" + supplierno + "]";
-	}
+    @Override
+    public String toString() {
+        return "SetPayablesIcpPK [companyid=" + companyid + ",  supplierno=" + supplierno + "]";
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,8 +16,9 @@ private static final long serialVersionUID = -732130139597244868L;
 	
 	@Id
 	private String custno;
-	
+	@Column(name = "CUSTNAME")
 	private String custname;
+	@Column(name = "ORGANIZATION_ID")
 	private int organization_id;
 	
 	public ViewCustReceivables()

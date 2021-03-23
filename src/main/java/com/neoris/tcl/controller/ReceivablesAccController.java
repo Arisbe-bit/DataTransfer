@@ -26,45 +26,41 @@ import javax.faces.event.ActionEvent;
 @Scope(ViewScope.VIEW)
 public class ReceivablesAccController {
 
-	
-	private final static Logger LOG = LoggerFactory.getLogger(PayablesAccController.class);
-	
-	@Autowired 
-	private ISetReceivablesIcpService service;
-	
-	@Autowired 
-	private IViewPartnersRecICPService serviceVRec;
-	
-	private List<SetReceivablesIcp> lstSelectdRectab;
-	
-	private List<ViewPartnersRecICP> lstVRec;	
-	private List<ViewPartnersRecICP> lstSelectdVRec;
-	
-	private SetReceivablesIcp currentRecTab;
-	private ViewPartnersRecICP currentVRec;
-	
-	private IViewCustReceivablesService servicecust;
-	
-	private List<ViewCustReceivables> lstCustno;
-	
-	
-	
+    private final static Logger LOG = LoggerFactory.getLogger(PayablesAccController.class);
 
-	@PostConstruct
-	public void init() {
+    @Autowired
+    private ISetReceivablesIcpService service;
+
+    @Autowired
+    private IViewPartnersRecICPService serviceVRec;
+
+    private List<SetReceivablesIcp> lstSelectdRectab;
+
+    private List<ViewPartnersRecICP> lstVRec;
+    private List<ViewPartnersRecICP> lstSelectdVRec;
+
+    private SetReceivablesIcp currentRecTab;
+    private ViewPartnersRecICP currentVRec;
+
+    private IViewCustReceivablesService servicecust;
+
+    private List<ViewCustReceivables> lstCustno;
+
+    @PostConstruct
+    public void init() {
         LOG.info("Initializing lstReceivablesicp...");
         this.lstVRec = serviceVRec.findAll();
         LOG.info("reg= {}", lstVRec.size());
-        
-      //  LOG.info("Initializing Customers List...");
-       // this.lstCustno = servicecust.findAll();
+
+        // LOG.info("Initializing Customers List...");
+        // this.lstCustno = servicecust.findAll();
     }
-	
-	public void openNew() {
+
+    public void openNew() {
         this.currentRecTab = new SetReceivablesIcp();
     }
- 
-	public void save() {
+
+    public void save() {
         LOG.info("Entering to save Trading Partner  => {}", this.currentRecTab);
         this.currentRecTab = service.save(currentRecTab);
         this.lstVRec = serviceVRec.findAll();
@@ -73,8 +69,8 @@ public class ReceivablesAccController {
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
-	
-	public void delete() {
+
+    public void delete() {
         LOG.info("Entering to delete Trading Partner => {}", this.currentRecTab);
         service.delete(this.currentRecTab);
         this.currentRecTab = null;
@@ -83,7 +79,7 @@ public class ReceivablesAccController {
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
-    
+
     public void deleteSelected(ActionEvent event) {
         LOG.info("[deleteSelected] = > Entering to delete Trading Partner : {}", this.lstSelectdRectab);
         service.deleteAll(this.lstSelectdRectab);
@@ -93,9 +89,7 @@ public class ReceivablesAccController {
         PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
-    
-    
- 
+
     public void update() {
         LOG.info("Entering to update Trading Partner  => {}", currentRecTab);
         save();
@@ -103,8 +97,8 @@ public class ReceivablesAccController {
 
     public boolean hasSelectedCodes() {
         return this.lstSelectdRectab != null && !this.lstSelectdRectab.isEmpty();
-    	//return this.lstSelectdVRec != null && !this.lstSelectdVRec.isEmpty();
-    	
+        // return this.lstSelectdVRec != null && !this.lstSelectdVRec.isEmpty();
+
     }
 
     public String getDeleteButtonMessage() {
@@ -120,95 +114,86 @@ public class ReceivablesAccController {
         }
         return retval;
     }
-    
-	 public String getTitle() {
-	     return "Accounts Receivable Trading Partner";
-	 }
-	 
-	 public String getDialogName() {
-	     return "manageCodeDialog";
-	 }
-	 
-	 public String getDataTableName() {
-	     return "dt-codes";
-	 }
-	 
-	 public String getDeleteCodesButton() {
-	     return "delete-codes-button-id";
-	 }
 
-	public List<SetReceivablesIcp> getLstSelectdRectab() {
-		return lstSelectdRectab;
-	}
+    public String getTitle() {
+        return "Accounts Receivable Trading Partner";
+    }
 
-	public void setLstSelectdRectab(List<SetReceivablesIcp> lstSelectdRectab) {
-		this.lstSelectdRectab = lstSelectdRectab;
-	}
+    public String getDialogName() {
+        return "manageCodeDialog";
+    }
 
-	
+    public String getDataTableName() {
+        return "dt-codes";
+    }
 
-	public SetReceivablesIcp getCurrentRecTab() {
-		return currentRecTab;
-	}
+    public String getDeleteCodesButton() {
+        return "delete-codes-button-id";
+    }
 
-	public void setCurrentRecTab(SetReceivablesIcp currentRecTab) {
-		this.currentRecTab = currentRecTab;
-	}
+    public List<SetReceivablesIcp> getLstSelectdRectab() {
+        return lstSelectdRectab;
+    }
 
-	public List<ViewPartnersRecICP> getLstVRec() {
-		return lstVRec;
-	}
+    public void setLstSelectdRectab(List<SetReceivablesIcp> lstSelectdRectab) {
+        this.lstSelectdRectab = lstSelectdRectab;
+    }
 
-	public void setLstVRec(List<ViewPartnersRecICP> lstVRec) {
-		this.lstVRec = lstVRec;
-	}
+    public SetReceivablesIcp getCurrentRecTab() {
+        return currentRecTab;
+    }
 
-	public List<ViewPartnersRecICP> getLstSelectdVRec() {
-		return lstSelectdVRec;
-	}
+    public void setCurrentRecTab(SetReceivablesIcp currentRecTab) {
+        this.currentRecTab = currentRecTab;
+    }
 
-	public void setLstSelectdVRec(List<ViewPartnersRecICP> lstSelectdVRec) {
-		this.lstSelectdVRec = lstSelectdVRec;
-		
-				
-		this.lstSelectdRectab = new ArrayList<SetReceivablesIcp>();
-		
-		for (ViewPartnersRecICP viewPartnersRecICP : lstSelectdVRec) {
-			SetReceivablesIcp currentRectabx = new SetReceivablesIcp();
-			
-			
-			currentRectabx.getId().setCompanyid(new Long(viewPartnersRecICP.getOrganization_id()));
-			currentRectabx.getId().setCustno(viewPartnersRecICP.getCustno());
-			currentRectabx.setIcpcode(viewPartnersRecICP.getIcpcode());
-			
-			lstSelectdRectab.add(currentRectabx);
-		}
-	}
+    public List<ViewPartnersRecICP> getLstVRec() {
+        return lstVRec;
+    }
 
-	public ViewPartnersRecICP getCurrentVRec() {
-		return currentVRec;
-	}
+    public void setLstVRec(List<ViewPartnersRecICP> lstVRec) {
+        this.lstVRec = lstVRec;
+    }
 
-	public void setCurrentVRec(ViewPartnersRecICP currentVRec) {
-		this.currentVRec = currentVRec;
-		
-		
-		this.currentRecTab = new SetReceivablesIcp();
-		this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
-		this.currentRecTab.getId().setCustno(currentVRec.getCustno());
-		this.currentRecTab.setIcpcode(currentVRec.getIcpcode());;
-	}
-	
-	
+    public List<ViewPartnersRecICP> getLstSelectdVRec() {
+        return lstSelectdVRec;
+    }
 
-	public List<ViewCustReceivables> getLstCustno() {
-		return lstCustno;
-	}
+    public void setLstSelectdVRec(List<ViewPartnersRecICP> lstSelectdVRec) {
+        this.lstSelectdVRec = lstSelectdVRec;
 
-	public void setLstCustno(List<ViewCustReceivables> lstCustno) {
-		this.lstCustno = lstCustno;
-	}
-	 
-	 
-	 
+        this.lstSelectdRectab = new ArrayList<SetReceivablesIcp>();
+
+        for (ViewPartnersRecICP viewPartnersRecICP : lstSelectdVRec) {
+            SetReceivablesIcp currentRectabx = new SetReceivablesIcp();
+
+            currentRectabx.getId().setCompanyid(new Long(viewPartnersRecICP.getOrganization_id()));
+            currentRectabx.getId().setCustno(viewPartnersRecICP.getCustno());
+            currentRectabx.setIcpcode(viewPartnersRecICP.getIcpcode());
+
+            lstSelectdRectab.add(currentRectabx);
+        }
+    }
+
+    public ViewPartnersRecICP getCurrentVRec() {
+        return currentVRec;
+    }
+
+    public void setCurrentVRec(ViewPartnersRecICP currentVRec) {
+        this.currentVRec = currentVRec;
+
+        this.currentRecTab = new SetReceivablesIcp();
+        this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
+        this.currentRecTab.getId().setCustno(currentVRec.getCustno());
+        this.currentRecTab.setIcpcode(currentVRec.getIcpcode());
+    }
+
+    public List<ViewCustReceivables> getLstCustno() {
+        return lstCustno;
+    }
+
+    public void setLstCustno(List<ViewCustReceivables> lstCustno) {
+        this.lstCustno = lstCustno;
+    }
+
 }

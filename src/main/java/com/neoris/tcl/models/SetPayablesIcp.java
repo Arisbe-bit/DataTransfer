@@ -14,68 +14,63 @@ import javax.persistence.Table;
 @Table(name = "set_payables_icp")
 public class SetPayablesIcp implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1316855062351354754L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1316855062351354754L;
 
-	@EmbeddedId
-	private SetPayablesIcpPK id;
+    @EmbeddedId
+    private SetPayablesIcpPK id;
+    private String icpcode;
+    private String userid;
+    private String modified;
 
-	private String icpcode;
-	public String getIcpcode() {
-		return icpcode;
-	}
+    public SetPayablesIcp() {
+        this.setId(new SetPayablesIcpPK());
+    }
 
-	public void setIcpcode(String icpcode) {
-		this.icpcode = icpcode;
-	}
+    public SetPayablesIcp(SetPayablesIcpPK id, String userid, String modified) {
+        this.id = id;
+        this.userid = userid;
+        this.modified = modified;
 
-	private String userid;
-	private String modified;
-	
+    }
 
+    public String getIcpcode() {
+        return icpcode;
+    }
 
-	public SetPayablesIcp() {
-	    this.setId(new SetPayablesIcpPK());
-	}
+    public void setIcpcode(String icpcode) {
+        this.icpcode = icpcode;
+    }
+    public SetPayablesIcpPK getId() {
+        return this.id;
+    }
 
-	public SetPayablesIcp(SetPayablesIcpPK id,  String userid, String modified) {
-		this.id = id;
-		this.userid = userid;
-		this.modified = modified;
-		
-	}
+    public void setId(SetPayablesIcpPK id) {
+        this.id = id;
+    }
 
-	public SetPayablesIcpPK getId() {
-		return this.id;
-	}
+    public String getUserid() {
+        return userid;
+    }
 
-	public void setId(SetPayablesIcpPK id) {
-		this.id = id;
-	}
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
-	@Override
-	public String toString() {
-		return "SetPayablesIcp [id=" + id + ", userid=" + userid + ", modified=" + modified + "]";
-	}
+    public String getModified() {
+        return modified;
+    }
 
-	public String getUserid() {
-		return userid;
-	}
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
 
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-
-	public String getModified() {
-		return modified;
-	}
-
-	public void setModified(String modified) {
-		this.modified = modified;
-	}
-
-
+    @Override
+    public String toString() {
+        return String.format("SetPayablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid,
+                modified);
+    }
 
 }
