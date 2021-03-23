@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * The persistent class for the hfm_ffss database table.
@@ -34,6 +36,7 @@ public class HfmFfss implements Serializable {
 
 	public HfmFfss() {
 	    this.setId(new HfmFfssPK());
+	    this.balance = new BigDecimal(0);
 	}
 
 	public HfmFfssPK getId() {
@@ -74,6 +77,13 @@ public class HfmFfss implements Serializable {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+	
+	public String getFormatedBalance() {
+	    String retval;
+	    NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+	    retval = nf.format(this.balance) + " " + this.getId().getCurrencyCode();
+	    return retval;
 	}
 
 	@Override

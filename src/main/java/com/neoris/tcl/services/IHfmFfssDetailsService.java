@@ -17,5 +17,9 @@ public interface IHfmFfssDetailsService {
 	List<HfmFfssDetails> saveAll(List<HfmFfssDetails> entityList);
 
 	void delete(HfmFfssDetails entity);
+	
+	void deleteAll(List<HfmFfssDetails> entityList);
+	
+	List<HfmFfssDetails> findByCompanyIdAndHfmcodeAndPeriod(Long companyId, String hfmcode, String period);
 
 }

@@ -20,6 +20,7 @@ import com.neoris.tcl.services.IHfmRollupEntriesService;
 public class ProcessRollUps implements Runnable {
 
 	private final static Logger LOG = LoggerFactory.getLogger(ProcessRollUps.class);
+
 	private HfmRollupEntries rollUp;
 	private IHfmRollupEntriesService service;
 	private String process;
@@ -209,7 +210,6 @@ public class ProcessRollUps implements Runnable {
 	private void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         this.facesContext.addMessage(null, message);
-        //this.primefaces.ajax().update("rollupForm:messages");
     }
     
 

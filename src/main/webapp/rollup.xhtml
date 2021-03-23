@@ -8,46 +8,53 @@
 
 	<ui:define name="css">
 		<style type="text/css">
-			.ui-datatable-tablewrapper {
-				font-size: small;
-				font-family: system-ui;
-			}
-			
-			.ui-panelgrid.rollup-text-align-center .ui-grid-responsive .ui-panelgrid-cell
-				{
-				text-align: center;
-			}
-			
-			.customPanelGrid .ui-panelgrid-content {
-				align-items: center;
-			}
-			
-			.ui-panelgrid.rollup-text-align-left .ui-grid-responsive .ui-panelgrid-cell
-				{
-				text-align: left;
-			}
-			
-			.blink_me {
-				animation: blinker 1s linear infinite;
-			}
-			
-			@keyframes blinker { 50% {
-				opacity: 0;
-			}
-			
-			}
-			.blink_me.red {
-				background: red;
-				color: white;
-			}
-			
-			.blink_me.blue {
-				background: blue;
-				color: white;
-				width: 33%;
-				text-align: center;
-			}
-		</style>
+.ui-datatable-tablewrapper {
+	font-size: small;
+	font-family: system-ui;
+}
+
+.rollup-text-align-center {
+	text-align: center;
+}
+
+.ui-panelgrid-content {
+	align-items: center;
+}
+
+.rollup-text-align-left {
+	text-align: left;
+}
+
+.rollup-text-align-right {
+	text-align: right;
+}
+
+.negative {
+	color: red;
+}
+
+.blink_me {
+	animation: blinker 1s linear infinite;
+}
+
+@
+keyframes blinker { 50% {
+	opacity: 0;
+}
+
+}
+.blink_me.red {
+	background: red;
+	color: white;
+}
+
+.blink_me.blue {
+	background: blue;
+	color: white;
+	width: 33%;
+	text-align: center;
+}
+</style>
 	</ui:define>
 	<ui:define name="js">
 		<script>
@@ -66,22 +73,25 @@
 					e.focus();
 				}
 			}
-		</script>
+        </script>
 	</ui:define>
-	
+
 	<ui:define name="title">
 		<title>${rollupControllerBean.title}</title>
 	</ui:define>
-	
+
 	<ui:define name="header">
-		<h1><i class="fa fa-cogs fa-lg"></i><h:outputText value=" ${rollupControllerBean.title}" /></h1>
+		<h1>
+			<i class="fa fa-cogs fa-lg"></i>
+			<h:outputText value=" ${rollupControllerBean.title}" />
+		</h1>
 	</ui:define>
-	
+
 	<ui:define name="content">
 		<h:form id="#{rollupControllerBean.formNameId}">
 			<div class="card">
 				<p:growl id="messages" showDetail="true" />
-				<h:messages globalOnly="true" id="globalMsgId"/>			
+				<h:messages globalOnly="true" id="globalMsgId" />
 
 				<p:toolbar>
 					<p:toolbarGroup>
@@ -98,170 +108,238 @@
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
+				<p:tabView id="tabViewRollUps" widgetVar="wvTabViewRollUps">
+					<p:ajax event="tabChange" listener="#{rollupControllerBean.onTabChange}" update=":#{rollupControllerBean.formNameId}:messages" />
+					<p:ajax event="tabClose" listener="#{rollupControllerBean.onTabClose}" update=":#{rollupControllerBean.formNameId}:messages" />
+					<p:tab title="RollUps" id="tabRollUp">
+						<p:dataTable id="dt-rollup" widgetVar="dtRollUps" var="rollup"
+							value="#{rollupControllerBean.lstRollUps}" reflow="true"
+							styleClass="ui-datatable-tablewrapper"
+							selection="#{rollupControllerBean.lstSelectedRollups}"
+							rowKey="#{rollup.companyid}" paginator="true" rows="10"
+							resizableColumns="true" resizeMode="expand"
+							rowSelectMode="checkbox" paginatorPosition="bottom"
+							rowIndexVar="ruItem">
+							<f:facet name="header">
+								<div class="rollups-table-header">
+									<span style="font-weight: bold">ROLLUP</span>
+								</div>
+							</f:facet>
+							<p:ajax event="rowSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+							<p:ajax event="rowUnselect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+							<p:ajax event="rowSelectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+							<p:ajax event="rowUnselectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+							<p:ajax event="toggleSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
 
-				<p:dataTable id="dt-rollup" 
-					widgetVar="dtRollUps"
-					var="rollup"
-					value="#{rollupControllerBean.lstRollUps}" 
-					reflow="true"
-					styleClass="ui-datatable-tablewrapper"
-					selection="#{rollupControllerBean.lstSelectedRollups}" 
-					rowKey="#{rollup.companyid}"
-					paginator="true"
-					rows="10"
-					resizableColumns="true"
-					resizeMode="expand"
-					rowSelectMode="checkbox"
-					paginatorPosition="bottom"
-					rowIndexVar="ruItem">
-					<f:facet name="header">
-						<div class="rollups-table-header">
-							<span style="font-weight: bold">ROLLUP</span>
-						</div>
-					</f:facet>					
-					<p:ajax event="rowSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
-					<p:ajax event="rowUnselect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
-					<p:ajax event="rowSelectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
-					<p:ajax event="rowUnselectCheckbox" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
-					<p:ajax event="toggleSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
+							<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
 
-					<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
+							<p:column headerText="Entity" styleClass="rollup-text-align-left">
+								<h:outputText value="#{rollup.entity}" />
+							</p:column>
 
-					<p:column headerText="Entity" styleClass="ui-panelgrid.rollup-text-align-left">
-						<h:outputText value="#{rollup.entity}" />
-					</p:column>
+							<p:column headerText="Application" styleClass="rollup-text-align-left">
+								<h:outputText value="#{rollup.rapplication}" />
+							</p:column>
 
-					<p:column headerText="Application" styleClass="ui-panelgrid.rollup-text-align-left">
-						<h:outputText value="#{rollup.rapplication}" />
-					</p:column>
+							<p:column headerText="Scenario" styleClass="rollup-text-align-left">
+								<h:outputText value="#{rollup.scenario}" />
+							</p:column>
 
-					<p:column headerText="Scenario" styleClass="ui-panelgrid.rollup-text-align-left">
-						<h:outputText value="#{rollup.scenario}" />
-					</p:column>
+							<p:column headerText="Year">
+								<h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
+									<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
+								</h:inputText>
+							</p:column>
 
-					<p:column headerText="Year">
-						<h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
-							<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none"/>							
-						</h:inputText>
-					</p:column>
+							<p:column headerText="Period">
+								<h:selectOneMenu id="month" value="#{rollup.rperiod}">
+									<f:selectItem itemLabel="JAN" itemValue="JAN" />
+									<f:selectItem itemLabel="FEB" itemValue="FEB" />
+									<f:selectItem itemLabel="MAR" itemValue="MAR" />
+									<f:selectItem itemLabel="APR" itemValue="APR" />
+									<f:selectItem itemLabel="MAY" itemValue="MAY" />
+									<f:selectItem itemLabel="JUN" itemValue="JUN" />
+									<f:selectItem itemLabel="JUL" itemValue="JUL" />
+									<f:selectItem itemLabel="AUG" itemValue="AUG" />
+									<f:selectItem itemLabel="SEP" itemValue="SEP" />
+									<f:selectItem itemLabel="OCT" itemValue="OCT" />
+									<f:selectItem itemLabel="NOV" itemValue="NOV" />
+									<f:selectItem itemLabel="DEC" itemValue="DEC" />
+									<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
+								</h:selectOneMenu>
+							</p:column>
 
-					<p:column headerText="Period">
-                        <h:selectOneMenu id="month" value="#{rollup.rperiod}">
-                          <f:selectItem itemLabel="JAN" itemValue="JAN" />
-                          <f:selectItem itemLabel="FEB" itemValue="FEB"/>
-                          <f:selectItem itemLabel="MAR" itemValue="MAR"/>
-                          <f:selectItem itemLabel="APR" itemValue="APR"/>
-                          <f:selectItem itemLabel="MAY" itemValue="MAY"/>
-                          <f:selectItem itemLabel="JUN" itemValue="JUN"/>
-                          <f:selectItem itemLabel="JUL" itemValue="JUL"/>
-                          <f:selectItem itemLabel="AUG" itemValue="AUG"/>
-                          <f:selectItem itemLabel="SEP" itemValue="SEP"/>
-                          <f:selectItem itemLabel="OCT" itemValue="OCT"/>
-                          <f:selectItem itemLabel="NOV" itemValue="NOV"/>
-                          <f:selectItem itemLabel="DEC" itemValue="DEC"/>
-                          <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none"/>
-                        </h:selectOneMenu>
-					</p:column>
+							<p:column headerText="view">
+								<h:outputText value="#{rollup.rview}" />
+							</p:column>
 
-					<p:column headerText="view">
-						<h:outputText value="#{rollup.rview}" />
-					</p:column>
+							<p:column headerText="value">
+								<h:outputText value="#{rollup.rvalue}" />
+							</p:column>
 
-					<p:column headerText="value">
-						<h:outputText value="#{rollup.rvalue}" />
-					</p:column>
+							<p:column headerText="Trial Balance" styleClass="rollup-text-align-center">
+								<i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
+									<h:outputText value="#{rollup.attribute1}" 
+										class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+								</i>
+							</p:column>
 
-					<p:column headerText="Trial Balance" styleClass="ui-panelgrid.rollup-text-align-center">
-						<i class="fa fa-cog fa-spin fa-3x fa-fw" id="i-ru-tb-#{rollup.companyid}">
-							<h:outputText value="#{rollup.attribute1}" class="sr-only"/>
-						</i>
-					</p:column>
+							<p:column headerText="Payables"
+								styleClass="rollup-text-align-center">
+								<i class="#{rollup.payablesIcon}" id="i-ru-py-#{rollup.companyid}">
+									<h:outputText value="#{rollup.attribute2}"
+										class="#{empty rollup.payablesIcon ? '': 'sr-only'}" />
+								</i>
+							</p:column>
 
-					<p:column headerText="Payables" styleClass="ui-panelgrid.rollup-text-align-center">
-						<i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="i-ru-py-#{rollup.companyid}">
-							<h:outputText value="#{rollup.attribute2}" class="sr-only"/>
-						</i>
-					</p:column>
+							<p:column headerText="Receivables"
+								styleClass="rollup-text-align-center">
+								<i class="#{rollup.receivablesIcon}" id="i-ru-rc-#{rollup.companyid}">
+									<h:outputText value="#{rollup.attribute3}"
+										class="#{empty rollup.receivablesIcon ? '': 'sr-only'}" />
+								</i>
+							</p:column>
 
-					<p:column headerText="Receivables" styleClass="ui-panelgrid.rollup-text-align-center">
-						<i class="fa fa-refresh fa-spin fa-3x fa-fw" id="i-ru-rc-#{rollup.companyid}">
-						<h:outputText value="#{rollup.attribute3}" class="sr-only"/>
-						</i>
-					</p:column>
+							<p:column headerText="Gains/looses"
+								styleClass="rollup-text-align-center">
+								<i class="#{rollup.gainsLoosesIcon}" id="i-ru-gl-#{rollup.companyid}">
+									<h:outputText value="#{rollup.attribute4}"
+										class="#{empty rollup.gainsLoosesIcon ? '': 'sr-only'}" />
+								</i>
+							</p:column>
 
-					<p:column headerText="Gains/looses" styleClass="ui-panelgrid.rollup-text-align-center">
-						<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" id="i-ru-gl-#{rollup.companyid}">
-						<h:outputText value="#{rollup.attribute4}" class="sr-only"/>
-						</i>
-					</p:column>
+							<p:column headerText="Export Sales">
+								<i class="#{rollup.exportSalesIcon}" id="i-ru-es-#{rollup.companyid}">
+									<h:outputText value="#{rollup.attribute5}"
+										class="#{empty rollup.exportSalesIcon ? '': 'sr-only'}" />
+								</i>
+							</p:column>
 
-					<p:column headerText="Export sales">
-						<i class="fa fa-spinner fa-spin fa-3x fa-fw" id="i-ru-es-#{rollup.companyid}">
-						<h:outputText value="#{rollup.attribute5}" class="sr-only"/>
-						</i>
-					</p:column>
+							<p:column headerText="Action" exportable="false">
+								<p:commandButton id="btnView" icon="fa fa-search-plus"
+									oncomplete="PF('wvTabViewRollUps').enable(1); PF('wvTabViewRollUps').select(1)"
+									update="rollupForm:tabViewRollUps:dt-hfm-tab-ffss"
+									styleClass="edit-button rounded-button ui-button-success"
+									process="@this" alt="view detail">
+									<f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+					<p:tab title="HHFF" id="tabHHFF" disabled="true">
+						<p class="p-m-0">
+							<p:dataTable id="dt-hfm-tab-ffss" widgetVar="dtHfmFfss"
+								var="hfmffss" value="#{rollupControllerBean.lstHfmFfss}"
+								reflow="true" styleClass="hfmffss-table"
+								rowKey="#{hfmffss.companyid}" paginator="true" rows="10"
+								resizableColumns="true" resizeMode="expand"
+								paginatorPosition="bottom">
+								<f:facet name="header">
+									<p:toolbar id="toolbar-hfmffss">
+										<p:toolbarGroup>
+											<div class="hfmffss-table-header">
+												<h:outputText
+													value="HFM FFSS for Company=#{rollupControllerBean.curRollUp.companyid}, Period=#{rollupControllerBean.curRollUp.rperiod}, Year=#{rollupControllerBean.curRollUp.ryear}"
+													style="font-weight: bold" />
+											</div>
+										</p:toolbarGroup>
+										<p:toolbarGroup align="right">
+											<p:commandButton value="Export" id="btnExport"
+												icon="fa fa-file-excel-o" styleClass="ui-button-help"
+												title="Export to excel" ajax="false"
+												disabled="#{empty rollupControllerBean.lstHfmFfss}">
+												<p:dataExporter type="xls" target="tabViewRollUps:dt-hfm-tab-ffss" fileName="HFMFFSS" />
+											</p:commandButton>
+										</p:toolbarGroup>
+									</p:toolbar>
+								</f:facet>
+								<p:column headerText="Hfmcode">
+									<h:outputText value="#{hfmffss.id.hfmcode}" />
+								</p:column>
+								<p:column headerText="Amount"
+									styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
+									<h:outputText value="#{hfmffss.balance}">
+										<f:convertNumber type="currency" currencySymbol="$" locale="US" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Balance"
+									styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
+									<h:outputText value="#{hfmffss.formatedBalance}" />
+								</p:column>
+								<p:column headerText="Curency Code">
+									<h:outputText value="#{hfmffss.id.currencyCode}" />
+								</p:column>
+								<p:column headerText="Updated">
+									<h:outputText value="#{hfmffss.updated}">
+										<f:convertDateTime type="date" dateStyle="medium" locale="US" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Error">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="Action" exportable="false">
+									<p:commandButton id="btnViewDetail" icon="pi pi-eye"
+										oncomplete="PF('wvTabViewRollUps').enable(2); PF('wvTabViewRollUps').select(2)"
+										update="rollupForm:tabViewRollUps:dt-hfm-tab-ffss-details"
+										styleClass="edit-button rounded-button ui-button-success"
+										process="@this" alt="view detail" value="Details">
+										<f:ajax execute="@this" listener="#{rollupControllerBean.curHfmffssClic}" event="click" />
+										<f:setPropertyActionListener value="#{hfmffss}" target="#{rollupControllerBean.curHfmFfss}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p>
+					</p:tab>
+					<p:tab title="HHFF Detail" id="tabHHFFDetail" disabled="true">
+						<p:dataTable id="dt-hfm-tab-ffss-details"
+							widgetVar="dtHfmFfssDetails" var="hfmffssDetail"
+							value="#{rollupControllerBean.lstHfmFfssDetails}" reflow="true"
+							styleClass="ui-datatable-tablewrapper" paginator="true" rows="10"
+							resizableColumns="true" resizeMode="expand"
+							paginatorPosition="bottom">
+							<f:facet name="header">
+								<div class="hfmffss-table-header">
+									<span style="font-weight: bold">HFM FFSS DETAILS</span>
+								</div>
+							</f:facet>
+							<p:column headerText="ACCOUNT ID">
+								<h:outputText value="#{hfmffssDetail.id.accountid}" />
+							</p:column>
+							<p:column headerText="AMOUNT">
+								<h:outputText value="#{hfmffssDetail.id.amount}" />
+							</p:column>
+							<p:column headerText="COST CENTER">
+								<h:outputText value="#{hfmffssDetail.id.costcenter}" />
+							</p:column>
+							<p:column headerText="PARTNER ID">
+								<h:outputText value="#{hfmffssDetail.id.partnerid}" />
+							</p:column>
+							<p:column headerText="ICP">
+								<h:outputText value="#{hfmffssDetail.id.icp}" />
+							</p:column>
+							<p:column headerText="BATCH NAME">
+								<h:outputText value="#{hfmffssDetail.batchName}" />
+							</p:column>
+							<p:column headerText="DOC NUMBER">
+								<h:outputText value="#{hfmffssDetail.docnumber}" />
+							</p:column>
+							<p:column headerText="TP NAME">
+								<h:outputText value="#{hfmffssDetail.tpname}" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
 
-					<p:column headerText="Action" exportable="false">
-						<p:commandButton icon="pi pi-eye"
-							oncomplete="PF('manageRollupDialog').show()"
-							update=":#{rollupControllerBean.formNameId}:dt-hfm-ffss-details"
-							styleClass="edit-button rounded-button ui-button-success"
-							process="@this"
-							alt="view detail"
-							value="view">
-							<f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
-
-		        <p:confirmDialog global="true" showEffect="fade" width="300">
-		            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-		            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times"/>
-		        </p:confirmDialog>
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
 
 			</div>
 
-			<p:dialog header="View RollUp Details" widgetVar="manageRollupDialog"
-				width="600" height="400" showEffect="fade" modal="true">
-				<p class="p-m-0" id="dialogViewRollUpId">
-
-					<p:dataTable id="dt-hfm-ffss-details" 
-						widgetVar="dtHfmFfssDetails"
-						var="hfmffss" 
-						value="#{rollupControllerBean.lstHfmFfss}"
-						reflow="true" 
-						styleClass="hfmffss-table"
-						rowKey="#{hfmffss.companyid}" 
-						paginator="true" rows="10"
-						resizableColumns="true" 
-						resizeMode="expand"
-						paginatorPosition="bottom">
-						<f:facet name="header">
-							<div class="hfmffss-table-header">
-								<span style="font-weight: bold">HFM FFSS</span>
-							</div>
-						</f:facet>
-						<p:column headerText="Error">
-							<h:outputText value="" />
-						</p:column>
-						<p:column headerText="Hfmcode">
-							<h:outputText value="#{hfmffss.id.hfmcode}" />
-						</p:column>
-						<p:column headerText="Amount">
-							<h:outputText value="#{hfmffss.balance}" />
-						</p:column>
-					</p:dataTable>
-				</p>
-				<f:facet name="footer">
-					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('manageRollupDialog').hide()" />
-					<p:commandButton type="button" value="Refresh" style="width: 5rem">
-						<f:ajax execute="@none" render="#{rollupControllerBean.formNameId}:dt-hfm-ffss-details" />
-					</p:commandButton>
-				</f:facet>
-			</p:dialog>
-
-			<p:dialog header="Information" widgetVar="dlgMessage" id="dlgMessageId" minHeight="40" minWidth="350"
-				showEffect="fade" modal="true" closable="true">
+			<p:dialog header="Information" widgetVar="dlgMessage"
+				id="dlgMessageId" minHeight="40" minWidth="350" showEffect="fade"
+				modal="true" closable="true">
 				<p class="p-m-0" id="dialogMsgId"></p>
 				<f:facet name="footer">
 					<p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />

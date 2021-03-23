@@ -3,6 +3,7 @@ package com.neoris.tcl;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
+import org.apache.myfaces.context.servlet.ServletExternalContextImpl;
 import org.apache.myfaces.spi.WebConfigProvider;
 import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
@@ -62,6 +63,12 @@ public class AppConfig implements WebMvcConfigurer {
 //        org.springframework.web.context.request.RequestContextListener rl;
 		return listener;
 	}
+	
+//	public ServletExternalContextImpl getServletExternalContext() {
+//	    ServletExternalContextImpl retval = new ServletExternalContextImpl(null, null, null);
+//	    retval.set
+//	    
+//	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
