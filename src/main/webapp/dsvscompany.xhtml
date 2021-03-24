@@ -51,17 +51,12 @@
 				</p:toolbar>
 
 				<p:dataTable id="#{rollupentriesControllerBean.dataTableName}"
-					widgetVar="dtCodes" 
-					var="curtps"
+					widgetVar="dtCodes" var="currentid"
 					value="#{rollupentriesControllerBean.lstEntries}" reflow="true"
 					styleClass="products-table"
 					selection="#{rollupentriesControllerBean.lstSelectedEnt}"
-					rowKey="#{curtps.entity}" 
-					paginator="true" 
-					rows="10"
-					rowSelectMode="add" 
-					size="small" 
-					paginatorPosition="bottom">
+					rowKey="#{currentid.entity}" paginator="true" rows="10"
+					rowSelectMode="add" size="small" paginatorPosition="bottom">
 					<f:facet name="header">
 						<span style="font-weight: bold">${rollupentriesControllerBean.title}</span>
 					</f:facet>
@@ -71,19 +66,39 @@
 					<p:ajax event="rowUnselectCheckbox" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
 					<p:ajax event="toggleSelect" update=":form:#{rollupentriesControllerBean.deleteCodesButton}" />
 
-					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					<p:column headerText="Select" selectionMode="multiple"
+						exportable="false" width="10%">
 					</p:column>
 
-					<p:column headerText="entity" sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
-						<h:outputText value="#{curtps.entity}" />
+					<p:column headerText="Entity" sortBy="#{currentid.entity}"
+						filterBy="#{currentid.entity}">
+						<h:outputText value="#{currentid.entity}" />
 					</p:column>
 
-					<p:column headerText="rapplication"  sortBy="#{curtps.id.icpid}" filterBy="#{curtps.rapplication}">
-						<h:outputText value="#{curtps.rapplication}" />
+					<p:column headerText="Application"
+						sortBy="#{currentid.rapplication}"
+						filterBy="#{currentid.rapplication}">
+						<h:outputText value="#{currentid.rapplication}" />
 					</p:column>
 
-					<p:column headerText="scenario"  sortBy="#{curtps.icpdesc}" filterBy="#{curtps.scenario}">
-						<h:outputText value="#{curtps.scenario}" />
+					<p:column headerText="Scenario" sortBy="#{currentid.scenario}"
+						filterBy="#{currentid.scenario}">
+						<h:outputText value="#{currentid.scenario}" />
+					</p:column>
+
+					<p:column headerText="View" sortBy="#{currentrapplication}"
+						filterBy="#{currentid.rview}">
+						<h:outputText value="#{currentid.rview}" />
+					</p:column>
+
+					<p:column headerText="Value" sortBy="#{currentid.rvalue}"
+						filterBy="#{currentid.rvalue}">
+						<h:outputText value="#{currentid.rvalue}" />
+					</p:column>
+
+					<p:column headerText="Company Id" sortBy="#{currentid.rvalue}"
+						filterBy="#{currentid.companyid}">
+						<h:outputText value="#{currentid.companyid}" />
 					</p:column>
 
 					<p:column headerText="Actions" exportable="false" width="10%">
@@ -91,42 +106,64 @@
 							update=":form:manage-code-content"
 							oncomplete="PF('#{rollupentriesControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
-							style="margin-right: 0.3em" 
-							process="@this">
-							<f:setPropertyActionListener value="#{curtps}" target="#{rollupentriesControllerBean.currEntries}" />
+							style="margin-right: 0.3em" process="@this">
+							<f:setPropertyActionListener value="#{currentid}"
+								target="#{rollupentriesControllerBean.currEntries}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
 
 						<p:commandButton class="ui-button-warning rounded-button"
-							icon="pi pi-trash" 
-							process="@this" 
-							style="margin-left: 0.3em"
+							icon="pi pi-trash" process="@this" style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{curtps}" target="#{rollupentriesControllerBean.currEntries}" />
+							<f:setPropertyActionListener value="#{currentid}"
+								target="#{rollupentriesControllerBean.currEntries}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 
 				<!-- This form is for add new o modify a code -->
 
-				<p:dialog header="Company" showEffect="fade" modal="true"
+				<p:dialog header="Product Details" showEffect="fade" modal="true"
 					widgetVar="#{rollupentriesControllerBean.dialogName}"
 					responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
 						<p:outputPanel
 							rendered="#{not empty rollupentriesControllerBean.currEntries}">
 							<div class="p-field">
-								<p:outputLabel for="entity">ICPCode</p:outputLabel>
-								<p:inputText id="entity" value="#{rollupentriesControllerBean.currEntries.entity}" required="true" />
+								<p:outputLabel for="entity">Entity</p:outputLabel>
+								<p:inputText id="entity"
+									value="#{rollupentriesControllerBean.currEntries.entity}"
+									required="true" />
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="rapplication">ICPID</p:outputLabel>
-								<p:inputText id="rapplication" value="#{rollupentriesControllerBean.currEntries.rapplication}" required="true" />
+								<p:outputLabel for="rapplic">Application</p:outputLabel>
+								<p:inputText id="rapplic"
+									value="#{rollupentriesControllerBean.currEntries.rapplication}"
+									required="true" />
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="scenario">Description</p:outputLabel>
+								<p:outputLabel for="scenario">Scenario</p:outputLabel>
 								<p:inputText id="scenario"
 									value="#{rollupentriesControllerBean.currEntries.scenario}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="rview">View</p:outputLabel>
+								<p:inputText id="rview"
+									value="#{rollupentriesControllerBean.currEntries.rview}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="rvalue">Value</p:outputLabel>
+								<p:inputText id="rvalue"
+									value="#{rollupentriesControllerBean.currEntries.rvalue}"
+									required="true" />
+							</div>
+
+							<div class="p-field">
+								<p:outputLabel for="rvalue">Company Id</p:outputLabel>
+								<p:inputText id="companyId"
+									value="#{rollupentriesControllerBean.currEntries.companyid}"
 									required="true" />
 							</div>
 						</p:outputPanel>

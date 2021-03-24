@@ -256,18 +256,9 @@ keyframes blinker { 50% {
 								<p:column headerText="Hfmcode">
 									<h:outputText value="#{hfmffss.id.hfmcode}" />
 								</p:column>
-								<p:column headerText="Amount"
-									styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
-									<h:outputText value="#{hfmffss.balance}">
-										<f:convertNumber type="currency" currencySymbol="$" locale="US" />
-									</h:outputText>
-								</p:column>
 								<p:column headerText="Balance"
 									styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
 									<h:outputText value="#{hfmffss.formatedBalance}" />
-								</p:column>
-								<p:column headerText="Curency Code">
-									<h:outputText value="#{hfmffss.id.currencyCode}" />
 								</p:column>
 								<p:column headerText="Updated">
 									<h:outputText value="#{hfmffss.updated}">
