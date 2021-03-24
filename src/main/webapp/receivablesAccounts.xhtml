@@ -5,15 +5,12 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
-
 	<ui:define name="Accounts Receivable Trading Partner">
 		<title>${receivablesaccControllerBean.title}</title>
-	</ui:define>
-	
+	</ui:define>	
 	<ui:define name="header">
 		<h1>${receivablesaccControllerBean.title}</h1>
-	</ui:define>
-	
+	</ui:define>	
 	<ui:define name="content">
 		<h:form id="form">
 			<div class="card">
@@ -21,6 +18,8 @@
 
 				<div class="products-buttonbar">
 					<div>
+					<p:toolbar>
+					<p:toolbarGroup>
 						<p:commandButton value="New" 
 							icon="pi pi-plus"
 							actionListener="#{receivablesaccControllerBean.openNew}"
@@ -42,6 +41,16 @@
 								message="Delete the selected codes Types?"
 								icon="pi pi-exclamation-triangle"/>
 						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{receivablesaccControllerBean.dataTableName}"
+								fileName="${receivablesaccControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
 					</div>
 				</div>
 
@@ -59,6 +68,7 @@
 					size="small"
 					paginatorPosition="bottom">
 					<f:facet name="header">
+						<span style="font-weight: bold">${receivablesaccControllerBean.title}</span>
 					</f:facet>
 					<p:ajax event="rowSelect" update=":form:#{receivablesaccControllerBean.deleteCodesButton}" />
 					<p:ajax event="rowUnselect" update=":form:#{receivablesaccControllerBean.deleteCodesButton}" />
@@ -78,10 +88,16 @@
 						<h:outputText value="#{current.companynm}" />
 					</p:column>
 					
-					<p:column headerText="Cust No." 
+					<p:column headerText="Customer No." 
 						sortBy="#{current.custno}"
 						filterBy="#{current.custno}">
 						<h:outputText value="#{current.custno}" />
+					</p:column>
+					
+					<p:column headerText="Customer Nanme." 
+						sortBy="#{current.custname}"
+						filterBy="#{current.custname}">
+						<h:outputText value="#{current.custname}" />
 					</p:column>
 					
 					<p:column headerText="ICP Code" 
@@ -120,16 +136,21 @@
 					responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
 						<p:outputPanel rendered="#{not empty receivablesaccControllerBean.currentRecTab}">
-							<div class="p-field">
-								<p:outputLabel for="companyid">Company</p:outputLabel>
-								<p:inputText id="companyid" 
-									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"
-									required="true" />
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="companyid" value="Company" />
+								<p:selectOneMenu id="companyid"
+									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{rollupentriesControllerBean.lstEntries}"
+									var="itemp" 
+										itemLabel="#{itemp.entity}"
+										itemValue="#{itemp.companyid}" />
+								</p:selectOneMenu>
 							</div>
 							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="icpcode" value="icpcode" />
+								<p:outputLabel for="icpcode" value="ICP Code" />
 								<p:selectOneMenu id="icpcode"
-									value="#{receivablesaccControllerBean.currentRecTab.icpcode}">
+									value="#{receivablesaccControllerBean.currentRecTab.icpcode}"  filter="true" filterMatchMode="startsWith">
 									<f:selectItem itemLabel="Select One" itemValue="" />
 									<f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
 										var="item" 
@@ -137,19 +158,18 @@
 										itemValue="#{item.id.icpcode}" />
 								</p:selectOneMenu>
 							</div>
-							
 							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="custno" value="custno" />
+								<p:outputLabel for="custno" value="Customer" />
 								<p:selectOneMenu id="custno"
-									value="#{receivablesaccControllerBean.currentRecTab.id.custno}">
+									value="#{receivablesaccControllerBean.currentRecTab.id.custno}"  filter="true" filterMatchMode="startsWith">
 									<f:selectItem itemLabel="Select One" itemValue="" />
 									<f:selectItems value="#{viewcustreceivablesControllerBean.lstCustno}"
 										var="itemc" 
-										itemLabel="#{itemc.custno}"
-										itemValue="#{itemc.custno}" 
-										/>
+										itemLabel="#{itemc.custname}"
+										itemValue="#{itemc.custno}" />										
 								</p:selectOneMenu>
 							</div>
+							
 							
 							
 						</p:outputPanel>

@@ -109,9 +109,10 @@ public class HfmRollupEntriesController {
         return retval;
     }
 
-    public String getTitle() {
-        return "Trading Partner Type Setting";
-    }
+	    
+	  public String getTitle() {
+	        return "HFM Input Data by Company";
+	    }
 
     public String getDialogName() {
         return "manageCodeDialog";

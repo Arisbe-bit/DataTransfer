@@ -19,9 +19,20 @@ public class ViewCustReceivablesService implements IViewCustReceivablesService{
 	@Autowired
 	private ViewCustReceivablesDao data;
 
+	
+	
 	@Override
 	public List<ViewCustReceivables> findAll() {
 		return  (List<ViewCustReceivables>) data.findAll();
-	};
+	}
+
+
+
+	@Override
+	public List<ViewCustReceivables> findByOrganizationid(int organizationid) {
+		return  data.findByOrganizationid(organizationid);	
+	}
+
+	
 
 }

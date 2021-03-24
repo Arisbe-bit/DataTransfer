@@ -75,8 +75,7 @@ public class MenuController {
     public String hfmcodestypes() {
         return String.format(REDIRECT, "tradingpartnertypes");
     }
-    
-  
+     
     
     public String hfmcodesOA() {
         return String.format(REDIRECT, "hfmcodesOA");
@@ -109,13 +108,25 @@ public class MenuController {
     public String rollup() {
         return String.format(REDIRECT, "rollup");
     }
+    
+    public String rolluphist() {
+        return String.format(REDIRECT, "rolluphist");
+    }
+    
+    public String layout() {
+        return String.format(REDIRECT, "layout");
+    }
+    
+    public String administration() {
+        return String.format(REDIRECT, "administration");
+    }
 
     public MenuModel getModel() {
         return model;
     }
     
     public String getDataSourceVsCompany() {
-        return "DataSource Vs Company";
+        return "Entries By Company";
     }
     
     public String getRollUpText() {
