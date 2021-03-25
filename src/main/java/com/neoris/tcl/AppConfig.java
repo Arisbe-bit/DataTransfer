@@ -3,7 +3,6 @@ package com.neoris.tcl;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
-import org.apache.myfaces.context.servlet.ServletExternalContextImpl;
 import org.apache.myfaces.spi.WebConfigProvider;
 import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
@@ -21,60 +20,60 @@ import com.neoris.tcl.utils.ViewScope;
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
-	private final static Logger LOG = LoggerFactory.getLogger(AppConfig.class);
+    private final static Logger LOG = LoggerFactory.getLogger(AppConfig.class);
 
-	@Bean
-	public ServletRegistrationBean<FacesServlet> servletRegistrationBean() {
-		LOG.info("Creating ServletRegistrationBean...");
-		FacesServlet servlet = new FacesServlet();
-		ServletRegistrationBean<FacesServlet> servletRegistrationBean = 
-				new ServletRegistrationBean<FacesServlet>(servlet, "*.xhtml", "*.jsf", "/faces/*");
-		servletRegistrationBean.setLoadOnStartup(1);
-		return servletRegistrationBean;
-	}
+    @Bean
+    public ServletRegistrationBean<FacesServlet> servletRegistrationBean() {
+        LOG.info("Creating ServletRegistrationBean...");
+        FacesServlet servlet = new FacesServlet();
+        ServletRegistrationBean<FacesServlet> servletRegistrationBean = new ServletRegistrationBean<FacesServlet>(
+                servlet, "*.xhtml", "*.jsf", "/faces/*");
+        servletRegistrationBean.setLoadOnStartup(1);
+        return servletRegistrationBean;
+    }
 
-	@Bean
-	public ServletContextListener listener() {
-		LOG.info("Creating ServletContextListener...");
-		ServletContextListener listener = new StartupServletContextListener();
-		return listener;
-	}
+    @Bean
+    public ServletContextListener listener() {
+        LOG.info("Creating ServletContextListener...");
+        ServletContextListener listener = new StartupServletContextListener();
+        return listener;
+    }
 
-	@Bean
-	public WebConfigProvider webConfig() {
-		LOG.info("Creating WebConfigProvider...");
-		WebConfigProvider provider = new DefaultWebConfigProvider();
-		return provider;
-	}
+    @Bean
+    public WebConfigProvider webConfig() {
+        LOG.info("Creating WebConfigProvider...");
+        WebConfigProvider provider = new DefaultWebConfigProvider();
+        return provider;
+    }
 
-	@Bean
-	public static CustomScopeConfigurer viewScope() {
-		LOG.info("Configuring Custom View Scope...");
-		CustomScopeConfigurer viewScope = new CustomScopeConfigurer();
-		viewScope.addScope(ViewScope.VIEW, new ViewScope());
-		return viewScope;
-	}
+    @Bean
+    public static CustomScopeConfigurer viewScope() {
+        LOG.info("Configuring Custom View Scope...");
+        CustomScopeConfigurer viewScope = new CustomScopeConfigurer();
+        viewScope.addScope(ViewScope.VIEW, new ViewScope());
+        return viewScope;
+    }
 
-	@Bean
-	public ServletContextListener getContextListener() {
-		LOG.info("Configuring ServletContextListener...");
-		StartupServletContextListener listener = new StartupServletContextListener();
+    @Bean
+    public ServletContextListener getContextListener() {
+        LOG.info("Configuring ServletContextListener...");
+        StartupServletContextListener listener = new StartupServletContextListener();
 //        org.springframework.web.context.ContextLoaderListener cl;
 //        org.springframework.web.context.request.RequestContextListener rl;
-		return listener;
-	}
-	
+        return listener;
+    }
+
 //	public ServletExternalContextImpl getServletExternalContext() {
 //	    ServletExternalContextImpl retval = new ServletExternalContextImpl(null, null, null);
 //	    retval.set
 //	    
 //	}
 
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		LOG.info("Configuring addViewControllers...");
-		// registry.addViewController("/").setViewName("/faces/index.xhtml");
-		registry.addViewController("/").setViewName("/index.xhtml");
-	}
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        LOG.info("Configuring addViewControllers...");
+        // registry.addViewController("/").setViewName("/faces/index.xhtml");
+        registry.addViewController("/").setViewName("/index.xhtml");
+    }
 
 }
