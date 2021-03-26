@@ -26,31 +26,31 @@ public interface IHfmRollupEntriesService {
 
     void deleteAll(List<HfmRollupEntries> entityList);
 
-    void rollUpStart(int P_ORGID, String P_PERIOD, int P_YEAR, String P_SEGMENT, String P_USERID);
+    void rollUpStart(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
-    void getHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, int P_YEAR, String P_CONCEP, String P_USERID);
+    void getHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_CONCEP, String P_USERID);
 
-    void rollUpDrillCostMngDetGetHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, int P_YEAR, String P_CONCEP);
+    void rollUpDrillCostMngDetGetHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_CONCEP);
 
-    void costManager1Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager1Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager2Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager2Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager3Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager3Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager4Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager4Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager5Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager5Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager6Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager6Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager7Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager7Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager8Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager8Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void costManager9Drills(String P_PERIOD, int P_YEAR, String P_USERID);
+    void costManager9Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
 
-    void rollUpValidations(int P_ORGID, String P_PERIOD, int P_YEAR, String P_SEGMENT, String P_USERID);
+    void rollUpValidations(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
-    void rollUpMatchAccounts(int P_ORGID, String P_PERIOD, int P_YEAR, String P_USERID);
+    void rollUpMatchAccounts(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
 }

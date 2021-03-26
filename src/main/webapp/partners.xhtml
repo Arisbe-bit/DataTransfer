@@ -77,6 +77,10 @@
 					<p:column headerText="IPC Code" sortBy="#{curtps.id.icpcode}" filterBy="#{curtps.id.icpcode}">
 						<h:outputText value="#{curtps.id.icpcode}" />
 					</p:column>
+					
+					<p:column headerText="Trading Partner Type" sortBy="#{curtps.tptype}" filterBy="#{curtps.tptype}">
+						<h:outputText value="#{curtps.tptype}" />
+					</p:column>
 
 					<p:column headerText="IPC Id"  sortBy="#{curtps.id.icpid}" filterBy="#{curtps.id.icpid}">
 						<h:outputText value="#{curtps.id.icpid}" />
@@ -118,6 +122,16 @@
 							<div class="p-field">
 								<p:outputLabel for="ICPCode">ICPCode</p:outputLabel>
 								<p:inputText id="ICPCode" value="#{tradingpartnerControllerBean.curtp.id.icpcode}" required="true" />
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="tptype" value="Type" />
+								<p:selectOneMenu id="tptype"
+									value="#{tradingpartnerControllerBean.curtp.tptype}">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{tptypesControllerBean.lsttpType}"
+										var="item" itemLabel="#{item.tptype}"
+										itemValue="#{item.tptype}" />
+								</p:selectOneMenu>
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="ICPID">ICPID</p:outputLabel>

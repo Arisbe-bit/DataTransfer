@@ -28,6 +28,8 @@ import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ProcessRollUps;
 import com.neoris.tcl.utils.ViewScope;
 
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
+
 import static com.neoris.tcl.services.IHfmRollupEntriesService.*;
 
 @Controller(value = "rollupControllerBean")
@@ -131,7 +133,8 @@ public class RollupController {
         // 1.- Start RollUp Service.
         rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
-        service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment(), "admin");
+        LOG.info("Processing Roolup Start ");
+        service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment1(), "admin");
         rollUp.setAttribute1(HfmRollupEntries.STATUS_OK);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
 
@@ -139,10 +142,10 @@ public class RollupController {
         processDrillDetails(rollUp);
 
         // 3.- Process Cost Manager
-        processCostManager(rollUp);
+        //processCostManager(rollUp);//getheader
 
         // 4.- Run the Drills...
-        processDrils(rollUp);
+       // processDrils(rollUp);
 
         // 5.- Run the validations..
         processValidations(rollUp);
@@ -271,7 +274,7 @@ public class RollupController {
 
         // wait for finish
         try {
-            drillRollUp9Tread.sleep(5000);
+          //  drillRollUp9Tread.sleep(5000);
             drillRollUp1Tread.join();
             drillRollUp2Tread.join();
             drillRollUp3Tread.join();
@@ -305,6 +308,7 @@ public class RollupController {
         Thread otherThread = null;
 
         ProcessRollUps rollUpPayables = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES, 0, false, false);
+        LOG.info("******rollUpPayables*****" + rollUpPayables);
         ProcessRollUps rollUpReceivables = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES, 0, false, false);
         ProcessRollUps rollUpPayroll = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLL, 0, false, false);
         ProcessRollUps rollUpAssets = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSET, 0, false, false);
@@ -342,7 +346,7 @@ public class RollupController {
 
         // 3.- wait for finish these process and start Costmanager
         try {
-            otherThread.sleep(5000);
+            //otherThread.sleep(5000);
             payablesThread.join();
             receivablesThread.join();
             payrollThread.join();
@@ -387,10 +391,12 @@ public class RollupController {
     public void setCurRollUp(HfmRollupEntries curRollUp) {
         LOG.info("Recibo curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
-        String period = curRollUp.getFullPeriod();
+        String period = curRollUp.getRperiod();
+        String ryear =  curRollUp.getRyear();
 
         LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
-        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period);
+        
+        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period+"-"+  String.valueOf(ryear));
         if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
             Functions.addWarnMessage("Attention",
                     String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
@@ -412,7 +418,7 @@ public class RollupController {
         this.curHfmFfss = curHfmFfss;
         LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}, period = {}",
                 curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(), curHfmFfss.getId().getPeriod());
-        this.lstHfmFfssDetails = hfmFfssDetailsService.findByCompanyIdAndHfmcodeAndPeriod(
+        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentAndPeriodname(
                 curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(), curHfmFfss.getId().getPeriod());
 
         if (this.lstHfmFfssDetails == null || this.lstHfmFfssDetails.isEmpty()) {

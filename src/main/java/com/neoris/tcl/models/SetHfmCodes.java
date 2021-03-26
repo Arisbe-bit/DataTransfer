@@ -31,22 +31,31 @@ public class SetHfmCodes implements Serializable {
 	private String global_val;
 	
 	private String ordernum;
+	
+	private int naturalsign;
+
+	
 
 	public SetHfmCodes() {
 	}
 
 
-	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String global_val,
-			String ordernum) {
 
+
+	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String global_val,
+			String ordernum, int naturalsign) {
+	
 		this.hfmcode = hfmcode;
 		this.tptype = tptype;
 		this.classification = classification;
 		this.naturalb = naturalb;
 		this.global_val = global_val;
 		this.ordernum = ordernum;
+		this.naturalsign = naturalsign;
 	}
 
+
+	
 	public String getHfmcode() {
 		return this.hfmcode;
 	}
@@ -73,6 +82,14 @@ public class SetHfmCodes implements Serializable {
 		this.classification = classification;
 	}
 
+	public int getNaturalsign() {
+		return naturalsign;
+	}
+
+
+	public void setNaturalsign(int naturalsign) {
+		this.naturalsign = naturalsign;
+	}
 
 	public String getNaturalb() {
 		return naturalb;
@@ -107,7 +124,8 @@ public class SetHfmCodes implements Serializable {
 	@Override
 	public String toString() {
 		return "SetHfmCodes [hfmcode=" + hfmcode + ", tptype=" + tptype + ", classification=" + classification
-				+ ", naturalb=" + naturalb + ", global_val=" + global_val + ", ordernum=" + ordernum + "]";
+				+ ", naturalb=" + naturalb + ", global_val=" + global_val + ", ordernum=" + ordernum + ", naturalsign="
+				+ naturalsign + "]";
 	}
 
 	

@@ -18,21 +18,21 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_SEGMENT.- Segment
 	 * @param p_userid.-  User ID
 	 */
-	@Procedure("ROLLUP_START")
-	void rollUpStart(int P_ORGID, String P_PERIOD, int P_YEAR, String P_SEGMENT, String P_USERID);
+	@Procedure("rollup_start")
+	void rollUpStart(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
 	/**
 	 * Stored Procedure for getting Header
 	 * 
 	 * @param P_ORGID
 	 * @param P_SEGMENT
-	 * @param P_FEC_INI
-	 * @param P_FEC_FIN
+	 * @param P_PERIOD
+	 * @param P_YEAR
 	 * @param P_CONCEP
 	 * @param p_userid
 	 */
-	@Procedure("ROLLUP_DRILL_DETAIL_GET_HEADERS")
-	void getHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, int P_YEAR, String P_CONCEP, String P_USERID);
+	@Procedure("ROLLUP_DRILL_DETAIL.get_headers")
+	void getHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept, String P_USERID);
 
 	/**
 	 * 
@@ -43,80 +43,80 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_CONCEP
 	 * @return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_GET_HEADERS")
-	void rollUpDrillCostMngGetHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, int P_YEAR, String P_CONCEP);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.get_headers")
+	void rollUpDrillCostMngGetHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager1_drills")
-	void costManager1Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager1_drills")
+	void costManager1Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager2_drills")
-	void costManager2Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager2_drills")
+	void costManager2Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager3_drills")
-	void costManager3Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager3_drills")
+	void costManager3Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager4_drills")
-	void costManager4Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager4_drills")
+	void costManager4Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager5_drills")
-	void costManager5Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager5_drills")
+	void costManager5Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager6_drills")
-	void costManager6Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager6_drills")
+	void costManager6Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager7_drills")
-	void costManager7Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager7_drills")
+	void costManager7Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager8_drills")
-	void costManager8Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager8_drills")
+	void costManager8Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
 	 * @param P_ORGID
 	 * @param v_return
 	 */
-	@Procedure("ROLLUP_DRILLCOSTMNG_DET_CostManager9_drills")
-	void costManager9Drills(String P_PERIOD, int P_YEAR, String P_CONCEPT, String P_USERID);
+	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager9_drills")
+	void costManager9Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
@@ -126,8 +126,8 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_SEGMENT
 	 * @param p_userid
 	 */
-	@Procedure("ROLLUP_VALIDATIONS")
-	void rollUpValidations(int P_ORGID, String P_PERIOD, int P_YEAR, String P_SEGMENT, String P_USERID);
+	@Procedure("rollup_validations_hfm")
+	void rollUpValidations(int p_orgid, String p_period, String p_year, String p_segment, String p_userid);
 
 	/**
 	 * 
@@ -136,7 +136,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_YEAR
 	 * @param P_USERID
 	 */
-	@Procedure("ROLLUP_MATCH_ACCOUNTS")
-	void rollUpMatchAccounts(int P_ORGID, String P_PERIOD, int P_YEAR, String P_USERID);
+	@Procedure("rollup_match_accounts")
+	void rollUpMatchAccounts(int p_orgid, String p_period, String p_year, String p_userid);
 
 }

@@ -133,7 +133,7 @@ keyframes blinker { 50% {
 
 							<p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
 
-							<p:column headerText="Entity" styleClass="rollup-text-align-left">
+							<p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
 								<h:outputText value="#{rollup.entity}" />
 							</p:column>
 
@@ -145,35 +145,35 @@ keyframes blinker { 50% {
 								<h:outputText value="#{rollup.scenario}" />
 							</p:column>
 
-							<p:column headerText="Year">
+							<p:column headerText="Year" sortBy="#{rollup.ryear}" filterBy="#{rollup.ryear}">
 								<h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
 									<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
 								</h:inputText>
 							</p:column>
 
-							<p:column headerText="Period">
+							<p:column headerText="Period" sortBy="#{rollup.rperiod}" filterBy="#{rollup.rperiod}">
 								<h:selectOneMenu id="month" value="#{rollup.rperiod}">
-									<f:selectItem itemLabel="JAN" itemValue="JAN" />
-									<f:selectItem itemLabel="FEB" itemValue="FEB" />
-									<f:selectItem itemLabel="MAR" itemValue="MAR" />
-									<f:selectItem itemLabel="APR" itemValue="APR" />
-									<f:selectItem itemLabel="MAY" itemValue="MAY" />
-									<f:selectItem itemLabel="JUN" itemValue="JUN" />
-									<f:selectItem itemLabel="JUL" itemValue="JUL" />
-									<f:selectItem itemLabel="AUG" itemValue="AUG" />
-									<f:selectItem itemLabel="SEP" itemValue="SEP" />
-									<f:selectItem itemLabel="OCT" itemValue="OCT" />
-									<f:selectItem itemLabel="NOV" itemValue="NOV" />
-									<f:selectItem itemLabel="DEC" itemValue="DEC" />
+									<f:selectItem itemLabel="JAN" itemValue="01" />
+									<f:selectItem itemLabel="FEB" itemValue="02" />
+									<f:selectItem itemLabel="MAR" itemValue="03" />
+									<f:selectItem itemLabel="APR" itemValue="04" />
+									<f:selectItem itemLabel="MAY" itemValue="05" />
+									<f:selectItem itemLabel="JUN" itemValue="06" />
+									<f:selectItem itemLabel="JUL" itemValue="07" />
+									<f:selectItem itemLabel="AUG" itemValue="08" />
+									<f:selectItem itemLabel="SEP" itemValue="09" />
+									<f:selectItem itemLabel="OCT" itemValue="10" />
+									<f:selectItem itemLabel="NOV" itemValue="11" />
+									<f:selectItem itemLabel="DEC" itemValue="12" />
 									<f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
 								</h:selectOneMenu>
 							</p:column>
 
-							<p:column headerText="view">
+							<p:column headerText="view" >
 								<h:outputText value="#{rollup.rview}" />
 							</p:column>
 
-							<p:column headerText="value">
+							<p:column headerText="value" >
 								<h:outputText value="#{rollup.rvalue}" />
 							</p:column>
 
@@ -184,7 +184,7 @@ keyframes blinker { 50% {
 								</i>
 							</p:column>
 
-							<p:column headerText="Payables"
+							<p:column headerText="Company Validation"
 								styleClass="rollup-text-align-center">
 								<i class="#{rollup.payablesIcon}" id="i-ru-py-#{rollup.companyid}">
 									<h:outputText value="#{rollup.attribute2}"
@@ -200,7 +200,7 @@ keyframes blinker { 50% {
 								</i>
 							</p:column>
 
-							<p:column headerText="Gains/looses"
+							<p:column headerText="Drill Transactions"
 								styleClass="rollup-text-align-center">
 								<i class="#{rollup.gainsLoosesIcon}" id="i-ru-gl-#{rollup.companyid}">
 									<h:outputText value="#{rollup.attribute4}"
@@ -208,7 +208,7 @@ keyframes blinker { 50% {
 								</i>
 							</p:column>
 
-							<p:column headerText="Export Sales">
+							<p:column headerText="Validations">
 								<i class="#{rollup.exportSalesIcon}" id="i-ru-es-#{rollup.companyid}">
 									<h:outputText value="#{rollup.attribute5}"
 										class="#{empty rollup.exportSalesIcon ? '': 'sr-only'}" />

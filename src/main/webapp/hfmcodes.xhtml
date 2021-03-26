@@ -95,9 +95,13 @@
 						<h:outputText value="#{hfmcodes.classification}" />
 					</p:column>
 
-					<p:column headerText="Natural Sign" sortBy="#{hfmcodes.naturalb}"
+					<p:column headerText="Account Tyoe" sortBy="#{hfmcodes.naturalb}"
 						filterBy="#{hfmcodes.naturalb}">
 						<h:outputText value="#{hfmcodes.naturalb}" />
+					</p:column>
+					<p:column headerText="Sign" sortBy="#{hfmcodes.naturalsign}"
+						filterBy="#{hfmcodes.naturalsign}">
+						<h:outputText value="#{hfmcodes.naturalsign}" />
 					</p:column>
 
 					<p:column headerText="Global Validation?"
@@ -154,7 +158,11 @@
 										itemValue="#{item.tptype}" />
 								</p:selectOneMenu>
 							</div>
-
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="naturalsign" value="Sign" />
+								<p:inputText id="naturalsign"
+									value="#{hfmControllerBean.hfmcode.naturalsign}" />
+							</div>
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="classification" value="Classification" />
 								<p:selectOneMenu id="classification"

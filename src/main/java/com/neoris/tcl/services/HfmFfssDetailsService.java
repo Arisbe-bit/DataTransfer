@@ -49,9 +49,12 @@ public class HfmFfssDetailsService implements IHfmFfssDetailsService {
         data.deleteAll(entityList);        
     }
 
-    @Override
-    public List<HfmFfssDetails> findByCompanyIdAndHfmcodeAndPeriod(Long companyId, String hfmcode, String period) {
-        return data.findByIdCompanyidAndIdHfmcodeAndIdPeriod(companyId, hfmcode, period);
-    }
+	@Override
+	public List<HfmFfssDetails> findByIdCompanyidAndHfmparentAndPeriodname(Long companyId, String hfmparent,
+			String periodname) {
+		   return data.findByIdCompanyidAndHfmparentAndPeriodname(companyId, hfmparent, periodname);
+	}
+
+	
 
 }
