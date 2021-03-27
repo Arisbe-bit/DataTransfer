@@ -83,6 +83,11 @@
 						filterBy="#{hfmcodes.hfmcode}">
 						<h:outputText value="#{hfmcodes.hfmcode}" />
 					</p:column>
+					
+					<p:column headerText="Description" sortBy="#{hfmcodes.description}"
+						filterBy="#{hfmcodes.description}">
+						<h:outputText value="#{hfmcodes.description}" />
+					</p:column>
 
 					<p:column headerText="Type" sortBy="#{hfmcodes.tptype}"
 						filterBy="#{hfmcodes.tptype}">
@@ -105,8 +110,8 @@
 					</p:column>
 
 					<p:column headerText="Global Validation?"
-						sortBy="#{hfmcodes.global_val}" filterBy="#{hfmcodes.global_val}">
-						<h:outputText value="#{hfmcodes.global_val}" />
+						sortBy="#{hfmcodes.globalval}" filterBy="#{hfmcodes.globalval}">
+						<h:outputText value="#{hfmcodes.globalval}" />
 					</p:column>
 
 					<p:column headerText="Order no." sortBy="#{hfmcodes.ordernuml}"
@@ -147,6 +152,11 @@
 								<p:outputLabel for="code">Code</p:outputLabel>
 								<p:inputText id="code"
 									value="#{hfmControllerBean.hfmcode.hfmcode}" required="true" />
+							</div>description
+							<div class="p-field">
+								<p:outputLabel for="description">Description</p:outputLabel>
+								<p:inputText id="description"
+									value="#{hfmControllerBean.hfmcode.description}" required="true" />
 							</div>
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="tptype" value="Type" />
@@ -173,9 +183,9 @@
 								</p:selectOneMenu>
 							</div>
 							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="global_val" value="Global validation?" />
-								<p:selectOneMenu id="global_val"
-									value="#{hfmControllerBean.hfmcode.global_val}">
+								<p:outputLabel for="globalval" value="Global validation?" />
+								<p:selectOneMenu id="globalval"
+									value="#{hfmControllerBean.hfmcode.globalval}">
 									<f:selectItem itemLabel="Select One" itemValue="" />
 									<f:selectItem itemLabel="YES" itemValue="Y" />
 									<f:selectItem itemLabel="NO" itemValue="N" />

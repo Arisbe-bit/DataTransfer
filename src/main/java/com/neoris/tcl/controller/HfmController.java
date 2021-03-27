@@ -31,6 +31,7 @@ public class HfmController {
     private SetHfmCodes hfmcode;
     private boolean isNewHfmcode;
     
+        
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstHfmcodes...");

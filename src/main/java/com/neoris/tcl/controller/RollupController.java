@@ -21,9 +21,12 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.SetHfmCodes;
+import com.neoris.tcl.models.ViewRollupMacthFFSS;
 import com.neoris.tcl.services.IHfmFfssDetailsService;
 import com.neoris.tcl.services.IHfmFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
+import com.neoris.tcl.services.IViewRollupMatchFFSSService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ProcessRollUps;
 import com.neoris.tcl.utils.ViewScope;
@@ -48,6 +51,9 @@ public class RollupController {
     private HfmFfss curHfmFfss;
 
     private List<HfmFfssDetails> lstHfmFfssDetails;
+    
+    private List<ViewRollupMacthFFSS> lstMatchAcc;
+ 	private ViewRollupMacthFFSS curMacthAcc;
 
     @Autowired
     private IHfmRollupEntriesService service;
@@ -56,6 +62,9 @@ public class RollupController {
     @Autowired
     private IHfmFfssDetailsService hfmFfssDetailsService;
 
+   // @Autowired
+  //  private IViewRollupMatchFFSSService matchaccService;
+    
     @PostConstruct
     public void init() {
         // Fill the rollup entity list
@@ -397,12 +406,16 @@ public class RollupController {
         LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
         
         this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period+"-"+  String.valueOf(ryear));
+        
+        
         if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
             Functions.addWarnMessage("Attention",
                     String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
         }
-        LOG.info("Actualizo vista...");
+        LOG.info("Update view...");
+       // this.lstMatchAcc = matchaccService.findByCompanyid(curRollUp.getCompanyid().intValue());
         PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss");
+        
     }
 
     public HfmFfss getCurHfmFfss() {
@@ -496,7 +509,24 @@ public class RollupController {
         return "RollUps";
     }
 
-    /**
+
+	public List<ViewRollupMacthFFSS> getLstMatchAcc() {
+		return lstMatchAcc;
+	}
+
+	public void setLstMatchAcc(List<ViewRollupMacthFFSS> lstMatchAcc) {
+		this.lstMatchAcc = lstMatchAcc;
+	}
+
+	public ViewRollupMacthFFSS getCurMacthAcc() {
+		return curMacthAcc;
+	}
+
+	public void setCurMacthAcc(ViewRollupMacthFFSS curMacthAcc) {
+		this.curMacthAcc = curMacthAcc;
+	}
+
+	/**
      * 
      * @param process
      * @return
@@ -524,5 +554,6 @@ public class RollupController {
         LOG.info("Return with thead => {}", thead);
         return thead;
     }
+    
 
 }
