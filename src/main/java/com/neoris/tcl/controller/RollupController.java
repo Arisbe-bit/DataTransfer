@@ -1,5 +1,12 @@
 package com.neoris.tcl.controller;
 
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_ASSET;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_OTHER;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYROLL;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
+
 import java.time.Year;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +28,6 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
 import com.neoris.tcl.models.HfmRollupEntries;
-import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.models.ViewRollupMacthFFSS;
 import com.neoris.tcl.services.IHfmFfssDetailsService;
 import com.neoris.tcl.services.IHfmFfssService;
@@ -30,10 +36,6 @@ import com.neoris.tcl.services.IViewRollupMatchFFSSService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ProcessRollUps;
 import com.neoris.tcl.utils.ViewScope;
-
-import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
-
-import static com.neoris.tcl.services.IHfmRollupEntriesService.*;
 
 @Controller(value = "rollupControllerBean")
 @Scope(ViewScope.VIEW)
@@ -45,7 +47,6 @@ public class RollupController {
     private List<HfmRollupEntries> lstRollUps;
     private List<HfmRollupEntries> lstSelectedRollups;
     private HfmRollupEntries curRollUp;
-    private List<String> lstMonths;
 
     private List<HfmFfss> lstHfmFfss;
     private HfmFfss curHfmFfss;
@@ -61,16 +62,13 @@ public class RollupController {
     private IHfmFfssService hfmFfSsService;
     @Autowired
     private IHfmFfssDetailsService hfmFfssDetailsService;
-
-   // @Autowired
-  //  private IViewRollupMatchFFSSService matchaccService;
+    @Autowired
+    private IViewRollupMatchFFSSService matchaccService;
     
     @PostConstruct
     public void init() {
         // Fill the rollup entity list
         setLstRollUps(service.findAll());
-        // Fill List for months
-        lstMonths = Arrays.asList("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
     }
 
     public void openNew() {
@@ -402,22 +400,32 @@ public class RollupController {
         this.curRollUp = curRollUp;
         String period = curRollUp.getRperiod();
         String ryear =  curRollUp.getRyear();
+        Long companyId = curRollUp.getCompanyid();
 
-        LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
-        
-        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period+"-"+  String.valueOf(ryear));
-        
-        
+        LOG.info("Query HFM_FFSS with company = {} and period = {}", companyId, period);        
+        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(companyId, period + "-" + String.valueOf(ryear));
+                
         if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
             Functions.addWarnMessage("Attention",
-                    String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
+                    String.format("No records found for companyId=%s and period=%s", companyId, period));
         }
-        LOG.info("Update view...");
-       // this.lstMatchAcc = matchaccService.findByCompanyid(curRollUp.getCompanyid().intValue());
-        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss");
+        LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
+        this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
+
+        if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
+            String mensaje = String.format("No Match account records found for companyId=%s", companyId);
+            LOG.info(mensaje);
+            Functions.addWarnMessage("Attention", mensaje);
+        } else {
+            LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
+        }
+//        LOG.info("Update view...");
+//        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss", "rollupForm:tabViewRollUps:dt-macthacc");
         
     }
-
+    public void setRollUpOnRowClick(HfmRollupEntries rollUp) {
+        LOG.info("Recibo curRollUp = {}. Buscando compañías", rollUp);
+    }
     public HfmFfss getCurHfmFfss() {
         return curHfmFfss;
     }
@@ -429,6 +437,7 @@ public class RollupController {
     public void setCurHfmFfss(HfmFfss curHfmFfss) {
         LOG.info("Recibo curHfmFfss = {}", curHfmFfss);
         this.curHfmFfss = curHfmFfss;
+
         LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}, period = {}",
                 curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(), curHfmFfss.getId().getPeriod());
         this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentAndPeriodname(
@@ -440,6 +449,7 @@ public class RollupController {
                             curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(),
                             curHfmFfss.getId().getPeriod()));
         }
+
         LOG.info("Actualizo vista...");
         PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss-details");
     }
@@ -452,12 +462,48 @@ public class RollupController {
         LOG.info("curHfmffssClic with event = {}", event.getComponent());
     }
 
+    /**
+     * This event is fired when user clicks on a row of main data table. 
+     * It search the company childs for "Global Validation" Data Table.
+     * @param event
+     */
+//    public void rowClick(AjaxBehaviorEvent event) {        
+//        HfmRollupEntries entry;
+//        // get the datatable object when click even was fired
+//        DataTable dt = (DataTable) event.getComponent();
+//        // Get the list of selected items. In this case will be only one item inside an ArrayList
+//        Object obj = dt.getSelection();
+//        if(obj instanceof ArrayList<?>) {
+//            List<HfmRollupEntries> items = (ArrayList<HfmRollupEntries>) obj;
+//            entry = items.get(0);
+//            LOG.info("Entry = {}", entry);
+//            LOG.info("Updating lstMatchAcc with company Id = {} ", entry.getCompanyid());
+//            this.lstMatchAcc = matchaccService.findByCompanyid(entry.getCompanyid());
+//            if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
+//                Functions.addWarnMessage("Attention",
+//                        String.format("No records found for companyId=%s", entry.getCompanyid()));
+//            }
+//            LOG.info("Update view...");
+//            PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-macthacc");
+//        } else {
+//            LOG.info("Item type is = {}", obj.getClass().getSimpleName());
+//        }
+//    }
+
+    /**
+     * 
+     * @param event
+     */
     public void onTabChange(TabChangeEvent<?> event) {
         String message = String.format("Active Tab ID:[%s], Title:[%s], Client ID:[%s]", event.getTab().getId(),
                 event.getTab().getTitle(), event.getTab().getClientId());
         LOG.info(message);
     }
 
+    /**
+     * 
+     * @param event
+     */
     public void onTabClose(TabCloseEvent<?> event) {
         String message = String.format("Closed tab: %s, client ID = %s", event.getTab().getTitle(),
                 event.getTab().getClientId());
@@ -475,14 +521,6 @@ public class RollupController {
 
     public void setLstSelectedRollups(List<HfmRollupEntries> lstSelectedRollups) {
         this.lstSelectedRollups = lstSelectedRollups;
-    }
-
-    public List<String> getLstMonths() {
-        return lstMonths;
-    }
-
-    public void setLstMonths(List<String> lstMonths) {
-        this.lstMonths = lstMonths;
     }
 
     public List<HfmFfss> getLstHfmFfss() {
@@ -508,7 +546,6 @@ public class RollupController {
     public String getTitle() {
         return "RollUps";
     }
-
 
 	public List<ViewRollupMacthFFSS> getLstMatchAcc() {
 		return lstMatchAcc;
@@ -553,7 +590,6 @@ public class RollupController {
         thead.setName(rollup.getProcessId());
         LOG.info("Return with thead => {}", thead);
         return thead;
-    }
-    
+    }    
 
 }
