@@ -400,17 +400,17 @@ public class RollupController {
     public void setCurRollUp(HfmRollupEntries curRollUp) {
         LOG.info("Recibo curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
-        String period = curRollUp.getRperiod();
-        String ryear =  curRollUp.getRyear();
+       // String period = curRollUp.getRperiod();
+      //  String ryear =  curRollUp.getRyear();
 
-        LOG.info("Query HFM_FFSS with company = {} and period = {}", curRollUp.getCompanyid(), period);
+        LOG.info("Query HFM_FFSS with company = {} ", curRollUp.getCompanyid());
         
-        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(curRollUp.getCompanyid(), period+"-"+  String.valueOf(ryear));
+        this.lstHfmFfss = hfmFfSsService.findByIdCompanyId(curRollUp.getCompanyid());
         
         
         if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
             Functions.addWarnMessage("Attention",
-                    String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid(), period));
+                    String.format("No records found for companyId=%s and period=%s", curRollUp.getCompanyid()));
         }
         LOG.info("Update view...");
        // this.lstMatchAcc = matchaccService.findByCompanyid(curRollUp.getCompanyid().intValue());

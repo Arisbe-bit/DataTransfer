@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ROLLUP_VIEW_FFSS")
+@Table(name = "ROLLUP_VIEW_MATCH_FFSS")
 public class ViewRollupMacthFFSS {
 	
 	@Id
