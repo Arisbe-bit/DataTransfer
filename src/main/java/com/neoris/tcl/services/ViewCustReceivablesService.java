@@ -10,29 +10,21 @@ import org.springframework.web.context.WebApplicationContext;
 import com.neoris.tcl.dao.ViewCustReceivablesDao;
 import com.neoris.tcl.models.ViewCustReceivables;
 
-
-
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
-public class ViewCustReceivablesService implements IViewCustReceivablesService{
-	
+public class ViewCustReceivablesService implements IViewCustReceivablesService {
+
 	@Autowired
 	private ViewCustReceivablesDao data;
 
-	
-	
 	@Override
 	public List<ViewCustReceivables> findAll() {
-		return  (List<ViewCustReceivables>) data.findAll();
+		return (List<ViewCustReceivables>) data.findAll();
 	}
-
-
 
 	@Override
 	public List<ViewCustReceivables> findByOrganizationid(int organizationid) {
-		return  data.findByOrganizationid(organizationid);	
+		return data.findByOrganizationid(organizationid);
 	}
-
-	
 
 }
