@@ -18,6 +18,6 @@ public interface IHfmFfssService {
 
 	void delete(HfmFfss entity);
 	
-	List<HfmFfss> findByCompanyIdAndPeriod(Long companyId, String period);
+	List<HfmFfss> findByIdCompanyId(Long companyId);
 
 }

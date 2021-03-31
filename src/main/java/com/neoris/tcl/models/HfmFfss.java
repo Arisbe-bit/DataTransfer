@@ -14,7 +14,7 @@ import java.util.Locale;
  * 
  */
 @Entity
-@Table(name = "hfm_ffss")
+@Table(name = "ROLLUP_VIEW_FFSS")
 public class HfmFfss implements Serializable {
 
 	/**
