@@ -30,25 +30,25 @@ public interface IHfmRollupEntriesService {
 
     void getHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_CONCEP, String P_USERID);
 
-    void rollUpDrillCostMngDetGetHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_CONCEP);
+    void rollUpDrillCostMngDetGetHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept);
 
-    void costManager1Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager1Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager2Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager2Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager3Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager3Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager4Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager4Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager5Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager5Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager6Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager6Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager7Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager7Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager8Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager8Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
-    void costManager9Drills(int P_ORGID,String P_PERIOD, String P_YEAR, String P_USERID);
+    void costManager9Drills(int p_orgid,String p_period, String p_year, String p_userid);
 
     void rollUpValidations(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 

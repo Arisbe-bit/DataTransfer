@@ -151,10 +151,10 @@ public class RollupController {
         processDrillDetails(rollUp);
 
         // 3.- Process Cost Manager
-        //processCostManager(rollUp);//getheader
+        processCostManager(rollUp);//getheader
 
         // 4.- Run the Drills...
-       // processDrils(rollUp);
+        processDrils(rollUp);
 
         // 5.- Run the validations..
         processValidations(rollUp);

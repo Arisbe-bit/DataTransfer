@@ -52,7 +52,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager1_drills")
-	void costManager1Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager1Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
@@ -60,7 +60,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager2_drills")
-	void costManager2Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager2Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
@@ -68,7 +68,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager3_drills")
-	void costManager3Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager3Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
@@ -76,7 +76,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager4_drills")
-	void costManager4Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager4Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
@@ -84,7 +84,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager5_drills")
-	void costManager5Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager5Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
@@ -100,7 +100,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param v_return
 	 */
 	@Procedure("ROLLUP_DRILLCOSTMNG_DET.CostManager7_drills")
-	void costManager7Drills(int p_orgid,String p_period, String p_year, String p_concept, String p_userid);
+	void costManager7Drills(int p_orgid,String p_period, String p_year, String p_concept,String p_userid);
 
 	/**
 	 * 
