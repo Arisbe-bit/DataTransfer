@@ -28,8 +28,7 @@ public class SetReceivablesIcpPK implements Serializable {
 
 	public SetReceivablesIcpPK(Long companyid, String custno) {
 		this.companyid = companyid;
-		this.custno = custno;
-		
+		this.custno = custno;		
 	}
 
 	public Long getCompanyid() {

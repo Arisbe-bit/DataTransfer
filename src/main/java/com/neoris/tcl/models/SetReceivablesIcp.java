@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "set_receivables_icp")
+@Table(name = "SET_RECEIVABLES_ICP")
 public class SetReceivablesIcp implements Serializable {
 
 	/**
@@ -21,7 +21,7 @@ public class SetReceivablesIcp implements Serializable {
 
 	@EmbeddedId
 	private SetReceivablesIcpPK id;
-	
+
 	private String icpcode;
 
 	public String getIcpcode() {
@@ -37,18 +37,17 @@ public class SetReceivablesIcp implements Serializable {
 	private String modified;
 
 	public SetReceivablesIcp() {
-	    this.setId(new SetReceivablesIcpPK());
+		this.setId(new SetReceivablesIcpPK());
 	}
 
 	public SetReceivablesIcpPK getId() {
 		return this.id;
 	}
-	
-	public SetReceivablesIcp(SetReceivablesIcpPK id,  String userid, String modified) {
+
+	public SetReceivablesIcp(SetReceivablesIcpPK id, String userid, String modified) {
 		this.id = id;
 		this.userid = userid;
 		this.modified = modified;
-		
 	}
 
 	public void setId(SetReceivablesIcpPK id) {
@@ -76,7 +75,5 @@ public class SetReceivablesIcp implements Serializable {
 		return "SetReceivablesIcp [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", modified=" + modified
 				+ "]";
 	}
-
-	
 
 }

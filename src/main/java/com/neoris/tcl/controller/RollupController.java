@@ -8,7 +8,6 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVA
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
 import java.time.Year;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -398,16 +397,13 @@ public class RollupController {
     public void setCurRollUp(HfmRollupEntries curRollUp) {
         LOG.info("Recibo curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
-        String period = curRollUp.getRperiod();
-        String ryear =  curRollUp.getRyear();
         Long companyId = curRollUp.getCompanyid();
 
-        LOG.info("Query HFM_FFSS with company = {} and period = {}", companyId, period);        
-        this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriod(companyId, period + "-" + String.valueOf(ryear));
+        LOG.info("Query HFM_FFSS with company = {}", companyId);
+        this.lstHfmFfss = hfmFfSsService.findByIdCompanyId(companyId);
                 
         if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
-            Functions.addWarnMessage("Attention",
-                    String.format("No records found for companyId=%s and period=%s", companyId, period));
+            Functions.addWarnMessage("Attention", String.format("No records found for companyId=%s", companyId));
         }
         LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
         this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
@@ -508,7 +504,6 @@ public class RollupController {
         String message = String.format("Closed tab: %s, client ID = %s", event.getTab().getTitle(),
                 event.getTab().getClientId());
         LOG.info(message);
-        // Functions.addInfoMessage("Tab Closed", message);
     }
 
     /**
