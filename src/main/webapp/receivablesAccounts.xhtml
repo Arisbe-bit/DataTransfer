@@ -139,12 +139,17 @@
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="companyid" value="Company" />
 								<p:selectOneMenu id="companyid"
-									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"  filter="true" filterMatchMode="startsWith">
+									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"  
+									filter="true" filterMatchMode="startsWith">
 									<f:selectItem itemLabel="Select One" itemValue="" />
 									<f:selectItems value="#{rollupentriesControllerBean.lstEntries}"
 									var="itemp" 
 										itemLabel="#{itemp.entity}"
 										itemValue="#{itemp.companyid}" />
+									<p:ajax event="change" 
+										listener="#{receivablesaccControllerBean.companyidChange}"
+										process="@this" 
+										update=":form:custno"/>
 								</p:selectOneMenu>
 							</div>
 							<div class="p-field p-col-12 p-md-4">
@@ -163,14 +168,12 @@
 								<p:selectOneMenu id="custno"
 									value="#{receivablesaccControllerBean.currentRecTab.id.custno}"  filter="true" filterMatchMode="startsWith">
 									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{viewcustreceivablesControllerBean.lstCustno}"
+									<f:selectItems value="#{receivablesaccControllerBean.lstCustno}"
 										var="itemc" 
 										itemLabel="#{itemc.custname}"
 										itemValue="#{itemc.custno}" />										
 								</p:selectOneMenu>
-							</div>
-							
-							
+							</div>	
 							
 						</p:outputPanel>
 					</p:outputPanel>

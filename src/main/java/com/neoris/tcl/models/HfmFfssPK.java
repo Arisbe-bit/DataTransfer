@@ -20,7 +20,7 @@ public class HfmFfssPK implements Serializable {
 	@Column(name = "COMPANYID")
 	private Long companyId;
 
-	@Column(name = "CURRENCY_CODE")
+	@Column(name = "CURRENCY_CODE", columnDefinition = "VARCHAR(3) default 'USD'")
 	private String currencyCode;
 
 	@Column(name = "HFMCODE")

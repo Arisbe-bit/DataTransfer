@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+
 /**
  * The persistent class for the hfm_ffss database table.
  * 
@@ -81,8 +82,9 @@ public class HfmFfss implements Serializable {
 	
 	public String getFormatedBalance() {
 	    String retval;
-	    NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-	    retval = nf.format(this.balance) + " " + this.getId().getCurrencyCode();
+	    // NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+	    NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+	    retval = nf.format(this.balance); // + " " + this.getId().getCurrencyCode();
 	    return retval;
 	}
 

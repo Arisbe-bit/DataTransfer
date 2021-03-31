@@ -32,8 +32,10 @@ public class SetHfmCodes implements Serializable {
 	@Column(name="global_val")
 	private String globalval;
 	
+	@Column(columnDefinition = "integer default 0")
 	private int ordernum;
 	
+	@Column(columnDefinition = "integer default 0")
 	private int naturalsign;
 
 	private String description;

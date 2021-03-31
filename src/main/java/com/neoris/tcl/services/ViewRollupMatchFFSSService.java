@@ -7,21 +7,19 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.neoris.tcl.dao.IViewRollupMatchFFSSDao;
 import com.neoris.tcl.models.ViewRollupMacthFFSS;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
-public class ViewRollupMatchFFSSService implements IViewRollupMatchFFSSService{
+public class ViewRollupMatchFFSSService implements IViewRollupMatchFFSSService {
 
-	
-	@Autowired
-	private IViewRollupMatchFFSSService data;
+    @Autowired
+    private IViewRollupMatchFFSSDao data;
 
-	@Override
-	public List<ViewRollupMacthFFSS> findByCompanyid(int companyid) {
-		return data.findByCompanyid(companyid);
-	}
-	
+    @Override
+    public List<ViewRollupMacthFFSS> findByCompanyid(Long companyId) {
+        return data.findByCompanyid(companyId);
+    }
 
-	
 }
