@@ -50,9 +50,9 @@ public class HfmFfssDetailsService implements IHfmFfssDetailsService {
     }
 
 	@Override
-	public List<HfmFfssDetails> findByIdCompanyidAndHfmparentAndPeriodname(Long companyId, String hfmparent,
+	public List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(Long companyId, String hfmparent,String hfmcode,
 			String periodname) {
-		   return data.findByIdCompanyidAndHfmparentAndPeriodname(companyId, hfmparent, periodname);
+		   return data.findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(companyId, hfmparent,  hfmcode, periodname);
 	}
 
 	

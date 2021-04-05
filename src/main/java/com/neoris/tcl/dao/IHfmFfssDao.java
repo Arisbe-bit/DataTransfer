@@ -19,6 +19,6 @@ public interface IHfmFfssDao extends CrudRepository<HfmFfss, HfmFfssPK> {
      * @param perid
      * @return
      */
-    public List<HfmFfss> findByIdCompanyId(Long companyId);
+    public List<HfmFfss> findByCompanyId(Long companyId);
 
 }

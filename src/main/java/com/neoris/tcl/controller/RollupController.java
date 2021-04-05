@@ -63,7 +63,7 @@ public class RollupController {
     private IHfmFfssDetailsService hfmFfssDetailsService;
     @Autowired
     private IViewRollupMatchFFSSService matchaccService;
-    
+     
     @PostConstruct
     public void init() {
         // Fill the rollup entity list
@@ -395,32 +395,40 @@ public class RollupController {
      * @param curRollUp
      */
     public void setCurRollUp(HfmRollupEntries curRollUp) {
-        LOG.info("Recibo curRollUp = {}", curRollUp);
+        LOG.info("Obtain curRollUp = {}", curRollUp);
         this.curRollUp = curRollUp;
         Long companyId = curRollUp.getCompanyid();
 
+        try {
         LOG.info("Query HFM_FFSS with company = {}", companyId);
-        this.lstHfmFfss = hfmFfSsService.findByIdCompanyId(companyId);
-                
-        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
-            Functions.addWarnMessage("Attention", String.format("No records found for companyId=%s", companyId));
-        }
-        LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
-        this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
-
-        if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
-            String mensaje = String.format("No Match account records found for companyId=%s", companyId);
-            LOG.info(mensaje);
-            Functions.addWarnMessage("Attention", mensaje);
-        } else {
-            LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
-        }
+	        this.lstHfmFfss = hfmFfSsService.findByCompanyId(companyId);
+	                
+			LOG.info("return lstHfmFfss with items => {}", lstHfmFfss != null ? lstHfmFfss.size() : "is null");
+	
+	        
+	        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
+	            Functions.addWarnMessage("Attention", String.format("No records found for companyId=%s", companyId));
+	        }
+	        LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
+	        this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
+	        LOG.info("return lstMatchAcc with items => {}", lstMatchAcc != null ? lstMatchAcc.size() : "is null");
+	
+	        if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
+	            String mensaje = String.format("No Match account records found for companyId=%s", companyId);
+	            LOG.info(mensaje);
+	            Functions.addWarnMessage("Attention", mensaje);
+	        } else {
+	            LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
+	        }
+        }catch (Exception e) {
+			LOG.error("ERRor -> {}", e.getMessage());
+		} 
 //        LOG.info("Update view...");
 //        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss", "rollupForm:tabViewRollUps:dt-macthacc");
         
     }
     public void setRollUpOnRowClick(HfmRollupEntries rollUp) {
-        LOG.info("Recibo curRollUp = {}. Buscando compañías", rollUp);
+        LOG.info("Obtains curRollUp = {}. Finding companies", rollUp);
     }
     public HfmFfss getCurHfmFfss() {
         return curHfmFfss;
@@ -431,22 +439,31 @@ public class RollupController {
      * @param curHfmFfss
      */
     public void setCurHfmFfss(HfmFfss curHfmFfss) {
-        LOG.info("Recibo curHfmFfss = {}", curHfmFfss);
+        LOG.info("Obtains curHfmFfss = {}", curHfmFfss);
         this.curHfmFfss = curHfmFfss;
 
+        try {
         LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}, period = {}",
-                curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(), curHfmFfss.getId().getPeriod());
-        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentAndPeriodname(
-                curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(), curHfmFfss.getId().getPeriod());
-
+                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getPeriod());
+        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(
+                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getHfmcode(),curHfmFfss.getPeriod());
+        
+        LOG.info("return lstHfmFfssDetails con items => {}", this.lstHfmFfssDetails != null ? this.lstHfmFfssDetails.size() : "es nulo");
+        this.lstHfmFfssDetails.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
+        }catch (Exception e) {
+			LOG.error("ERRor -> {}", e.getMessage());
+          
+        }
+        
         if (this.lstHfmFfssDetails == null || this.lstHfmFfssDetails.isEmpty()) {
             Functions.addWarnMessage("Attention",
                     String.format("No records found for companyId=%s, hfmcode=%s and period=%s",
-                            curHfmFfss.getId().getCompanyId(), curHfmFfss.getId().getHfmcode(),
-                            curHfmFfss.getId().getPeriod()));
+                            curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(),
+                            curHfmFfss.getPeriod()));
         }
 
-        LOG.info("Actualizo vista...");
+        
+        LOG.info("Update view...");
         PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss-details");
     }
 

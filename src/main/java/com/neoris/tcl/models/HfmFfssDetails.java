@@ -24,6 +24,8 @@ public class HfmFfssDetails implements Serializable {
 
 	@EmbeddedId
 	private HfmFfssDetailsPK id;
+	
+	
 
 	@Column(name="batch_name")
 	private String batchName;

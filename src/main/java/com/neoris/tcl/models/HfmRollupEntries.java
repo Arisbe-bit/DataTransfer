@@ -69,16 +69,10 @@ public class HfmRollupEntries implements Serializable {
     
     private String segment1;
 
-    public String getSegment1() {
-		return segment1;
-	}
-
-	public void setSegment1(String segment1) {
-		this.segment1 = segment1;
-	}
+   
 
 	private String validations;
-
+ 
     public HfmRollupEntries() {
     }
 
@@ -246,6 +240,13 @@ public class HfmRollupEntries implements Serializable {
         return this.getRperiod() + "-" + this.getRyear();
     }
 
+    public String getSegment1() {
+		return segment1;
+	}
+
+	public void setSegment1(String segment1) {
+		this.segment1 = segment1;
+	}
     /**
      * This method is needed for the rollup.xhtml form when changing the year or
      * period in the page. This does nothing, but is required with ajax callback.

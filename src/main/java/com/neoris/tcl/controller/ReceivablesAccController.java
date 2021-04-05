@@ -51,13 +51,7 @@ public class ReceivablesAccController {
 	private List<HfmRollupEntries> lstcompany;
 	
 
-	public List<HfmRollupEntries> getLstcompany() {
-		return lstcompany;
-	}
-
-	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
-		this.lstcompany = lstcompany;
-	}
+	
 
 	@PostConstruct
 	public void init() {
@@ -65,8 +59,7 @@ public class ReceivablesAccController {
         this.lstVRec = serviceVRec.findAll();
         LOG.info("reg= {}", lstVRec.size());
         
-      //  LOG.info("Initializing Customers List...");
-       // this.lstCustno = servicecust.findAll();
+     
     }
 
     public void openNew() {
@@ -105,9 +98,9 @@ public class ReceivablesAccController {
     }
 
     public void companyidChange() {
-        LOG.info("Receive company  => {}", this.currentRecTab.getId().getCompanyid());
+        LOG.info("payables-company  => {}", this.currentRecTab.getId().getCompanyid());
         lstCustno = servicecust.findByOrganizationid(this.currentRecTab.getId().getCompanyid().intValue());
-        LOG.info("regreso con lstCustno  => {}",lstCustno);
+        LOG.info("Return lstCustno  => {}",lstCustno);
     }
 
     public boolean hasSelectedCodes() {
@@ -196,6 +189,11 @@ public class ReceivablesAccController {
     public void setCurrentVRec(ViewPartnersRecICP currentVRec) {
         this.currentVRec = currentVRec;
 
+        LOG.info("Receivables- company edit  => {}", this.currentVRec.getOrganization_id());
+		lstCustno = servicecust.findByOrganizationid(this.currentVRec.getOrganization_id());
+		LOG.info("return lstSuppno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
+
+        
         this.currentRecTab = new SetReceivablesIcp();
         this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
         this.currentRecTab.getId().setCustno(currentVRec.getCustno());
@@ -209,5 +207,13 @@ public class ReceivablesAccController {
     public void setLstCustno(List<ViewCustReceivables> lstCustno) {
         this.lstCustno = lstCustno;
     }
+    
+    public List<HfmRollupEntries> getLstcompany() {
+		return lstcompany;
+	}
+
+	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
+		this.lstcompany = lstcompany;
+	}
 
 }

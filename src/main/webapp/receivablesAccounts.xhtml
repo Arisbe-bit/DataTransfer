@@ -152,17 +152,7 @@
 										update=":form:custno"/>
 								</p:selectOneMenu>
 							</div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="icpcode" value="ICP Code" />
-								<p:selectOneMenu id="icpcode"
-									value="#{receivablesaccControllerBean.currentRecTab.icpcode}"  filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
-										var="item" 
-										itemLabel="#{item.id.icpcode}"
-										itemValue="#{item.id.icpcode}" />
-								</p:selectOneMenu>
-							</div>
+							
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="custno" value="Customer" />
 								<p:selectOneMenu id="custno"
@@ -174,6 +164,17 @@
 										itemValue="#{itemc.custno}" />										
 								</p:selectOneMenu>
 							</div>	
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="icpcode" value="ICP Code" />
+								<p:selectOneMenu id="icpcode"
+									value="#{receivablesaccControllerBean.currentRecTab.icpcode}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
+										var="item" 
+										itemLabel="#{item.id.icpcode}"
+										itemValue="#{item.id.icpcode}" />
+								</p:selectOneMenu>
+							</div>
 							
 						</p:outputPanel>
 					</p:outputPanel>

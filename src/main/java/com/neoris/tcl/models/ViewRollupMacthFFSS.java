@@ -1,5 +1,6 @@
 package com.neoris.tcl.models;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -9,9 +10,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ROLLUP_VIEW_MATCH_FFSS")
-public class ViewRollupMacthFFSS {
+public class ViewRollupMacthFFSS  implements Serializable {
+	
+	private static final long serialVersionUID = 5362381129863237217L;
+	
 
     @Id
+    private Long num;
+    
     private Long companyid;
 
     private String hfmcode;
@@ -24,7 +30,7 @@ public class ViewRollupMacthFFSS {
 
     private String period;
 
-    private int error_text;
+    private String errortext;
 
     private String description;
 
@@ -32,19 +38,35 @@ public class ViewRollupMacthFFSS {
 
     }
 
-    public ViewRollupMacthFFSS(Long companyid, String hfmcode, int balance, String classification, String naturalb,
-            String period, int error_text, String description) {
-        this.companyid = companyid;
-        this.hfmcode = hfmcode;
-        this.balance = balance;
-        this.classification = classification;
-        this.naturalb = naturalb;
-        this.period = period;
-        this.error_text = error_text;
-        this.description = description;
-    }
+  
 
-    public Long getCompanyid() {
+    
+    public ViewRollupMacthFFSS(Long num, Long companyid, String hfmcode, int balance, String classification,
+			String naturalb, String period, String errortext, String description) {
+	
+		this.num = num;
+		this.companyid = companyid;
+		this.hfmcode = hfmcode;
+		this.balance = balance;
+		this.classification = classification;
+		this.naturalb = naturalb;
+		this.period = period;
+		this.errortext = errortext;
+		this.description = description;
+	}
+
+
+
+
+	public Long getNum() {
+		return num;
+	}
+
+	public void setNum(Long num) {
+		this.num = num;
+	}
+
+	public Long getCompanyid() {
         return companyid;
     }
 
@@ -92,12 +114,12 @@ public class ViewRollupMacthFFSS {
         this.period = period;
     }
 
-    public int getError_text() {
-        return error_text;
+    public String geterrortext() {
+        return errortext;
     }
 
-    public void setError_text(int error_text) {
-        this.error_text = error_text;
+    public void seterrortext(String errortext) {
+        this.errortext = errortext;
     }
 
     public String getDescription() {
@@ -115,11 +137,16 @@ public class ViewRollupMacthFFSS {
         return retval;
     }
 
-    @Override
-    public String toString() {
-        return "ViewRollupMacthFFSS [companyid=" + companyid + ", hfmcode=" + hfmcode + ", balance=" + balance
-                + ", classification=" + classification + ", naturalb=" + naturalb + ", period=" + period
-                + ", error_text=" + error_text + ", description=" + description + "]";
-    }
+
+
+
+	@Override
+	public String toString() {
+		return "ViewRollupMacthFFSS [num=" + num + ", companyid=" + companyid + ", hfmcode=" + hfmcode + ", balance="
+				+ balance + ", classification=" + classification + ", naturalb=" + naturalb + ", period=" + period
+				+ ", errortext=" + errortext + ", description=" + description + "]";
+	}
+
+   
 
 }

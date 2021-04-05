@@ -19,6 +19,6 @@ public interface IHfmFfssDetailsDao extends CrudRepository<HfmFfssDetails, HfmFf
      * @param period
      * @return
      */
-    public List<HfmFfssDetails> findByIdCompanyidAndHfmparentAndPeriodname(Long companyId, String hfmparent, String periodname);
+    public List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(Long companyId, String hfmparent, String Hfmcode,String periodname);
 
 }
