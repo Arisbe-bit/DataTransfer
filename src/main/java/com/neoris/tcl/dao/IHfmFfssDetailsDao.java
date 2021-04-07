@@ -2,6 +2,10 @@ package com.neoris.tcl.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +23,8 @@ public interface IHfmFfssDetailsDao extends CrudRepository<HfmFfssDetails, HfmFf
      * @param period
      * @return
      */
-    public List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(Long companyId, String hfmparent, String Hfmcode,String periodname);
+	
+	
+    public List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcode(Long companyId, String hfmparent, String Hfmcode);
 
 }

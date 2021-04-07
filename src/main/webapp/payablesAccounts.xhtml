@@ -60,7 +60,7 @@
 					value="#{payablesaccControllerBean.lstpay}" reflow="true"
 					styleClass="products-table"
 					selection="#{payablesaccControllerBean.lstSelectdPay}"
-					rowKey="#{currentId.suppliernum}" paginator="true" rows="10"
+					rowKey="#{currentId.suppliernum}" paginator="true" rows="15" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" size="small" paginatorPosition="bottom">
 					<f:facet name="header">
 						<span style="font-weight: bold">${payablesaccControllerBean.title}</span>
@@ -107,16 +107,14 @@
 							oncomplete="PF('#{payablesaccControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
 							style="margin-right: 0.3em" process="@this">
-							<f:setPropertyActionListener value="#{currentId}"
-								target="#{payablesaccControllerBean.currentPay}" />
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
 
 						<p:commandButton class="ui-button-warning rounded-button"
 							icon="pi pi-trash" process="@this" style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentId}"
-								target="#{payablesaccControllerBean.currentPay}" />
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
 						</p:commandButton>
 					</p:column>
 

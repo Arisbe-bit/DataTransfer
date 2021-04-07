@@ -102,7 +102,7 @@ public class MenuController {
     }
 
     public String dsvscompany() {
-        return String.format(REDIRECT, "dsvscompany");
+        return String.format(REDIRECT, "companyentries");
     }
     
     public String rollup() {
@@ -117,9 +117,11 @@ public class MenuController {
         return String.format(REDIRECT, "layout");
     }
     
-    public String administration() {
-        return String.format(REDIRECT, "administration");
+    
+    public String Users() {
+        return String.format(REDIRECT, "users");
     }
+    
 
     public MenuModel getModel() {
         return model;

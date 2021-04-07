@@ -58,7 +58,7 @@
 					selection="#{tradingpartnerControllerBean.lstSelectdTP}"
 					rowKey="#{curtps.id.rowKey}" 
 					paginator="true" 
-					rows="10"
+					rows="20" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" 
 					size="small" 
 					paginatorPosition="bottom">
@@ -120,8 +120,8 @@
 						<p:outputPanel
 							rendered="#{not empty tradingpartnerControllerBean.curtp}">
 							<div class="p-field">
-								<p:outputLabel for="ICPCode">ICPCode</p:outputLabel>
-								<p:inputText id="ICPCode" value="#{tradingpartnerControllerBean.curtp.id.icpcode}" required="true" />
+								<p:outputLabel for="ICPCode">ICPCode (maxlength 25 )</p:outputLabel>
+								<p:inputText id="ICPCode" value="#{tradingpartnerControllerBean.curtp.id.icpcode}" maxlength="25" required="true" />
 							</div>
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="tptype" value="Type" />
@@ -134,13 +134,13 @@
 								</p:selectOneMenu>
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="ICPID">ICPID</p:outputLabel>
-								<p:inputText id="ICPID" value="#{tradingpartnerControllerBean.curtp.id.icpid}" required="true" />
+								<p:outputLabel for="ICPID">ICPID   (maxlength 5) </p:outputLabel>
+								<p:inputText id="ICPID" value="#{tradingpartnerControllerBean.curtp.id.icpid}" maxlength="5" required="true" />
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="icpdesc">Description</p:outputLabel>
+								<p:outputLabel for="icpdesc">Description (maxlength 50)</p:outputLabel>
 								<p:inputText id="icpdesc"
-									value="#{tradingpartnerControllerBean.curtp.icpdesc}"
+									value="#{tradingpartnerControllerBean.curtp.icpdesc}" maxlength="50"
 									required="true" />
 							</div>
 						</p:outputPanel>

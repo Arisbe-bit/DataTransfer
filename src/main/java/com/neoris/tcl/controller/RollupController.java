@@ -445,10 +445,14 @@ public class RollupController {
         try {
         LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}, period = {}",
                 curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getPeriod());
-        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentOrIdHfmcodeAndPeriodname(
-                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getHfmcode(),curHfmFfss.getPeriod());
+        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentOrIdHfmcode(
+                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getHfmcode());
         
         LOG.info("return lstHfmFfssDetails con items => {}", this.lstHfmFfssDetails != null ? this.lstHfmFfssDetails.size() : "es nulo");
+        
+        
+        LOG.info("Records for lstHfmFfssDetails = {}", lstHfmFfssDetails);
+        
         this.lstHfmFfssDetails.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
         }catch (Exception e) {
 			LOG.error("ERRor -> {}", e.getMessage());

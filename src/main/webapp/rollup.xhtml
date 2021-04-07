@@ -46,6 +46,18 @@
 	width: 30%;
 	padding: 3px;
 }
+
+
+.ui-datatable-even{
+	background: #6ab2eo;
+	color: #FFFFFF
+}
+
+
+.ui-datatable-odd{
+	background-color: #6ab2eo;
+}
+
 #rollupForm\:tabViewRollUps\:tabHHFF {
 	overflow: hidden;
 }
@@ -102,7 +114,8 @@
                             reflow="true" styleClass="ui-datatable-tablewrapper"
                             selection="#{rollupControllerBean.lstSelectedRollups}"
                             rowKey="#{rollup.companyid}" paginator="true"
-                            rows="10" resizableColumns="true" resizeMode="expand"
+                            rows="15" resizableColumns="true" resizeMode="expand"
+                            tableStyle="width:auto"
                             rowSelectMode="new" paginatorPosition="bottom"
                             rowIndexVar="ruItem">
                             <f:facet name="header">
@@ -153,25 +166,30 @@
                             <p:column headerText="value">
                                 <h:outputText value="#{rollup.rvalue}" />
                             </p:column>
-                             <p:column headerText="Company balance" styleClass="rollup-text-align-center">
+                             <p:column headerText=" balance Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
                                     <h:outputText value="#{rollup.attribute1}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
                                 </i>
                             </p:column>
-                            <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center">
+                            <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF ">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
                                     <h:outputText value="#{rollup.attribute4}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
                                 </i>
                             </p:column>
-                            <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center">
+                            <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
                                     <h:outputText value="#{rollup.attribute5}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
                                 </i>
                             </p:column>
                             
-                            <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center">
+                            <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center" style="background-color: #1E90FF">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
                                     <h:outputText value="#{rollup.validations}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+                                </i>
+                            </p:column>
+                            <p:column headerText="Finished Process " styleClass="rollup-text-align-center" style="background-color: #1E90FF">
+                                <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
+                                    <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
                                 </i>
                             </p:column>
                             <p:column headerText="View FFSS" exportable="false">
@@ -179,54 +197,70 @@
                                     <f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
                                 </p:commandButton>
                             </p:column>
+                             <p:column headerText="Generate HFM Layout" exportable="false">
+                                <p:commandButton id="btngL"  icon="ui-icon-publish" oncomplete="PF('wvTabViewRollUps').enable(1); PF('wvTabViewRollUps').select(1)" update="rollupForm:messages, rollupForm:tabViewRollUps:dt-hfm-tab-ffss, rollupForm:tabViewRollUps:dt-macthacc" styleClass="rounded-button ui-button-secondary" process="@this" alt="generate Layout">
+                                    
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="View HFM Layout" exportable="false">
+                                <p:commandButton id="btnViewL" icon="ui-icon-library-books" oncomplete="PF('wvTabViewRollUps').enable(1); PF('wvTabViewRollUps').select(1)" update="rollupForm:messages, rollupForm:tabViewRollUps:dt-hfm-tab-ffss, rollupForm:tabViewRollUps:dt-macthacc" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail layout">
+                                    
+                                </p:commandButton>
+                            </p:column>
                         </p:dataTable>
                     </p:tab>
-                    <p:tab title="HHFF" id="tabHHFF" disabled="true">
-                        <div class="div-75">
+                    <p:tab title="FFSS" id="tabHHFF" disabled="true">
+                        <div class="div-75" style="text-align : justify">
                             <p:dataTable id="dt-hfm-tab-ffss"
                                 widgetVar="dtHfmFfss" var="hfmffss"
                                 value="#{rollupControllerBean.lstHfmFfss}"
                                 reflow="true" styleClass="hfmffss-table"
                                 rowKey="#{hfmffss.companyid}" paginator="true"
-                                rows="10" resizableColumns="true"
+                                rows="20" resizableColumns="true"
+                                tableStyle="width:auto" stickyHeader="true" stripedRows="true"
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">
                                     <p:toolbar id="toolbar-hfmffss">
                                         <p:toolbarGroup>
                                             <div class="hfmffss-table-header">
-                                                <h:outputText value="HFM FFSS for Company=#{rollupControllerBean.curRollUp.companyid}" style="font-weight: bold" />
+                                                <h:outputText value="FFSS " style="font-weight: bold" />
                                             </div>
                                         </p:toolbarGroup>
                                         <p:toolbarGroup align="right">
                                             <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstHfmFfss}">
-                                                <p:dataExporter type="xls" target="tabViewRollUps:dt-hfm-tab-ffss" fileName="HFMFFSS" />
+                                                <p:dataExporter type="xls" target="tabHHFF" fileName="HFM_FFSS" pageOnly="true" />
                                             </p:commandButton>
                                         </p:toolbarGroup>
                                     </p:toolbar>
                                 </f:facet>
-                                <p:column headerText="Classification">
-                                    <h:outputText value="#{hfmffss.classification}">
+                                <p:column headerText="Classification"  sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
+                                    <h:outputText value="#{hfmffss.classification}" >
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Account Type">
-                                    <h:outputText value="#{hfmffss.naturalb}">
+                                <p:column headerText="Account Type"  sortBy="#{hfmffss.naturalb}" filterBy="#{hfmffss.naturalb}">
+                                    <h:outputText value="#{hfmffss.naturalb}" >
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Hfmcode">
-                                    <h:outputText value="#{hfmffss.hfmcode}" />
+                                <p:column headerText="Hfmcode"  sortBy="#{hfmffss.hfmcode}" filterBy="#{hfmffss.hfmcode}">
+                                    <h:outputText value="#{hfmffss.hfmcode}" >
+                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Description">
-                                    <h:outputText value="#{hfmffss.description}">
+                                <p:column headerText="Description"  sortBy="#{hfmffss.description}" filterBy="#{hfmffss.description}">
+                                    <h:outputText value="#{hfmffss.description}" >
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Balance" styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
-                                    <h:outputText value="#{hfmffss.formatedBalance}" />
+                                <p:column headerText="Balance"  sortBy="#{hfmffss.formatedBalance}" filterBy="#{hfmffss.formatedBalance}"
+                                styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
+                                    <h:outputText value="#{hfmffss.formatedBalance}" >
+                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Currency Code">
-                                    <h:outputText value="#{hfmffss.currencyCode}" />
+                                <p:column headerText="Currency Code"  sortBy="#{hfmffss.currencyCode}" filterBy="#{hfmffss.currencyCode}">
+                                    <h:outputText value="#{hfmffss.currencyCode}"   >
+                                     </h:outputText>
                                 </p:column>
-                               <p:column headerText="Rollup Errors">
-                                    <h:outputText value="#{hfmffss.errortext}" />
+                               <p:column headerText="Rollup Errors"  sortBy="#{hfmffss.errortext}" filterBy="#{hfmffss.errortext}">
+                                    <h:outputText value="#{hfmffss.errortext}"  style="text-align : justify">
+                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="View FFSS Details" exportable="false">
                                     <p:commandButton id="btnViewDetail" icon="pi pi-eye"
@@ -240,7 +274,7 @@
                                 </p:column>
                             </p:dataTable>
                         </div>
-                        <div class="div-25">
+                        <div class="div-5">
                         <p:column>    </p:column>
                         
                         </div>
@@ -249,14 +283,14 @@
                                 widgetVar="matchaccount" var="matchacc"
                                 value="#{rollupControllerBean.lstMatchAcc}" reflow="true"
                                 styleClass="matchacc-table" rowKey="#{matchacc.companyid}"
-                                paginator="true" rows="10" resizableColumns="true"
+                                paginator="true" rows="15" resizableColumns="true"   stripedRows="true"
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">
                                     <div class="rollups-table-header">
                                         <h:outputText value="GLOBAL VALIDATION" />
                                     </div>
                                 </f:facet>
-                                <p:column headerText="Hfmcode">
+                                <p:column headerText="Hfmcode"> 
                                     <h:outputText value="#{matchacc.hfmcode}" />
                                 </p:column>
                                 <p:column headerText="Description">
@@ -268,42 +302,50 @@
                             </p:dataTable>
                         </div>
                     </p:tab>
-                    <p:tab title="HHFF Detail" id="tabHHFFDetail" disabled="true">
+                    <p:tab title="FFSS Detail" id="tabHHFFDetail" disabled="true">
                         <p:dataTable id="dt-hfm-tab-ffss-details" 
                             widgetVar="dtHfmFfssDetails"
                             var="hfmffssDetail"
                             value="#{rollupControllerBean.lstHfmFfssDetails}"
                             reflow="true" styleClass="ui-datatable-tablewrapper"
-                            paginator="true" rows="10" resizableColumns="true"
+                            paginator="true" rows="10" resizableColumns="true" stickyHeader="true" stripedRows="true" tableStyle="width:auto" 
                             resizeMode="expand" paginatorPosition="bottom">
                             <f:facet name="header">
                                 <div class="hfmffss-table-header">
-                                    <span style="font-weight: bold">HFM FFSS DETAILS</span>
+                                    <span style="font-weight: bold"> FFSS DETAILS</span>
                                 </div>
                             </f:facet>
-                            <p:column headerText="ACCOUNT ID">
-                                <h:outputText value="#{hfmffssDetail.id.accountid}" />
+                            <p:column headerText="ACCOUNT ID"  sortBy="#{hfmffssDetail.id.accountid}" filterBy="#{hfmffssDetail.id.accountid}">
+                                <h:outputText value="#{hfmffssDetail.id.accountid}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="COST CENTER">
-                                <h:outputText value="#{hfmffssDetail.id.costcenter}" />
+                            <p:column headerText="COST CENTER" sortBy="#{hfmffssDetail.id.costcenter}" filterBy="#{hfmffssDetail.id.costcenter}">
+                                <h:outputText value="#{hfmffssDetail.id.costcenter}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="AMOUNT">
-                                <h:outputText value="#{hfmffssDetail.id.amount}" />
+                            <p:column headerText="AMOUNT" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}">
+                                <h:outputText value="#{hfmffssDetail.id.amount}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="PARTNER ID">
-                                <h:outputText value="#{hfmffssDetail.id.partnerid}" />
+                            <p:column headerText="PARTNER ID" sortBy="#{hfmffssDetail.id.partnerid}" filterBy="#{hfmffssDetail.id.partnerid}">
+                                <h:outputText value="#{hfmffssDetail.id.partnerid}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="ICP">
-                                <h:outputText value="#{hfmffssDetail.id.icp}" />
+                            <p:column headerText="ICP" sortBy="#{hfmffssDetail.id.icp}" filterBy="#{hfmffssDetail.id.icp}">
+                                <h:outputText value="#{hfmffssDetail.id.icp}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="BATCH NAME">
-                                <h:outputText value="#{hfmffssDetail.batchName}" />
+                            <p:column headerText="BATCH NAME" sortBy="#{hfmffssDetail.batchName}" filterBy="#{hfmffssDetail.batchName}">
+                                <h:outputText value="#{hfmffssDetail.batchName}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="DOC NUMBER">
-                                <h:outputText value="#{hfmffssDetail.docnumber}" />
+                            <p:column headerText="DOC NUMBER" sortBy="#{hfmffssDetail.docnumber}" filterBy="#{hfmffssDetail.docnumber}">
+                                <h:outputText value="#{hfmffssDetail.docnumber}" >
+                                </h:outputText>
                             </p:column>
-                            <p:column headerText="TP NAME">
-                                <h:outputText value="#{hfmffssDetail.tpname}"/>
+                            <p:column headerText="TP NAME" sortBy="#{hfmffssDetail.tpname}" filterBy="#{hfmffssDetail.tpname}">
+                                <h:outputText value="#{hfmffssDetail.tpname}" >
+                                </h:outputText>
                             </p:column>
                         </p:dataTable>
                     </p:tab>

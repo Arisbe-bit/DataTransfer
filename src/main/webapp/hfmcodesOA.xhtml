@@ -58,9 +58,9 @@
 					selection="#{setacchfmcodesControllerBean.lstSelectdAcc}"
 					rowKey="#{currentid.id.accountid}" 
 					paginator="true" 
-					rows="10"
+					rows="15"
 					rowSelectMode="add" 
-					size="small" 
+					size="small"  stickyHeader="true" stripedRows="true" 
 					paginatorPosition="bottom">
 					<f:facet name="header">
 						<span style="font-weight: bold">${setacchfmcodesControllerBean.title}</span>
@@ -117,7 +117,7 @@
 
 				<!-- This form is for add new o modify a code -->
 
-				<p:dialog header="Product Details" showEffect="fade" modal="true"
+				<p:dialog header="Accounts Details" showEffect="fade" modal="true"
 					widgetVar="#{setacchfmcodesControllerBean.dialogName}"
 					responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">

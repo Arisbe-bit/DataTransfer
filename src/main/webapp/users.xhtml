@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="title">
+		<title>${hfmusersControllerBean.title}</title>
+	</ui:define>
+
+	<ui:define name="header">
+		<h1>${hfmusersControllerBean.title}</h1>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{hfmusersControllerBean.openNew}"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{hfmusersControllerBean.dialogName}').show()"
+							styleClass="ui-button-success" style="margin-right: 0.3em">
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+						<p:commandButton
+							value="#{hfmusersControllerBean.deleteButtonMessage}"
+							id="#{hfmusersControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{hfmusersControllerBean.deleteSelected}"
+							styleClass="ui-button-danger" style="margin-left: 0.3em"
+							disabled="#{!hfmusersControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					
+				</p:toolbar>
+
+				<p:dataTable id="#{hfmusersControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentId"
+					value="#{hfmusersControllerBean.lstusers}" reflow="true"
+					styleClass="products-table"
+					selection="#{hfmusersControllerBean.lstSelectdUsers}"
+					rowKey="#{currentId.userid}" 
+					paginator="true" 
+					rows="10" stripedRows="true" 
+					rowSelectMode="add" 
+					size="small" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${hfmusersControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":form:#{hfmusersControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{hfmusersControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{hfmusersControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{hfmusersControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{hfmusersControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="User Id" sortBy="#{currentId.userid}" filterBy="#{currentId.userid}">
+						<h:outputText value="#{currentId.userid}" />
+					</p:column>
+					
+					<p:column headerText="Password" >
+						<h:outputText value="#{currentId.password}" />						  
+					</p:column>
+
+					<p:column headerText="User Name"  sortBy="#{currentId.username}" filterBy="#{currentId.username}">
+						<h:outputText value="#{currentId.username}" />
+					</p:column>
+
+					<p:column headerText="Access Sets"  sortBy="#{currentId.setnm}" filterBy="#{currentId.setnm}">
+						<h:outputText value="#{currentId.setnm}" />
+					</p:column>
+					
+					<p:column headerText="Access Rollup"  sortBy="#{currentId.rollup}" filterBy="#{currentId.rollup}">
+						<h:outputText value="#{currentId.rollup}" />
+					</p:column>
+					
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{hfmusersControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" 
+							process="@this">
+							<f:setPropertyActionListener value="#{currentid}" target="#{hfmusersControllerBean.curUsers}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" 
+							process="@this" 
+							style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentid}" target="#{hfmusersControllerBean.curUsers}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Users Details" showEffect="fade" modal="true"
+					widgetVar="#{hfmusersControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty hfmusersControllerBean.curUsers}">
+						<div class="p-field">
+								<p:outputLabel for="userid">User Id (maxlength 15)</p:outputLabel >
+								<p:inputText id="userid" value="#{hfmusersControllerBean.curUsers.userid}" maxlength="15" required="true" />
+							</div>	
+						<div class="p-field">
+								
+								<p:outputLabel for="password">Password (maxlength 10)</p:outputLabel>
+								<p:password id="password" value="#{hfmusersControllerBean.curUsers.password}"  maxlength="20" toggleMask="true" feedback="true" redisplay="true"/>
+								
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="username">Username (maxlength 20)</p:outputLabel>
+								<p:inputText id="username" value="#{hfmusersControllerBean.curUsers.username}" maxlength="20"	 required="true" />
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="sethfmcodes" value="SET HFM CODES" />
+								<p:selectOneMenu id="sethfmcodes"
+									value="#{hfmusersControllerBean.curUsers.setnm}">
+									<f:selectItem itemLabel="YES" itemValue="Y" />
+									<f:selectItem itemLabel="NO" itemValue="N" />
+								</p:selectOneMenu>
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="rollup" value="Rollup Process" />
+								<p:selectOneMenu id="rollup"
+									value="#{hfmusersControllerBean.curUsers.rollup}">
+									<f:selectItem itemLabel="YES" itemValue="Y" />
+									<f:selectItem itemLabel="NO" itemValue="N" />
+								</p:selectOneMenu>
+							</div>
+							
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" icon="pi pi-check"
+							actionListener="#{hfmusersControllerBean.save}"
+							update="manage-code-content" process="manage-code-content @this" />
+						<p:commandButton value="Cancel" icon="pi pi-times"
+							onclick="PF('#{hfmusersControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{hfmusersControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

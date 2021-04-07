@@ -139,7 +139,7 @@ public class HfmController {
     }
 
     public String getTitle() {
-        return "HFM Codes Mantaince";
+        return "HFM Codes Maintenance";
     }
     
     public String getDialogName() {
