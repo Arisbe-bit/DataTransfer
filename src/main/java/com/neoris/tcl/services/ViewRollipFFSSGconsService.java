@@ -1,6 +1,7 @@
 package com.neoris.tcl.services;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.text.ViewFactory;
 
@@ -28,10 +29,17 @@ public class ViewRollipFFSSGconsService implements IViewRollupFFSSGconsService{
 	}
 
 	@Override
-	public List<ViewFFSSGrouped> findByCompanyidAndhfmparentAndhfmcode(Long companyId, String hfmparent, String hfmcode) {
+	public List<Map<String, Object>> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent,
+			String hfmcode) {
+		return data.findByCompanyidAndhfmparentAndhfmcode(companyId, hfmparent,  hfmcode);
+	}
+
+	/*
+	@Override
+	public List<ViewFFSSGrouped> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent, String hfmcode) {
 		  return data.findByCompanyidAndhfmparentAndhfmcode(companyId, hfmparent,  hfmcode);
 	}
-	
+	*/
 	
 
 }

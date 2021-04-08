@@ -9,6 +9,7 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
 import java.time.Year;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -27,10 +28,12 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.ViewFFSSGrouped;
 import com.neoris.tcl.models.ViewRollupMacthFFSS;
 import com.neoris.tcl.services.IHfmFfssDetailsService;
 import com.neoris.tcl.services.IHfmFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
+import com.neoris.tcl.services.IViewRollupFFSSGconsService;
 import com.neoris.tcl.services.IViewRollupMatchFFSSService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ProcessRollUps;
@@ -54,6 +57,12 @@ public class RollupController {
     
     private List<ViewRollupMacthFFSS> lstMatchAcc;
  	private ViewRollupMacthFFSS curMacthAcc;
+ 	
+ 	
+ 	//sumarized FFSS 
+ 	 private List<ViewFFSSGrouped> lstSumFS;
+ 	private List<Map<String, Object>>  lstFSgrouped;
+     private ViewFFSSGrouped curFSgroup;
 
     @Autowired
     private IHfmRollupEntriesService service;
@@ -63,6 +72,11 @@ public class RollupController {
     private IHfmFfssDetailsService hfmFfssDetailsService;
     @Autowired
     private IViewRollupMatchFFSSService matchaccService;
+    @Autowired
+    private IViewRollupFFSSGconsService serviceFSG;
+    
+   
+    
      
     @PostConstruct
     public void init() {
@@ -409,7 +423,9 @@ public class RollupController {
 	        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
 	            Functions.addWarnMessage("Attention", String.format("No records found for companyId=%s", companyId));
 	        }
+	        
 	        LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
+	        
 	        this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
 	        LOG.info("return lstMatchAcc with items => {}", lstMatchAcc != null ? lstMatchAcc.size() : "is null");
 	
@@ -441,10 +457,40 @@ public class RollupController {
     public void setCurHfmFfss(HfmFfss curHfmFfss) {
         LOG.info("Obtains curHfmFfss = {}", curHfmFfss);
         this.curHfmFfss = curHfmFfss;
-
+        Long companyId = curHfmFfss.getCompanyId();
+        String vhfmcode = curHfmFfss.getHfmcode();
+        
+        String acc;
         try {
-        LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}, period = {}",
-                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getPeriod());
+            
+    	        LOG.info("Query SUM FFSS  LIST with company = {}", companyId);
+    	        
+    	        this.lstFSgrouped = serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
+    	        
+    	        LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ? lstFSgrouped.size() : "is null");
+    	
+    	        if (this.lstFSgrouped == null || this.lstFSgrouped.isEmpty()) {
+    	            String mensaje = String.format("No records found for companyId=%s", companyId);
+    	            LOG.info(mensaje);
+    	            Functions.addWarnMessage("Attention", mensaje);
+    	        } else {
+    	            LOG.info("Records for lstFSgrouped = {}", lstFSgrouped);
+    	            
+    	            this.lstFSgrouped.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
+    	        }
+            }catch (Exception e) {
+    			LOG.error("ERRor -> {}", e.getMessage());
+    		} 
+         
+        LOG.info("Update view...");
+        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dtfsgrouped");
+       
+        /*
+        
+        try {
+        LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}",
+                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode());
+        
         this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentOrIdHfmcode(
                 curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getHfmcode());
         
@@ -469,6 +515,9 @@ public class RollupController {
         
         LOG.info("Update view...");
         PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss-details");
+        
+        
+        */
     }
 
     /**
@@ -577,6 +626,43 @@ public class RollupController {
 
 	public void setCurMacthAcc(ViewRollupMacthFFSS curMacthAcc) {
 		this.curMacthAcc = curMacthAcc;
+	}
+	
+	
+
+	/*public List<ViewFFSSGrouped> getLstFSgrouped() {
+		return lstFSgrouped;
+	}
+
+	public void setLstFSgrouped(List<ViewFFSSGrouped> lstFSgrouped) {
+		this.lstFSgrouped = lstFSgrouped;
+	}
+
+*/
+	
+	
+	public List<ViewFFSSGrouped> getLstSumFS() {
+		return lstSumFS;
+	}
+
+	public void setLstSumFS(List<ViewFFSSGrouped> lstSumFS) {
+		this.lstSumFS = lstSumFS;
+	}
+
+	public ViewFFSSGrouped getCurFSgroup() {
+		return curFSgroup;
+	}
+
+	public List<Map<String, Object>> getLstFSgrouped() {
+		return lstFSgrouped;
+	}
+
+	public void setLstFSgrouped(List<Map<String, Object>> lstFSgrouped) {
+		this.lstFSgrouped = lstFSgrouped;
+	}
+
+	public void setCurFSgroup(ViewFFSSGrouped curFSgroup) {
+		this.curFSgroup = curFSgroup;
 	}
 
 	/**
