@@ -2,10 +2,10 @@ package com.neoris.tcl.services;
 
 import java.util.List;
 
-import com.neoris.tcl.models.ViewRollupMacthFFSS;
+import com.neoris.tcl.models.ViewRollupMatchFFSS;
 
 public interface IViewRollupMatchFFSSService {
 
-    List<ViewRollupMacthFFSS> findByCompanyid(Long companyId);
+    List<ViewRollupMatchFFSS> findByCompanyid(Long companyId);
 
 }

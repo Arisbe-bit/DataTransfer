@@ -9,13 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
-/**
- * The persistent class for the hfm_layout database table.
- * 
- */
+
 @Entity
-@Table(name="hfm_layout")
-public class HfmLayout implements Serializable {
+@Table(name="hfm_layout_hist")
+public class HfmLayoutHist implements Serializable  {
 
 
 	/**
@@ -24,7 +21,7 @@ public class HfmLayout implements Serializable {
 	private static final long serialVersionUID = 1707875553545677091L;
 
 	@EmbeddedId
-	private HfmLayoutPK id;
+	private HfmLayoutHistPK id;
 
 	@Column(name="account_old")
 	private String accountOld;
@@ -37,11 +34,11 @@ public class HfmLayout implements Serializable {
 
 	private Timestamp updated;
 
-	public HfmLayout() {
-	    this.setId(new HfmLayoutPK());
+	public HfmLayoutHist() {
+	    this.setId(new HfmLayoutHistPK());
 	}
 
-	public HfmLayout(HfmLayoutPK id, String accountOld, String data, String entity, Timestamp updated, String userid) {
+	public HfmLayoutHist(HfmLayoutHistPK id, String accountOld, String data, String entity, Timestamp updated, String userid) {
 		this.id = id;
 		this.accountOld = accountOld;
 		this.data = data;
@@ -50,11 +47,11 @@ public class HfmLayout implements Serializable {
 		this.userid = userid;
 	}
 
-	public HfmLayoutPK getId() {
+	public HfmLayoutHistPK getId() {
 		return this.id;
 	}
 
-	public void setId(HfmLayoutPK id) {
+	public void setId(HfmLayoutHistPK id) {
 		this.id = id;
 	}
 
@@ -100,10 +97,9 @@ public class HfmLayout implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HfmLayout [id=" + id + ", accountOld=" + accountOld + ", data=" + data + ", entity=" + entity
+		return "HfmLayoutHist [id=" + id + ", accountOld=" + accountOld + ", data=" + data + ", entity=" + entity
 				+ ", userid=" + userid + ", updated=" + updated + "]";
 	}
 
 	
-
 }

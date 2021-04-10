@@ -22,6 +22,6 @@ public interface IHfmFfssDetailsDao extends CrudRepository<HfmFfssDetails, HfmFf
      */
 	
 	
-    public List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcode(Long companyId, String hfmparent, String Hfmcode);
+    public List<HfmFfssDetails> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(int companyId, String Hfmcode,String costcenter,String accountid, String partnerid);
 
 }

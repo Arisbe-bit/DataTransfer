@@ -9,7 +9,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 		<title>HFM Layout</title>
 	</ui:define>
 	<ui:define name="header">
-		<h1>${hfmlayoutControllerBean.title}</h1>
+		<h1>${hfmlayouthistControllerBean.title}</h1>
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
@@ -20,15 +20,15 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 						<p:commandButton value="Export" icon="pi pi-upload"
 							styleClass="ui-button-help" ajax="false">
 							<p:dataExporter type="xls"
-								target="#{hfmlayoutControllerBean.dataTableName}"
-								fileName="${hfmlayoutControllerBean.title}" />
+								target="#{hfmlayouthistControllerBean.dataTableName}"
+								fileName="${hfmlayouthistControllerBean.title}" />
 						</p:commandButton>
 					</p:toolbarGroup>
 				</p:toolbar>
-				<p:dataTable id="#{hfmlayoutControllerBean.dataTableName}"
+				<p:dataTable id="#{hfmlayouthistControllerBean.dataTableName}"
 					widgetVar="dtCodes" 
 					var="curtps"
-					value="#{hfmlayoutControllerBean.lstLay}" reflow="true"
+					value="#{hfmlayouthistControllerBean.lstLay}" reflow="true"
 					styleClass="products-table"
 					rowKey="#{curtps.id.companyid}" 
 					paginator="true" 
@@ -37,7 +37,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 					size="small" 
 					paginatorPosition="bottom">
 					<f:facet name="header">
-						<span style="font-weight: bold">${hfmlayoutControllerBean.title}</span>
+						<span style="font-weight: bold">${hfmlayouthistControllerBean.title}</span>
 					</f:facet>
 
 					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">

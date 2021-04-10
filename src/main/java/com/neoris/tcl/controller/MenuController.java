@@ -117,6 +117,9 @@ public class MenuController {
         return String.format(REDIRECT, "layout");
     }
     
+    public String layouthist() {
+        return String.format(REDIRECT, "layouthist");
+    }
     
     public String Users() {
         return String.format(REDIRECT, "users");

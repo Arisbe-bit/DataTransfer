@@ -3,18 +3,8 @@ package com.neoris.tcl.models;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-
-/**
- * The primary key class for the hfm_layout database table.
- * 
- */
-@Embeddable
-public class HfmLayoutPK implements Serializable {
-
-	/**
-	 * 
-	 */
+public class HfmLayoutHistPK implements Serializable  {
+	
 	private static final long serialVersionUID = 4175596679844623203L;
 
 	private String account;
@@ -41,10 +31,10 @@ public class HfmLayoutPK implements Serializable {
 
 	private String zyear;
 
-	public HfmLayoutPK() {
+	public HfmLayoutHistPK() {
 	}
 
-	public HfmLayoutPK(String account, int companyid, String cust1, String cust2, String cust3, String cust4,
+	public HfmLayoutHistPK(String account, int companyid, String cust1, String cust2, String cust3, String cust4,
 			String icp, String period, String scenario, String value, String zview, String zyear) {
 		this.account = account;
 		this.companyid = companyid;
@@ -169,7 +159,7 @@ public class HfmLayoutPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HfmLayoutPK other = (HfmLayoutPK) obj;
+		HfmLayoutHistPK other = (HfmLayoutHistPK) obj;
 		return Objects.equals(account, other.account) && Objects.equals(companyid, other.companyid)
 				&& Objects.equals(cust1, other.cust1) && Objects.equals(cust2, other.cust2)
 				&& Objects.equals(cust3, other.cust3) && Objects.equals(cust4, other.cust4)
@@ -180,9 +170,10 @@ public class HfmLayoutPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HfmLayoutPK [account=" + account + ", companyid=" + companyid + ", cust1=" + cust1 + ", cust2=" + cust2
+		return "HfmLayoutHistPK [account=" + account + ", companyid=" + companyid + ", cust1=" + cust1 + ", cust2=" + cust2
 				+ ", cust3=" + cust3 + ", cust4=" + cust4 + ", icp=" + icp + ", period=" + period + ", scenario="
 				+ scenario + ", value=" + value + ", zview=" + zview + ", zyear=" + zyear + "]";
 	}
+
 
 }

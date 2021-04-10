@@ -18,7 +18,9 @@ public interface IViewRollupFFSSGconsDao extends JpaRepository<ViewFFSSGrouped, 
 			" where " + 
 			" companyid = ?1 " + 
 			" and (hfmparent = ?2 or hfmcode = ?3 ) ")
-	 // List<ViewFFSSGrouped> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent,String hfmcode);
-	List<Map<String,Object>> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent,String hfmcode);
+
+	List<Map<String,Object>> findByCompanyidAndhfmparentAndhfmcode(int companyid, String hfmparent,String hfmcode);
+	
+	 List<ViewFFSSGrouped> findByCompanyidAndHfmcode(int companyid,String hfmcode);
 
 }

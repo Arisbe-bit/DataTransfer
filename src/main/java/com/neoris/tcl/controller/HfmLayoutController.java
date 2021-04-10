@@ -19,7 +19,7 @@ import com.neoris.tcl.utils.ViewScope;
 public class HfmLayoutController {
 
 	
-private final static Logger LOG = LoggerFactory.getLogger(ViewPartnersICPController.class);
+private final static Logger LOG = LoggerFactory.getLogger(HfmLayoutController.class);
 	
 	@Autowired 
 	private IHfmLayoutService service;
@@ -58,7 +58,7 @@ private final static Logger LOG = LoggerFactory.getLogger(ViewPartnersICPControl
 	    }
 
 	  public String getTitle() {
-	        return "HFM Input Data by Company";
+	        return "HFM Layout by Company";
 	    }
 
 }

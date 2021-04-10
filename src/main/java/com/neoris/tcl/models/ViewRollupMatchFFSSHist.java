@@ -8,10 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "ROLLUP_VIEW_MATCH_FFSS")
-public class ViewRollupMacthFFSS  implements Serializable {
-	
+@Table(name = "ROLLUP_VIEW_MATCH_FFSSHIST")
+public class ViewRollupMatchFFSSHist  implements Serializable {
 	private static final long serialVersionUID = 5362381129863237217L;
 	
 
@@ -34,14 +34,14 @@ public class ViewRollupMacthFFSS  implements Serializable {
 
     private String description;
 
-    public ViewRollupMacthFFSS() {
+    public ViewRollupMatchFFSSHist() {
 
     }
 
   
 
     
-    public ViewRollupMacthFFSS(Long num, Long companyid, String hfmcode, int balance, String classification,
+    public ViewRollupMatchFFSSHist(Long num, Long companyid, String hfmcode, int balance, String classification,
 			String naturalb, String period, String errortext, String description) {
 	
 		this.num = num;

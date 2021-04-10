@@ -3,14 +3,13 @@ package com.neoris.tcl.models;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-/**
- * The primary key class for the hfm_ffss database table.
- * 
- */
+
 @Embeddable
-public class HfmFfssPK implements Serializable {
+public class HfmFfssHistPK implements Serializable {
+	
 
 	private static final long serialVersionUID = 1554517960434348057L;
 
@@ -26,10 +25,10 @@ public class HfmFfssPK implements Serializable {
 	@Column(name = "PERIOD")
 	private String period;
 
-	public HfmFfssPK() {
+	public HfmFfssHistPK() {
 	}
 
-	public HfmFfssPK(Long companyId, String currencyCode, String hfmcode, String period) {
+	public HfmFfssHistPK(Long companyId, String currencyCode, String hfmcode, String period) {
 		this.companyId = companyId;
 		this.currencyCode = currencyCode;
 		this.hfmcode = hfmcode;
@@ -81,7 +80,7 @@ public class HfmFfssPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HfmFfssPK other = (HfmFfssPK) obj;
+		HfmFfssHistPK other = (HfmFfssHistPK) obj;
 		return Objects.equals(companyId, other.companyId) && Objects.equals(currencyCode, other.currencyCode)
 				&& Objects.equals(hfmcode, other.hfmcode) && Objects.equals(period, other.period);
 	}
@@ -91,5 +90,6 @@ public class HfmFfssPK implements Serializable {
 		return "HfmFfssPK [companyId=" + companyId + ", currencyCode=" + currencyCode + ", hfmcode=" + hfmcode
 				+ ", period=" + period + "]";
 	}
+
 
 }

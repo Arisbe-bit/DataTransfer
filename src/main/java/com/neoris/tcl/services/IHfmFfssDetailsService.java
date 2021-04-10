@@ -20,6 +20,6 @@ public interface IHfmFfssDetailsService {
 	
 	void deleteAll(List<HfmFfssDetails> entityList);
 	
-	List<HfmFfssDetails> findByIdCompanyidAndHfmparentOrIdHfmcode(Long companyId, String hfmparent, String hfmcode);
+	 List<HfmFfssDetails> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(int companyId, String Hfmcode,String costcenter,String accountid, String partnerid);
 
 }

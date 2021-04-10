@@ -1,6 +1,9 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -17,54 +20,83 @@ public class HfmFfssDetailsPK implements Serializable {
      */
     private static final long serialVersionUID = -4230285608917531891L;
 
-    private String accountid;
-
-    private String amount;
-
-    private String areadid;
-
-    private Long companyid;
-
-    private String costcenter;
-
-    @Column(name = "CURRENCY_CODE", columnDefinition = "VARCHAR(3) default 'USD'")
-    private String currencyCode;
-
-    private String datasource;
-
     private String hfmcode;
-
-    @Column(name = "hfmcode_old")
-    private String hfmcodeOld;
-
-    private String icp;
-
-    private String partnerid;
-
-    private String period;
+	private String accountid;
+	private String icp;
+	private BigDecimal amount;
+	private String period;
+	private String partnerid;
+	private int companyid;
+	private String datasource;
+	
+	
+	@Column(name="CURRENCY_CODE")
+	private String currencycode;
+	
+	@Column(name="COSTCENTER")
+	private String costcenter;
+	
+	@Column(name="PERIOD_NAME")
+	private String periodnm;
 
     public HfmFfssDetailsPK() {
+    	
     }
 
-    public HfmFfssDetailsPK(String accountid, String amount, String areadid, Long companyid, String costcenter,
-            String currencyCode, String datasource, String hfmcode, String hfmcodeOld, String icp, String partnerid,
-            String period) {
-        super();
-        this.accountid = accountid;
-        this.amount = amount;
-        this.areadid = areadid;
-        this.companyid = companyid;
-        this.costcenter = costcenter;
-        this.currencyCode = currencyCode;
-        this.datasource = datasource;
-        this.hfmcode = hfmcode;
-        this.hfmcodeOld = hfmcodeOld;
-        this.icp = icp;
-        this.partnerid = partnerid;
-        this.period = period;
-    }
+    
 
-    public String getAccountid() {
+    public HfmFfssDetailsPK(String hfmcode, String accountid, String icp, BigDecimal amount, String period, String partnerid,
+			int companyid, String datasource, String currencycode, String costcenter, String periodnm) {
+		
+		this.hfmcode = hfmcode;
+		this.accountid = accountid;
+		this.icp = icp;
+		this.amount = amount;
+		this.period = period;
+		this.partnerid = partnerid;
+		this.companyid = companyid;
+		this.datasource = datasource;
+		this.currencycode = currencycode;
+		this.costcenter = costcenter;
+		this.periodnm = periodnm;
+	}
+
+
+
+	public String getCurrencycode() {
+		return currencycode;
+	}
+
+
+
+	public void setCurrencycode(String currencycode) {
+		this.currencycode = currencycode;
+	}
+
+
+
+	public String getPeriodnm() {
+		return periodnm;
+	}
+
+
+
+	public void setPeriodnm(String periodnm) {
+		this.periodnm = periodnm;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	
+
+
+	public String getAccountid() {
         return this.accountid;
     }
 
@@ -72,27 +104,13 @@ public class HfmFfssDetailsPK implements Serializable {
         this.accountid = accountid;
     }
 
-    public String getAmount() {
-        return this.amount;
-    }
+    
 
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public String getAreadid() {
-        return this.areadid;
-    }
-
-    public void setAreadid(String areadid) {
-        this.areadid = areadid;
-    }
-
-    public Long getCompanyid() {
+    public int getCompanyid() {
         return this.companyid;
     }
 
-    public void setCompanyid(Long companyid) {
+    public void setCompanyid(int companyid) {
         this.companyid = companyid;
     }
 
@@ -104,14 +122,7 @@ public class HfmFfssDetailsPK implements Serializable {
         this.costcenter = costcenter;
     }
 
-    public String getCurrencyCode() {
-        return this.currencyCode;
-    }
-
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
-    }
-
+   
     public String getDatasource() {
         return this.datasource;
     }
@@ -128,13 +139,7 @@ public class HfmFfssDetailsPK implements Serializable {
         this.hfmcode = hfmcode;
     }
 
-    public String getHfmcodeOld() {
-        return this.hfmcodeOld;
-    }
-
-    public void setHfmcodeOld(String hfmcodeOld) {
-        this.hfmcodeOld = hfmcodeOld;
-    }
+    
 
     public String getIcp() {
         return this.icp;
@@ -162,8 +167,8 @@ public class HfmFfssDetailsPK implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountid, amount, areadid, companyid, costcenter, currencyCode, datasource, hfmcode,
-                hfmcodeOld, icp, partnerid, period);
+        return Objects.hash(accountid, amount,  companyid, costcenter, currencycode, datasource, hfmcode,
+                 icp, partnerid, period);
     }
 
     @Override
@@ -176,19 +181,23 @@ public class HfmFfssDetailsPK implements Serializable {
             return false;
         HfmFfssDetailsPK other = (HfmFfssDetailsPK) obj;
         return Objects.equals(accountid, other.accountid) && Objects.equals(amount, other.amount)
-                && Objects.equals(areadid, other.areadid) && Objects.equals(companyid, other.companyid)
-                && Objects.equals(costcenter, other.costcenter) && Objects.equals(currencyCode, other.currencyCode)
+                && Objects.equals(companyid, other.companyid)
+                && Objects.equals(costcenter, other.costcenter) && Objects.equals(currencycode, other.currencycode)
                 && Objects.equals(datasource, other.datasource) && Objects.equals(hfmcode, other.hfmcode)
-                && Objects.equals(hfmcodeOld, other.hfmcodeOld) && Objects.equals(icp, other.icp)
+                 && Objects.equals(icp, other.icp)
                 && Objects.equals(partnerid, other.partnerid) && Objects.equals(period, other.period);
     }
 
-    @Override
-    public String toString() {
-        return "HfmFfssDetailsPK [accountid=" + accountid + ", amount=" + amount + ", areadid=" + areadid
-                + ", companyid=" + companyid + ", costcenter=" + costcenter + ", currencyCode=" + currencyCode
-                + ", datasource=" + datasource + ", hfmcode=" + hfmcode + ", hfmcodeOld=" + hfmcodeOld + ", icp=" + icp
-                + ", partnerid=" + partnerid + ", period=" + period + "]";
-    }
+
+
+	@Override
+	public String toString() {
+		return "HfmFfssDetailsPK [hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp + ", amount="
+				+ amount + ", period=" + period + ", partnerid=" + partnerid + ", companyid=" + companyid
+				+ ", datasource=" + datasource + ", currencycode=" + currencycode + ", costcenter=" + costcenter
+				+ ", periodnm=" + periodnm + "]";
+	}
+
+    
 
 }

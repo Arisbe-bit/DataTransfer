@@ -20,6 +20,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,9 +28,11 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
+import com.neoris.tcl.models.HfmLayout;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.ViewFFSSGrouped;
-import com.neoris.tcl.models.ViewRollupMacthFFSS;
+import com.neoris.tcl.models.ViewRollupMatchFFSS;
+import com.neoris.tcl.services.HfmLayoutService;
 import com.neoris.tcl.services.IHfmFfssDetailsService;
 import com.neoris.tcl.services.IHfmFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
@@ -55,8 +58,8 @@ public class RollupController {
 
     private List<HfmFfssDetails> lstHfmFfssDetails;
     
-    private List<ViewRollupMacthFFSS> lstMatchAcc;
- 	private ViewRollupMacthFFSS curMacthAcc;
+    private List<ViewRollupMatchFFSS> lstMatchAcc;
+ 	private ViewRollupMatchFFSS curMacthAcc;
  	
  	
  	//sumarized FFSS 
@@ -64,6 +67,10 @@ public class RollupController {
  	private List<Map<String, Object>>  lstFSgrouped;
      private ViewFFSSGrouped curFSgroup;
 
+     //HFM Layout
+     private List<HfmLayout> lstlayout;
+     private HfmLayout curlayout;
+     
     @Autowired
     private IHfmRollupEntriesService service;
     @Autowired
@@ -73,9 +80,9 @@ public class RollupController {
     @Autowired
     private IViewRollupMatchFFSSService matchaccService;
     @Autowired
-    private IViewRollupFFSSGconsService serviceFSG;
-    
-   
+    private IViewRollupFFSSGconsService serviceFSG;    
+    @Autowired
+    private HfmLayoutService serviceLay; 
     
      
     @PostConstruct
@@ -104,6 +111,9 @@ public class RollupController {
             return "ui-button-secondary";
         }
     }
+    
+ 
+
 
     public String getFormNameId() {
         return "rollupForm";
@@ -129,8 +139,8 @@ public class RollupController {
         PrimeFaces.current().ajax().update(DT_ROLLUP);
 
         for (HfmRollupEntries rollup : lstSelectedRollups) {
-            // buscamos el rollup y lo procesamos desde la lista original
-            // de otro modo, no se refrescan los mensajes.
+            // find rollup and its processing  from original list
+            // if not, the messages dont refreshing
             int idx = this.lstRollUps.indexOf(rollup);
             processRollUp(this.lstRollUps.get(idx));
             PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
@@ -176,6 +186,27 @@ public class RollupController {
         LOG.info("Finish processing rollups!!");
     }
 
+    /**
+     * 
+     * @param event
+     */
+    //ActionEvent event
+    public void layoutprocess() {
+    	LOG.info("Running process with rollUpBean = {}, event = {}", curRollUp);
+
+    	int comapnyid = this.curRollUp.getCompanyid().intValue();
+    	String period =  this.curRollUp.getRperiod();
+    	String vyear =  this.curRollUp.getRyear();
+    	
+    	
+    	serviceLay.rollUpLayout(comapnyid, period, vyear, "system");
+    	
+    	Functions.addInfoMessage("Succes", "Layout Proceced!!");
+        
+        PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
+    	
+    }
+    
     private void processMatchAccount(HfmRollupEntries rollUp) {
         rollUp.setAttribute6(HfmRollupEntries.STATUS_PROCESSING);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
@@ -420,9 +451,9 @@ public class RollupController {
 			LOG.info("return lstHfmFfss with items => {}", lstHfmFfss != null ? lstHfmFfss.size() : "is null");
 	
 	        
-	        if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
+	      /*  if (this.lstHfmFfss == null || this.lstHfmFfss.isEmpty()) {
 	            Functions.addWarnMessage("Attention", String.format("No records found for companyId=%s", companyId));
-	        }
+	        }*/
 	        
 	        LOG.info("Query MATCH ACCOUNT LIST with company = {}", companyId);
 	        
@@ -432,10 +463,26 @@ public class RollupController {
 	        if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
 	            String mensaje = String.format("No Match account records found for companyId=%s", companyId);
 	            LOG.info(mensaje);
-	            Functions.addWarnMessage("Attention", mensaje);
+	           // Functions.addWarnMessage("Attention", mensaje);
 	        } else {
 	            LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
 	        }
+	        
+	        
+	        LOG.info("Query lstlayout LIST with company = {}", companyId);
+	        
+	        this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
+	        LOG.info("return lstlayout with items => {}", lstlayout != null ? lstlayout.size() : "is null");
+	
+	        if (this.lstlayout == null || this.lstlayout.isEmpty()) {
+	            String mensaje = String.format("No records found for companyId=%s", companyId);
+	            LOG.info(mensaje);
+	           // Functions.addWarnMessage("Attention", mensaje);
+	        } else {
+	            LOG.info("Records for lstlayout = {}", lstlayout);
+	        }
+	        
+	        
         }catch (Exception e) {
 			LOG.error("ERRor -> {}", e.getMessage());
 		} 
@@ -457,67 +504,36 @@ public class RollupController {
     public void setCurHfmFfss(HfmFfss curHfmFfss) {
         LOG.info("Obtains curHfmFfss = {}", curHfmFfss);
         this.curHfmFfss = curHfmFfss;
-        Long companyId = curHfmFfss.getCompanyId();
+        Long companyid = curHfmFfss.getCompanyId();
         String vhfmcode = curHfmFfss.getHfmcode();
         
-        String acc;
+        
         try {
             
-    	        LOG.info("Query SUM FFSS  LIST with company = {}", companyId);
+    	        LOG.info("Query SUM FFSS  LIST with company = {}", companyid);
     	        
-    	        this.lstFSgrouped = serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
-    	        
-    	        LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ? lstFSgrouped.size() : "is null");
+    	        //this.lstFSgrouped = serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
+    	        this.lstSumFS =  serviceFSG.findByCompanyidAndHfmcode(companyid.intValue(),vhfmcode);
+    	        //LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ? lstFSgrouped.size() : "is null");
+    	        LOG.info("return lstFSgrouped with items => {}", lstSumFS != null ? lstSumFS.size() : "is null");
     	
-    	        if (this.lstFSgrouped == null || this.lstFSgrouped.isEmpty()) {
-    	            String mensaje = String.format("No records found for companyId=%s", companyId);
+    	        if (this.lstSumFS == null || this.lstSumFS.isEmpty()) {
+    	            String mensaje = String.format("No records found (Sumarized FFSS )for companyId=%s", companyid);
     	            LOG.info(mensaje);
-    	            Functions.addWarnMessage("Attention", mensaje);
+    	            //Functions.addWarnMessage("Attention", mensaje);
     	        } else {
-    	            LOG.info("Records for lstFSgrouped = {}", lstFSgrouped);
+    	            LOG.info("Records for lstSumFS = {}", lstSumFS);
     	            
-    	            this.lstFSgrouped.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
+    	           // this.lstSumFS.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
     	        }
             }catch (Exception e) {
     			LOG.error("ERRor -> {}", e.getMessage());
     		} 
          
-        LOG.info("Update view...");
+        LOG.info("Update view grouped FFSS ...");
         PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dtfsgrouped");
        
-        /*
-        
-        try {
-        LOG.info("Query HFM_FFSS_DETAIL with company = {}, hfmcode = {}",
-                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode());
-        
-        this.lstHfmFfssDetails = hfmFfssDetailsService.findByIdCompanyidAndHfmparentOrIdHfmcode(
-                curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(), curHfmFfss.getHfmcode());
-        
-        LOG.info("return lstHfmFfssDetails con items => {}", this.lstHfmFfssDetails != null ? this.lstHfmFfssDetails.size() : "es nulo");
-        
-        
-        LOG.info("Records for lstHfmFfssDetails = {}", lstHfmFfssDetails);
-        
-        this.lstHfmFfssDetails.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
-        }catch (Exception e) {
-			LOG.error("ERRor -> {}", e.getMessage());
-          
-        }
-        
-        if (this.lstHfmFfssDetails == null || this.lstHfmFfssDetails.isEmpty()) {
-            Functions.addWarnMessage("Attention",
-                    String.format("No records found for companyId=%s, hfmcode=%s and period=%s",
-                            curHfmFfss.getCompanyId(), curHfmFfss.getHfmcode(),
-                            curHfmFfss.getPeriod()));
-        }
-
-        
-        LOG.info("Update view...");
-        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:dt-hfm-tab-ffss-details");
-        
-        
-        */
+       
     }
 
     /**
@@ -612,19 +628,19 @@ public class RollupController {
         return "RollUps";
     }
 
-	public List<ViewRollupMacthFFSS> getLstMatchAcc() {
+	public List<ViewRollupMatchFFSS> getLstMatchAcc() {
 		return lstMatchAcc;
 	}
 
-	public void setLstMatchAcc(List<ViewRollupMacthFFSS> lstMatchAcc) {
+	public void setLstMatchAcc(List<ViewRollupMatchFFSS> lstMatchAcc) {
 		this.lstMatchAcc = lstMatchAcc;
 	}
 
-	public ViewRollupMacthFFSS getCurMacthAcc() {
+	public ViewRollupMatchFFSS getCurMacthAcc() {
 		return curMacthAcc;
 	}
 
-	public void setCurMacthAcc(ViewRollupMacthFFSS curMacthAcc) {
+	public void setCurMacthAcc(ViewRollupMatchFFSS curMacthAcc) {
 		this.curMacthAcc = curMacthAcc;
 	}
 	
@@ -663,6 +679,59 @@ public class RollupController {
 
 	public void setCurFSgroup(ViewFFSSGrouped curFSgroup) {
 		this.curFSgroup = curFSgroup;
+		
+		 LOG.info("Obtains curFSgroup = {}", curFSgroup);
+	        
+	        int companyid = curFSgroup.getCompanyid();
+	        String vhfmcode = curFSgroup.getHfmcode();
+	        String partnerid = curFSgroup.getPartnerid();
+	        String costcenter = curFSgroup.getCostcenter();
+	        String accountid = curFSgroup.getAccountid();
+	        
+	        
+	        try {
+	            
+	    	        LOG.info("Query FFSS Details LIST with company = {}", companyid);
+	    	        
+	    	        
+	    	        this.lstHfmFfssDetails =  hfmFfssDetailsService.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid
+	    	        		(companyid,vhfmcode,costcenter,accountid,partnerid);
+	    	        
+	    	        LOG.info("return lstHfmFfssDetails with items => {}", lstHfmFfssDetails != null ? lstHfmFfssDetails.size() : "is null");
+	    	
+	    	        if (this.lstHfmFfssDetails == null || this.lstHfmFfssDetails.isEmpty()) {
+	    	            String mensaje = String.format("No records found ( FFSS Details )for companyId=%s", companyid);
+	    	            LOG.info(mensaje);
+	    	           // Functions.addWarnMessage("Attention", mensaje);
+	    	        } else {
+	    	            LOG.info("Records for lstHfmFfssDetails = {}", lstHfmFfssDetails);
+	    	            
+	    	            this.lstHfmFfssDetails.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
+	    	        }
+	            }catch (Exception e) {
+	    			LOG.error("ERRor -> {}", e.getMessage());
+	    		} 
+	         
+	        LOG.info("Update view FFSS Details ...");
+	        PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:tabViewRollUps:tabHHFFDetail");
+	       
+	}
+
+	
+	public List<HfmLayout> getLstlayout() {
+		return lstlayout;
+	}
+
+	public void setLstlayout(List<HfmLayout> lstlayout) {
+		this.lstlayout = lstlayout;
+	}
+
+	public HfmLayout getCurlayout() {
+		return curlayout;
+	}
+
+	public void setCurlayout(HfmLayout curlayout) {
+		this.curlayout = curlayout;
 	}
 
 	/**

@@ -1,6 +1,9 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -27,87 +30,295 @@ public class HfmFfssDetails implements Serializable {
 	
 	
 
-	@Column(name="batch_name")
-	private String batchName;
+private String tpname;
+	
+@Column(name="HFMCODE_OLD")
+private String hfmcodeold;
 
-	private String docnumber;
+@Column(name="BATCH_NAME")
+private String batchname;
+private String docnumber;
 
-	private String tpname;
+private String upd;
+private String hfmparent;
+private String userid;
 
-	private String userid;
-
-	private String hfmparent;
-	
-	
-	private String category;
-	
-
-	private String debit;
-	
-	private String credit;
-	
-	@Column(name = "trans_credit")
-	private String transcredit;
-	
-	@Column(name = "trans_debit")
-	private String transdebit;
-	
-	@Column(name = "error_text")
-	private String errortext;
-	
-	@Column(name = "invoice_date")
-	private String invoicedate;
-	
-	@Column(name = "je_header_id")
-	private String jeheaderid;
-	
-	@Column(name = "je_header_id_rev")
-	private String jeheaderidrev;
-
-	
-	private String omit;
-	
-	@Column(name = "period_name")
-	private String periodname;
-	
-	public String getPeriodname() {
-		return periodname;
-	}
+@Column(name="ERROR_TEXT")
+private String errortext;
 
 
+@Column(name="JE_HEADER_ID")
+private int headerid;
 
-	public void setPeriodname(String periodname) {
-		this.periodname = periodname;
-	}
+@Column(name="JE_HEADER_ID_REV" , columnDefinition = "NUMBER default 0 ")
+private int headeridrev;
+
+private BigDecimal debit;
+private BigDecimal credit;
+
+@Column(name="TRANS_DEBIT")
+private BigDecimal transdebit;
+
+@Column(name="TRANS_CREDIT")
+private BigDecimal transcredit;
+
+@Column(name="INVOICE_DATE")
+private String invoicedate;
+
+private String category;
+private String omit;
+private String areaid;
 
 
-
+	
+	
 	public HfmFfssDetails() {
 	    this.setId(new HfmFfssDetailsPK());
 	}
 
+	
+	
+	
 
 
-	public HfmFfssDetails(HfmFfssDetailsPK id, String batchName, String docnumber, String tpname, String userid,
-			String hfmparent, String category, String debit, String credit, String transcredit, String transdebit,
-			String errortext, String invoicedate, String jeheaderid, String jeheaderidrev, String omit, String periodname) {
+	public HfmFfssDetails(HfmFfssDetailsPK id, String tpname, String hfmcodeold, String batchname, String docnumber,
+			String upd, String hfmparent, String userid, String errortext, int headerid, int headeridrev, BigDecimal debit,
+			BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate, String category, String omit,
+			String areaid) {
+		
 		this.id = id;
-		this.batchName = batchName;
-		this.docnumber = docnumber;
 		this.tpname = tpname;
-		this.userid = userid;
+		this.hfmcodeold = hfmcodeold;
+		this.batchname = batchname;
+		this.docnumber = docnumber;
+		this.upd = upd;
 		this.hfmparent = hfmparent;
-		this.category = category;
+		this.userid = userid;
+		this.errortext = errortext;
+		this.headerid = headerid;
+		this.headeridrev = headeridrev;
 		this.debit = debit;
 		this.credit = credit;
-		this.transcredit = transcredit;
 		this.transdebit = transdebit;
-		this.errortext = errortext;
+		this.transcredit = transcredit;
 		this.invoicedate = invoicedate;
-		this.jeheaderid = jeheaderid;
-		this.jeheaderidrev = jeheaderidrev;
+		this.category = category;
 		this.omit = omit;
-		this.periodname = periodname;
+		this.areaid = areaid;
+	}
+
+
+
+
+
+
+
+
+
+
+	public String getHfmcodeold() {
+		return hfmcodeold;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setHfmcodeold(String hfmcodeold) {
+		this.hfmcodeold = hfmcodeold;
+	}
+
+
+
+
+
+
+
+
+
+
+	public String getBatchname() {
+		return batchname;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setBatchname(String batchname) {
+		this.batchname = batchname;
+	}
+
+
+
+
+
+
+
+
+
+
+	public String getUpd() {
+		return upd;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setUpd(String upd) {
+		this.upd = upd;
+	}
+
+
+
+
+
+
+
+
+
+
+	public int getHeaderid() {
+		return headerid;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setHeaderid(int headerid) {
+		this.headerid = headerid;
+	}
+
+
+
+
+
+
+
+
+
+
+	public int getHeaderidrev() {
+		return headeridrev;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setHeaderidrev(int headeridrev) {
+		this.headeridrev = headeridrev;
+	}
+
+
+
+
+
+
+
+
+
+
+	public String getAreaid() {
+		return areaid;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setAreaid(String areaid) {
+		this.areaid = areaid;
+	}
+
+
+
+
+
+
+
+
+
+
+	public HfmFfssDetailsPK getId() {
+		return id;
+	}
+
+
+
+	public void setId(HfmFfssDetailsPK id) {
+		this.id = id;
+	}
+
+
+
+	
+
+
+	public String getDocnumber() {
+		return docnumber;
+	}
+
+
+
+	public void setDocnumber(String docnumber) {
+		this.docnumber = docnumber;
+	}
+
+
+
+	public String getTpname() {
+		return tpname;
+	}
+
+
+
+	public void setTpname(String tpname) {
+		this.tpname = tpname;
+	}
+
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 
@@ -136,53 +347,52 @@ public class HfmFfssDetails implements Serializable {
 
 
 
-	public String getDebit() {
+	public BigDecimal getDebit() {
 		return debit;
 	}
 
 
 
-	public void setDebit(String debit) {
+	public void setDebit(BigDecimal debit) {
 		this.debit = debit;
 	}
 
 
 
-	public String getCredit() {
+	public BigDecimal getCredit() {
 		return credit;
 	}
 
 
 
-	public void setCredit(String credit) {
+	public void setCredit(BigDecimal credit) {
 		this.credit = credit;
 	}
 
 
 
-	public String getTranscredit() {
+	public BigDecimal getTranscredit() {
 		return transcredit;
 	}
 
 
 
-	public void setTranscredit(String transcredit) {
+	public void setTranscredit(BigDecimal transcredit) {
 		this.transcredit = transcredit;
 	}
 
 
-
-	public String getTransdebit() {
+	public BigDecimal getTransdebit() {
 		return transdebit;
 	}
 
 
 
-	public void setTransdebit(String transdebit) {
+	public void setTransdebit(BigDecimal transdebit) {
 		this.transdebit = transdebit;
 	}
 
-
+	
 
 	public String getErrortext() {
 		return errortext;
@@ -208,27 +418,7 @@ public class HfmFfssDetails implements Serializable {
 
 
 
-	public String getJeheaderid() {
-		return jeheaderid;
-	}
-
-
-
-	public void setJeheaderid(String jeheaderid) {
-		this.jeheaderid = jeheaderid;
-	}
-
-
-
-	public String getJeheaderidrev() {
-		return jeheaderidrev;
-	}
-
-
-
-	public void setJeheaderidrev(String jeheaderidrev) {
-		this.jeheaderidrev = jeheaderidrev;
-	}
+	
 
 
 
@@ -244,57 +434,29 @@ public class HfmFfssDetails implements Serializable {
 
 
 
-	public HfmFfssDetailsPK getId() {
-		return this.id;
-	}
 
-	public void setId(HfmFfssDetailsPK id) {
-		this.id = id;
-	}
 
-	public String getBatchName() {
-		return this.batchName;
-	}
 
-	public void setBatchName(String batchName) {
-		this.batchName = batchName;
-	}
 
-	public String getDocnumber() {
-		return this.docnumber;
-	}
-
-	public void setDocnumber(String docnumber) {
-		this.docnumber = docnumber;
-	}
-
-	public String getTpname() {
-		return this.tpname;
-	}
-
-	public void setTpname(String tpname) {
-		this.tpname = tpname;
-	}
-
-	public String getUserid() {
-		return this.userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
 
 
 
 	@Override
 	public String toString() {
-		return "HfmFfssDetails [id=" + id + ", batchName=" + batchName + ", docnumber=" + docnumber + ", tpname="
-				+ tpname + ", userid=" + userid + ", hfmparent=" + hfmparent + ", category=" + category + ", debit="
-				+ debit + ", credit=" + credit + ", transcredit=" + transcredit + ", transdebit=" + transdebit
-				+ ", errortext=" + errortext + ", invoicedate=" + invoicedate + ", jeheaderid=" + jeheaderid
-				+ ", jeheaderidrev=" + jeheaderidrev + ", omit=" + omit + ", periodname=" + periodname + "]";
+		return "HfmFfssDetails [id=" + id + ", tpname=" + tpname + ", hfmcodeold=" + hfmcodeold + ", batchname="
+				+ batchname + ", docnumber=" + docnumber + ", upd=" + upd + ", hfmparent=" + hfmparent + ", userid="
+				+ userid + ", errortext=" + errortext + ", headerid=" + headerid + ", headeridrev=" + headeridrev
+				+ ", debit=" + debit + ", credit=" + credit + ", transdebit=" + transdebit + ", transcredit="
+				+ transcredit + ", invoicedate=" + invoicedate + ", category=" + category + ", omit=" + omit
+				+ ", areaid=" + areaid + "]";
 	}
 
+
+
+	
+
+
+	
 
 
 }

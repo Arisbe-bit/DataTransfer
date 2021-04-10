@@ -34,12 +34,12 @@ public class ViewRollipFFSSGconsService implements IViewRollupFFSSGconsService{
 		return data.findByCompanyidAndhfmparentAndhfmcode(companyId, hfmparent,  hfmcode);
 	}
 
-	/*
+	
 	@Override
-	public List<ViewFFSSGrouped> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent, String hfmcode) {
-		  return data.findByCompanyidAndhfmparentAndhfmcode(companyId, hfmparent,  hfmcode);
+	public List<ViewFFSSGrouped> findByCompanyidAndHfmcode(int companyid,  String hfmcode) {
+		  return data.findByCompanyidAndHfmcode(companyid,  hfmcode);
 	}
-	*/
+	
 	
 
 }
