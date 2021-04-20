@@ -32,6 +32,8 @@ public class HfmLayout implements Serializable {
 	private String data;
 
 	private String entity;
+	
+	private String userid;
 
 	private Timestamp updated;
 
@@ -39,12 +41,13 @@ public class HfmLayout implements Serializable {
 	    this.setId(new HfmLayoutPK());
 	}
 
-	public HfmLayout(HfmLayoutPK id, String accountOld, String data, String entity, Timestamp updated) {
+	public HfmLayout(HfmLayoutPK id, String accountOld, String data, String entity, Timestamp updated, String userid) {
 		this.id = id;
 		this.accountOld = accountOld;
 		this.data = data;
 		this.entity = entity;
 		this.updated = updated;
+		this.userid = userid;
 	}
 
 	public HfmLayoutPK getId() {
@@ -87,10 +90,20 @@ public class HfmLayout implements Serializable {
 		this.updated = updated;
 	}
 
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 	@Override
 	public String toString() {
 		return "HfmLayout [id=" + id + ", accountOld=" + accountOld + ", data=" + data + ", entity=" + entity
-				+ ", updated=" + updated + "]";
+				+ ", userid=" + userid + ", updated=" + updated + "]";
 	}
+
+	
 
 }

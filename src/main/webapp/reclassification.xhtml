@@ -74,6 +74,9 @@
 					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
 					</p:column>
 
+					<p:column headerText="Origin Cost Center"  sortBy="#{currentid.origincc}" filterBy="#{currentid.origincc}">
+						<h:outputText value="#{currentid.origincc}" />
+					</p:column>
 					<p:column headerText="Origin Account" sortBy="#{currentid.id.originaccount}" filterBy="#{currentid.id.originaccount}">
 						<h:outputText value="#{currentid.id.originaccount}" />
 					</p:column>
@@ -82,13 +85,6 @@
 						<h:outputText value="#{currentid.id.destaccount}" />
 					</p:column>
 
-					<p:column headerText="Origin Cost Center"  sortBy="#{currentid.origincc}" filterBy="#{currentid.origincc}">
-						<h:outputText value="#{currentid.origincc}" />
-					</p:column>
-
-					<p:column headerText="Destination Cost Center"  sortBy="#{currentid.destaccount}" filterBy="#{currentid.destcc}">
-						<h:outputText value="#{currentid.destcc}" />
-					</p:column>
 					
 					<p:column headerText="Actions" exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
@@ -120,6 +116,12 @@
 						<p:outputPanel
 							rendered="#{not empty setreclassifaccControllerBean.curracc}">
 							<div class="p-field">
+								<p:outputLabel for="origincc">origincc</p:outputLabel>
+								<p:inputText id="origincc"
+									value="#{setreclassifaccControllerBean.curracc.origincc}"
+									required="true" />
+							</div>
+							<div class="p-field">
 								<p:outputLabel for="maccount">Origin Account</p:outputLabel>
 								<p:inputText id="maccount" value="#{setreclassifaccControllerBean.curracc.id.originaccount}" required="true" />
 							</div>
@@ -127,18 +129,7 @@
 								<p:outputLabel for="chaccount">Destination Account</p:outputLabel>
 								<p:inputText id="chaccount" value="#{setreclassifaccControllerBean.curracc.id.destaccount}" required="true" />
 							</div>
-							<div class="p-field">
-								<p:outputLabel for="origincc">origincc</p:outputLabel>
-								<p:inputText id="origincc"
-									value="#{setreclassifaccControllerBean.curracc.origincc}"
-									required="true" />
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="destcc">origincc</p:outputLabel>
-								<p:inputText id="destcc"
-									value="#{setreclassifaccControllerBean.curracc.destcc}"
-									required="true" />
-							</div>
+							
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">

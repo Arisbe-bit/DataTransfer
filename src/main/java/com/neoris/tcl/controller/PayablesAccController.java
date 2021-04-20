@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.ViewPartnersICP;
+import com.neoris.tcl.models.ViewPayablesSupp;
 import com.neoris.tcl.services.ISetPayablesIcpService;
 import com.neoris.tcl.services.IViewPartnersICPService;
+import com.neoris.tcl.services.IViewPayablesSuppService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -33,9 +36,19 @@ public class PayablesAccController {
     private List<ViewPartnersICP> lstpay;
     private List<ViewPartnersICP> lstSelectdPay;
 
+  //customer view
     private List<SetPayablesIcp> lstSelectdPaytab;
     private ViewPartnersICP currentPay;
     private SetPayablesIcp currentPaytab;
+    
+  //customer view by company
+  	@Autowired
+  	private IViewPayablesSuppService servicessupp;	
+  	private List<ViewPayablesSupp> lstSuppno;
+  	
+  	
+  //Company
+  	private List<HfmRollupEntries> lstcompany;
 
     @PostConstruct
     public void init() {
@@ -159,20 +172,56 @@ public class PayablesAccController {
         return currentPay;
     }
 
-		public void setCurrentPay(ViewPartnersICP currentPay) {
-			this.currentPay = currentPay;
+	public void setCurrentPay(ViewPartnersICP currentPay) {
+		this.currentPay = currentPay;
+		
+		
+		 LOG.info("Payables- company edit  => {}", this.currentPay.getorganizationid());
+			lstSuppno = servicessupp.findByOrganizationid(this.currentPay.getorganizationid());
+			LOG.info("return lstSuppno with items => {}", lstSuppno != null ? lstSuppno.size() : "is null");
+
 			this.currentPaytab = new SetPayablesIcp();
 			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganizationid()));
 			this.currentPaytab.getId().setSupplierno(currentPay.getSuppliernum());
 			this.currentPaytab.setIcpcode(currentPay.getIcpcode());
-		}
+	}
 
+	public void companyidChange() {
+		try {
+			LOG.info("Payables- company  => {}", this.currentPaytab.getId().getCompanyid());
+			lstSuppno = servicessupp.findByOrganizationid(this.currentPaytab.getId().getCompanyid().intValue());
+			LOG.info("return lstSuppno con items => {}", lstSuppno != null ? lstSuppno.size() : "es nulo");
+		} catch (Exception e) {
+			LOG.error("ERRor -> {}", e.getMessage());
+		}
+	}
+	
     public SetPayablesIcp getCurrentPaytab() {
         return currentPaytab;
     }
 
     public void setCurrentPaytab(SetPayablesIcp currentPaytab) {
         this.currentPaytab = currentPaytab;
+        
+       
+		
     }
 
+	public List<ViewPayablesSupp> getLstSuppno() {
+		return lstSuppno;
+	}
+
+	public void setLstSuppno(List<ViewPayablesSupp> lstSuppno) {
+		this.lstSuppno = lstSuppno;
+	}
+
+	public List<HfmRollupEntries> getLstcompany() {
+		return lstcompany;
+	}
+
+	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
+		this.lstcompany = lstcompany;
+	}
+
+    
 }

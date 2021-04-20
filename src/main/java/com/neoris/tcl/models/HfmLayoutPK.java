@@ -19,7 +19,7 @@ public class HfmLayoutPK implements Serializable {
 
 	private String account;
 
-	private Long companyid;
+	private int companyid;
 
 	private String icp;
 
@@ -44,7 +44,7 @@ public class HfmLayoutPK implements Serializable {
 	public HfmLayoutPK() {
 	}
 
-	public HfmLayoutPK(String account, Long companyid, String cust1, String cust2, String cust3, String cust4,
+	public HfmLayoutPK(String account, int companyid, String cust1, String cust2, String cust3, String cust4,
 			String icp, String period, String scenario, String value, String zview, String zyear) {
 		this.account = account;
 		this.companyid = companyid;
@@ -68,11 +68,11 @@ public class HfmLayoutPK implements Serializable {
 		this.account = account;
 	}
 
-	public Long getCompanyid() {
+	public int getCompanyid() {
 		return this.companyid;
 	}
 
-	public void setCompanyid(Long companyid) {
+	public void setCompanyid(int companyid) {
 		this.companyid = companyid;
 	}
 

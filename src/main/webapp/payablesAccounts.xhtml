@@ -60,7 +60,7 @@
 					value="#{payablesaccControllerBean.lstpay}" reflow="true"
 					styleClass="products-table"
 					selection="#{payablesaccControllerBean.lstSelectdPay}"
-					rowKey="#{currentId.suppliernum}" paginator="true" rows="10"
+					rowKey="#{currentId.suppliernum}" paginator="true" rows="15" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" size="small" paginatorPosition="bottom">
 					<f:facet name="header">
 						<span style="font-weight: bold">${payablesaccControllerBean.title}</span>
@@ -107,45 +107,64 @@
 							oncomplete="PF('#{payablesaccControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
 							style="margin-right: 0.3em" process="@this">
-							<f:setPropertyActionListener value="#{currentId}"
-								target="#{payablesaccControllerBean.currentPay}" />
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
 							<p:resetInput target=":form:manage-code-content" />
 						</p:commandButton>
 
 						<p:commandButton class="ui-button-warning rounded-button"
 							icon="pi pi-trash" process="@this" style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentId}"
-								target="#{payablesaccControllerBean.currentPay}" />
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
 						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
 				<!-- This form is for add new o modify a trading partner type -->
-				<p:dialog header="Trading Partner  Details" width="450"
+				<p:dialog header="Trading Partner  Details" 
+					width="600" resizable="true" minWidth="550"
 					showEffect="fade" modal="true"
 					widgetVar="#{payablesaccControllerBean.dialogName}"
 					responsive="true">
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
 						<p:outputPanel
 							rendered="#{not empty payablesaccControllerBean.currentPaytab}">
-							<div class="p-field">
-								<p:outputLabel for="companyid">Company</p:outputLabel>
-								<p:inputText id="companyid"
-									value="#{payablesaccControllerBean.currentPaytab.id.companyid}"
-									required="true" />
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="supplierno">Supplier No.</p:outputLabel>
-								<p:inputText id="supplierno"
-									value="#{payablesaccControllerBean.currentPaytab.id.supplierno}"
-									required="true" />
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="icpcode">ICP Code</p:outputLabel>
-								<p:inputText id="icpcode"
-									value="#{payablesaccControllerBean.currentPaytab.icpcode}"
-									required="true" />
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="companyid" value="Company" />
+								<p:selectOneMenu id="companyid"
+									value="#{payablesaccControllerBean.currentPaytab.id.companyid}"  
+									filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{rollupentriesControllerBean.lstEntries}"
+									var="itemp" 
+										itemLabel="#{itemp.entity}"
+										itemValue="#{itemp.companyid}" />
+									<p:ajax event="change" 
+										listener="#{payablesaccControllerBean.companyidChange}"
+										process="@this"
+										update=":form:suppno"/>
+								</p:selectOneMenu>
+							</div>							
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="suppno" value="Supplier No." />
+								<p:selectOneMenu id="suppno"
+									value="#{payablesaccControllerBean.currentPaytab.id.supplierno}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{payablesaccControllerBean.lstSuppno}"
+										var="itemc" 
+										itemLabel="#{itemc.vendorname}"
+										itemValue="#{itemc.suppliernum}" />										
+								</p:selectOneMenu>
+							</div>	
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="icpcode" value="ICP Code" />
+								<p:selectOneMenu id="icpcode"
+									value="#{payablesaccControllerBean.currentPaytab.icpcode}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
+										var="item" 
+										itemLabel="#{item.id.icpcode}"
+										itemValue="#{item.id.icpcode}" />
+								</p:selectOneMenu>
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>

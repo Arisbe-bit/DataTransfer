@@ -31,13 +31,11 @@ public class ReceivablesAccController {
 	private final static Logger LOG = LoggerFactory.getLogger(PayablesAccController.class);
 	
 	@Autowired 
-	private ISetReceivablesIcpService service;
-	
+	private ISetReceivablesIcpService service;	
 	@Autowired 
-	private IViewPartnersRecICPService serviceVRec;	
+	private IViewPartnersRecICPService serviceVRec;
 	private List<SetReceivablesIcp> lstSelectdRectab;
-	private SetReceivablesIcp currentRecTab;
-	
+	private SetReceivablesIcp currentRecTab;	
 	
 	// partners view for data table
 	private List<ViewPartnersRecICP> lstVRec;	
@@ -45,6 +43,7 @@ public class ReceivablesAccController {
 	private ViewPartnersRecICP currentVRec;
 	
 	//customer view
+	@Autowired
 	private IViewCustReceivablesService servicecust;	
 	private List<ViewCustReceivables> lstCustno;
 	
@@ -52,13 +51,7 @@ public class ReceivablesAccController {
 	private List<HfmRollupEntries> lstcompany;
 	
 
-	public List<HfmRollupEntries> getLstcompany() {
-		return lstcompany;
-	}
-
-	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
-		this.lstcompany = lstcompany;
-	}
+	
 
 	@PostConstruct
 	public void init() {
@@ -66,8 +59,7 @@ public class ReceivablesAccController {
         this.lstVRec = serviceVRec.findAll();
         LOG.info("reg= {}", lstVRec.size());
         
-      //  LOG.info("Initializing Customers List...");
-       // this.lstCustno = servicecust.findAll();
+     
     }
 
     public void openNew() {
@@ -105,15 +97,15 @@ public class ReceivablesAccController {
         PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
     }
 
-    public void update() {
-        LOG.info("Entering to update Trading Partner  => {}", currentRecTab);
-        save();
+    public void companyidChange() {
+        LOG.info("payables-company  => {}", this.currentRecTab.getId().getCompanyid());
+        lstCustno = servicecust.findByOrganizationid(this.currentRecTab.getId().getCompanyid().intValue());
+        LOG.info("Return lstCustno  => {}",lstCustno);
     }
 
     public boolean hasSelectedCodes() {
         return this.lstSelectdRectab != null && !this.lstSelectdRectab.isEmpty();
         // return this.lstSelectdVRec != null && !this.lstSelectdVRec.isEmpty();
-
     }
 
     public String getDeleteButtonMessage() {
@@ -197,6 +189,11 @@ public class ReceivablesAccController {
     public void setCurrentVRec(ViewPartnersRecICP currentVRec) {
         this.currentVRec = currentVRec;
 
+        LOG.info("Receivables- company edit  => {}", this.currentVRec.getOrganization_id());
+		lstCustno = servicecust.findByOrganizationid(this.currentVRec.getOrganization_id());
+		LOG.info("return lstSuppno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
+
+        
         this.currentRecTab = new SetReceivablesIcp();
         this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
         this.currentRecTab.getId().setCustno(currentVRec.getCustno());
@@ -210,5 +207,13 @@ public class ReceivablesAccController {
     public void setLstCustno(List<ViewCustReceivables> lstCustno) {
         this.lstCustno = lstCustno;
     }
+    
+    public List<HfmRollupEntries> getLstcompany() {
+		return lstcompany;
+	}
+
+	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
+		this.lstcompany = lstcompany;
+	}
 
 }

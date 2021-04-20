@@ -63,7 +63,7 @@
 					selection="#{receivablesaccControllerBean.lstSelectdVRec}" 
 					rowKey="#{current.custno}"
 					paginator="true" 
-					rows="10" 
+					rows="15"  stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add"
 					size="small"
 					paginatorPosition="bottom">
@@ -139,14 +139,31 @@
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="companyid" value="Company" />
 								<p:selectOneMenu id="companyid"
-									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"  filter="true" filterMatchMode="startsWith">
+									value="#{receivablesaccControllerBean.currentRecTab.id.companyid}"  
+									filter="true" filterMatchMode="startsWith">
 									<f:selectItem itemLabel="Select One" itemValue="" />
 									<f:selectItems value="#{rollupentriesControllerBean.lstEntries}"
 									var="itemp" 
 										itemLabel="#{itemp.entity}"
 										itemValue="#{itemp.companyid}" />
+									<p:ajax event="change" 
+										listener="#{receivablesaccControllerBean.companyidChange}"
+										process="@this" 
+										update=":form:custno"/>
 								</p:selectOneMenu>
 							</div>
+							
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="custno" value="Customer" />
+								<p:selectOneMenu id="custno"
+									value="#{receivablesaccControllerBean.currentRecTab.id.custno}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{receivablesaccControllerBean.lstCustno}"
+										var="itemc" 
+										itemLabel="#{itemc.custname}"
+										itemValue="#{itemc.custno}" />										
+								</p:selectOneMenu>
+							</div>	
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="icpcode" value="ICP Code" />
 								<p:selectOneMenu id="icpcode"
@@ -158,19 +175,6 @@
 										itemValue="#{item.id.icpcode}" />
 								</p:selectOneMenu>
 							</div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="custno" value="Customer" />
-								<p:selectOneMenu id="custno"
-									value="#{receivablesaccControllerBean.currentRecTab.id.custno}"  filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{viewcustreceivablesControllerBean.lstCustno}"
-										var="itemc" 
-										itemLabel="#{itemc.custname}"
-										itemValue="#{itemc.custno}" />										
-								</p:selectOneMenu>
-							</div>
-							
-							
 							
 						</p:outputPanel>
 					</p:outputPanel>

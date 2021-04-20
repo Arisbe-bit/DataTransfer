@@ -23,6 +23,8 @@ public class SetIcpcodes implements Serializable {
 	private SetIcpcodesPK id;
 
 	private String icpdesc;
+	
+	private String tptype;
 
 	public SetIcpcodes() {
 	    this.setId(new SetIcpcodesPK());
@@ -44,9 +46,19 @@ public class SetIcpcodes implements Serializable {
 		this.icpdesc = icpdesc;
 	}
 
+	public String getTptype() {
+		return tptype;
+	}
+
+	public void setTptype(String tptype) {
+		this.tptype = tptype;
+	}
+
 	@Override
 	public String toString() {
-		return "SetIcpcodes [id=" + id + ", icpdesc=" + icpdesc + "]";
+		return "SetIcpcodes [id=" + id + ", icpdesc=" + icpdesc + ", tptype=" + tptype + "]";
 	}
+
+
 
 }

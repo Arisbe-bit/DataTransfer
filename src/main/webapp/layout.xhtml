@@ -32,7 +32,7 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 					styleClass="products-table"
 					rowKey="#{curtps.id.companyid}" 
 					paginator="true" 
-					rows="20"
+					rows="20" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" 
 					size="small" 
 					paginatorPosition="bottom">
@@ -40,8 +40,6 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 						<span style="font-weight: bold">${hfmlayoutControllerBean.title}</span>
 					</f:facet>
 
-					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
-					</p:column>
 					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
 						<h:outputText value="#{curtps.entity}" />
 					</p:column>					
@@ -78,7 +76,12 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 					<p:column headerText="Cust4"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust4}">
 						<h:outputText value="#{curtps.id.cust4}" />
 					</p:column>
-					
+					<p:column headerText="User Id"  sortBy="#{curtps.userid}" filterBy="#{curtps.userid}">
+						<h:outputText value="#{curtps.userid}" />
+					</p:column>
+					<p:column headerText="Updated"  sortBy="#{curtps.updated}" filterBy="#{curtps.updated}">
+						<h:outputText value="#{curtps.updated}" />
+					</p:column>
 
 				</p:dataTable>
 			</div>

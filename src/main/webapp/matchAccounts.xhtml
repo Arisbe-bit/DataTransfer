@@ -58,7 +58,7 @@
 					selection="#{matchaccountsControllerBean.lstSlctedMAccounts}"
 					rowKey="#{currentid.id.hfmparent}" 
 					paginator="true" 
-					rows="10"
+					rows="20" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" 
 					size="small" 
 					paginatorPosition="bottom">
@@ -115,19 +115,35 @@
 					<p:outputPanel id="manage-code-content" class="ui-fluid">
 						<p:outputPanel
 							rendered="#{not empty matchaccountsControllerBean.currmatch}">
-							<div class="p-field">
-								<p:outputLabel for="maccount">Master Account</p:outputLabel>
-								<p:inputText id="maccount" value="#{matchaccountsControllerBean.currmatch.id.hfmparent}" required="true" />
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="maccount" value="Master Account" />
+								<p:selectOneMenu id="maccount"
+									value="#{matchaccountsControllerBean.currmatch.id.hfmparent}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
+										var="itemm" 
+										itemLabel="#{itemm.hfmcode}"
+										itemValue="#{itemm.hfmcode}" />										
+								</p:selectOneMenu>
+							</div>	
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="chaccount" value="Child Account" />
+								<p:selectOneMenu id="chaccount"
+									value="#{matchaccountsControllerBean.currmatch.id.hfmchild}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
+										var="itemc" 
+										itemLabel="#{itemc.hfmcode}"
+										itemValue="#{itemc.hfmcode}" />										
+								</p:selectOneMenu>
 							</div>
-							<div class="p-field">
-								<p:outputLabel for="chaccount">Child Account</p:outputLabel>
-								<p:inputText id="chaccount" value="#{matchaccountsControllerBean.currmatch.id.hfmchild}" required="true" />
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="sign">Sign</p:outputLabel>
-								<p:inputText id="sign"
-									value="#{matchaccountsControllerBean.currmatch.sign}"
-									required="true" />
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="sign" value="Sign" />
+								<p:selectOneMenu id="sign"
+									value="#{matchaccountsControllerBean.currmatch.sign}">
+									<f:selectItem itemLabel="+" itemValue="+" />
+									<f:selectItem itemLabel="-" itemValue="-" />
+								</p:selectOneMenu>
 							</div>
 						</p:outputPanel>
 					</p:outputPanel>

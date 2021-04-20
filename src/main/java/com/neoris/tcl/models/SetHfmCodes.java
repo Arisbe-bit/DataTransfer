@@ -2,9 +2,12 @@ package com.neoris.tcl.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 /**
  * The persistent class for the set_hfm_codes database table.
@@ -28,24 +31,40 @@ public class SetHfmCodes implements Serializable {
 	
 	private String naturalb;
 	
-	private String global_val;
+	@Column(name="global_val")
+	private String globalval;
 	
-	private String ordernum;
+	@Column(columnDefinition = "INTEGER default 0")
+	private int ordernum;
+	
+	@Column(columnDefinition = "INTEGER default 1")
+	private int naturalsign;
+
+	private String description;
 
 	public SetHfmCodes() {
 	}
 
 
-	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String global_val,
-			String ordernum) {
-
+	
+	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String globalval,
+			int ordernum, int naturalsign, String description) {
 		this.hfmcode = hfmcode;
 		this.tptype = tptype;
 		this.classification = classification;
 		this.naturalb = naturalb;
-		this.global_val = global_val;
+		this.globalval = globalval;
 		this.ordernum = ordernum;
+		this.naturalsign = naturalsign;
+		this.description = description;
 	}
+
+
+
+
+
+
+
 
 	public String getHfmcode() {
 		return this.hfmcode;
@@ -73,6 +92,14 @@ public class SetHfmCodes implements Serializable {
 		this.classification = classification;
 	}
 
+	public int getNaturalsign() {
+		return naturalsign;
+	}
+
+
+	public void setNaturalsign(int naturalsign) {
+		this.naturalsign = naturalsign;
+	}
 
 	public String getNaturalb() {
 		return naturalb;
@@ -84,32 +111,49 @@ public class SetHfmCodes implements Serializable {
 	}
 
 
-	public String getGlobal_val() {
-		return global_val;
+	public String getglobalval() {
+		return globalval;
 	}
 
 
-	public void setGlobal_val(String global_val) {
-		this.global_val = global_val;
+	public void setglobalval(String globalval) {
+		this.globalval = globalval;
 	}
 
 
-	public String getOrdernum() {
+	public int getOrdernum() {
 		return ordernum;
 	}
 
 
-	public void setOrdernum(String ordernum) {
+	public void setOrdernum(int ordernum) {
 		this.ordernum = ordernum;
 	}
+
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
 
 
 	@Override
 	public String toString() {
 		return "SetHfmCodes [hfmcode=" + hfmcode + ", tptype=" + tptype + ", classification=" + classification
-				+ ", naturalb=" + naturalb + ", global_val=" + global_val + ", ordernum=" + ordernum + "]";
+				+ ", naturalb=" + naturalb + ", globalval=" + globalval + ", ordernum=" + ordernum + ", naturalsign="
+				+ naturalsign + ", description=" + description + "]";
 	}
 
-	
+
 }
 
