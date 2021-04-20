@@ -10,65 +10,60 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "HFM_FFSS_DETAILS_HIST")
-public class HfmFFSSDetailsHist implements Serializable{
-	
+public class HfmFFSSDetailsHist implements Serializable {
+
 	private static final long serialVersionUID = 5676213260556508605L;
-	
+
 	@EmbeddedId
 	private HfmFfssDetailsHistPK id;
-	
+
 	private String tpname;
-	
-	@Column(name="HFMCODE_OLD")
+
+	@Column(name = "HFMCODE_OLD")
 	private String hfmcodeold;
-	
-	@Column(name="BATCH_NAME")
+
+	@Column(name = "BATCH_NAME")
 	private String batchname;
 	private String docnumber;
 
 	private String upd;
 	private String hfmparent;
 	private String userid;
-	
-	@Column(name="ERROR_TEXT")
+
+	@Column(name = "ERROR_TEXT")
 	private String errortext;
-	
-	
-	@Column(name="JE_HEADER_ID")
+
+	@Column(name = "JE_HEADER_ID")
 	private int headerid;
-	
-	@Column(name="JE_HEADER_ID_REV" , columnDefinition = "NUMBER default 0 ")
+
+	@Column(name = "JE_HEADER_ID_REV", columnDefinition = "INTEGER default 0 ")
 	private int headeridrev;
-	
+
 	private BigDecimal debit;
 	private BigDecimal credit;
-	
-	@Column(name="TRANS_DEBIT")
+
+	@Column(name = "TRANS_DEBIT")
 	private BigDecimal transdebit;
-	
-	@Column(name="TRANS_CREDIT")
+
+	@Column(name = "TRANS_CREDIT")
 	private BigDecimal transcredit;
-	
-	@Column(name="INVOICE_DATE")
+
+	@Column(name = "INVOICE_DATE")
 	private String invoicedate;
-	
+
 	private String category;
 	private String omit;
 	private String areaid;
-	
-	
-	
-	
-	
+
 	public HfmFFSSDetailsHist() {
-		   this.setId(new HfmFfssDetailsHistPK());
-		}
-	
+		this.setId(new HfmFfssDetailsHistPK());
+	}
+
 	public HfmFFSSDetailsHist(String tpname, String hfmcodeold, String batchname, String docnumber, String upd,
 			String hfmparent, String userid, String errortext, int headerid, int headeridrev, BigDecimal debit,
-			BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate, String category, String omit,
-			String areaid) {
-		
+			BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate, String category,
+			String omit, String areaid) {
+
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;
 		this.batchname = batchname;
@@ -251,8 +246,4 @@ public class HfmFFSSDetailsHist implements Serializable{
 				+ ", areaid=" + areaid + "]";
 	}
 
-	
-	
-	
-	
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 /**
  * The persistent class for the set_hfm_codes database table.
  * 
@@ -32,10 +34,10 @@ public class SetHfmCodes implements Serializable {
 	@Column(name="global_val")
 	private String globalval;
 	
-	@Column(columnDefinition = "integer default 0")
+	@Column(columnDefinition = "INTEGER default 0")
 	private int ordernum;
 	
-	@Column(columnDefinition = "integer default 1")
+	@Column(columnDefinition = "INTEGER default 1")
 	private int naturalsign;
 
 	private String description;
