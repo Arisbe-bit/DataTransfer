@@ -78,7 +78,7 @@ public class MenuController {
      
     
     public String hfmcodesOA() {
-        return String.format(REDIRECT, "hfmcodesOA");
+        return String.format(REDIRECT, "oracleaccounts");
     }
     
     public String partners() {

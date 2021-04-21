@@ -12,5 +12,5 @@ import com.neoris.tcl.models.HfmFfssHistPK;
 
 public interface IHfmFfssHistDao  extends CrudRepository<HfmFfSsHist, HfmFfssHistPK>{
 
-	public List<HfmFfSsHist> findByCompanyId(Long companyId);
+	public List<HfmFfSsHist> findByCompanyIdAndPeriodid(Long companyId,String period);
 }

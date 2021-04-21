@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="title">
+		<title>${setacchfmcodesControllerBean.title}</title>
+	</ui:define>
+
+	<ui:define name="header">
+		<h1>${setacchfmcodesControllerBean.title}</h1>
+	</ui:define>a
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{setacchfmcodesControllerBean.dataTableName}"
+								fileName="${setacchfmcodesControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				
+				</p:toolbar>
+
+				<p:dataTable id="#{setacchfmcodesControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentid"
+					value="#{setacchfmcodesControllerBean.lstOrcl}" reflow="true"
+					styleClass="products-table"
+					selection="#{setacchfmcodesControllerBean.lstSelectdAcc}"
+					rowKey="#{currentid.num}" 
+					paginator="true" 
+					rows="15"
+					rowSelectMode="add" 
+					size="small"  stickyHeader="true" stripedRows="true" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${setacchfmcodesControllerBean.title}</span>
+					</f:facet>
+					
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Cost Center" sortBy="#{currentid.costcenter}" filterBy="#{currentid.costcenter}">
+						<h:outputText value="#{currentid.costcenter}" />
+					</p:column>
+					<p:column headerText="Cost Center" sortBy="#{currentid.costcenternm}" filterBy="#{currentid.costcenternm}">
+						<h:outputText value="#{currentid.costcenternm}" />
+					</p:column>
+					<p:column headerText="Account Id"  sortBy="#{currentid.oracleacct}" filterBy="#{currentid.oracleacct}">
+						<h:outputText value="#{currentid.oracleacct}" />
+					</p:column>
+					<p:column headerText="Account Id"  sortBy="#{currentid.accountnm}" filterBy="#{currentid.accountnm}">
+						<h:outputText value="#{currentid.accountnm}" />
+					</p:column>
+
+					<p:column headerText="HFM Code"  sortBy="#{currentid.hfmcode}" filterBy="#{currentid.hfmcode}">
+						<h:outputText value="#{currentid.hfmcode}" />
+					</p:column>
+
+					<p:column headerText="Account Tyoe"  sortBy="#{currentid.accounttype}" filterBy="#{currentid.accounttype}">
+						<h:outputText value="#{currentid.accounttype}" />
+					</p:column>
+					
+					<p:column headerText="Enabled"  sortBy="#{currentid.enabled}" filterBy="#{currentid.enabled}">
+						<h:outputText value="#{currentid.enabled}" />
+					</p:column>
+					<p:column headerText="End Date Actvive"  sortBy="#{currentid.enddateactive}" filterBy="#{currentid.enddateactive}">
+						<h:outputText value="#{currentid.enddateactive}" />
+					</p:column>
+					
+					
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Accounts Details" showEffect="fade" modal="true"
+					widgetVar="#{setacchfmcodesControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty setacchfmcodesControllerBean.currentAcc}">
+							<div class="p-field">
+								<p:outputLabel for="maccount">Cost Center</p:outputLabel>
+								<p:inputText id="maccount" value="#{setacchfmcodesControllerBean.currentAcc.id.costcenter}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="chaccount">Account Id</p:outputLabel>
+								<p:inputText id="chaccount" value="#{setacchfmcodesControllerBean.currentAcc.id.accountid}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="hfmcode">HFM Code</p:outputLabel>
+								<p:inputText id="hfmcode"
+									value="#{setacchfmcodesControllerBean.currentAcc.id.hfmcode}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="icpcode">ICP Code</p:outputLabel>
+								<p:inputText id="icpcode"
+									value="#{setacchfmcodesControllerBean.currentAcc.icpcode}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="areaid">Area Code</p:outputLabel>
+								<p:inputText id="areaid"
+									value="#{setacchfmcodesControllerBean.currentAcc.areaid}"
+									required="true" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" 
+							id="btnSave"
+							icon="pi pi-check"
+							actionListener="#{setacchfmcodesControllerBean.save}"
+							update="manage-code-content" 
+							process="manage-code-content @this" />
+						<p:commandButton value="Cancel" 
+							id="btnCancel"
+							icon="pi pi-times"
+							onclick="PF('#{setacchfmcodesControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{setacchfmcodesControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

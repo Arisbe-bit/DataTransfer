@@ -6,5 +6,5 @@ import com.neoris.tcl.models.ViewRollupMatchFFSSHist;
 
 public interface IViewRollupMatchFFSSHistService {
 
-	List<ViewRollupMatchFFSSHist> findByCompanyid(Long companyId);
+	List<ViewRollupMatchFFSSHist> findByCompanyidAndPeriodid(Long companyId,String periodnm);
 }
