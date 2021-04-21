@@ -14,25 +14,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.neoris.tcl.security.models.Rol;
 import com.neoris.tcl.security.service.UserDetailsServiceImpl;
 
 /**
- * @author Marco
+ * @author marco.vargas
  *
  */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
-    }
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -45,26 +40,62 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
-            authorizeRequests()
-            .antMatchers("/").permitAll()
-            .antMatchers("/login").permitAll()
-            .antMatchers("/registration").hasAuthority("ADMIN")
-            .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-            .authenticated().and().csrf().disable().formLogin()
-            .loginPage("/login").failureUrl("/login?error=true")
-            .defaultSuccessUrl("/index")
-            .usernameParameter("user_name")
-            .passwordParameter("password")
-            .and().logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login").and().exceptionHandling()
-            .accessDeniedPage("/access-denied");
+//        http.
+//            authorizeRequests()
+//            .antMatchers("/").authenticated()
+//            .antMatchers("/javax.faces.resource/**").permitAll()
+//            .antMatchers("/admin/**").hasAuthority(Rol.ADMIN.name())
+//            .antMatchers("/index.xhtml").authenticated()
+//            .antMatchers("/tradingpartnertypes.xhtml").hasAnyAuthority(Rol.TRADINGPARTNERTYPES.name(), Rol.ADMIN.name())
+//            .antMatchers("/companyentries.xhtml").hasAnyAuthority(Rol.COMPANYENTRIES.name(), Rol.ADMIN.name())
+//            .antMatchers("/hfmcodes.xhtml").hasAnyAuthority(Rol.HFMCODES.name(), Rol.ADMIN.name())
+//            .antMatchers("/hfmcodesOA.xhtml").hasAnyAuthority(Rol.HFMCODESOA.name(), Rol.ADMIN.name())
+//            .antMatchers("/layout.xhtml").hasAnyAuthority(Rol.LAYOUT.name(), Rol.ADMIN.name())
+//            .antMatchers("/layouthist.xhtml").hasAnyAuthority(Rol.LAYOUTHIST.name(), Rol.ADMIN.name())
+//            .antMatchers("/matchAccounts.xhtml").hasAnyAuthority(Rol.MATCHACCOUNTS.name(), Rol.ADMIN.name())
+//            .antMatchers("/partners.xhtml").hasAnyAuthority(Rol.PARTNERS.name(), Rol.ADMIN.name())
+//            .antMatchers("/payablesAccounts.xhtml").hasAnyAuthority(Rol.PAYABLESACCOUNTS.name(), Rol.ADMIN.name())
+//            .antMatchers("/receivablesAccounts.xhtml").hasAnyAuthority(Rol.RECEIVABLESACCOUNTS.name(), Rol.ADMIN.name())
+//            .antMatchers("/reclassification.xhtml").hasAnyAuthority(Rol.RECLASSIFICATION.name(), Rol.ADMIN.name())
+//            .antMatchers("/rollup.xhtml").hasAnyAuthority(Rol.ROLLUP.name(), Rol.ADMIN.name())
+//            .antMatchers("/rolluphist.xhtml").hasAnyAuthority(Rol.ROLLUPHIST.name(), Rol.ADMIN.name()).anyRequest()
+//            .authenticated().and().csrf().disable()
+//            .formLogin()
+//            	.loginPage("/login.xhtml").permitAll()
+//            	.failureUrl("/login.xhtml?error=true")
+//            	.defaultSuccessUrl("/index.xhtml", true)
+//            	.usernameParameter("username")
+//            	.passwordParameter("password")
+//            	.and()
+//            .logout()
+//            	.logoutRequestMatcher(new AntPathRequestMatcher("/login.xhtml"))
+//            	.logoutSuccessUrl("/login.xhtml").and().exceptionHandling()
+//            	.accessDeniedPage("/access-denied.xhtml");
+        // require all requests to be authenticated except for the resources
+        http.authorizeRequests()
+		    .antMatchers("/admin/**").hasAuthority(Rol.ADMIN.name())
+		    .antMatchers("/index.xhtml").authenticated()
+        	.antMatchers("/javax.faces.resource/**").permitAll().anyRequest().authenticated();
+        // login
+        http.formLogin()
+        		.loginPage("/login.xhtml").permitAll()
+        		.failureUrl("/login.xhtml?error=true")
+        		.defaultSuccessUrl("/index.xhtml", true);
+        // logout
+        http.logout()
+        	.logoutSuccessUrl("/login.xhtml");
+        // not needed as JSF 2.2 is implicitly protected against CSRF
+        http.csrf().disable();
     }
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
+    }
 }

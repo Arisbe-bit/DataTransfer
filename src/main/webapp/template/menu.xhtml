@@ -12,11 +12,11 @@
 <h:body>
 <ui:composition>
 <div class="card">
-	<h:form id="menuFormId">
+	<h:form id="menuFormId" prependId="false">
 		<p:growl id="messages" />
 		<p:menubar>
 			<p:submenu label="Catalogs Sets" icon="pi pi-file">
-				<p:menuitem value="HFMCodes" icon="pi pi-table" action="#{menuController.hfmcodes}"/>
+				<p:menuitem value="HFMCodes" icon="pi pi-table" action="#{menuController.hfmcodes}" rendered="#{menuController.hfmcodesRole}"/>
 				<p:menuitem value="HFMCodes-Oracle Accounts" icon="pi pi-id-card" action="#{menuController.hfmcodesOA}"/>
 				<p:menuitem value="Trading Partner Types" icon="fa fa-users fa-fw" action="#{menuController.hfmcodestypes}"/>
 				<p:menuitem value="Trading Partners" icon="fa fa-handshake-o fa-fw" action="#{menuController.partners}"/>
@@ -36,12 +36,16 @@
 				<p:menuitem value="HFM Layout History" icon="pi pi-map" action="#{menuController.layouthist}" />
 			</p:submenu>
 			
-			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.Users}" />
+			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.admin}" rendered="#{menuController.rollUpRole}"/>
 
 			<f:facet name="options">
-				<p:commandButton type="button" value="Logout" icon="pi pi-sign-out" />
+				<p:commandButton value="logout" icon="pi pi-sign-out" ajax="false" action="#{menuController.logout}"/>
 			</f:facet>
 		</p:menubar>
+		<p:confirmPopup message="Are you sure you want to exit?" icon="pi question-circle" id="logoutPopUpId" showEffect="fade" hideEffect="explode" widgetVar="wvLogoutPopUp">
+			<p:commandButton value="Yes" icon="pi pi-check" action="#{menuController.logout}" oncomplete="PF('wvLogoutPopUp').hide()" />
+			<p:commandButton value="No"  icon="pi pi-times" oncomplete="PF('wvLogoutPopUp').hide()" />
+		</p:confirmPopup>
 	</h:form>
 </div>
 </ui:composition>

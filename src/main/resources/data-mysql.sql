@@ -1,3 +1,7 @@
+REPLACE INTO HFM_USERS (user_id, user_name, password, name) VALUES (1, 'admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador');
+REPLACE INTO HFM_ROLES VALUES (1,'ADMIN');
+REPLACE INTO HFM_USER_ROLE VALUES (1,1);
+
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170100','INTERCIAS');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170200','INTERCIAS');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170960','INTERCIAS');

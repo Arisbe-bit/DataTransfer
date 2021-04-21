@@ -1,5 +1,9 @@
 package com.neoris.tcl.security.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,132 +16,138 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import javax.persistence.ForeignKey;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "hfm_users")
+public class User implements UserDetails {
 
-    public User() {
-    }
+	private final static Logger LOG = LoggerFactory.getLogger(User.class);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1538037177774436705L;
 
-    public User(int id, String userName, String email, String password, String name, String lastName, Boolean active, Set<Role> roles) {
-        this.id = id;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-        this.active = active;
-        this.roles = roles;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private int id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private int id;
+	@Column(name = "user_name")
+	@Size(min = 5, message = "*Your user name must have at least 5 characters")
+	@NotEmpty(message = "*Please provide a user name")
+	private String username;
 
-    @Column(name = "user_name")
-    @Size(min = 5, message = "*Your user name must have at least 5 characters")
-    @NotEmpty(message = "*Please provide a user name")
-    private String userName;
+	@Column(name = "password")
+	@Size(min = 5, message = "*Your password must have at least 5 characters")
+	@NotEmpty(message = "*Please provide your password")
+	private String password;
 
-    @Column(name = "email")
-    @Email(message = "*Please provide a valid Email")
-    @NotEmpty(message = "*Please provide an email")
-    private String email;
+	@Column(name = "name")
+	@NotEmpty(message = "*Please provide your name")
+	private String name;
 
-    @Column(name = "password")
-    @Size(min = 5, message = "*Your password must have at least 5 characters")
-    @NotEmpty(message = "*Please provide your password")
-    private String password;
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "hfm_user_role", 
+		joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER")), 
+		inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "FK_ROLE")))
+	private Set<Role> roles;
 
-    @Column(name = "name")
-    @NotEmpty(message = "*Please provide your name")
-    private String name;
+	public User() {
+	}
 
-    @Column(name = "last_name")
-    @NotEmpty(message = "*Please provide your last name")
-    private String lastName;
+	public User(int id, String username, String password, String name, String lastName, Set<Role> roles) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.roles = roles;
+	}
 
-    @Column(name = "active")
-    private Boolean active;
+	public int getId() {
+		return id;
+	}
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> gaRoles = new HashSet<GrantedAuthority>();
+        for (Role role : this.getRoles()) {
+        	LOG.info("Add Role = {}", role.getRole().name());
+            gaRoles.add(new SimpleGrantedAuthority(role.getRole().name()));
+        }
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(gaRoles);
+        return grantedAuthorities;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	@Override
+	public String getPassword() {
+		return password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	@Override
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    public String getName() {
-        return name;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public Set<Role> getRoles() {
+		return roles;
+	}
 
-    public Boolean getActive() {
-        return active;
-    }
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "User [id=%s, userName=%s, email=%s, password=%s, name=%s, lastName=%s, active=%s, roles=%s]", id,
-                userName, email, password, name, lastName, active, roles);
-    }
+	@Override
+	public String toString() {
+		return String.format("User [id=%s, username=%s, password=%s, name=%s, roles=%s]", id, username, password, name, roles);
+	}
 
 }

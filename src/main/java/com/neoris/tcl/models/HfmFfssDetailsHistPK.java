@@ -2,16 +2,14 @@ package com.neoris.tcl.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class HfmFfssDetailsHistPK implements Serializable{
-	 
+public class HfmFfssDetailsHistPK implements Serializable {
+
 	private static final long serialVersionUID = -4230285608917531891L;
 
 	private String hfmcode;
@@ -22,30 +20,24 @@ public class HfmFfssDetailsHistPK implements Serializable{
 	private String partnerid;
 	private int companyid;
 	private String datasource;
-	
-	
-	@Column(name="CURRENCY_CODE")
-	private String currencycode;
-	
-	@Column(name="COSTCENTER")
-	private String costcenter;
-	
-	@Column(name="PERIOD_NAME")
-	private String periodnm;
-	
-	
 
-	
+	@Column(name = "CURRENCY_CODE")
+	private String currencycode;
+
+	@Column(name = "COSTCENTER")
+	private String costcenter;
+
+	@Column(name = "PERIOD_NAME")
+	private String periodnm;
+
 	public HfmFfssDetailsHistPK() {
 		this.amount = new BigDecimal(0);
-    }
-
-
+	}
 
 	public HfmFfssDetailsHistPK(String hfmcode, String accountid, String icp, BigDecimal amount, String period,
 			String partnerid, int companyid, String datasource, String currencycode, String costcenter,
 			String periodnm) {
-		
+
 		this.hfmcode = hfmcode;
 		this.accountid = accountid;
 		this.icp = icp;
@@ -59,20 +51,11 @@ public class HfmFfssDetailsHistPK implements Serializable{
 		this.periodnm = periodnm;
 	}
 
-
-
-
-
-
-
-
 	@Override
-    public int hashCode() {
-        return Objects.hash(accountid, amount,  accountid,companyid, costcenter, currencycode, datasource, hfmcode,
-                 icp, partnerid, period);
-    }
-	
-
+	public int hashCode() {
+		return Objects.hash(accountid, amount, accountid, companyid, costcenter, currencycode, datasource, hfmcode, icp,
+				partnerid, period);
+	}
 
 	public String getPeriodnm() {
 		return periodnm;
@@ -81,7 +64,7 @@ public class HfmFfssDetailsHistPK implements Serializable{
 	public void setPeriodnm(String periodnm) {
 		this.periodnm = periodnm;
 	}
-	
+
 	public String getHfmcode() {
 		return hfmcode;
 	}
@@ -114,7 +97,6 @@ public class HfmFfssDetailsHistPK implements Serializable{
 		this.amount = amount;
 	}
 
-	
 	public String getPeriod() {
 		return period;
 	}
@@ -155,8 +137,6 @@ public class HfmFfssDetailsHistPK implements Serializable{
 		this.currencycode = currencycode;
 	}
 
-	
-
 	public String getCostcenter() {
 		return costcenter;
 	}
@@ -164,9 +144,6 @@ public class HfmFfssDetailsHistPK implements Serializable{
 	public void setCostcenter(String costcenter) {
 		this.costcenter = costcenter;
 	}
-
-
-
 
 	@Override
 	public String toString() {
@@ -176,9 +153,4 @@ public class HfmFfssDetailsHistPK implements Serializable{
 				+ ", periodnm=" + periodnm + "]";
 	}
 
-	
-
-	
-	
-	
 }

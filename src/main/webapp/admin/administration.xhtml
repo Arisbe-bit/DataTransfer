@@ -6,9 +6,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
 
-	<ui:define name="Administration">
-		<title>${tptypesControllerBean.title}</title>
+	<ui:define name="title">
+		<title><h:outputText value="System Administration" /> </title>
 	</ui:define>
-	
+	<ui:define name="header">
+		<h1><h:outputText value="Data Transfer system administration, #{admincontroller.name}"/></h1>
+	</ui:define>
+	<ui:define name="content">
+		<h:outputText value="Administration home page"/>
+	</ui:define>
 	
 </ui:composition>
