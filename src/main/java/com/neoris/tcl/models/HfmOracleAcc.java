@@ -13,7 +13,7 @@ public class HfmOracleAcc implements Serializable{
 	private static final long serialVersionUID = 6389104512054734051L;
 
 	@Id
-	private String num;
+	private Long num;
 	private String companyid;
 	private String companynm;
 	private String 	hfmcode;
@@ -34,9 +34,8 @@ public class HfmOracleAcc implements Serializable{
 	}
 	
 	
-	
 
-	public HfmOracleAcc(String num, String companyid, String companynm, String hfmcode, String costcenternm,
+	public HfmOracleAcc(Long num, String companyid, String companynm, String hfmcode, String costcenternm,
 			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
 			String accounttype, String enabled, String enddateactive) {
 	
@@ -180,14 +179,14 @@ public class HfmOracleAcc implements Serializable{
 
 
 
-	public String getNum() {
+	public Long getNum() {
 		return num;
 	}
 
 
 
 
-	public void setNum(String num) {
+	public void setNum(Long num) {
 		this.num = num;
 	}
 

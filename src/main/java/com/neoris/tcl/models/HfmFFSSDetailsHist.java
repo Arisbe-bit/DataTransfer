@@ -53,6 +53,8 @@ public class HfmFFSSDetailsHist implements Serializable{
 	private String invoicedate;
 	
 	private String category;
+	
+	
 	private int omit;
 	private String areaid;
 	private String periodid;

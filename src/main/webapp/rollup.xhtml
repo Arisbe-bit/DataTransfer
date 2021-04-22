@@ -429,7 +429,7 @@
 	                             <p:column headerText="Amount" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}"
 	                              styleClass="rollup-text-align-right #{hfmffssDetail.id.amount lt 0 ? 'negative' : ''}"     >
 	                                <h:outputText value="#{hfmffssDetail.id.amount}"  >
-	                                <f:convertNumber pattern="#####,00"/>
+	                                <f:convertNumber pattern="#####,000"/>
 	                                </h:outputText>
 	                            </p:column>
 								<p:column headerText="Currency Code"

@@ -259,7 +259,7 @@
                                 </p:column>
                                 <p:column headerText="Amount" styleClass="rollup-text-align-right #{matchacc.balance lt 0 ? 'negative' : ''}">
                                     <h:outputText value="#{matchacc.balance}">
-                                    	<f:convertNumber pattern="#####,00"/>
+                                    	<f:convertNumber pattern="###,###,###.##"/>
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>
