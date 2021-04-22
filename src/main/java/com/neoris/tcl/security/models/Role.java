@@ -13,22 +13,26 @@ import javax.persistence.Table;
 @Table(name = "hfm_roles")
 public class Role {
 
-    public Role() {
-    }
+	public Role() {
+	}
 
-    public Role(int id, Rol role) {
-        this.id = id;
-        this.role = role;
-    }
+	public Role(int id, Rol role, String description) {
+		this.id = id;
+		this.role = role;
+		this.description = description;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private int id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "roleid")
+	private int id;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Rol role;
+	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
+	private Rol role;
+
+	@Column(name = "description", columnDefinition = "VARCHAR(50)")
+	private String description;
 
 	public int getId() {
 		return id;
@@ -48,9 +52,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return String.format("Role [id=%s, role=%s]", id, role);
+		return String.format("Role [id=%s, role=%s, description=%s]", id, role, description);
 	}
-
- 
 
 }

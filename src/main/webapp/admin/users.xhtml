@@ -9,11 +9,29 @@
 	<ui:define name="title">
 		<title>${hfmusersControllerBean.title}</title>
 	</ui:define>
+	<ui:define name="css">
+		<style type="text/css">
+.user-rol-icon {
+	vertical-align: middle;
+	margin-right: .5rem;
+}
 
+.user-rol {
+	font-weight: 600;
+	vertical-align: middle;
+}
+.grid-checkbox td {
+    padding: .5rem;
+}
+</style>
+	</ui:define>
 	<ui:define name="header">
 		<h1>${hfmusersControllerBean.title}</h1>
 	</ui:define>
-
+	<ui:define name="cssfiles">
+		<h:outputStylesheet name="datatransfer-style.css" library="css" />
+		<h:outputStylesheet name="primeflex.min.css" library="css" />
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="form">
 			<div class="card">
@@ -22,10 +40,9 @@
 					<p:toolbarGroup>
 						<p:commandButton value="New" icon="pi pi-plus"
 							actionListener="#{hfmusersControllerBean.openNew}"
-							update=":form:manage-code-content"
+							update="form:manage-code-content"
 							oncomplete="PF('#{hfmusersControllerBean.dialogName}').show()"
-							styleClass="ui-button-success" style="margin-right: 0.3em">
-							<p:resetInput target=":form:manage-code-content" />
+							styleClass="ui-button-success" style="margin-right: 0.3em">							
 						</p:commandButton>
 						<p:commandButton
 							value="#{hfmusersControllerBean.deleteButtonMessage}"
@@ -44,15 +61,15 @@
 				</p:toolbar>
 
 				<p:dataTable id="#{hfmusersControllerBean.dataTableName}"
-					widgetVar="dtCodes" 
-					var="currentId"
+					widgetVar="dtUsers" 
+					var="userBean"
 					value="#{hfmusersControllerBean.lstusers}" reflow="true"
 					styleClass="products-table"
 					selection="#{hfmusersControllerBean.lstSelectdUsers}"
-					rowKey="#{currentId.userid}" 
+					rowKey="#{userBean.id}" 
 					paginator="true" 
 					rows="10" stripedRows="true" 
-					rowSelectMode="add" 
+					rowSelectMode="checkbox" 
 					size="small" 
 					paginatorPosition="bottom">
 					<f:facet name="header">
@@ -67,35 +84,37 @@
 					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
 					</p:column>
 
-					<p:column headerText="User Id" sortBy="#{currentId.userid}" filterBy="#{currentId.userid}">
-						<h:outputText value="#{currentId.userid}" />
-					</p:column>
-					
-					<p:column headerText="Password" >
-						<h:outputText value="#{currentId.password}" />						  
+					<p:column headerText="Username">
+						<h:outputText value="#{userBean.username}" />
 					</p:column>
 
-					<p:column headerText="User Name"  sortBy="#{currentId.username}" filterBy="#{currentId.username}">
-						<h:outputText value="#{currentId.username}" />
+					<p:column headerText="Name">
+						<h:outputText value="#{userBean.name}" />
 					</p:column>
 
-					<p:column headerText="Access Sets"  sortBy="#{currentId.setnm}" filterBy="#{currentId.setnm}">
-						<h:outputText value="#{currentId.setnm}" />
+					<p:column headerText="Enabled" styleClass="center">
+						<h:selectBooleanCheckbox value="#{userBean.enabled}" disabled="true"/>
 					</p:column>
-					
-					<p:column headerText="Access Rollup"  sortBy="#{currentId.rollup}" filterBy="#{currentId.rollup}">
-						<h:outputText value="#{currentId.rollup}" />
+
+					<p:column headerText="Permission" resizable="true">
+						<ul>
+						<p:repeat value="#{userBean.roles}" var="role">
+							<li>
+								<i class="pi pi-tag user-rol-icon"/>
+								<span class="user-rol">#{role.role}</span>
+							</li>
+						</p:repeat>
+						</ul>
 					</p:column>
-					
+
 					<p:column headerText="Actions" exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
-							update=":form:manage-code-content"
+							update="form:manage-code-content"
 							oncomplete="PF('#{hfmusersControllerBean.dialogName}').show()"
 							styleClass="edit-button rounded-button ui-button-success"
-							style="margin-right: 0.3em" 
+							style="margin-right: 0.3em" 							
 							process="@this">
-							<f:setPropertyActionListener value="#{currentid}" target="#{hfmusersControllerBean.curUsers}" />
-							<p:resetInput target=":form:manage-code-content" />
+							<f:setPropertyActionListener value="#{userBean}" target="#{hfmusersControllerBean.curUsers}" />
 						</p:commandButton>
 
 						<p:commandButton class="ui-button-warning rounded-button"
@@ -103,51 +122,50 @@
 							process="@this" 
 							style="margin-left: 0.3em"
 							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentid}" target="#{hfmusersControllerBean.curUsers}" />
+							<f:setPropertyActionListener value="#{userBean}" target="#{hfmusersControllerBean.curUsers}" />
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 
 				<!-- This form is for add new o modify a code -->
 
-				<p:dialog header="Users Details" showEffect="fade" modal="true"
-					widgetVar="#{hfmusersControllerBean.dialogName}"
-					responsive="true">
-					<p:outputPanel id="manage-code-content" class="ui-fluid">
-						<p:outputPanel
-							rendered="#{not empty hfmusersControllerBean.curUsers}">
+				<p:dialog header="Users Details" showEffect="fade" modal="true" id="userDialogId"
+					widgetVar="#{hfmusersControllerBean.dialogName}" responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid" rendered="#{hfmusersControllerBean.curUsersAvailable}">
 						<div class="p-field">
-								<p:outputLabel for="userid">User Id (maxlength 15)</p:outputLabel >
-								<p:inputText id="userid" value="#{hfmusersControllerBean.curUsers.userid}" maxlength="15" required="true" />
-							</div>	
+							<p:outputLabel for="username">Username (maxlength 15)</p:outputLabel>
+							<p:inputText id="username" 
+								value="#{hfmusersControllerBean.curUsers.username}" 
+								size="15"
+								maxlength="15" 
+								required="true" />
+						</div>
 						<div class="p-field">
-								
-								<p:outputLabel for="password">Password (maxlength 10)</p:outputLabel>
-								<p:password id="password" value="#{hfmusersControllerBean.curUsers.password}"  maxlength="20" toggleMask="true" feedback="true" redisplay="true"/>
-								
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="username">Username (maxlength 20)</p:outputLabel>
-								<p:inputText id="username" value="#{hfmusersControllerBean.curUsers.username}" maxlength="20"	 required="true" />
-							</div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="sethfmcodes" value="SET HFM CODES" />
-								<p:selectOneMenu id="sethfmcodes"
-									value="#{hfmusersControllerBean.curUsers.setnm}">
-									<f:selectItem itemLabel="YES" itemValue="Y" />
-									<f:selectItem itemLabel="NO" itemValue="N" />
-								</p:selectOneMenu>
-							</div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="rollup" value="Rollup Process" />
-								<p:selectOneMenu id="rollup"
-									value="#{hfmusersControllerBean.curUsers.rollup}">
-									<f:selectItem itemLabel="YES" itemValue="Y" />
-									<f:selectItem itemLabel="NO" itemValue="N" />
-								</p:selectOneMenu>
-							</div>
-							
-						</p:outputPanel>
+							<p:outputLabel for="password">Password (maxlength 15)</p:outputLabel>
+							<p:password id="password"
+								value="#{hfmusersControllerBean.curUsers.password}"
+								maxlength="15" 
+								toggleMask="true" 
+								feedback="true" 
+								size="15"
+								redisplay="true" />
+						</div>
+						<div class="p-field">
+							<p:outputLabel for="enabled">is Enabled?</p:outputLabel>
+							<h:selectBooleanCheckbox id="enabled" value="#{userBean.enabled}" />
+						</div>
+						<div class="p-field p-col-12 p-md-4">
+							<p:selectManyCheckbox id="grid" 
+								value="#{hfmusersControllerBean.lstRoles}" 
+								layout="grid" 
+								columns="3" 
+								styleClass="grid-checkbox">
+								<f:selectItems value="#{hfmusersControllerBean.lstSelecteRoles}" 
+									var="role" 
+									itemLabel="#{role.role}" 
+									itemValue="#{role.description}" />
+							</p:selectManyCheckbox>
+						</div>
 					</p:outputPanel>
 					<f:facet name="footer">
 						<p:commandButton value="Save" icon="pi pi-check"
@@ -164,7 +182,7 @@
 				<p:confirmDialog widgetVar="deleteCodeDialog" 
 					showEffect="fade"
 					width="300" 
-					message="Delete the code?" 
+					message="Delete the User" 
 					header="Confirm"
 					severity="warn">
 					<p:commandButton value="Yes" 

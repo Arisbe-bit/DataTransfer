@@ -1,8 +1,6 @@
 package com.neoris.tcl.controller;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -13,7 +11,6 @@ import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.RequestScope;
@@ -25,23 +22,23 @@ import com.neoris.tcl.security.models.User;
 @Controller(value = "menuController")
 @RequestScope
 public class MenuController {
-    
-    private final static Logger LOG = LoggerFactory.getLogger(MenuController.class);
-    private final static String REDIRECT = "%s?faces-redirect=true";
-    private MenuModel model;
-    private Authentication authentication;
-    private User user;
 
-    @PostConstruct
-    public void init() {
-        LOG.debug("Initializing MenuController...");
-        model = new DefaultMenuModel();
-        
-        authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getPrincipal() instanceof User) {
-        	user = (User) authentication.getPrincipal();
-        }
-        
+	private final static Logger LOG = LoggerFactory.getLogger(MenuController.class);
+	private final static String REDIRECT = "%s?faces-redirect=true";
+	private MenuModel model;
+	private Authentication authentication;
+	private User user;
+
+	@PostConstruct
+	public void init() {
+		LOG.debug("Initializing MenuController...");
+		model = new DefaultMenuModel();
+
+		authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
+
 //        LOG.info("Building model for menu");
 //
 //        //First submenu
@@ -87,95 +84,95 @@ public class MenuController {
 //        secondSubmenu.getElements().add(item);
 //
 //        model.getElements().add(secondSubmenu);
-    }
-    
-    public String hfmcodes() {
-        return String.format(REDIRECT, "/hfmcodes");
-    }
-    
-    public String hfmcodestypes() {
-        return String.format(REDIRECT, "/tradingpartnertypes");
-    }     
-    
-    public String hfmcodesOA() {
-        return String.format(REDIRECT, "/hfmcodesOA");
-    }
-    
-    public String partners() {
-        return String.format(REDIRECT, "/partners");
-    }
-    
-    public String payablesAccounts() {
-        return String.format(REDIRECT, "/payablesAccounts");
-    }
-    
-    public String receivablesAccounts() {
-        return String.format(REDIRECT, "/receivablesAccounts");
-    }
-    
-    public String reclassification() {
-        return String.format(REDIRECT, "/reclassification");
-    }
-    
-    public String matchAccounts() {
-        return String.format(REDIRECT, "/matchAccounts");
-    }
+	}
 
-    public String dsvscompany() {
-        return String.format(REDIRECT, "/companyentries");
-    }
-    
-    public String rollup() {
-        return String.format(REDIRECT, "/rollup");
-    }
-    
-    public String rolluphist() {
-        return String.format(REDIRECT, "/rolluphist");
-    }
-    
-    public String layout() {
-        return String.format(REDIRECT, "/layout");
-    }
-    
-    public String layouthist() {
-        return String.format(REDIRECT, "/layouthist");
-    }
-    
-    public String admin() {
-        return String.format(REDIRECT, "/admin/administration");
-    }
-    
-    public String logout() {
-    	LOG.info("Entering to logout...");
-    	FacesContext context = FacesContext.getCurrentInstance();
-    	HttpServletRequest req = (HttpServletRequest)context.getExternalContext().getRequest();
-    	String logout = req.getContextPath() + "/logout";
-    	LOG.info("logout = {}", logout);
-    	
-    	try {
+	public String hfmcodes() {
+		return String.format(REDIRECT, "/hfmcodes");
+	}
+
+	public String hfmcodestypes() {
+		return String.format(REDIRECT, "/tradingpartnertypes");
+	}
+
+	public String hfmcodesOA() {
+		return String.format(REDIRECT, "/hfmcodesOA");
+	}
+
+	public String partners() {
+		return String.format(REDIRECT, "/partners");
+	}
+
+	public String payablesAccounts() {
+		return String.format(REDIRECT, "/payablesAccounts");
+	}
+
+	public String receivablesAccounts() {
+		return String.format(REDIRECT, "/receivablesAccounts");
+	}
+
+	public String reclassification() {
+		return String.format(REDIRECT, "/reclassification");
+	}
+
+	public String matchAccounts() {
+		return String.format(REDIRECT, "/matchAccounts");
+	}
+
+	public String dsvscompany() {
+		return String.format(REDIRECT, "/companyentries");
+	}
+
+	public String rollup() {
+		return String.format(REDIRECT, "/rollup");
+	}
+
+	public String rolluphist() {
+		return String.format(REDIRECT, "/rolluphist");
+	}
+
+	public String layout() {
+		return String.format(REDIRECT, "/layout");
+	}
+
+	public String layouthist() {
+		return String.format(REDIRECT, "/layouthist");
+	}
+
+	public String admin() {
+		return String.format(REDIRECT, "/admin/administration");
+	}
+
+	public String logout() {
+		LOG.info("Entering to logout...");
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
+		String logout = req.getContextPath() + "/logout";
+		LOG.info("logout = {}", logout);
+
+		try {
 			context.getExternalContext().redirect(logout);
 		} catch (IOException e) {
-			LOG.error("IOException: => {}" , e.getMessage());
+			LOG.error("IOException: => {}", e.getMessage());
 		}
-    	return null; //req.getContextPath() + "/j_spring_security_logout";
-    }    
+		return null; // req.getContextPath() + "/j_spring_security_logout";
+	}
 
-    public MenuModel getModel() {
-        return model;
-    }
-    
-    public String getDataSourceVsCompany() {
-        return "Entries By Company";
-    }
-    
-    public String getRollUpText() {
-        return "RollUp";
-    }
-    
-    public String getReclasificationText() {
-        return "Reclasification";
-    }
-    
+	public MenuModel getModel() {
+		return model;
+	}
+
+	public String getDataSourceVsCompany() {
+		return "Entries By Company";
+	}
+
+	public String getRollUpText() {
+		return "RollUp";
+	}
+
+	public String getReclasificationText() {
+		return "Reclasification";
+	}
+
 	public String getHfmCodesOAText() {
 		return "Hfm Codes OA";
 	}
@@ -184,17 +181,62 @@ public class MenuController {
 		return authentication.getName();
 	}
 
-	public boolean isRollUpRole() {
-		return hasRole(Rol.ROLLUP) || hasRole(Rol.ADMIN);
-	}
-	
-	public boolean isHfmcodesRole() {
-		return hasRole(Rol.HFMCODES) || hasRole(Rol.ADMIN);
-	}
-	
 	public boolean isAdminRole() {
-		return hasRole(Rol.ADMIN);
-	}	
+		return isInRol(Rol.ADMIN);
+	}
+
+	public boolean isHfmcodesRole() {
+		return isInRol(Rol.HFMCODES) || hasRole(Rol.ADMIN);
+	}
+
+	public boolean isHfmcodesOARole() {
+		return isInRol(Rol.HFMCODESOA) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isHfmcodestypesRole() {
+		return isInRol(Rol.HFMCODESTYPES) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isPartnersRole() {
+		return isInRol(Rol.PARTNERS) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isPayablesAccountsRole() {
+		return hasRole(Rol.PAYABLESACCOUNTS) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isReceivablesAccountsRole() {
+		return isInRol(Rol.RECEIVABLESACCOUNTS) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isMatchAccountsRole() {
+		return isInRol(Rol.MATCHACCOUNTS) || isInRol(Rol.ADMIN);
+	}
+	
+	public boolean isDsvscompanyRole() {
+		return isInRol(Rol.DSVSCOMPANY) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isRollUpRole() {
+		return isInRol(Rol.ROLLUP) || isInRol(Rol.ADMIN);
+	}
+
+	public boolean isRolluphistRole() {
+		return isInRol(Rol.ROLLUPHIST) || isInRol(Rol.ADMIN);
+	}
+	
+	public boolean isLayouthistRole() {
+		return isInRol(Rol.LAYOUTHIST) || isInRol(Rol.ADMIN);
+	}
+	
+	private boolean isInRol(Rol rol) {
+		boolean retval = false;
+		if(user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(rol.name()))) {
+	        //LOG.info("Existe el rol {} en getAuthorities!!", rol.name());
+	        retval = true;
+	    }
+		return retval;
+	}
 
 	private boolean hasRole(Rol role) {
 		for (Role r : user.getRoles()) {
@@ -204,5 +246,5 @@ public class MenuController {
 		}
 		return false;
 	}
-    
+
 }

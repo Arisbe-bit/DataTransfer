@@ -1,6 +1,7 @@
-package com.neoris.tcl.controller;
+package com.neoris.tcl.admin.controller;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
-
+import com.neoris.tcl.security.models.Role;
 import com.neoris.tcl.security.models.User;
+import com.neoris.tcl.security.service.IRoleService;
 import com.neoris.tcl.security.service.IUserService;
 
 @Controller(value = "hfmusersControllerBean")
@@ -27,8 +29,14 @@ public class HfmUsersController {
 	@Autowired
 	private IUserService service;
 
+	@Autowired
+	private IRoleService roleService;
+
 	private List<User> lstusers;
 	private List<User> lstSelectdUsers;
+	
+	private List<Role> lstRoles;
+	private List<Role> lstSelecteRoles;
 	private User curUsers; // actual iterator
 	private boolean newCode;
 
@@ -36,11 +44,14 @@ public class HfmUsersController {
 	public void init() {
 		LOG.info("Initializing lstUsers...");
 		this.lstusers = service.findAll();
+		LOG.info("Initializing lstRoles...");
+		this.lstRoles = roleService.findAll();
 	}
 
 	public void openNew() {
 		this.newCode = true;
 		this.curUsers = new User();
+		this.setLstSelecteRoles(new ArrayList<Role>(this.curUsers.getRoles()));
 	}
 
 	/**
@@ -53,9 +64,9 @@ public class HfmUsersController {
 		if (newCode) {
 			Optional<User> vuserid = service.findById(curUsers.getId());
 			if (vuserid.isPresent()) {
-				String errorMessage = String.format(
-						"The record with UserId = %s  already exist. Can't create new record.", curUsers.getId());
-				Functions.addErrorMessage("Error adding new Code", errorMessage);
+				String errorMessage = String.format("The record with UserId = %s - %s already exist. Can't create new record.", curUsers.getId(), curUsers.getUsername());
+				LOG.warn(errorMessage);
+				Functions.addErrorMessage("Error adding new User", errorMessage);				
 				PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 				return;
 			}
@@ -65,13 +76,10 @@ public class HfmUsersController {
 		Functions.addInfoMessage("Succes", "User saved");
 
 		this.lstusers = service.findAll();
-		if (this.lstusers != null) {
-			LOG.info("La lista viene con {} registros. 1ro={}", lstusers.size(), lstusers.get(0));
-		}
 
 		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+		PrimeFaces.current().executeScript("PF('dtUsers').clearFilters()");
 	}
 
 	public void delete(ActionEvent event) {
@@ -81,7 +89,7 @@ public class HfmUsersController {
 		this.lstusers = service.findAll();
 		Functions.addInfoMessage("Succes", "Code Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+		PrimeFaces.current().executeScript("PF('dtUsers').clearFilters()");
 	}
 
 	public void deleteSelected(ActionEvent event) {
@@ -91,7 +99,7 @@ public class HfmUsersController {
 		this.lstusers = service.findAll();
 		Functions.addInfoMessage("Succes", "User Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
-		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+		PrimeFaces.current().executeScript("PF('dtUsers').clearFilters()");
 	}
 
 	public boolean hasSelectedCodes() {
@@ -99,7 +107,7 @@ public class HfmUsersController {
 	}
 
 	public String getDeleteButtonMessage() {
-		String message = "Delete %s code%s selected";
+		String message = "Delete %s user%s selected";
 		String retval = "Delete";
 		if (hasSelectedCodes()) {
 			int size = this.lstSelectdUsers.size();
@@ -117,11 +125,11 @@ public class HfmUsersController {
 	}
 
 	public String getDialogName() {
-		return "manageCodeDialog";
+		return "wvEditUsersDialog";
 	}
 
 	public String getDataTableName() {
-		return "dt-codes";
+		return "dtUsersId";
 	}
 
 	public String getDeleteCodesButton() {
@@ -145,13 +153,46 @@ public class HfmUsersController {
 	}
 
 	public User getCurUsers() {
-		return curUsers;
+		if(this.curUsers != null) {
+			this.curUsers.setPassword("");
+		}
+		return this.curUsers;
 	}
 
 	public void setCurUsers(User curUsers) {
+		LOG.info("Recibo curUsers = {}", curUsers);
 		this.newCode = false;
 		this.curUsers = curUsers;
-		LOG.info("Gets curUsers = {}", curUsers.getId());
+		if(this.curUsers != null) {
+			this.lstSelecteRoles = new ArrayList<Role>(this.curUsers.getRoles());		
+		} else {
+			this.lstSelecteRoles = new ArrayList<Role>();
+		}
+		Functions.addInfoMessage("Info", "Vamos a Editar!!!");
+		PrimeFaces.current().ajax().update("form:messages", "form:manage-code-content", "form:userDialogId_content");
+	}
+
+	public List<Role> getLstRoles() {
+		LOG.info("Return Roles = {}", lstRoles);
+		return lstRoles;
+	}
+
+	public void setLstRoles(List<Role> lstRoles) {
+		this.lstRoles = lstRoles;
+	}
+
+	public List<Role> getLstSelecteRoles() {
+		LOG.info("Regreso con lstSelecteRoles = {}", lstSelecteRoles);
+		return lstSelecteRoles;
+	}
+
+	public void setLstSelecteRoles(List<Role> lstSelecteRoles) {
+		this.lstSelecteRoles = lstSelecteRoles;
+	}
+	
+	public boolean isCurUsersAvailable() {
+		LOG.info("isCurUsersAvailable? = {}", this.curUsers);
+		return (this.curUsers != null);
 	}
 
 }

@@ -53,8 +53,8 @@ public class HfmFfssDetailsHistPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountid, amount, accountid, companyid, costcenter, currencycode, datasource, hfmcode, icp,
-				partnerid, period);
+		return Objects.hash(accountid, amount, companyid, costcenter, currencycode, datasource, hfmcode, icp, partnerid,
+				period, periodnm);
 	}
 
 	public String getPeriodnm() {
@@ -143,6 +143,23 @@ public class HfmFfssDetailsHistPK implements Serializable {
 
 	public void setCostcenter(String costcenter) {
 		this.costcenter = costcenter;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HfmFfssDetailsHistPK other = (HfmFfssDetailsHistPK) obj;
+		return Objects.equals(accountid, other.accountid) && Objects.equals(amount, other.amount)
+				&& companyid == other.companyid && Objects.equals(costcenter, other.costcenter)
+				&& Objects.equals(currencycode, other.currencycode) && Objects.equals(datasource, other.datasource)
+				&& Objects.equals(hfmcode, other.hfmcode) && Objects.equals(icp, other.icp)
+				&& Objects.equals(partnerid, other.partnerid) && Objects.equals(period, other.period)
+				&& Objects.equals(periodnm, other.periodnm);
 	}
 
 	@Override

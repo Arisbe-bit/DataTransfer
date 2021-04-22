@@ -1,4 +1,4 @@
-package com.neoris.tcl.controller;
+package com.neoris.tcl.admin.controller;
 
 import javax.annotation.PostConstruct;
 
@@ -21,14 +21,18 @@ public class AdminController {
 	@PostConstruct
 	public void init() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();		
-		LOG.info("Initializing Admin Controller...");
-		authentication.getAuthorities().forEach(ga -> LOG.info("Authority = {}", ga.getAuthority()));
+//		LOG.info("Initializing Admin Controller...");
+//		authentication.getAuthorities().forEach(ga -> LOG.info("Authority = {}", ga.getAuthority()));
 	}
 	
 	public String users() {
-		return String.format(REDIRECT, "users");		
+		return String.format(REDIRECT, "/admin/users");		
 	}
 	
+	public String roles() {
+		return String.format(REDIRECT, "/admin/roles");		
+	}	
+
 	public String getName() {
 		return authentication.getName();
 	}

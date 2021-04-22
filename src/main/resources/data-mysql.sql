@@ -1,6 +1,30 @@
-REPLACE INTO HFM_USERS (user_id, user_name, password, name) VALUES (1, 'admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador');
-REPLACE INTO HFM_ROLES VALUES (1,'ADMIN');
-REPLACE INTO HFM_USER_ROLE VALUES (1,1);
+INSERT INTO HFM_USERS (userid, username, password, name) VALUES (1, 'admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador');
+INSERT INTO HFM_USERS (userid, username, password, name) VALUES (2, 'ari','$2a$10$vlwMxNoDDxzkCPZJgZaCPeVDroqo9W3pSzSV/3cAox8dc9sqiSew6', 'Ari Morales');
+
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (1,'ADMIN', 'Administration');
+
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (2,'HFMCODES', 'HFMCodes');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (3,'HFMCODESOA', 'HFMCodes-Oracle Accounts');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (4,'HFMCODESTYPES', 'Trading Partner Types');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (5,'PARTNERS', 'Trading Partners');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (6,'PAYABLESACCOUNTS', 'Payables Accounts');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (7,'RECEIVABLESACCOUNTS', 'Receivables Accounts');
+
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (8,'MATCHACCOUNTS', 'Match Accounts');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (9,'DSVSCOMPANY', 'HFM Data by Company');
+
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (10,'ROLLUP', 'RollUp Process');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (11,'ROLLUPHIST', 'RollUp History');
+INSERT INTO HFM_ROLES (roleid, role, description) VALUES (12,'LAYOUTHIST', 'HFM Layout History');
+
+INSERT INTO HFM_USER_ROLE VALUES (1,1);
+
+INSERT INTO HFM_USER_ROLE VALUES (2,2);
+INSERT INTO HFM_USER_ROLE VALUES (2,3);
+INSERT INTO HFM_USER_ROLE VALUES (2,4);
+INSERT INTO HFM_USER_ROLE VALUES (2,8);
+INSERT INTO HFM_USER_ROLE VALUES (2,10);
+INSERT INTO HFM_USER_ROLE VALUES (2,11);
 
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170100','INTERCIAS');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170200','INTERCIAS');

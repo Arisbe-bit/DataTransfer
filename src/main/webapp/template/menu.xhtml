@@ -17,26 +17,26 @@
 		<p:menubar>
 			<p:submenu label="Catalogs Sets" icon="pi pi-file">
 				<p:menuitem value="HFMCodes" icon="pi pi-table" action="#{menuController.hfmcodes}" rendered="#{menuController.hfmcodesRole}"/>
-				<p:menuitem value="HFMCodes-Oracle Accounts" icon="pi pi-id-card" action="#{menuController.hfmcodesOA}"/>
-				<p:menuitem value="Trading Partner Types" icon="fa fa-users fa-fw" action="#{menuController.hfmcodestypes}"/>
-				<p:menuitem value="Trading Partners" icon="fa fa-handshake-o fa-fw" action="#{menuController.partners}"/>
+				<p:menuitem value="HFMCodes-Oracle Accounts" icon="pi pi-id-card" action="#{menuController.hfmcodesOA}" rendered="#{menuController.hfmcodesOARole}"/>
+				<p:menuitem value="Trading Partner Types" icon="fa fa-users fa-fw" action="#{menuController.hfmcodestypes}" rendered="#{menuController.hfmcodestypesRole}"/>
+				<p:menuitem value="Trading Partners" icon="fa fa-handshake-o fa-fw" action="#{menuController.partners}" rendered="#{menuController.partnersRole}"/>
 				<p:separator/>
-				<p:menuitem value="Payables Accounts" icon="fa fa-money fa-fw" action="#{menuController.payablesAccounts}"/>
-				<p:menuitem value="Receivables Accounts" icon="pi pi-dollar" action="#{menuController.receivablesAccounts}"/>
+				<p:menuitem value="Payables Accounts" icon="fa fa-money fa-fw" action="#{menuController.payablesAccounts}" rendered="#{menuController.payablesAccountsRole}"/>
+				<p:menuitem value="Receivables Accounts" icon="pi pi-dollar" action="#{menuController.receivablesAccounts}" rendered="#{menuController.receivablesAccountsRole}"/>
 			</p:submenu>
 			
 			<p:submenu label="Validations Set" icon="pi pi-check-circle">
-				<p:menuitem value="Match Accounts" icon="pi pi-sitemap" action="#{menuController.matchAccounts}"/>
+				<p:menuitem value="Match Accounts" icon="pi pi-sitemap" action="#{menuController.matchAccounts}" rendered="#{menuController.matchAccountsRole}"/>
 				<p:separator/>
-				<p:menuitem value="HFM Data by Company" icon="pi pi-chart-line" action="#{menuController.dsvscompany}" />
+				<p:menuitem value="HFM Data by Company" icon="pi pi-chart-line" action="#{menuController.dsvscompany}" rendered="#{menuController.dsvscompanyRole}" />
 			</p:submenu>
 			<p:submenu label="RollUP" icon="pi pi-slack">
-				<p:menuitem value="RollUp Process" icon="pi pi-spinner" action="#{menuController.rollup}"/>
-				<p:menuitem value="RollUP History" icon="pi pi-clone" action="#{menuController.rolluphist}"/>
-				<p:menuitem value="HFM Layout History" icon="pi pi-map" action="#{menuController.layouthist}" />
+				<p:menuitem value="RollUp Process" icon="pi pi-spinner" action="#{menuController.rollup}" rendered="#{menuController.rollUpRole}"/>
+				<p:menuitem value="RollUp History" icon="pi pi-clone" action="#{menuController.rolluphist}" rendered="#{menuController.rolluphistRole}"/>
+				<p:menuitem value="HFM Layout History" icon="pi pi-map" action="#{menuController.layouthist}" rendered="#{menuController.layouthistRole}"/>
 			</p:submenu>
 			
-			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.admin}" rendered="#{menuController.rollUpRole}"/>
+			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.admin}" rendered="#{menuController.adminRole}"/>
 
 			<f:facet name="options">
 				<p:commandButton value="logout" icon="pi pi-sign-out" ajax="false" action="#{menuController.logout}"/>
