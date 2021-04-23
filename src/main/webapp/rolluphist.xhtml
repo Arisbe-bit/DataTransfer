@@ -259,7 +259,7 @@
                                 </p:column>
                                 <p:column headerText="Amount" styleClass="rollup-text-align-right #{matchacc.balance lt 0 ? 'negative' : ''}">
                                     <h:outputText value="#{matchacc.balance}">
-                                    	<f:convertNumber pattern="###,###,###.##"/>
+                                    	<f:convertNumber pattern="###,###,###,###.##"/>
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>
@@ -310,7 +310,7 @@
                                 <p:column headerText="Amount" sortBy="#{accgroup.amount}" filterBy="#{accgroup.amount}" 
                                   styleClass="rollup-text-align-right #{accgroup.amount lt 0 ? 'negative' : ''}" >
                                     <h:outputText value="#{accgroup.amount}"  >
-                                    <f:convertNumber pattern="#####,00"/>
+                                    <f:convertNumber pattern="###,###,###,###.##"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="View Details" exportable="false">
@@ -383,7 +383,7 @@
 	                             <p:column headerText="Amount" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}"
 	                              styleClass="rollup-text-align-right #{hfmffssDetail.id.amount lt 0 ? 'negative' : ''}"     >
 	                                <h:outputText value="#{hfmffssDetail.id.amount}"  >
-	                                <f:convertNumber pattern="#####,00"/>
+	                                <f:convertNumber pattern="###,###,###,###.##"/>
 	                                </h:outputText>
 	                            </p:column>
 								<p:column headerText="Currency Code"
@@ -407,13 +407,13 @@
 		                          <p:column headerText="Debits" sortBy="#{hfmffssDetail.transdebit}" filterBy="#{hfmffssDetail.transdebit}"
 		                          styleClass="rollup-text-align-right #{hfmffssDetail.transdebit lt 0 ? 'negative' : ''}"    >
                                 <h:outputText value="#{hfmffssDetail.transdebit}" >
-                                <f:convertNumber pattern="#####,00"/>
+                                <f:convertNumber pattern="###,###,###,###.##"/>
                                 </h:outputText>
                             </p:column>
                             	<p:column headerText="Credits" sortBy="#{hfmffssDetail.transcredit}" filterBy="#{hfmffssDetail.transcredit}"
                               styleClass="rollup-text-align-right #{hfmffssDetail.transcredit lt 0 ? 'negative' : ''}"   >
                                 <h:outputText value="#{hfmffssDetail.transcredit}" >
-                                <f:convertNumber pattern="#####,00"/>
+                                <f:convertNumber pattern="###,###,###,###.##"/>
                                 </h:outputText>
                                  </p:column>
 	                             <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">

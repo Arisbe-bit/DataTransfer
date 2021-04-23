@@ -35,9 +35,13 @@ public class ViewOrclAccountsController {
     }
 
 
-	public List<HfmOracleAcc> getLstOrcl() {
+	
+
+	  public List<HfmOracleAcc> getLstOrcl() {
 		return lstOrcl;
 	}
+
+
 
 
 	public void setLstOrcl(List<HfmOracleAcc> lstOrcl) {
@@ -45,16 +49,37 @@ public class ViewOrclAccountsController {
 	}
 
 
+
+
 	public HfmOracleAcc getCurrentOrcl() {
 		return currentOrcl;
 	}
+
+
 
 
 	public void setCurrentOrcl(HfmOracleAcc currentOrcl) {
 		this.currentOrcl = currentOrcl;
 	}
 
-	  public String getTitle() {
+
+
+
+	public IHfmOracleAccService getService() {
+		return service;
+	}
+
+
+
+
+	public void setService(IHfmOracleAccService service) {
+		this.service = service;
+	}
+
+
+
+
+	public String getTitle() {
 	        return "Oracle Accounts Setting";
 	    }
 

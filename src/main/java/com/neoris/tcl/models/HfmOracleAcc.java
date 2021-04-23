@@ -1,6 +1,7 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.security.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 @Table(name="ROLLUP_VORACLEACCOUNTS")
 public class HfmOracleAcc implements Serializable{
 	
-	private static final long serialVersionUID = 6389104512054734051L;
+	private static final long serialVersionUID = 6089104512054734051L;
 
 	@Id
 	private Long num;
@@ -25,7 +26,7 @@ public class HfmOracleAcc implements Serializable{
 	private String futureuse2nm;
 	private String accounttype;
 	private String enabled;
-	private String enddateactive;
+	//private Timestamp enddateactive;
 	
 	
 	
@@ -37,7 +38,7 @@ public class HfmOracleAcc implements Serializable{
 
 	public HfmOracleAcc(Long num, String companyid, String companynm, String hfmcode, String costcenternm,
 			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
-			String accounttype, String enabled, String enddateactive) {
+			String accounttype, String enabled, Timestamp enddateactive) {
 	
 		this.num = num;
 		this.companyid = companyid;
@@ -51,7 +52,7 @@ public class HfmOracleAcc implements Serializable{
 		this.futureuse2nm = futureuse2nm;
 		this.accounttype = accounttype;
 		this.enabled = enabled;
-		this.enddateactive = enddateactive;
+		//this.enddateactive = enddateactive;
 	}
 
 
@@ -167,16 +168,16 @@ public class HfmOracleAcc implements Serializable{
 	}
 
 
-	public String getEnddateactive() {
+/*	public Timestamp getEnddateactive() {
 		return enddateactive;
 	}
 
 
-	public void setEnddateactive(String enddateactive) {
+	public void setEnddateactive(Timestamp enddateactive) {
 		this.enddateactive = enddateactive;
 	}
 
-
+*/
 
 
 	public Long getNum() {
@@ -198,8 +199,7 @@ public class HfmOracleAcc implements Serializable{
 		return "HfmOracleAcc [num=" + num + ", companyid=" + companyid + ", companynm=" + companynm + ", hfmcode="
 				+ hfmcode + ", costcenternm=" + costcenternm + ", costcenter=" + costcenter + ", oracleacct="
 				+ oracleacct + ", accountnm=" + accountnm + ", futureuse2=" + futureuse2 + ", futureuse2nm="
-				+ futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled + ", enddateactive="
-				+ enddateactive + "]";
+				+ futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled  + "]";
 	}
 
 

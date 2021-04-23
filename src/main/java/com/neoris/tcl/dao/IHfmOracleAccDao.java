@@ -9,5 +9,4 @@ import com.neoris.tcl.models.HfmOracleAcc;
 public interface IHfmOracleAccDao  extends JpaRepository<HfmOracleAcc,Long>{
 
 	
-	
 }
