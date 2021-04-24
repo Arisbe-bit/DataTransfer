@@ -50,6 +50,14 @@ public class Role {
 		this.role = role;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("Role [id=%s, role=%s, description=%s]", id, role, description);

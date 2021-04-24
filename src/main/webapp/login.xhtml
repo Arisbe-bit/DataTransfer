@@ -66,7 +66,8 @@
 					</center>
 				</f:facet>
 				<f:facet name="title">
-					<p:outputLabel value="Login failed!" styleClass="error" rendered="${!empty param['error']}" />
+					<p:outputLabel value="Login failed!" styleClass="error" rendered="${!empty param['error']}" /><br/>
+					<p:outputLabel value="${param['cause']}" styleClass="error" rendered="${!empty param['cause']}" />					
 					<p:outputLabel value="#{SPRING_SECURITY_LAST_EXCEPTION.message}" styleClass="error" rendered="#{param.loginFailed == 1 and SPRING_SECURITY_LAST_EXCEPTION != null}" />
 				</f:facet>
 				<p:panelGrid columns="2" columnClasses="label, value" styleClass="ui-fluid center ui-noborder">

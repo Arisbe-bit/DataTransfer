@@ -31,7 +31,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+		auth
+			.userDetailsService(userDetailsService)
+			.passwordEncoder(bCryptPasswordEncoder);
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.formLogin()
 				.loginPage("/login.xhtml").permitAll()
-				.failureUrl("/login.xhtml?error=true")
+				.failureUrl("/login-error")
 				.defaultSuccessUrl("/index.xhtml", true);
 		// logout
 		http

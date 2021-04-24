@@ -51,12 +51,6 @@ public class HfmFfssDetailsHistPK implements Serializable {
 		this.periodnm = periodnm;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(accountid, amount, companyid, costcenter, currencycode, datasource, hfmcode, icp, partnerid,
-				period, periodnm);
-	}
-
 	public String getPeriodnm() {
 		return periodnm;
 	}
@@ -160,6 +154,12 @@ public class HfmFfssDetailsHistPK implements Serializable {
 				&& Objects.equals(hfmcode, other.hfmcode) && Objects.equals(icp, other.icp)
 				&& Objects.equals(partnerid, other.partnerid) && Objects.equals(period, other.period)
 				&& Objects.equals(periodnm, other.periodnm);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountid, amount, companyid, costcenter, currencycode, datasource, hfmcode, icp, partnerid,
+				period, periodnm);
 	}
 
 	@Override

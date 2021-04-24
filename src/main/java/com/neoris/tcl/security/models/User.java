@@ -6,26 +6,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import javax.persistence.ForeignKey;
 
-import org.apache.myfaces.context.servlet.ServletExternalContextImpl;
 import org.hibernate.annotations.ColumnDefault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -63,25 +56,86 @@ public class User implements UserDetails {
 	@ColumnDefault(value = "1")
 	private boolean enabled;
 
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinTable(name = "hfm_user_role", 
-				joinColumns = @JoinColumn(name = "userid", foreignKey = @ForeignKey(name = "FK_USER")), 
-				inverseJoinColumns = @JoinColumn(name = "roleid", foreignKey = @ForeignKey(name = "FK_ROLE"))
-	)
-	private Set<Role> roles;
+	@ColumnDefault(value = "0")
+	private boolean admin;
+
+	@ColumnDefault(value = "0")
+	private boolean hfmcodes;
+
+	@ColumnDefault(value = "0")
+	private boolean hfmcodesoa;
+
+	@ColumnDefault(value = "0")
+	private boolean hfmcodestypes;
+
+	@ColumnDefault(value = "0")
+	private boolean partners;
+
+	@ColumnDefault(value = "0")
+	private boolean payablesaccounts;
+
+	@ColumnDefault(value = "0")
+	private boolean receivablesaccounts;
+
+	@ColumnDefault(value = "0")
+	private boolean matchaccounts;
+
+	@ColumnDefault(value = "0")
+	private boolean dsvscompany;
+
+	@ColumnDefault(value = "0")
+	private boolean rollup;
+
+	@ColumnDefault(value = "0")
+	private boolean rolluphist;
+
+	@ColumnDefault(value = "0")
+	private boolean layouthist;
+
+	@Transient
+	private List<Rol> selectdRoles;
+	
+	@Transient
+	private String passwordBackUp;
+
+//	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+//	@JoinTable(name = "hfm_user_role", 
+//				joinColumns = @JoinColumn(name = "userid", foreignKey = @ForeignKey(name = "FK_USER")), 
+//				inverseJoinColumns = @JoinColumn(name = "roleid", foreignKey = @ForeignKey(name = "FK_ROLE"))
+//	)
+//	private Set<Role> roles;
 
 	public User() {
-		this.roles = new HashSet<Role>();
+		passwordBackUp = "";
+		selectdRoles = new ArrayList<>();
 		setEnabled(true);
 	}
 
-	public User(int id, String username, String password, String name, boolean enabled, Set<Role> roles) {
+	public User(int id,
+			String username, String password, String name, boolean enabled, boolean admin,
+			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
+			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
+			boolean layouthist) {
+		this.selectdRoles = new ArrayList<>();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.name = name;
-		this.roles = roles;
 		this.enabled = enabled;
+		this.admin = admin;
+		this.hfmcodes = hfmcodes;
+		this.hfmcodesoa = hfmcodesoa;
+		this.hfmcodestypes = hfmcodestypes;
+		this.partners = partners;
+		this.payablesaccounts = payablesaccounts;
+		this.receivablesaccounts = receivablesaccounts;
+		this.matchaccounts = matchaccounts;
+		this.dsvscompany = dsvscompany;
+		this.rollup = rollup;
+		this.rolluphist = rolluphist;
+		this.layouthist = layouthist;
+		this.passwordBackUp ="";
+		this.populateList();
 	}
 
 	public int getId() {
@@ -111,12 +165,55 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> gaRoles = new HashSet<GrantedAuthority>();
-		for (Role role : this.getRoles()) {
-			// LOG.info("Add Role = {}", role.getRole().name());
-			gaRoles.add(new SimpleGrantedAuthority(role.getRole().name()));
+		if (admin) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.ADMIN.name()));
+			selectdRoles.add(Rol.ADMIN);
 		}
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<>(gaRoles);
-		return grantedAuthorities;
+		if (hfmcodes) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.HFMCODES.name()));
+			selectdRoles.add(Rol.HFMCODES);
+		}
+		if (hfmcodesoa) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.HFMCODESOA.name()));
+			selectdRoles.add(Rol.HFMCODESOA);
+		}
+		if (hfmcodestypes) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.HFMCODESTYPES.name()));
+			selectdRoles.add(Rol.HFMCODESTYPES);
+		}
+		if (partners) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.PARTNERS.name()));
+			selectdRoles.add(Rol.PARTNERS);
+		}
+		if (payablesaccounts) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.PAYABLESACCOUNTS.name()));
+			selectdRoles.add(Rol.PAYABLESACCOUNTS);
+		}
+		if (receivablesaccounts) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.RECEIVABLESACCOUNTS.name()));
+			selectdRoles.add(Rol.RECEIVABLESACCOUNTS);
+		}
+		if (matchaccounts) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.MATCHACCOUNTS.name()));
+			selectdRoles.add(Rol.MATCHACCOUNTS);
+		}
+		if (dsvscompany) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.DSVSCOMPANY.name()));
+			selectdRoles.add(Rol.DSVSCOMPANY);
+		}
+		if (rollup) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.ROLLUP.name()));
+			selectdRoles.add(Rol.ROLLUP);
+		}
+		if (rolluphist) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.ROLLUPHIST.name()));
+			selectdRoles.add(Rol.ROLLUPHIST);
+		}
+		if (layouthist) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.LAYOUTHIST.name()));
+			selectdRoles.add(Rol.LAYOUTHIST);
+		}
+		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
 
 	@Override
@@ -153,19 +250,239 @@ public class User implements UserDetails {
 		this.enabled = enabled;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public boolean isAdmin() {
+		return admin;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		LOG.info("Receive Roles = {}", roles);
-		this.roles = roles;
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("User [id=%s, username=%s, password=%s, name=%s, enabled=%s, roles=%s]", id, username,
-				password, name, enabled, roles);
+	public boolean isHfmcodes() {
+		return hfmcodes;
 	}
+
+	public void setHfmcodes(boolean hfmcodes) {
+		this.hfmcodes = hfmcodes;
+	}
+
+	public boolean isHfmcodesoa() {
+		return hfmcodesoa;
+	}
+
+	public void setHfmcodesoa(boolean hfmcodesoa) {
+		this.hfmcodesoa = hfmcodesoa;
+	}
+
+	public boolean isHfmcodestypes() {
+		return hfmcodestypes;
+	}
+
+	public void setHfmcodestypes(boolean hfmcodestypes) {
+		this.hfmcodestypes = hfmcodestypes;
+	}
+
+	public boolean isPartners() {
+		return partners;
+	}
+
+	public void setPartners(boolean partners) {
+		this.partners = partners;
+	}
+
+	public boolean isPayablesaccounts() {
+		return payablesaccounts;
+	}
+
+	public void setPayablesaccounts(boolean payablesaccounts) {
+		this.payablesaccounts = payablesaccounts;
+	}
+
+	public boolean isReceivablesaccounts() {
+		return receivablesaccounts;
+	}
+
+	public void setReceivablesaccounts(boolean receivablesaccounts) {
+		this.receivablesaccounts = receivablesaccounts;
+	}
+
+	public boolean isMatchaccounts() {
+		return matchaccounts;
+	}
+
+	public void setMatchaccounts(boolean matchaccounts) {
+		this.matchaccounts = matchaccounts;
+	}
+
+	public boolean isDsvscompany() {
+		return dsvscompany;
+	}
+
+	public void setDsvscompany(boolean dsvscompany) {
+		this.dsvscompany = dsvscompany;
+	}
+
+	public boolean isRollup() {
+		return rollup;
+	}
+
+	public void setRollup(boolean rollup) {
+		this.rollup = rollup;
+	}
+
+	public boolean isRolluphist() {
+		return rolluphist;
+	}
+
+	public void setRolluphist(boolean rolluphist) {
+		this.rolluphist = rolluphist;
+	}
+
+	public boolean isLayouthist() {
+		return layouthist;
+	}
+
+	public void setLayouthist(boolean layouthist) {
+		this.layouthist = layouthist;
+	}
+
+	public String getPasswordBackUp() {
+		return passwordBackUp;
+	}
+
+	public void setPasswordBackUp(String passwordBackUp) {
+		this.passwordBackUp = passwordBackUp;
+	}
+
+	public List<Rol> getSelectdRoles() {
+		populateList();
+		LOG.info("[USers] Envio selectdRoles = {}", selectdRoles);
+		return selectdRoles;
+	}
+
+	public void setSelectdRoles(List<Rol> selectdRoles) {
+		LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
+		this.selectdRoles = selectdRoles;
+		resetRoles();
+		for (Rol rol : selectdRoles) {
+			if (Rol.ADMIN.equals(rol)) {
+				this.setAdmin(true);
+			}
+			if (Rol.HFMCODES.equals(rol)) {
+				this.setHfmcodes(true);
+			}
+			if (Rol.HFMCODESOA.equals(rol)) {
+				this.setHfmcodesoa(true);
+			}
+			if (Rol.HFMCODESTYPES.equals(rol)) {
+				this.setHfmcodestypes(true);
+			}
+			if (Rol.PARTNERS.equals(rol)) {
+				this.setPartners(true);
+			}
+			if (Rol.PAYABLESACCOUNTS.equals(rol)) {
+				this.setPayablesaccounts(true);
+			}
+			if (Rol.RECEIVABLESACCOUNTS.equals(rol)) {
+				this.setReceivablesaccounts(true);
+			}
+			if (Rol.MATCHACCOUNTS.equals(rol)) {
+				this.setMatchaccounts(true);
+			}
+			if (Rol.DSVSCOMPANY.equals(rol)) {
+				this.setDsvscompany(true);
+			}
+			if (Rol.ROLLUP.equals(rol)) {
+				this.setRollup(true);
+			}
+			if (Rol.ROLLUPHIST.equals(rol)) {
+				this.setRolluphist(true);
+			}
+			if (Rol.LAYOUTHIST.equals(rol)) {
+				this.setLayouthist(true);
+			}
+		}
+	}
+
+	private void resetRoles() {
+		this.admin = false;
+		this.hfmcodes = false;
+		this.hfmcodesoa = false;
+		this.hfmcodestypes = false;
+		this.partners = false;
+		this.payablesaccounts = false;
+		this.receivablesaccounts = false;
+		this.matchaccounts = false;
+		this.dsvscompany = false;
+		this.rollup = false;
+		this.rolluphist = false;
+		this.layouthist = false;
+	}
+	
+	private void populateList() {
+		selectdRoles = new ArrayList<>();
+		if (admin) {
+			selectdRoles.add(Rol.ADMIN);
+		}
+		if (hfmcodes) {
+			selectdRoles.add(Rol.HFMCODES);
+		}
+		if (hfmcodesoa) {
+			selectdRoles.add(Rol.HFMCODESOA);
+		}
+		if (hfmcodestypes) {
+			selectdRoles.add(Rol.HFMCODESTYPES);
+		}
+		if (partners) {
+			selectdRoles.add(Rol.PARTNERS);
+		}
+		if (payablesaccounts) {
+			selectdRoles.add(Rol.PAYABLESACCOUNTS);
+		}
+		if (receivablesaccounts) {
+			selectdRoles.add(Rol.RECEIVABLESACCOUNTS);
+		}
+		if (matchaccounts) {
+			selectdRoles.add(Rol.MATCHACCOUNTS);
+		}
+		if (dsvscompany) {
+			selectdRoles.add(Rol.DSVSCOMPANY);
+		}
+		if (rollup) {
+			selectdRoles.add(Rol.ROLLUP);
+		}
+		if (rolluphist) {
+			selectdRoles.add(Rol.ROLLUPHIST);
+		}
+		if (layouthist) {
+			selectdRoles.add(Rol.LAYOUTHIST);
+		}
+	}
+
+//	public List<Rol> getUserRoles() {
+//		List<Rol> lstUserRoles;
+//		if(roles != null) {
+//			lstUserRoles = roles.stream()
+//			.map(role -> role.getRole())
+//			.collect(Collectors.toList());
+//		} else {
+//			lstUserRoles = new ArrayList<Rol>();
+//		}
+//		return lstUserRoles;
+//	}
+
+	/**
+	 * Update the user roles
+	 * 
+	 * @param selectdRoles .- List with new roles
+	 * @param lstRoles     .- Full List of roles.
+	 */
+//	public void updateRoles(List<Role> lstRoles) {
+//		LOG.info("User roles before = {}", this.roles);
+//		this.roles = lstRoles.stream()
+//				.filter(role -> selectdRoles.contains(role.getRole()))
+//				.collect(Collectors.toSet());
+//		LOG.info("User roles afeter = {}", this.roles);
+//	}
 
 }

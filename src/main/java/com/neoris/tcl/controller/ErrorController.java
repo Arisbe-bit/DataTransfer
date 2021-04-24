@@ -2,11 +2,15 @@ package com.neoris.tcl.controller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -34,11 +38,11 @@ public class ErrorController {
 	        Integer statusCode = Integer.valueOf(status.toString());
 	    
 	        if(statusCode == HttpStatus.NOT_FOUND.value()) {
-	        	LOG.debug("Recibí no encontrado. uri = {}", uri);
+	        	LOG.info("Recibí no encontrado. uri = {}", uri);
 	            return "/404.xhtml";
 	        }
 	        else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-	        	LOG.debug("Recibí un error. uri = {}", uri);
+	        	LOG.info("Recibí un error. uri = {}", uri);
 	            return "/500.xhtml";
 	        }
 	    }
@@ -46,4 +50,20 @@ public class ErrorController {
 		return "/error.xhtml";
 	}
 
+	@RequestMapping(value = "/login-error", method = RequestMethod.GET)
+    public String login(HttpServletRequest request, Model model) {
+		LOG.info("login error detected.");
+        HttpSession session = request.getSession(false);
+        String errorMessage = null;
+        if (session != null) {
+            AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (ex != null) {
+                errorMessage = ex.getMessage();
+                LOG.info("errorMessage = {}", errorMessage);
+            }
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        String url = "/login.xhtml?error=true&cause="+errorMessage; 
+        return url;
+    }
 }

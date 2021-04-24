@@ -5,9 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,8 @@ public class UserService implements IUserService {
 	@Autowired
 	private IUserDao userRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+//	@Autowired
+//	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -36,7 +34,7 @@ public class UserService implements IUserService {
 
 	@Override
 	public User saveUser(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		//user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
@@ -61,20 +59,9 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	@Transactional
-	public Optional<User> findByUsername(String username) {
-		Optional<User> userResponse = userRepository.findByUsername(username);
-		if (userResponse.isPresent()) {
-			User user = userResponse.get();
-			Session session = (Session) entityManager.unwrap(Session.class);
-
-			if (!user.getRoles().isEmpty()) {
-				user.getRoles().forEach(r -> LOG.info("Rol ID = {}, Rol Name = {}", r.getId(), r.getRole().name()));
-			}
-
-			session.close();
-		}
-		return userResponse;
+	public Optional<User> findByUsername(String username) {	
+		return userRepository.findByUsername(username);
 	}
+
 
 }

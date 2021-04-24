@@ -15,8 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.RequestScope;
 
-import com.neoris.tcl.security.models.Rol;
-import com.neoris.tcl.security.models.Role;
 import com.neoris.tcl.security.models.User;
 
 @Controller(value = "menuController")
@@ -182,69 +180,51 @@ public class MenuController {
 	}
 
 	public boolean isAdminRole() {
-		return isInRol(Rol.ADMIN);
+		return user.isAdmin();
 	}
 
 	public boolean isHfmcodesRole() {
-		return isInRol(Rol.HFMCODES) || hasRole(Rol.ADMIN);
+		return user.isHfmcodes() || user.isAdmin();
 	}
 
 	public boolean isHfmcodesOARole() {
-		return isInRol(Rol.HFMCODESOA) || isInRol(Rol.ADMIN);
+		return user.isHfmcodesoa() || user.isAdmin();
 	}
 
 	public boolean isHfmcodestypesRole() {
-		return isInRol(Rol.HFMCODESTYPES) || isInRol(Rol.ADMIN);
+		return user.isHfmcodestypes() || user.isAdmin();
 	}
 
 	public boolean isPartnersRole() {
-		return isInRol(Rol.PARTNERS) || isInRol(Rol.ADMIN);
+		return user.isPartners() || user.isAdmin();
 	}
 
 	public boolean isPayablesAccountsRole() {
-		return hasRole(Rol.PAYABLESACCOUNTS) || isInRol(Rol.ADMIN);
+		return user.isPayablesaccounts()|| user.isAdmin();
 	}
 
 	public boolean isReceivablesAccountsRole() {
-		return isInRol(Rol.RECEIVABLESACCOUNTS) || isInRol(Rol.ADMIN);
+		return user.isReceivablesaccounts() || user.isAdmin();
 	}
 
 	public boolean isMatchAccountsRole() {
-		return isInRol(Rol.MATCHACCOUNTS) || isInRol(Rol.ADMIN);
+		return user.isMatchaccounts() || user.isAdmin();
 	}
 	
 	public boolean isDsvscompanyRole() {
-		return isInRol(Rol.DSVSCOMPANY) || isInRol(Rol.ADMIN);
+		return user.isDsvscompany() || user.isAdmin();
 	}
 
 	public boolean isRollUpRole() {
-		return isInRol(Rol.ROLLUP) || isInRol(Rol.ADMIN);
+		return user.isRollup() || user.isAdmin();
 	}
 
 	public boolean isRolluphistRole() {
-		return isInRol(Rol.ROLLUPHIST) || isInRol(Rol.ADMIN);
+		return user.isRolluphist() || user.isAdmin();
 	}
 	
 	public boolean isLayouthistRole() {
-		return isInRol(Rol.LAYOUTHIST) || isInRol(Rol.ADMIN);
-	}
-	
-	private boolean isInRol(Rol rol) {
-		boolean retval = false;
-		if(user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(rol.name()))) {
-	        //LOG.info("Existe el rol {} en getAuthorities!!", rol.name());
-	        retval = true;
-	    }
-		return retval;
-	}
-
-	private boolean hasRole(Rol role) {
-		for (Role r : user.getRoles()) {
-			if (r.getRole().equals(role)) {
-				return true;
-			}
-		}
-		return false;
+		return user.isLayouthist() || user.isAdmin();
 	}
 
 }
