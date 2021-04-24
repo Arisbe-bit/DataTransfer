@@ -90,11 +90,11 @@ public class User implements UserDetails {
 	private boolean rolluphist;
 
 	@ColumnDefault(value = "0")
-	private boolean layouthist;
+	private boolean policies;
 
 	@Transient
 	private List<Rol> selectdRoles;
-	
+
 	@Transient
 	private String passwordBackUp;
 
@@ -115,7 +115,7 @@ public class User implements UserDetails {
 			String username, String password, String name, boolean enabled, boolean admin,
 			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean layouthist) {
+			boolean policies) {
 		this.selectdRoles = new ArrayList<>();
 		this.id = id;
 		this.username = username;
@@ -133,7 +133,7 @@ public class User implements UserDetails {
 		this.dsvscompany = dsvscompany;
 		this.rollup = rollup;
 		this.rolluphist = rolluphist;
-		this.layouthist = layouthist;
+		this.policies = policies;
 		this.passwordBackUp ="";
 		this.populateList();
 	}
@@ -209,9 +209,9 @@ public class User implements UserDetails {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.ROLLUPHIST.name()));
 			selectdRoles.add(Rol.ROLLUPHIST);
 		}
-		if (layouthist) {
-			gaRoles.add(new SimpleGrantedAuthority(Rol.LAYOUTHIST.name()));
-			selectdRoles.add(Rol.LAYOUTHIST);
+		if (policies) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
+			selectdRoles.add(Rol.POLICIES);
 		}
 		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
@@ -338,12 +338,12 @@ public class User implements UserDetails {
 		this.rolluphist = rolluphist;
 	}
 
-	public boolean isLayouthist() {
-		return layouthist;
+	public boolean isPolicies() {
+		return policies;
 	}
 
-	public void setLayouthist(boolean layouthist) {
-		this.layouthist = layouthist;
+	public void setPolicies(boolean policies) {
+		this.policies = policies;
 	}
 
 	public String getPasswordBackUp() {
@@ -398,8 +398,8 @@ public class User implements UserDetails {
 			if (Rol.ROLLUPHIST.equals(rol)) {
 				this.setRolluphist(true);
 			}
-			if (Rol.LAYOUTHIST.equals(rol)) {
-				this.setLayouthist(true);
+			if (Rol.POLICIES.equals(rol)) {
+				this.setPolicies(true);
 			}
 		}
 	}
@@ -416,7 +416,7 @@ public class User implements UserDetails {
 		this.dsvscompany = false;
 		this.rollup = false;
 		this.rolluphist = false;
-		this.layouthist = false;
+		this.policies = false;
 	}
 	
 	private void populateList() {
@@ -454,8 +454,8 @@ public class User implements UserDetails {
 		if (rolluphist) {
 			selectdRoles.add(Rol.ROLLUPHIST);
 		}
-		if (layouthist) {
-			selectdRoles.add(Rol.LAYOUTHIST);
+		if (policies) {
+			selectdRoles.add(Rol.POLICIES);
 		}
 	}
 

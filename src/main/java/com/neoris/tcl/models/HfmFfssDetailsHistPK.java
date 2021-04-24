@@ -29,15 +29,27 @@ public class HfmFfssDetailsHistPK implements Serializable {
 
 	@Column(name = "PERIOD_NAME")
 	private String periodnm;
+	
+	private int num;
 
+	
 	public HfmFfssDetailsHistPK() {
 		this.amount = new BigDecimal(0);
 	}
 
-	public HfmFfssDetailsHistPK(String hfmcode, String accountid, String icp, BigDecimal amount, String period,
-			String partnerid, int companyid, String datasource, String currencycode, String costcenter,
-			String periodnm) {
 
+
+	
+
+
+
+
+
+
+	public HfmFfssDetailsHistPK(String hfmcode, String accountid, String icp, BigDecimal amount, String period,
+			String partnerid, int companyid, String datasource, String currencycode, String costcenter, String periodnm,
+			int num) {
+		super();
 		this.hfmcode = hfmcode;
 		this.accountid = accountid;
 		this.icp = icp;
@@ -49,6 +61,7 @@ public class HfmFfssDetailsHistPK implements Serializable {
 		this.currencycode = currencycode;
 		this.costcenter = costcenter;
 		this.periodnm = periodnm;
+		this.num = num;
 	}
 
 	public String getPeriodnm() {
@@ -162,12 +175,44 @@ public class HfmFfssDetailsHistPK implements Serializable {
 				period, periodnm);
 	}
 
+
+
+
+
+
+
+	public int getNum() {
+		return num;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+
+
+
+
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "HfmFfssDetailsHistPK [hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp + ", amount="
 				+ amount + ", period=" + period + ", partnerid=" + partnerid + ", companyid=" + companyid
 				+ ", datasource=" + datasource + ", currencycode=" + currencycode + ", costcenter=" + costcenter
-				+ ", periodnm=" + periodnm + "]";
+				+ ", periodnm=" + periodnm + ", num=" + num + "]";
 	}
 
 }

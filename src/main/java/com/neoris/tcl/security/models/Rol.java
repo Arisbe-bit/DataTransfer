@@ -12,5 +12,5 @@ public enum Rol {
 	DSVSCOMPANY,
 	ROLLUP,
 	ROLLUPHIST,
-	LAYOUTHIST;
+	POLICIES;
 }

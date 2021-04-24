@@ -25,11 +25,18 @@ public class HfmFfssDetailsHistService implements IHfmFfssDetailsHistService{
 	}
 
 	@Override
-	public List<HfmFFSSDetailsHist> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(
-			int companyId, String Hfmcode, String costcenter, String accountid, String partnerid) {
-		return (List<HfmFFSSDetailsHist> ) data.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(companyId, Hfmcode, costcenter,
-				accountid, partnerid);
+	public List<HfmFFSSDetailsHist> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndPeriodid(
+			int companyId, String Hfmcode, String costcenter, String accountid, String partnerid,String periodnm) {
+		return (List<HfmFFSSDetailsHist> ) data.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndPeriodid(companyId, Hfmcode, costcenter,
+				accountid, partnerid,periodnm);
 	}
+	@Override
+	public List<HfmFFSSDetailsHist> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(
+			int companyId, String Hfmcode, String costcenter, String accountid, String partnerid,String periodnm) {
+		return (List<HfmFFSSDetailsHist> ) data.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(companyId, Hfmcode, costcenter,
+				accountid, partnerid,periodnm);
+	}
+	
 	
 	
 

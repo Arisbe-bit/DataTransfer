@@ -144,18 +144,20 @@ public class RollupHistController {
 		LOG.info("Obtain curRollUp = {}", curRollUp);
 		this.curRollUp = curRollUp;
 		Long companyId = curRollUp.getCompanyid();
+		String perdionm = curRollUp.getRperiod()+"-"+curRollUp.getRyear().substring(2);
+		
 
 		try {
-			LOG.info("Query HFM_FFSS with company = {}", companyId);
-			this.lstHfmFfss = hfmFfSsService.findByCompanyId(companyId);
+			LOG.info("Query HFM_FFSS with company = {}, period = {}", companyId,perdionm);
+			this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriodid(companyId, perdionm);
 
 			LOG.info("return lstHfmFfss with items => {}", lstHfmFfss != null ? lstHfmFfss.size() : "is null");
 
 			
 
-			LOG.info("Query MATCH ACCOUNT Hist LIST with company = {}", companyId);
+			LOG.info("Query MATCH ACCOUNT Hist LIST with company = {}, period = {}", companyId,perdionm);
 
-			this.lstMatchAcc = matchaccService.findByCompanyid(companyId);
+			this.lstMatchAcc = matchaccService.findByCompanyidAndPeriodid(companyId,perdionm);
 			LOG.info("return lstMatchAcc with items => {}", lstMatchAcc != null ? lstMatchAcc.size() : "is null");
 
 			if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
@@ -207,7 +209,7 @@ public class RollupHistController {
 
 		try {
 
-			LOG.info("Query SUM FFSS  LIST with company = {}", companyid);
+			LOG.info("Query SUM FFSS  LIST with company = {}, vhfmcode {}", companyid,vhfmcode);
 
 			// this.lstFSgrouped =
 			// serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
@@ -342,15 +344,16 @@ public class RollupHistController {
 		String partnerid = curFSgroup.getPartnerid();
 		String costcenter = curFSgroup.getCostcenter();
 		String accountid = curFSgroup.getAccountid();
+		String periodnm = curFSgroup.getPeriodname();
 
 		try {
 
-			LOG.info("Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}", companyid,vhfmcode,partnerid,
-					costcenter,accountid);
+			LOG.info("Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}, periodnnm {}", companyid,vhfmcode,partnerid,
+					costcenter,accountid,periodnm);
 
 			this.lstHfmFfssDetails = hfmFfssDetailsService
-					.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(companyid, vhfmcode,
-							costcenter, accountid, partnerid);
+					.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(companyid, vhfmcode,
+							costcenter, accountid, partnerid,periodnm);
 
 			LOG.info("return lstHfmFfssDetails with items => {}",
 					lstHfmFfssDetails != null ? lstHfmFfssDetails.size() : "is null");

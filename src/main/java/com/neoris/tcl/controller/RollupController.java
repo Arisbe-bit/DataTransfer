@@ -510,7 +510,7 @@ public class RollupController {
         
         try {
             
-    	        LOG.info("Query SUM FFSS  LIST with company = {}", companyid);
+    	        LOG.info("Query SUM FFSS  LIST with company = {}, vhfmcode = {}", companyid,vhfmcode);
     	        
     	        //this.lstFSgrouped = serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
     	        this.lstSumFS =  serviceFSG.findByCompanyidAndHfmcode(companyid.intValue(),vhfmcode);

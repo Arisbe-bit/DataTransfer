@@ -93,7 +93,7 @@ public class MenuController {
 	}
 
 	public String hfmcodesOA() {
-		return String.format(REDIRECT, "/hfmcodesOA");
+		return String.format(REDIRECT, "/oracleaccounts");
 	}
 
 	public String partners() {
@@ -172,7 +172,23 @@ public class MenuController {
 	}
 
 	public String getHfmCodesOAText() {
-		return "Hfm Codes OA";
+		return "Accounts & Hfm Codes";
+	}
+
+	public String getDefinedAccountsText() {
+		return "Source Accounts";
+	}
+
+	public String getesText() {
+		return "Accounting es";
+	}
+
+	public String definedaccounts() {
+		return String.format(REDIRECT, "/definedaccounts");
+	}
+
+	public String policies() {
+		return String.format(REDIRECT, "/policies");
 	}
 
 	public String getName() {
@@ -200,7 +216,7 @@ public class MenuController {
 	}
 
 	public boolean isPayablesAccountsRole() {
-		return user.isPayablesaccounts()|| user.isAdmin();
+		return user.isPayablesaccounts() || user.isAdmin();
 	}
 
 	public boolean isReceivablesAccountsRole() {
@@ -210,7 +226,7 @@ public class MenuController {
 	public boolean isMatchAccountsRole() {
 		return user.isMatchaccounts() || user.isAdmin();
 	}
-	
+
 	public boolean isDsvscompanyRole() {
 		return user.isDsvscompany() || user.isAdmin();
 	}
@@ -222,9 +238,9 @@ public class MenuController {
 	public boolean isRolluphistRole() {
 		return user.isRolluphist() || user.isAdmin();
 	}
-	
-	public boolean isLayouthistRole() {
-		return user.isLayouthist() || user.isAdmin();
+
+	public boolean isPoliciesRole() {
+		return user.isPolicies() || user.isAdmin();
 	}
 
 }

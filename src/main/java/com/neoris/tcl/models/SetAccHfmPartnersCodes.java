@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "set_acc_hfm_partners_codes")
+@Table(name = "SET_ACC_HFM_CODES")
 public class SetAccHfmPartnersCodes implements Serializable {
 
 	/**
@@ -22,28 +22,24 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	@EmbeddedId
 	private SetAccHfmPartnersCodesPK id;
 
-	private String areaid;
+	
 
 	private int companyid;
 
 	private String icpcode;
 
-	private String partnerid;
-
-	private String tpartnertype;
 
 	public SetAccHfmPartnersCodes() {
 	    this.setId(new SetAccHfmPartnersCodesPK());
 	}
 
-	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id, String areaid, int companyid, String icpcode,
+	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id,  int companyid, String icpcode,
 			String partnerid, String tpartnertype) {
 		this.id = id;
-		this.areaid = areaid;
+		
 		this.companyid = companyid;
 		this.icpcode = icpcode;
-		this.partnerid = partnerid;
-		this.tpartnertype = tpartnertype;
+		
 	}
 
 	public SetAccHfmPartnersCodesPK getId() {
@@ -54,13 +50,7 @@ public class SetAccHfmPartnersCodes implements Serializable {
 		this.id = id;
 	}
 
-	public String getAreaid() {
-		return this.areaid;
-	}
-
-	public void setAreaid(String areaid) {
-		this.areaid = areaid;
-	}
+	
 
 	public int getCompanyid() {
 		return this.companyid;
@@ -78,26 +68,12 @@ public class SetAccHfmPartnersCodes implements Serializable {
 		this.icpcode = icpcode;
 	}
 
-	public String getPartnerid() {
-		return this.partnerid;
-	}
-
-	public void setPartnerid(String partnerid) {
-		this.partnerid = partnerid;
-	}
-
-	public String getTpartnertype() {
-		return this.tpartnertype;
-	}
-
-	public void setTpartnertype(String tpartnertype) {
-		this.tpartnertype = tpartnertype;
-	}
-
 	@Override
 	public String toString() {
-		return "SetAccHfmPartnersCodes [id=" + id + ", areaid=" + areaid + ", companyid=" + companyid + ", icpcode="
-				+ icpcode + ", partnerid=" + partnerid + ", tpartnertype=" + tpartnertype + "]";
+		return "SetAccHfmPartnersCodes [id=" + id + ", companyid=" + companyid + ", icpcode=" + icpcode + "]";
 	}
+
+	
+	
 
 }

@@ -19,6 +19,6 @@ public interface IHfmFfssHistService {
 
 	void delete(HfmFfSsHist entity);
 	
-	List<HfmFfSsHist> findByCompanyId(Long companyId);
+	List<HfmFfSsHist> findByCompanyIdAndPeriodid(Long companyId, String period);
 
 }
