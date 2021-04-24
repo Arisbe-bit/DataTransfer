@@ -8,37 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 @Entity
 @Table(name = "ROLLUP_VIEW_FFSS_GROUPED")
-public class ViewFFSSGrouped implements Serializable{
-	
+public class ViewFFSSGrouped implements Serializable {
+
 	private static final long serialVersionUID = 5676213260556508605L;
-	
+
 	@Id
 	private Long num;
-	
+
 	private int companyid;
 	private String periodname;
 	private String costcenter;
 	private String hfmcode;
 	private String accountid;
 	private String icp;
-	
+
 	@Column(columnDefinition = "VARCHAR(20) default '0' ")
 	private String partnerid;
 	private String tpname;
-	
-	@Column(columnDefinition = "NUMBER default 0 ")
+
+	@ColumnDefault(value = "0")
 	private int omit;
 	private BigDecimal amount;
 	private String hfmparent;
-	
+
 	public ViewFFSSGrouped() {
-		
+
 	}
-	
-	
-	
 
 	public ViewFFSSGrouped(Long num, int companyid, String periodname, String costcenter, String hfmcode,
 			String accountid, String icp, String partnerid, String tpname, int omit, BigDecimal amount,
@@ -56,9 +55,6 @@ public class ViewFFSSGrouped implements Serializable{
 		this.amount = amount;
 		this.hfmparent = hfmparent;
 	}
-
-
-
 
 	public Long getNum() {
 		return num;
@@ -163,13 +159,5 @@ public class ViewFFSSGrouped implements Serializable{
 				+ ", partnerid=" + partnerid + ", tpname=" + tpname + ", omit=" + omit + ", amount=" + amount
 				+ ", hfmparent=" + hfmparent + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

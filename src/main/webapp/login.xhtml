@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/template/layout.xhtml">
+	<ui:define name="css">
+		<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.center {
+	text-align: center;
+}
+
+.card {
+	width: 75%;
+	margin-bottom: 2em;
+	align-content: center;
+	margin: auto;
+	text-align: center;
+}
+
+.content h2 {
+	color: black;
+}
+</style>
+	</ui:define>
+	<ui:define name="title">
+		<title>Data Transfer - Login Form</title>
+	</ui:define>
+	<ui:define name="header">
+		<h1>Data Transfer Application Web</h1>
+	</ui:define>
+	<ui:define name="topnav">
+		<h1 class="outputLabel center">
+			<h:outputText value="Welcome to Cemex!" />
+		</h1>
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="loginForm" prependId="false">
+			<p:growl id="growlIdlf" sticky="true" showDetail="true" />
+			<p:card id="cardId" styleClass="card">
+				<p:messages />
+				<f:facet name="header">
+					<center>
+						<h2>Login Form</h2>
+					</center>
+				</f:facet>
+				<f:facet name="title">
+					<p:outputLabel value="Login failed!" styleClass="error" rendered="${!empty param['error']}" /><br/>
+					<p:outputLabel value="${param['cause']}" styleClass="error" rendered="${!empty param['cause']}" />					
+					<p:outputLabel value="#{SPRING_SECURITY_LAST_EXCEPTION.message}" styleClass="error" rendered="#{param.loginFailed == 1 and SPRING_SECURITY_LAST_EXCEPTION != null}" />
+				</f:facet>
+				<p:panelGrid columns="2" columnClasses="label, value" styleClass="ui-fluid center ui-noborder">
+					<h:outputText value="Username: *" />
+					<p:inputText id="username" placeholder="Username" required="true" label="username" />
+
+					<h:outputText value="Password: *" />
+					<p:password id="password" placeholder="Password" required="true" label="password" />
+				</p:panelGrid>
+				<f:facet name="footer">
+					<center>
+						<p:commandButton icon="pi pi-check" value="Login" ajax="false" />
+					</center>
+				</f:facet>
+			</p:card>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

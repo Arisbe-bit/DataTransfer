@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">
+			<title>
+				<h:outputText value="#{hfmUsersBean.title}" />
+			</title>
+		</ui:define>
+		<ui:define name="header">
+			<h1>
+				<h:outputText value="#{hfmUsersBean.title}" />
+			</h1>
+		</ui:define>
+		<ui:define name="cssfiles">
+			<h:outputStylesheet name="datatransfer-style.css" library="css" />
+			<h:outputStylesheet name="primeflex.min.css" library="css" />
+		</ui:define>
+		<ui:define name="css">
+			<style type="text/css">
+			    .col-center {
+			        text-align: center;
+			    }
+			    .ui-panelgrid.text-align-left .ui-grid-responsive .ui-panelgrid-cell {
+			        text-align: left;
+			    }	
+			    table .center {
+			        align-items: center;
+			    }
+			    .rw5 {
+			    	width: 5%
+			    }
+			    .rw10 {
+			    	width: 10%
+			    }
+			    .rw15 {
+			    	width: 15%
+			    }
+			    .rw20 {
+			    	width: 20%
+			    }
+			    .rw25 {
+			    	width: 25%
+			    }
+			    .rw30 {
+			    	width: 30%
+			    }
+			    .ui-dialog-content{
+			    	font-size: small;
+			    }
+			</style>
+		</ui:define>
+		<ui:define name="content">
+
+			<h:form id="form">
+				<p:messages id="userMessages" showDetail="true" closable="true">
+					<p:autoUpdate/>
+				</p:messages>
+				<div class="card crud-demo">
+					<p:growl id="messages" showDetail="true" />
+
+					<p:toolbar>
+						<p:toolbarGroup>
+							<p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmUsersBean.openNew}" update=":form:manage-users-content" oncomplete="PF('manageUsersDialog').show()" styleClass="ui-button-success" style="margin-right: .5rem" onerror="alert('error new')">
+								<p:resetInput target=":form:manage-users-content" />
+							</p:commandButton>
+							<p:commandButton id="delete-users-button" value="#{hfmUsersBean.deleteButtonMessage}" icon="pi pi-trash" actionListener="#{hfmUsersBean.deleteSelectedUsers}" styleClass="ui-button-danger" disabled="#{!hfmUsersBean.hasSelectedUsers()}" update="@this">
+								<p:confirm header="Confirmation" message="Delete the selected Users?" icon="pi pi-exclamation-triangle" />
+							</p:commandButton>
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{hfmUsersBean.lstUsers}" reflow="true" styleClass="users-table" selection="#{hfmUsersBean.lstSelectdUsers}" rowKey="#{user.id}" paginator="true" rows="10" rowSelectMode="checkbox" paginatorPosition="bottom" size="small">
+						<f:facet name="header">
+							<div class="users-table-header">
+								<span style="font-weight: bold">USERS</span>
+								<span class="filter-container ui-input-icon-left">
+									<i class="pi pi-search"></i>
+									<p:inputText id="globalFilter" onkeyup="PF('dtUsers').filter()" placeholder="Search" />
+								</span>
+							</div>
+						</f:facet>
+
+						<p:ajax event="rowSelect" update=":form:delete-users-button" />
+						<p:ajax event="rowUnselect" update=":form:delete-users-button" />
+						<p:ajax event="rowSelectCheckbox" update=":form:delete-users-button" />
+						<p:ajax event="rowUnselectCheckbox" update=":form:delete-users-button" />
+						<p:ajax event="toggleSelect" update=":form:delete-users-button" />
+
+						<p:column selectionMode="multiple" exportable="false" resizable="true" styleClass="rw5">
+							<h:outputText value="#{user.id}" />
+						</p:column>
+						<p:column headerText="Username" sortBy="#{user.username}" filterBy="#{user.username}" styleClass="rw15">
+							<h:outputText value="#{user.username}" />
+						</p:column>
+						<p:column headerText="Name" sortBy="#{user.name}" filterBy="#{user.name}" styleClass="rw20">
+							<h:outputText value="#{user.name}" />
+						</p:column>
+						<p:column headerText="Enabled" styleClass="center rw5">
+							<h:selectBooleanCheckbox value="#{user.enabled}" disabled="true" />
+						</p:column>
+						<p:column headerText="Roles" resizable="true" styleClass="rw15">
+							<ul>
+								<p:repeat value="#{user.selectdRoles}" var="role">
+									<li>
+										<i class="pi pi-tag user-rol-icon" />
+										<span class="user-rol">
+											<h:outputText value="#{role}" converter="#{roleConverter}"/>
+										</span>
+									</li>
+								</p:repeat>
+							</ul>
+						</p:column>
+						<p:column exportable="false" styleClass="rw10" headerText="Actions">
+							<p:commandButton icon="pi pi-pencil" update=":form:manage-users-content" oncomplete="PF('manageUsersDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+								<f:setPropertyActionListener value="#{user}" target="#{hfmUsersBean.curUser}"/>
+								<p:resetInput target=":form:manage-users-content" />
+							</p:commandButton>
+							<p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" oncomplete="PF('deleteUserDialog').show()">
+								<f:setPropertyActionListener value="#{user}" target="#{hfmUsersBean.curUser}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+					<!-- Form for update and add Users -->
+
+					<p:dialog header="User Details" showEffect="fade" modal="true" widgetVar="manageUsersDialog" responsive="true">
+						<p:outputPanel id="manage-users-content" class="ui-fluid">
+							<p:outputPanel rendered="#{not empty hfmUsersBean.curUser}">
+
+								<div class="p-field">
+									<p:outputLabel for="username" value="Username"/>
+									<p:inputText id="username" value="#{hfmUsersBean.curUser.username}" required="true" requiredMessage="User is requiered" validatorMessage="User validations fails." />
+									<p:message for="@previous"/>
+								</div>
+								<div class="p-field">
+									<p:outputLabel for="password">Password</p:outputLabel>
+									<p:password id="password" value="#{hfmUsersBean.curUser.password}" maxlength="15" toggleMask="true" feedback="true" redisplay="true" required="true" requiredMessage="Password is requiered" validatorMessage="Password validation fails"/>
+									<p:message for="@previous"/>
+								</div>
+								<div class="p-field">
+									<p:outputLabel for="name">Name</p:outputLabel>
+									<p:inputText id="name" value="#{hfmUsersBean.curUser.name}" required="true" requiredMessage="The name of the user is requiered"/>
+									<p:message for="@previous"/>
+								</div>
+								<div class="p-field">
+									<p:outputLabel for="enabled">is Enabled?</p:outputLabel>
+									<h:selectBooleanCheckbox id="enabled" value="#{hfmUsersBean.curUser.enabled}" />
+								</div>
+								<div class="card">
+									<h5>
+										<h:outputText value="Permissions"/>
+									</h5>
+									<p:panelGrid columns="4" layout="grid" styleClass="text-align-left">
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.admin}" itemLabel="Admin"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodes}" itemLabel="hfmcodes"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodesoa}" itemLabel="hfmcodesoa"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodestypes}" itemLabel="hfmcodestypes"/>
+
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.partners}" itemLabel="partners" id="partners"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.payablesaccounts}" itemLabel="payablesaccounts" id="payablesaccounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.receivablesaccounts}" itemLabel="receivablesaccounts" id="receivablesaccounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.matchaccounts}" itemLabel="matchaccounts" id="matchaccounts"/>
+
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.dsvscompany}" itemLabel="dsvscompany" id="dsvscompany"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rollup}" itemLabel="rollup" id="rollup"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rolluphist}" itemLabel="rolluphist" id="rolluphist"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.layouthist}" itemLabel="layouthist" id="layouthist"/>
+
+									</p:panelGrid>
+								</div>
+							</p:outputPanel>
+						</p:outputPanel>
+
+						<f:facet name="footer">
+							<p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmUsersBean.saveUser}" update="manage-users-content" process="manage-users-content @this" validateClient="true" />
+							<p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageUsersDialog').hide()" class="ui-button-secondary" />
+						</f:facet>
+					</p:dialog>
+
+					<!--  End Form  -->
+
+					<p:confirmDialog widgetVar="deleteUserDialog" showEffect="fade" width="300" message="Delete the User?" header="Confirm" severity="warn">
+						<p:commandButton value="Yes" icon="pi pi-check" actionListener="#{hfmUsersBean.deleteUser}" process="@this" oncomplete="PF('deleteUserDialog').hide()" />
+						<p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteUserDialog').hide()" />
+					</p:confirmDialog>
+
+					<p:confirmDialog global="true" showEffect="fade" width="300">
+						<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+						<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+					</p:confirmDialog>
+				</div>
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+</html>

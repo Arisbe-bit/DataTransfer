@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
+//import org.hibernate.annotations.ColumnDefault;
 
 /**
  * The persistent class for the set_hfm_codes database table.
@@ -26,17 +26,17 @@ public class SetHfmCodes implements Serializable {
 	private String hfmcode;
 
 	private String tptype;
-	
+
 	private String classification;
-	
+
 	private String naturalb;
-	
-	@Column(name="global_val")
+
+	@Column(name = "global_val")
 	private String globalval;
-	
+
 	@Column(columnDefinition = "INTEGER default 0")
 	private int ordernum;
-	
+
 	@Column(columnDefinition = "INTEGER default 1")
 	private int naturalsign;
 
@@ -45,8 +45,6 @@ public class SetHfmCodes implements Serializable {
 	public SetHfmCodes() {
 	}
 
-
-	
 	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String globalval,
 			int ordernum, int naturalsign, String description) {
 		this.hfmcode = hfmcode;
@@ -58,13 +56,6 @@ public class SetHfmCodes implements Serializable {
 		this.naturalsign = naturalsign;
 		this.description = description;
 	}
-
-
-
-
-
-
-
 
 	public String getHfmcode() {
 		return this.hfmcode;
@@ -82,11 +73,9 @@ public class SetHfmCodes implements Serializable {
 		this.tptype = tptype;
 	}
 
-
 	public String getClassification() {
 		return classification;
 	}
-
 
 	public void setClassification(String classification) {
 		this.classification = classification;
@@ -96,7 +85,6 @@ public class SetHfmCodes implements Serializable {
 		return naturalsign;
 	}
 
-
 	public void setNaturalsign(int naturalsign) {
 		this.naturalsign = naturalsign;
 	}
@@ -105,47 +93,33 @@ public class SetHfmCodes implements Serializable {
 		return naturalb;
 	}
 
-
 	public void setNaturalb(String naturalb) {
 		this.naturalb = naturalb;
 	}
-
 
 	public String getglobalval() {
 		return globalval;
 	}
 
-
 	public void setglobalval(String globalval) {
 		this.globalval = globalval;
 	}
-
 
 	public int getOrdernum() {
 		return ordernum;
 	}
 
-
 	public void setOrdernum(int ordernum) {
 		this.ordernum = ordernum;
 	}
-
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
-
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-
 
 	@Override
 	public String toString() {
@@ -154,6 +128,4 @@ public class SetHfmCodes implements Serializable {
 				+ naturalsign + ", description=" + description + "]";
 	}
 
-
 }
-

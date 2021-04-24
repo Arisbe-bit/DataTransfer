@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
+
+	<ui:define name="title">
+		<title><h:outputText value="System Administration" /> </title>
+	</ui:define>
+	<ui:define name="header">
+		<h1><h:outputText value="Data Transfer system administration, #{admincontroller.name}"/></h1>
+	</ui:define>
+	<ui:define name="cssfiles">
+		<h:outputStylesheet name="datatransfer-style.css" library="css" />
+		<h:outputStylesheet name="primeflex.min.css" library="css" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="adminForm">
+			<p:panel header="System Configuration and mantaince" footer="Administration Panel">
+				<div class="p-d-flex p-flex-column p-flex-md-row">
+				    <div class="p-mb-2 p-mr-2"><p:commandButton value="Users" icon="pi pi-users" action="#{admincontroller.users}" ajax="false"/></div>
+				    <div class="p-mb-2 p-mr-2"><p:commandButton value="Roles"  icon="pi pi-id-card" action="#{admincontroller.roles}" ajax="false" styleClass="ui-button-success" /></div>
+				</div>
+	    	</p:panel>
+    	</h:form>
+	</ui:define>
+	
+</ui:composition>

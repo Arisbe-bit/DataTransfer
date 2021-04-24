@@ -3,7 +3,6 @@ package com.neoris.tcl;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
-import org.apache.myfaces.context.servlet.ServletExternalContextImpl;
 import org.apache.myfaces.spi.WebConfigProvider;
 import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,8 +27,8 @@ public class AppConfig implements WebMvcConfigurer {
 	public ServletRegistrationBean<FacesServlet> servletRegistrationBean() {
 		LOG.info("Creating ServletRegistrationBean...");
 		FacesServlet servlet = new FacesServlet();
-		ServletRegistrationBean<FacesServlet> servletRegistrationBean = 
-				new ServletRegistrationBean<FacesServlet>(servlet, "*.xhtml", "*.jsf", "/faces/*");
+		ServletRegistrationBean<FacesServlet> servletRegistrationBean;
+		servletRegistrationBean = new ServletRegistrationBean<FacesServlet>(servlet, "*.xhtml", "*.jsf", "/faces/*");
 		servletRegistrationBean.setLoadOnStartup(1);
 		return servletRegistrationBean;
 	}
@@ -59,16 +59,15 @@ public class AppConfig implements WebMvcConfigurer {
 	public ServletContextListener getContextListener() {
 		LOG.info("Configuring ServletContextListener...");
 		StartupServletContextListener listener = new StartupServletContextListener();
-//        org.springframework.web.context.ContextLoaderListener cl;
-//        org.springframework.web.context.request.RequestContextListener rl;
 		return listener;
 	}
-	
-//	public ServletExternalContextImpl getServletExternalContext() {
-//	    ServletExternalContextImpl retval = new ServletExternalContextImpl(null, null, null);
-//	    retval.set
-//	    
-//	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		LOG.info("Configuring passwordEncoder...");
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
+	}
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
