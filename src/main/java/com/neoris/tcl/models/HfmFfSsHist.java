@@ -11,17 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "ROLLUP_VIEW_FFSSHIST")
-public class HfmFfSsHist implements Serializable{
-	
+public class HfmFfSsHist implements Serializable {
+
 	private static final long serialVersionUID = 5362381129863237217L;
 
 	@Id
 	private Long num;
-	//private HfmFfssPK id;
-	
+	// private HfmFfssPK id;
+
 	@Column(name = "COMPANYID")
 	private Long companyId;
 
@@ -45,28 +44,23 @@ public class HfmFfSsHist implements Serializable{
 	private String userid;
 	private String classification;
 	private String naturalb;
-	
+
 	@Column(name = "error_text")
 	private String errortext;
-	
+
 	private String description;
-	
+
 	private String periodid;
-	
 
 	public HfmFfSsHist() {
 
-	    this.balance = new BigDecimal(0);
+		this.balance = new BigDecimal(0);
 	}
-
-	
-
-	
 
 	public HfmFfSsHist(Long num, Long companyId, String currencyCode, String hfmcode, String period, BigDecimal balance,
 			String hfmcodeOld, Timestamp updated, String userid, String classification, String naturalb,
 			String errortext, String description, String periodid) {
-	
+
 		this.num = num;
 		this.companyId = companyId;
 		this.currencyCode = currencyCode;
@@ -83,81 +77,53 @@ public class HfmFfSsHist implements Serializable{
 		this.periodid = periodid;
 	}
 
-
-
-
-
 	public Long getNum() {
 		return num;
 	}
-
-
 
 	public void setNum(Long num) {
 		this.num = num;
 	}
 
-
-
 	public Long getCompanyId() {
 		return companyId;
 	}
-
-
 
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 
-
-
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
-
-
 
 	public void setCurrencyCode(String currencyCode) {
 		this.currencyCode = currencyCode;
 	}
 
-
-
 	public String getHfmcode() {
 		return hfmcode;
 	}
-
-
 
 	public void setHfmcode(String hfmcode) {
 		this.hfmcode = hfmcode;
 	}
 
-
-
 	public String getPeriod() {
 		return period;
 	}
-
-
 
 	public void setPeriod(String period) {
 		this.period = period;
 	}
 
-
-
 	public String getErrortext() {
 		return errortext;
 	}
 
-
-
 	public void setErrortext(String errortext) {
 		this.errortext = errortext;
 	}
-
-
 
 	public BigDecimal getBalance() {
 		return this.balance;
@@ -190,13 +156,13 @@ public class HfmFfSsHist implements Serializable{
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	
+
 	public String getFormatedBalance() {
-	    String retval;
-	    // NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-	    NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
-	    retval = nf.format(this.balance); // + " " + this.getId().getCurrencyCode();
-	    return retval;
+		String retval;
+		// NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+		NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+		retval = nf.format(this.balance); // + " " + this.getId().getCurrencyCode();
+		return retval;
 	}
 
 	public String getClassification() {
@@ -223,7 +189,6 @@ public class HfmFfSsHist implements Serializable{
 		this.errortext = errortext;
 	}
 
-	
 	public String getDescription() {
 		return description;
 	}
@@ -232,25 +197,13 @@ public class HfmFfSsHist implements Serializable{
 		this.description = description;
 	}
 
-
-
-
-
 	public String getPeriodid() {
 		return periodid;
 	}
 
-
-
-
-
 	public void setPeriodid(String periodid) {
 		this.periodid = periodid;
 	}
-
-
-
-
 
 	@Override
 	public String toString() {
@@ -259,11 +212,5 @@ public class HfmFfSsHist implements Serializable{
 				+ updated + ", userid=" + userid + ", classification=" + classification + ", naturalb=" + naturalb
 				+ ", errortext=" + errortext + ", description=" + description + ", periodid=" + periodid + "]";
 	}
-
-
-
-
-	
-	
 
 }

@@ -10,8 +10,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ROLLUP_VFFSSDET_HIST")
-public class HfmFFSSDetailsHist implements Serializable{
-	
+public class HfmFFSSDetailsHist implements Serializable {
+
 	private static final long serialVersionUID = 5676213260556508605L;
 
 	@EmbeddedId
@@ -52,22 +52,15 @@ public class HfmFFSSDetailsHist implements Serializable{
 	private String invoicedate;
 
 	private String category;
-	
-	
+
 	private int omit;
 	private String areaid;
 	private String periodid;
-	
-	
-	
-	
-	
+
 	public HfmFFSSDetailsHist() {
-		   this.setId(new HfmFfssDetailsHistPK());
-		}
-	
-	
-	
+		this.setId(new HfmFfssDetailsHistPK());
+	}
+
 	public HfmFFSSDetailsHist(HfmFfssDetailsHistPK id, String tpname, String hfmcodeold, String batchname,
 			String docnumber, String upd, String hfmparent, String userid, String errortext, int headerid,
 			int headeridrev, BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit,
@@ -94,8 +87,6 @@ public class HfmFFSSDetailsHist implements Serializable{
 		this.areaid = areaid;
 		this.periodid = periodid;
 	}
-
-
 
 	public HfmFfssDetailsHistPK getId() {
 		return id;
@@ -249,19 +240,13 @@ public class HfmFFSSDetailsHist implements Serializable{
 		this.areaid = areaid;
 	}
 
-
-
 	public String getPeriodid() {
 		return periodid;
 	}
 
-
-
 	public void setPeriodid(String periodid) {
 		this.periodid = periodid;
 	}
-
-
 
 	@Override
 	public String toString() {
