@@ -9,7 +9,7 @@ import com.neoris.tcl.models.ViewRollupMatchFFSSHist;
 
 public interface IViewRollupMatchFFSSHistDao extends JpaRepository<ViewRollupMatchFFSSHist,Long>{
 	
-	List<ViewRollupMatchFFSSHist> findByCompanyid(Long companyId);
+	List<ViewRollupMatchFFSSHist> findByCompanyidAndPeriodid(Long companyId, String periodnm);
 	
 
 }

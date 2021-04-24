@@ -23,9 +23,7 @@ public class HfmLayoutHist implements Serializable  {
 	@EmbeddedId
 	private HfmLayoutHistPK id;
 
-	@Column(name="account_old")
-	private String accountOld;
-
+	
 	private String data;
 
 	private String entity;
@@ -38,9 +36,9 @@ public class HfmLayoutHist implements Serializable  {
 	    this.setId(new HfmLayoutHistPK());
 	}
 
-	public HfmLayoutHist(HfmLayoutHistPK id, String accountOld, String data, String entity, Timestamp updated, String userid) {
+	public HfmLayoutHist(HfmLayoutHistPK id,  String data, String entity, Timestamp updated, String userid) {
 		this.id = id;
-		this.accountOld = accountOld;
+	
 		this.data = data;
 		this.entity = entity;
 		this.updated = updated;
@@ -55,14 +53,7 @@ public class HfmLayoutHist implements Serializable  {
 		this.id = id;
 	}
 
-	public String getAccountOld() {
-		return this.accountOld;
-	}
-
-	public void setAccountOld(String accountOld) {
-		this.accountOld = accountOld;
-	}
-
+	
 	public String getData() {
 		return this.data;
 	}
@@ -97,9 +88,11 @@ public class HfmLayoutHist implements Serializable  {
 
 	@Override
 	public String toString() {
-		return "HfmLayoutHist [id=" + id + ", accountOld=" + accountOld + ", data=" + data + ", entity=" + entity
-				+ ", userid=" + userid + ", updated=" + updated + "]";
+		return "HfmLayoutHist [id=" + id + ", data=" + data + ", entity=" + entity + ", userid=" + userid + ", updated="
+				+ updated + "]";
 	}
+
+	
 
 	
 }

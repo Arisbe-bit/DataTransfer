@@ -29,6 +29,8 @@ public class ViewRollupMatchFFSSHist  implements Serializable {
     private String naturalb;
 
     private String period;
+    
+    private String periodid;
 
     private String errortext;
 
@@ -41,9 +43,11 @@ public class ViewRollupMatchFFSSHist  implements Serializable {
   
 
     
-    public ViewRollupMatchFFSSHist(Long num, Long companyid, String hfmcode, int balance, String classification,
-			String naturalb, String period, String errortext, String description) {
-	
+
+
+	public ViewRollupMatchFFSSHist(Long num, Long companyid, String hfmcode, int balance, String classification,
+			String naturalb, String period, String periodid, String errortext, String description) {
+		super();
 		this.num = num;
 		this.companyid = companyid;
 		this.hfmcode = hfmcode;
@@ -51,9 +55,12 @@ public class ViewRollupMatchFFSSHist  implements Serializable {
 		this.classification = classification;
 		this.naturalb = naturalb;
 		this.period = period;
+		this.periodid = periodid;
 		this.errortext = errortext;
 		this.description = description;
 	}
+
+
 
 
 
@@ -140,12 +147,35 @@ public class ViewRollupMatchFFSSHist  implements Serializable {
 
 
 
+
+
+	public String getPeriodid() {
+		return periodid;
+	}
+
+
+
+
+
+
+	public void setPeriodid(String periodid) {
+		this.periodid = periodid;
+	}
+
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "ViewRollupMacthFFSS [num=" + num + ", companyid=" + companyid + ", hfmcode=" + hfmcode + ", balance="
-				+ balance + ", classification=" + classification + ", naturalb=" + naturalb + ", period=" + period
-				+ ", errortext=" + errortext + ", description=" + description + "]";
+		return "ViewRollupMatchFFSSHist [num=" + num + ", companyid=" + companyid + ", hfmcode=" + hfmcode
+				+ ", balance=" + balance + ", classification=" + classification + ", naturalb=" + naturalb + ", period="
+				+ period + ", periodid=" + periodid + ", errortext=" + errortext + ", description=" + description + "]";
 	}
+
+
+
 
    
 

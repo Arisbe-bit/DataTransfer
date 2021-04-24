@@ -78,7 +78,7 @@ public class MenuController {
      
     
     public String hfmcodesOA() {
-        return String.format(REDIRECT, "hfmcodesOA");
+        return String.format(REDIRECT, "oracleaccounts");
     }
     
     public String partners() {
@@ -125,6 +125,14 @@ public class MenuController {
         return String.format(REDIRECT, "users");
     }
     
+    public String definedaccounts() {
+        return String.format(REDIRECT, "definedaccounts");
+    }
+    
+    public String policies() {
+        return String.format(REDIRECT, "policies");
+    }
+    
 
     public MenuModel getModel() {
         return model;
@@ -143,7 +151,16 @@ public class MenuController {
     }
     
     public String getHfmCodesOAText() {
-        return "Hfm Codes OA";
+        return "Accounts & Hfm Codes";
+    }
+    
+    
+    public String getDefinedAccountsText() {
+        return "Source Accounts";
+    }
+    
+    public String getPoliciesText() {
+        return "Accounting Policies";
     }
     
 }

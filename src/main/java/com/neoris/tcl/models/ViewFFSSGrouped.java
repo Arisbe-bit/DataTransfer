@@ -3,6 +3,7 @@ package com.neoris.tcl.models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,8 +23,12 @@ public class ViewFFSSGrouped implements Serializable{
 	private String hfmcode;
 	private String accountid;
 	private String icp;
+	
+	@Column(columnDefinition = "VARCHAR(20) default '0' ")
 	private String partnerid;
 	private String tpname;
+	
+	@Column(columnDefinition = "NUMBER default 0 ")
 	private int omit;
 	private BigDecimal amount;
 	private String hfmparent;

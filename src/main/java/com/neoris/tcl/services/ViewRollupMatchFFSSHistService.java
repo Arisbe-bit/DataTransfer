@@ -18,8 +18,8 @@ public class ViewRollupMatchFFSSHistService implements IViewRollupMatchFFSSHistS
     private IViewRollupMatchFFSSHistDao data;
 	
 	@Override
-    public List<ViewRollupMatchFFSSHist> findByCompanyid(Long companyId) {
-        return data.findByCompanyid(companyId);
+    public List<ViewRollupMatchFFSSHist> findByCompanyidAndPeriodid(Long companyId, String periodnm) {
+        return data.findByCompanyidAndPeriodid(companyId,periodnm);
     }
 
 }

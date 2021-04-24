@@ -9,9 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "HFM_FFSS_DETAILS_HIST")
-public class HfmFFSSDetailsHist implements Serializable {
-
+@Table(name = "ROLLUP_VFFSSDET_HIST")
+public class HfmFFSSDetailsHist implements Serializable{
+	
 	private static final long serialVersionUID = 5676213260556508605L;
 
 	@EmbeddedId
@@ -52,18 +52,28 @@ public class HfmFFSSDetailsHist implements Serializable {
 	private String invoicedate;
 
 	private String category;
-	private String omit;
+	
+	
+	private int omit;
 	private String areaid;
-
+	private String periodid;
+	
+	
+	
+	
+	
 	public HfmFFSSDetailsHist() {
-		this.setId(new HfmFfssDetailsHistPK());
-	}
-
-	public HfmFFSSDetailsHist(String tpname, String hfmcodeold, String batchname, String docnumber, String upd,
-			String hfmparent, String userid, String errortext, int headerid, int headeridrev, BigDecimal debit,
-			BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate, String category,
-			String omit, String areaid) {
-
+		   this.setId(new HfmFfssDetailsHistPK());
+		}
+	
+	
+	
+	public HfmFFSSDetailsHist(HfmFfssDetailsHistPK id, String tpname, String hfmcodeold, String batchname,
+			String docnumber, String upd, String hfmparent, String userid, String errortext, int headerid,
+			int headeridrev, BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit,
+			String invoicedate, String category, int omit, String areaid, String periodid) {
+		super();
+		this.id = id;
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;
 		this.batchname = batchname;
@@ -82,7 +92,10 @@ public class HfmFFSSDetailsHist implements Serializable {
 		this.category = category;
 		this.omit = omit;
 		this.areaid = areaid;
+		this.periodid = periodid;
 	}
+
+
 
 	public HfmFfssDetailsHistPK getId() {
 		return id;
@@ -220,11 +233,11 @@ public class HfmFFSSDetailsHist implements Serializable {
 		this.category = category;
 	}
 
-	public String getOmit() {
+	public int getOmit() {
 		return omit;
 	}
 
-	public void setOmit(String omit) {
+	public void setOmit(int omit) {
 		this.omit = omit;
 	}
 
@@ -236,6 +249,20 @@ public class HfmFFSSDetailsHist implements Serializable {
 		this.areaid = areaid;
 	}
 
+
+
+	public String getPeriodid() {
+		return periodid;
+	}
+
+
+
+	public void setPeriodid(String periodid) {
+		this.periodid = periodid;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "HfmFFSSDetailsHist [id=" + id + ", tpname=" + tpname + ", hfmcodeold=" + hfmcodeold + ", batchname="
@@ -243,7 +270,7 @@ public class HfmFFSSDetailsHist implements Serializable {
 				+ userid + ", errortext=" + errortext + ", headerid=" + headerid + ", headeridrev=" + headeridrev
 				+ ", debit=" + debit + ", credit=" + credit + ", transdebit=" + transdebit + ", transcredit="
 				+ transcredit + ", invoicedate=" + invoicedate + ", category=" + category + ", omit=" + omit
-				+ ", areaid=" + areaid + "]";
+				+ ", areaid=" + areaid + ", periodid=" + periodid + "]";
 	}
 
 }

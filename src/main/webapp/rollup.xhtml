@@ -305,7 +305,7 @@
                                 </p:column>
                                 <p:column headerText="Amount" styleClass="rollup-text-align-right #{matchacc.balance lt 0 ? 'negative' : ''}">
                                     <h:outputText value="#{matchacc.balance}">
-                                    	<f:convertNumber pattern="#####,00"/>
+                                    	<f:convertNumber pattern="###,###,###,###.##"/>
                                     </h:outputText>
                                 </p:column>
                             </p:dataTable>
@@ -353,10 +353,11 @@
                                 <p:column headerText="Partner Name" sortBy="#{accgroup.tpname}" filterBy="#{accgroup.tpname}">
                                     <h:outputText value="#{accgroup.tpname}"></h:outputText>
                                 </p:column>
+                                
                                 <p:column headerText="Amount" sortBy="#{accgroup.amount}" filterBy="#{accgroup.amount}" 
                                   styleClass="rollup-text-align-right #{accgroup.amount lt 0 ? 'negative' : ''}" >
                                     <h:outputText value="#{accgroup.amount}"  >
-                                    <f:convertNumber pattern="#####,00"/>
+                                    	<f:convertNumber pattern="###,###,###,###.##"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="View Details" exportable="false">
@@ -380,7 +381,7 @@
 	                            value="#{rollupControllerBean.lstHfmFfssDetails}"
 	                             rowKey="#{hfmffssDetail.companyid}"
 	                            reflow="true" 
-	                            paginator="true" rows="10"  stickyHeader="true" stripedRows="true" 
+	                            paginator="true" rows="10"  stickyHeader="true" tableStyle="width:auto" 
 	                            resizeMode="expand" paginatorPosition="bottom">
 	                            <f:facet name="header">
 	                                <p:toolbar id="toolbar-fsdetails">
@@ -429,7 +430,7 @@
 	                             <p:column headerText="Amount" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}"
 	                              styleClass="rollup-text-align-right #{hfmffssDetail.id.amount lt 0 ? 'negative' : ''}"     >
 	                                <h:outputText value="#{hfmffssDetail.id.amount}"  >
-	                                <f:convertNumber pattern="#####,00"/>
+	                                <f:convertNumber pattern="###,###,###,###.##"/>
 	                                </h:outputText>
 	                            </p:column>
 								<p:column headerText="Currency Code"
@@ -453,13 +454,13 @@
 		                          <p:column headerText="Debits" sortBy="#{hfmffssDetail.transdebit}" filterBy="#{hfmffssDetail.transdebit}"
 		                          styleClass="rollup-text-align-right #{hfmffssDetail.transdebit lt 0 ? 'negative' : ''}"    >
                                 <h:outputText value="#{hfmffssDetail.transdebit}" >
-                                <f:convertNumber pattern="#####,00"/>
+                                <f:convertNumber pattern="###,###,###,###.##"/>
                                 </h:outputText>
                             </p:column>
                             	<p:column headerText="Credits" sortBy="#{hfmffssDetail.transcredit}" filterBy="#{hfmffssDetail.transcredit}"
                               styleClass="rollup-text-align-right #{hfmffssDetail.transcredit lt 0 ? 'negative' : ''}"   >
                                 <h:outputText value="#{hfmffssDetail.transcredit}" >
-                                <f:convertNumber pattern="#####,00"/>
+                                v
                                 </h:outputText>
                                  </p:column>
 	                             <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.neoris.tcl.models.HfmOracleAcc;
 import com.neoris.tcl.models.SetAccHfmPartnersCodes;
+import com.neoris.tcl.services.IHfmOracleAccService;
 import com.neoris.tcl.services.ISetAccHfmPartnersCodesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -29,15 +31,22 @@ private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.
 	private List<SetAccHfmPartnersCodes> lstAcc;
     private List<SetAccHfmPartnersCodes> lstSelectdAcc; 
     private SetAccHfmPartnersCodes currentAcc; // actual iterator
+    
+    private List<HfmOracleAcc> lstOrcl;
+    private HfmOracleAcc currentOrcl; // actual iterator
+    
+    @Autowired
+    private IHfmOracleAccService serviceOrcl;
 
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstAccountsHFM...");
-        this.lstAcc = service.findAll();
+       // this.lstAcc = service.findAll();
+        this.lstOrcl = serviceOrcl.findAll();
     }
     
     public void openNew() {
-        this.currentAcc = new SetAccHfmPartnersCodes();
+        this.currentAcc =  new SetAccHfmPartnersCodes();
     }
       
     public void save() {
@@ -95,7 +104,7 @@ private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.
 
     
     public String getTitle() {
-        return "Accounting Accounts-HFM Codes Setting";
+        return "Accounting Accounts And HFM Codes Setting";
     }
     
     public String getDialogName() {
@@ -132,6 +141,22 @@ private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.
 
 	public void setCurrentAcc(SetAccHfmPartnersCodes currentAcc) {
 		this.currentAcc = currentAcc;
+	}
+
+	public List<HfmOracleAcc> getLstOrcl() {
+		return lstOrcl;
+	}
+
+	public void setLstOrcl(List<HfmOracleAcc> lstOrcl) {
+		this.lstOrcl = lstOrcl;
+	}
+
+	public HfmOracleAcc getCurrentOrcl() {
+		return currentOrcl;
+	}
+
+	public void setCurrentOrcl(HfmOracleAcc currentOrcl) {
+		this.currentOrcl = currentOrcl;
 	}
 	
 	
