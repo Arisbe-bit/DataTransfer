@@ -150,27 +150,33 @@
 								</div>
 								<div class="p-field">
 									<p:outputLabel for="enabled">is Enabled?</p:outputLabel>
-									<h:selectBooleanCheckbox id="enabled" value="#{hfmUsersBean.curUser.enabled}" />
+									<p:selectBooleanCheckbox id="enabled" value="#{hfmUsersBean.curUser.enabled}" itemLabel="Enabled"/>
 								</div>
+								<div class="p-field">
+									<p:outputLabel for="admin">Is Admin User?</p:outputLabel>
+									<p:selectBooleanCheckbox id="admin" value="#{hfmUsersBean.curUser.admin}" itemLabel="Admin"/>
+								</div>
+
 								<div class="card">
 									<h5>
 										<h:outputText value="Permissions"/>
 									</h5>
 									<p:panelGrid columns="4" layout="grid" styleClass="text-align-left">
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.admin}" itemLabel="Admin"/>
+
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodes}" itemLabel="hfmcodes"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodesoa}" itemLabel="hfmcodesoa"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodestypes}" itemLabel="hfmcodestypes"/>
-
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.partners}" itemLabel="partners" id="partners"/>
+
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.payablesaccounts}" itemLabel="payablesaccounts" id="payablesaccounts"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.receivablesaccounts}" itemLabel="receivablesaccounts" id="receivablesaccounts"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.matchaccounts}" itemLabel="matchaccounts" id="matchaccounts"/>
-
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.dsvscompany}" itemLabel="dsvscompany" id="dsvscompany"/>
+
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rollup}" itemLabel="rollup" id="rollup"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rolluphist}" itemLabel="rolluphist" id="rolluphist"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.layouthist}" itemLabel="layouthist" id="layouthist"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.policies}" itemLabel="Policies" id="policies"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.definedaccounts}" itemLabel="Defined Account" id="definedaccounts"/>
 
 									</p:panelGrid>
 								</div>

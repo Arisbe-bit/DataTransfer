@@ -65,6 +65,7 @@ public class HfmUsersController {
 		}
 		this.curUser = service.saveUser(curUser);
 		LOG.info("User saved!! = {}", this.curUser);
+		this.lstUsers = service.findAll();
 		Functions.addInfoMessage("Save User", message);
 		PrimeFaces.current().executeScript("PF('manageUsersDialog').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-users");
@@ -94,6 +95,7 @@ public class HfmUsersController {
 	public void deleteSelectedUsers() {
 		LOG.info("Entering to delete selected users = {}", this.lstSelectdUsers);
 		service.deleteAll(this.lstSelectdUsers);
+		this.lstUsers = service.findAll();
 		this.lstSelectdUsers = null;
 		Functions.addInfoMessage("Delete All", "Users Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-users");
