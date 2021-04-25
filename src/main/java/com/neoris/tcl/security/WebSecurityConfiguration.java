@@ -93,6 +93,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.logoutSuccessUrl("/login.xhtml");
 		// not needed as JSF 2.2 is implicitly protected against CSRF
 		http.csrf().disable();
+		
+		// Session management
+		http
+			.sessionManagement()
+			.maximumSessions(2)
+			.expiredUrl("/sessionExpired").and()
+			.invalidSessionUrl("/invalidSession");
 	}
 
 }
