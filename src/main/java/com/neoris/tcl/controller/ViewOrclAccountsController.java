@@ -17,79 +17,55 @@ import javax.annotation.PostConstruct;
 @Scope(ViewScope.VIEW)
 public class ViewOrclAccountsController {
 
-	
 	private final static Logger LOG = LoggerFactory.getLogger(ViewOrclAccountsController.class);
-	
+
 	private List<HfmOracleAcc> lstOrcl;
-    private HfmOracleAcc currentOrcl; // actual iterator
-    
-    @Autowired
-    private IHfmOracleAccService service;
-	
-	
+	private HfmOracleAcc currentOrcl; // actual iterator
+
+	@Autowired
+	private IHfmOracleAccService service;
+
 	@PostConstruct
 	public void init() {
-        LOG.info("Initializing Oracle Accounts...");
-        this.lstOrcl = service.findAll();
-        LOG.info("reg= {}", lstOrcl.size());
-    }
-
-
-	
-
-	  public List<HfmOracleAcc> getLstOrcl() {
-		return lstOrcl;
+		LOG.info("Initializing Oracle Accounts...");
+		this.lstOrcl = service.findAll();
+		LOG.info("reg= {}", lstOrcl.size());
 	}
 
-
-
+	public List<HfmOracleAcc> getLstOrcl() {
+		return lstOrcl;
+	}
 
 	public void setLstOrcl(List<HfmOracleAcc> lstOrcl) {
 		this.lstOrcl = lstOrcl;
 	}
 
-
-
-
 	public HfmOracleAcc getCurrentOrcl() {
 		return currentOrcl;
 	}
-
-
-
 
 	public void setCurrentOrcl(HfmOracleAcc currentOrcl) {
 		this.currentOrcl = currentOrcl;
 	}
 
-
-
-
 	public IHfmOracleAccService getService() {
 		return service;
 	}
-
-
-
 
 	public void setService(IHfmOracleAccService service) {
 		this.service = service;
 	}
 
-
-
-
 	public String getTitle() {
-	        return "Oracle Accounts Setting";
-	    }
+		return "Oracle Accounts Setting";
+	}
 
-	    public String getDialogName() {
-	        return "manageCodeDialog";
-	    }
+	public String getDialogName() {
+		return "manageCodeDialog";
+	}
 
-	    public String getDataTableName() {
-	        return "dt-codes";
-	    }
-	    
-	
+	public String getDataTableName() {
+		return "dt-codes";
+	}
+
 }

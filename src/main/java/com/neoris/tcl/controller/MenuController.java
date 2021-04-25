@@ -140,6 +140,14 @@ public class MenuController {
 		return String.format(REDIRECT, "/admin/administration");
 	}
 
+	public String definedaccounts() {
+		return String.format(REDIRECT, "/definedaccounts");
+	}
+
+	public String policies() {
+		return String.format(REDIRECT, "/policies");
+	}
+
 	public String logout() {
 		LOG.info("Entering to logout...");
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -183,19 +191,12 @@ public class MenuController {
 		return "Accounting es";
 	}
 
-	public String definedaccounts() {
-		return String.format(REDIRECT, "/definedaccounts");
-	}
-
-	public String policies() {
-		return String.format(REDIRECT, "/policies");
-	}
-
 	public String getName() {
 		return authentication.getName();
 	}
-
+	
 	public boolean isAdminRole() {
+		LOG.info("user.isAdmin() = {}", user.isAdmin());
 		return user.isAdmin();
 	}
 
@@ -232,15 +233,24 @@ public class MenuController {
 	}
 
 	public boolean isRollUpRole() {
+		LOG.info("user.isRollup = {}", user.isRollup());
 		return user.isRollup() || user.isAdmin();
 	}
 
 	public boolean isRolluphistRole() {
+		LOG.info("user.isRolluphist() = {}", user.isRolluphist());
 		return user.isRolluphist() || user.isAdmin();
 	}
 
 	public boolean isPoliciesRole() {
+		LOG.info("user.isPolicies() = {}", user.isPolicies());
 		return user.isPolicies() || user.isAdmin();
 	}
+	
+	public boolean isDefinedaccountsRole() {
+		LOG.info("user.isDefinedaccounts() = {}", user.isDefinedaccounts());
+		return user.isDefinedaccounts() || user.isAdmin();
+	}
+	
 
 }

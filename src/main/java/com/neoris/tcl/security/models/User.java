@@ -92,6 +92,9 @@ public class User implements UserDetails {
 	@ColumnDefault(value = "0")
 	private boolean policies;
 
+	@ColumnDefault(value = "0")
+	private boolean definedaccounts;
+
 	@Transient
 	private List<Rol> selectdRoles;
 
@@ -115,7 +118,7 @@ public class User implements UserDetails {
 			String username, String password, String name, boolean enabled, boolean admin,
 			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean policies) {
+			boolean policies, boolean definedaccounts) {
 		this.selectdRoles = new ArrayList<>();
 		this.id = id;
 		this.username = username;
@@ -134,6 +137,7 @@ public class User implements UserDetails {
 		this.rollup = rollup;
 		this.rolluphist = rolluphist;
 		this.policies = policies;
+		this.definedaccounts = definedaccounts; 
 		this.passwordBackUp ="";
 		this.populateList();
 	}
@@ -212,6 +216,10 @@ public class User implements UserDetails {
 		if (policies) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
 			selectdRoles.add(Rol.POLICIES);
+		}
+		if(definedaccounts) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
+			selectdRoles.add(Rol.DEFINEDACCOUNT);
 		}
 		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
@@ -346,6 +354,14 @@ public class User implements UserDetails {
 		this.policies = policies;
 	}
 
+	public boolean isDefinedaccounts() {
+		return definedaccounts;
+	}
+
+	public void setDefinedaccounts(boolean definedaccounts) {
+		this.definedaccounts = definedaccounts;
+	}
+
 	public String getPasswordBackUp() {
 		return passwordBackUp;
 	}
@@ -401,6 +417,9 @@ public class User implements UserDetails {
 			if (Rol.POLICIES.equals(rol)) {
 				this.setPolicies(true);
 			}
+			if (Rol.DEFINEDACCOUNT.equals(rol)) {
+				this.setDefinedaccounts(true);
+			}
 		}
 	}
 
@@ -417,6 +436,7 @@ public class User implements UserDetails {
 		this.rollup = false;
 		this.rolluphist = false;
 		this.policies = false;
+		this.definedaccounts = false;
 	}
 	
 	private void populateList() {
@@ -456,6 +476,9 @@ public class User implements UserDetails {
 		}
 		if (policies) {
 			selectdRoles.add(Rol.POLICIES);
+		}
+		if (definedaccounts) {
+			selectdRoles.add(Rol.DEFINEDACCOUNT);
 		}
 	}
 
