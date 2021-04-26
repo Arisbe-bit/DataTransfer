@@ -7,16 +7,14 @@ import com.neoris.tcl.security.models.User;
 
 public interface IUserService {
 
-    Optional<User> findByUsername(String username);
-
     User saveUser(User user);
-    
+
     List<User> findAll();
-    
+
     void delete(User user);
-    
+
     void deleteAll(List<User> users);
 
-	Optional<User> findById(Integer id);
+    Optional<User> findById(String id);
 
 }

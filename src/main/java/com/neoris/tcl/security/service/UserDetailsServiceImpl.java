@@ -1,5 +1,7 @@
 package com.neoris.tcl.security.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +20,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUsername(username).get();
-        return user;
+        Optional<User> optUser = userService.findById(username);
+        if (optUser.isPresent()) {
+            return optUser.get();
+        } else {
+            throw new UsernameNotFoundException(String.format("The user '{}' was not found. Please try again.", username));
+        }
     }
 
 }
