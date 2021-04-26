@@ -8,6 +8,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 /**
  * The persistent class for the hfm_ffss_details database table.
  * 
@@ -41,9 +43,11 @@ public class HfmFfssDetails implements Serializable {
 	private String errortext;
 
 	@Column(name = "JE_HEADER_ID")
+	@ColumnDefault(value = "0")
 	private int headerid;
 
-	@Column(name = "JE_HEADER_ID_REV", columnDefinition = "INTEGER default 0 ")
+	@Column(name = "JE_HEADER_ID_REV")
+	@ColumnDefault(value = "0")
 	private int headeridrev;
 
 	private BigDecimal debit;
@@ -62,6 +66,11 @@ public class HfmFfssDetails implements Serializable {
 	private String omit;
 	private String areaid;
 
+    @ColumnDefault(value = "0")
+    private int num;
+    @Column(name = "ICPID")
+    private String icpid;
+    
 	public HfmFfssDetails() {
 		this.setId(new HfmFfssDetailsPK());
 	}

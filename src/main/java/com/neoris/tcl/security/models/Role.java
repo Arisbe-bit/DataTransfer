@@ -2,8 +2,6 @@ package com.neoris.tcl.security.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +14,7 @@ public class Role {
 	public Role() {
 	}
 
-	public Role(int id, Rol role, String description) {
+	public Role(int id, String role, String description) {
 		this.id = id;
 		this.role = role;
 		this.description = description;
@@ -28,8 +26,7 @@ public class Role {
 	private int id;
 
 	@Column(name = "role")
-	@Enumerated(EnumType.STRING)
-	private Rol role;
+	private String role;
 
 	@Column(name = "description", columnDefinition = "VARCHAR(50)")
 	private String description;
@@ -42,15 +39,15 @@ public class Role {
 		this.id = id;
 	}
 
-	public Rol getRole() {
-		return role;
-	}
+	public String getRole() {
+        return role;
+    }
 
-	public void setRole(Rol role) {
-		this.role = role;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public String getDescription() {
+    public String getDescription() {
 		return description;
 	}
 
