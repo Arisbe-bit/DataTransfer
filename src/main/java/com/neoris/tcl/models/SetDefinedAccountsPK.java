@@ -9,19 +9,17 @@ import javax.persistence.Embeddable;
 public class SetDefinedAccountsPK implements Serializable {
 
 	private static final long serialVersionUID = 6102853690474970823L;
-	
+
 	private String accountid;
 	private String companyid;
 	private String costcenter;
 	private String source;
 
 	public SetDefinedAccountsPK() {
-		
+
 	}
-	
+
 	public SetDefinedAccountsPK(String accountid, String companyid, String costcenter, String source) {
-
-
 		this.accountid = accountid;
 		this.companyid = companyid;
 		this.costcenter = costcenter;
@@ -68,8 +66,7 @@ public class SetDefinedAccountsPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		
-		return Objects.hash(companyid, accountid,costcenter,source );
+		return Objects.hash(companyid, accountid, costcenter, source);
 	}
 
 	@Override
@@ -84,8 +81,5 @@ public class SetDefinedAccountsPK implements Serializable {
 		return Objects.equals(accountid, other.accountid) && Objects.equals(companyid, other.companyid)
 				&& Objects.equals(costcenter, other.costcenter) && Objects.equals(source, other.source);
 	}
-	
-	
-	
 
 }

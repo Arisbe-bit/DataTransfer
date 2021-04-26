@@ -196,7 +196,6 @@ public class MenuController {
 	}
 	
 	public boolean isAdminRole() {
-		LOG.info("user.isAdmin() = {}", user.isAdmin());
 		return user.isAdmin();
 	}
 
@@ -233,24 +232,19 @@ public class MenuController {
 	}
 
 	public boolean isRollUpRole() {
-		LOG.info("user.isRollup = {}", user.isRollup());
 		return user.isRollup() || user.isAdmin();
 	}
 
 	public boolean isRolluphistRole() {
-		LOG.info("user.isRolluphist() = {}", user.isRolluphist());
 		return user.isRolluphist() || user.isAdmin();
 	}
 
 	public boolean isPoliciesRole() {
-		LOG.info("user.isPolicies() = {}", user.isPolicies());
 		return user.isPolicies() || user.isAdmin();
 	}
 	
 	public boolean isDefinedaccountsRole() {
-		LOG.info("user.isDefinedaccounts() = {}", user.isDefinedaccounts());
 		return user.isDefinedaccounts() || user.isAdmin();
 	}
-	
 
 }

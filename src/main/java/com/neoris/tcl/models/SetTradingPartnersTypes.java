@@ -21,7 +21,6 @@ public class SetTradingPartnersTypes implements Serializable {
 
 	@Id
 	private String tptype;
-
 	private String description;
 
 	public SetTradingPartnersTypes() {

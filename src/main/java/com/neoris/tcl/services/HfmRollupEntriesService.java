@@ -1,5 +1,6 @@
 package com.neoris.tcl.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +30,14 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 
 	@Override
 	public List<HfmRollupEntries> findAll() {
-		return (List<HfmRollupEntries>) data.findAll();
+		List<HfmRollupEntries> lstEntries;
+		try {
+			lstEntries = data.findAll(); 
+		} catch (Exception e) {
+			LOG.error("Exception in findAll method: {}", e.getMessage());
+			lstEntries = new ArrayList<HfmRollupEntries>();
+		}
+		return lstEntries; 
 	}
 
 	@Override
