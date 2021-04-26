@@ -47,8 +47,8 @@
 								<p:commandButton value="Export" icon="pi pi-upload"
 									styleClass="ui-button-help" ajax="false">
 									<p:dataExporter type="xls"
-										target="#{payablesaccControllerBean.dataTableName}"
-										fileName="${payablesaccControllerBean.title}" />
+										target="#{tptypesControllerBean.dataTableName}"
+										fileName="${tptypesControllerBean.title}" />
 								</p:commandButton>
 							</p:toolbarGroup>
 						</p:toolbar>
@@ -60,7 +60,7 @@
 					value="#{tptypesControllerBean.lsttpType}" reflow="true"
 					styleClass="products-table"
 					selection="#{tptypesControllerBean.lstSelectdtpType}"
-					rowKey="#{current.tptype}" paginator="true" rows="10"
+					rowKey="#{current.tptype}" paginator="true" rows="10" stripedRows="true" 
 					rowSelectMode="add" size="small" paginatorPosition="bottom">
 					<f:facet name="header">
 						<span style="font-weight: bold">${tptypesControllerBean.title}</span>
@@ -118,15 +118,15 @@
 						<p:outputPanel
 							rendered="#{not empty tptypesControllerBean.curtptypes}">
 							<div class="p-field">
-								<p:outputLabel for="type">Type</p:outputLabel>
+								<p:outputLabel for="type">Type  (maxlength 15)</p:outputLabel>
 								<p:inputText id="type"
-									value="#{tptypesControllerBean.curtptypes.tptype}"
+									value="#{tptypesControllerBean.curtptypes.tptype}" maxlength="15"
 									required="true" />
 							</div>
 							<div class="p-field">
-								<p:outputLabel for="description">Description</p:outputLabel>
+								<p:outputLabel for="description">Description   (maxlength 35)</p:outputLabel>
 								<p:inputText id="description"
-									value="#{tptypesControllerBean.curtptypes.description}"
+									value="#{tptypesControllerBean.curtptypes.description}" maxlength="35"
 									required="true" />
 							</div>
 						</p:outputPanel>

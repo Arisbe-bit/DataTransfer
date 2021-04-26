@@ -17,5 +17,9 @@ public interface IHfmLayoutService {
 	List<HfmLayout> saveAll(List<HfmLayout> entityList);
 
 	void delete(HfmLayout entity);
+	
+	List<HfmLayout> findByIdCompanyid(int companyid);
+	
+	void rollUpLayout(int p_orgid, String p_period, String p_year, String p_userid);
 
 }

@@ -18,10 +18,7 @@ public class SetReceivablesIcpPK implements Serializable {
 	private static final long serialVersionUID = 6093789913297889768L;
 
 	private Long companyid;
-
 	private String custno;
-
-	
 
 	public SetReceivablesIcpPK() {
 	}
@@ -29,7 +26,6 @@ public class SetReceivablesIcpPK implements Serializable {
 	public SetReceivablesIcpPK(Long companyid, String custno) {
 		this.companyid = companyid;
 		this.custno = custno;
-		
 	}
 
 	public Long getCompanyid() {
@@ -48,8 +44,6 @@ public class SetReceivablesIcpPK implements Serializable {
 		this.custno = custno;
 	}
 
-	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(companyid, custno);
@@ -64,8 +58,7 @@ public class SetReceivablesIcpPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetReceivablesIcpPK other = (SetReceivablesIcpPK) obj;
-		return Objects.equals(companyid, other.companyid) && Objects.equals(custno, other.custno)
-				;
+		return Objects.equals(companyid, other.companyid) && Objects.equals(custno, other.custno);
 	}
 
 	@Override

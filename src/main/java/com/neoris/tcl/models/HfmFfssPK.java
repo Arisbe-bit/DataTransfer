@@ -12,15 +12,12 @@ import javax.persistence.*;
 @Embeddable
 public class HfmFfssPK implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1554517960434348057L;
 
 	@Column(name = "COMPANYID")
 	private Long companyId;
 
-	@Column(name = "CURRENCY_CODE")
+	@Column(name = "CURRENCY_CODE", columnDefinition = "VARCHAR(3) default 'USD'")
 	private String currencyCode;
 
 	@Column(name = "HFMCODE")

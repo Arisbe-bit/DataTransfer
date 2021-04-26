@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="title">
+            <title>
+                <h:outputText value="#{hfmRolesBean.title}" />
+            </title>
+        </ui:define>
+        <ui:define name="header">
+        	<h1><h:outputText value="#{hfmRolesBean.title}" /></h1>
+        </ui:define>
+        <ui:define name="content">
+
+            <h:form id="form">
+                <div class="card crud-demo">
+                    <p:growl id="messages" showDetail="true" />
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmRolesBean.openNew}" update=":form:manage-roles-content" oncomplete="PF('manageRolesDialog').show()" styleClass="ui-button-success" style="margin-right: .5rem">
+                                <p:resetInput target=":form:manage-roles-content" />
+                            </p:commandButton>
+                            <p:commandButton id="delete-products-button" value="#{hfmRolesBean.deleteButtonMessage}" icon="pi pi-trash" actionListener="#{hfmRolesBean.deleteSelectedRoles}" styleClass="ui-button-danger" disabled="#{!hfmRolesBean.hasSelectedRoles()}" update="@this">
+                                <p:confirm header="Confirmation" message="Delete the selected roles?" icon="pi pi-exclamation-triangle" />
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable id="dt-roles" widgetVar="dtRoles" var="role" value="#{hfmRolesBean.lstRoles}" reflow="true" styleClass="products-table" selection="#{hfmRolesBean.lstSelectdRoles}" rowKey="#{role.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="products-table-header">
+                                <span style="font-weight: bold">ROLES</span>
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('dtRoles').filter()" placeholder="Search" />
+                                </span>
+
+                            </div>
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update=":form:delete-products-button" />
+                        <p:ajax event="rowUnselect" update=":form:delete-products-button" />
+                        <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button" />
+                        <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button" />
+                        <p:ajax event="toggleSelect" update=":form:delete-products-button" />
+
+                        <p:column selectionMode="multiple" exportable="false"></p:column>
+
+                        <p:column headerText="role" sortBy="#{role.description}" filterBy="#{role.role}">
+                            <h:outputText value="#{role.role}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{role.description}" filterBy="#{role.description}">
+                            <h:outputText value="#{role.description}" />
+                        </p:column>
+  
+                        <p:column exportable="false">
+                            <p:commandButton icon="pi pi-pencil" update=":form:manage-roles-content" oncomplete="PF('manageRolesDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{role}" target="#{hfmRolesBean.curRole}" />
+                                <p:resetInput target=":form:manage-roles-content" />
+                            </p:commandButton>
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" oncomplete="PF('deleteRoleDialog').show()">
+                                <f:setPropertyActionListener value="#{role}" target="#{hfmRolesBean.curRole}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <p:dialog header="Role Details" showEffect="fade" modal="true" widgetVar="manageRolesDialog" responsive="true">
+                        <p:outputPanel id="manage-roles-content" class="ui-fluid">
+                            <p:outputPanel rendered="#{not empty hfmRolesBean.curRole}">
+                                
+                                <div class="p-field">
+                                    <p:outputLabel for="name">Rol</p:outputLabel>
+                                    <p:inputText id="name" value="#{hfmRolesBean.curRole.role}" required="true" />
+                                </div>
+                                <div class="p-field">
+                                    <p:outputLabel for="description">Description</p:outputLabel>
+                                    <p:inputTextarea id="description" value="#{hfmRolesBean.curRole.description}" maxlength="50"/>
+                                </div> 
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmRolesBean.saveRole}" update="manage-roles-content" process="manage-roles-content @this" />
+                            <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageRolesDialog').hide()" class="ui-button-secondary" />
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:confirmDialog widgetVar="deleteRoleDialog" showEffect="fade" width="300" message="Delete the Role?" header="Confirm" severity="warn">
+                        <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{hfmRolesBean.deleteRole}" process="@this" oncomplete="PF('deleteRoleDialog').hide()" />
+                        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteRoleDialog').hide()" />
+                    </p:confirmDialog>
+
+                    <p:confirmDialog global="true" showEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                    </p:confirmDialog>
+                </div>
+            </h:form>
+
+
+        </ui:define>
+    </ui:composition>
+
+</html>

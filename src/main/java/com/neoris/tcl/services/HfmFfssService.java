@@ -49,9 +49,9 @@ public class HfmFfssService implements IHfmFfssService {
 	}
 
     @Override
-    public List<HfmFfss> findByCompanyIdAndPeriod(Long companyId, String period) {
-        LOG.info("Getting HfmFfss list with companyId ={} and period = {}", companyId, period);
-        return data.findByIdCompanyIdAndIdPeriod(companyId, period);
+    public List<HfmFfss> findByCompanyId(Long companyId) {
+        LOG.info("Getting HfmFfss list with companyId ={} ", companyId);
+        return data.findByCompanyId(companyId);
     }
 
 }

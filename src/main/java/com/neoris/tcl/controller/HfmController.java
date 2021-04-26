@@ -31,6 +31,7 @@ public class HfmController {
     private SetHfmCodes hfmcode;
     private boolean isNewHfmcode;
     
+        
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstHfmcodes...");
@@ -138,7 +139,7 @@ public class HfmController {
     }
 
     public String getTitle() {
-        return "HFM Codes Mantaince";
+        return "HFM Codes Maintenance";
     }
     
     public String getDialogName() {

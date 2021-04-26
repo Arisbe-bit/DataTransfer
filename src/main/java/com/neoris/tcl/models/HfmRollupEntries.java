@@ -61,21 +61,25 @@ public class HfmRollupEntries implements Serializable {
 
     private String rview;
 
-    private int ryear;
+    private String ryear;
 
     private String scenario;
 
     private String segment;
+    
+    private String segment1;
 
-    private String validations;
+   
 
+	private String validations;
+ 
     public HfmRollupEntries() {
     }
 
     public HfmRollupEntries(Long companyid, String attribute1, String attribute2, String attribute3, String attribute4,
             String attribute5, String attribute6, String entity, String rapplication, String reclassifications,
-            String rperiod, String rvalue, String rview, int ryear, String scenario, String segment,
-            String validations) {
+            String rperiod, String rvalue, String rview, String ryear, String scenario, String segment,
+            String validations, String segment1) {
         this.companyid = companyid;
         this.attribute1 = attribute1;
         this.attribute2 = attribute2;
@@ -93,6 +97,7 @@ public class HfmRollupEntries implements Serializable {
         this.scenario = scenario;
         this.segment = segment;
         this.validations = validations;
+        this.segment1 = segment1;
     }
 
     public Long getCompanyid() {
@@ -199,11 +204,11 @@ public class HfmRollupEntries implements Serializable {
         this.rview = rview;
     }
 
-    public int getRyear() {
+    public String getRyear() {
         return this.ryear;
     }
 
-    public void setRyear(int ryear) {
+    public void setRyear(String ryear) {
         this.ryear = ryear;
     }
 
@@ -232,9 +237,16 @@ public class HfmRollupEntries implements Serializable {
     }
 
     public String getFullPeriod() {
-        return this.getRperiod() + "-" + Integer.toString(this.getRyear()).substring(2);
+        return this.getRperiod() + "-" + this.getRyear();
     }
 
+    public String getSegment1() {
+		return segment1;
+	}
+
+	public void setSegment1(String segment1) {
+		this.segment1 = segment1;
+	}
     /**
      * This method is needed for the rollup.xhtml form when changing the year or
      * period in the page. This does nothing, but is required with ajax callback.
@@ -308,9 +320,9 @@ public class HfmRollupEntries implements Serializable {
     @Override
     public String toString() {
         return String.format(
-                "HfmRollupEntries [companyid=%s, entity=%s, attribute1=%s, attribute2=%s, attribute3=%s, attribute4=%s, attribute5=%s, attribute6=%s, rapplication=%s, reclassifications=%s, rperiod=%s, rvalue=%s, rview=%s, ryear=%s, scenario=%s, segment=%s, validations=%s]",
+                "HfmRollupEntries [companyid=%s, entity=%s, attribute1=%s, attribute2=%s, attribute3=%s, attribute4=%s, attribute5=%s, attribute6=%s, rapplication=%s, reclassifications=%s, rperiod=%s, rvalue=%s, rview=%s, ryear=%s, scenario=%s, segment=%s, validations=%s, segment1=%s]",
                 companyid, entity, attribute1, attribute2, attribute3, attribute4, attribute5, attribute6, rapplication,
-                reclassifications, rperiod, rvalue, rview, ryear, scenario, segment, validations);
+                reclassifications, rperiod, rvalue, rview, ryear, scenario, segment, validations, segment1);
     }
 
 }
