@@ -1,6 +1,7 @@
 package com.neoris.tcl.admin.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -54,14 +55,26 @@ public class HfmUsersController {
 		this.curUser = new User();
 	}
 
+	/**
+	 * 
+	 */
 	public void saveUser() {
 		LOG.info("Entering to save User = {}", this.curUser);
+		Optional<User> optionalUser = service.findById(curUser.getUsername());
 		String message;
-		if (this.curUser.getId() == 0 || !this.curUser.getPassword().equals(this.curUser.getPasswordBackUp()) ) {
-			this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
-			message = "User Added";
-		} else {
+		// validate if username already exists...
+		if (optionalUser.isPresent()) {
+		    User tmpUser = optionalUser.get();
+		    tmpUser.getUsername();
+		    if(!this.curUser.getPassword().equals( tmpUser.getPassword() )) {
+		        // password change. update new encoded password.
+		        this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
+		    }
 			message = "User Updated";
+		} else {  
+		    // new User. Encrypt password before save.
+		    this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
+			message = "New User Added";
 		}
 		this.curUser = service.saveUser(curUser);
 		LOG.info("User saved!! = {}", this.curUser);

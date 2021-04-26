@@ -8,8 +8,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -33,11 +33,12 @@ public class User implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1538037177774436705L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "userid")
-	private int id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@Column(name = "userid")
+//	private int id;
 
+	@Id
 	@Column(name = "username")
 	@Size(min = 5, message = "*Your user name must have at least 5 characters")
 	@NotEmpty(message = "*Please provide a user name")
@@ -120,7 +121,7 @@ public class User implements UserDetails {
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
 			boolean policies, boolean definedaccounts) {
 		this.selectdRoles = new ArrayList<>();
-		this.id = id;
+//		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -142,13 +143,13 @@ public class User implements UserDetails {
 		this.populateList();
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public int getId() {
+//		return id;
+//	}
+//
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getName() {
 		return name;

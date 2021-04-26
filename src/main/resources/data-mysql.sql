@@ -1,4 +1,4 @@
-INSERT INTO HFM_USERS (userid, username, password, name, admin) VALUES (1, 'admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador', 1);
+INSERT INTO HFM_USERS (username, password, name, admin) VALUES ('admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador', 1);
 /* INSERT INTO HFM_USERS (userid, username, password, name, admin, hfmcodes, hfmcodesoa, hfmcodestypes, matchaccounts, partners, rollup) VALUES (2, 'ari','$2a$10$vlwMxNoDDxzkCPZJgZaCPeVDroqo9W3pSzSV/3cAox8dc9sqiSew6', 'Ari Morales', 0, 1, 1, 1, 1, 1, 1);  */
 
 INSERT INTO HFM_ROLES (roleid, role, description) VALUES (1,'ADMIN', 'Administration');
