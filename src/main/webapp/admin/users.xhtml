@@ -74,7 +74,7 @@
 						</p:toolbarGroup>
 					</p:toolbar>
 
-					<p:dataTable id="dt-users" widgetVar="dtUsers" var="user" value="#{hfmUsersBean.lstUsers}" reflow="true" styleClass="users-table" selection="#{hfmUsersBean.lstSelectdUsers}" rowKey="#{user.id}" paginator="true" rows="10" rowSelectMode="checkbox" paginatorPosition="bottom" size="small">
+					<p:dataTable id="dt-users" rowIndexVar="iterador" widgetVar="dtUsers" var="user" value="#{hfmUsersBean.lstUsers}" reflow="true" styleClass="users-table" selection="#{hfmUsersBean.lstSelectdUsers}" paginator="true" rows="10" rowSelectMode="checkbox" paginatorPosition="bottom" size="small" rowKey="rkuser#{iterador}">
 						<f:facet name="header">
 							<div class="users-table-header">
 								<span style="font-weight: bold">USERS</span>
@@ -92,7 +92,7 @@
 						<p:ajax event="toggleSelect" update=":form:delete-users-button" />
 
 						<p:column selectionMode="multiple" exportable="false" resizable="true" styleClass="rw5">
-							<h:outputText value="#{user.id}" />
+							<h:outputText value="#{iterador}" />
 						</p:column>
 						<p:column headerText="Username" sortBy="#{user.username}" filterBy="#{user.username}" styleClass="rw15">
 							<h:outputText value="#{user.username}" />
