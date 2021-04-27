@@ -74,8 +74,7 @@ public class ReceivablesAccController {
 		this.lstcompany = serviceEntries.findAll();
 
 		// We use this list instead the company list. f:itemlist don't works!
-		this.mapCompany = this.lstcompany.stream()
-				.map(r -> new KeyValue<String, String>(r.getEntity(), String.valueOf(r.getCompanyid())))
+		this.mapCompany = this.lstcompany.stream().map(r -> new KeyValue<String, String>(r.getEntity(), String.valueOf(r.getCompanyid())))
 				.collect(Collectors.toList());
 		LOG.info("mapCompany = {}", mapCompany);
 		LOG.info("Getting User form security context...");

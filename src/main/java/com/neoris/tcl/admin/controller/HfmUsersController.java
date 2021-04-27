@@ -57,7 +57,7 @@ public class HfmUsersController {
 	public void saveUser() {
 		LOG.info("Entering to save User = {}", this.curUser);
 		String message;
-		if (this.curUser.getId() == 0 || !this.curUser.getPassword().equals(this.curUser.getPasswordBackUp()) ) {
+		if (this.curUser.getUsername().length() > 0  || !this.curUser.getPassword().equals(this.curUser.getPasswordBackUp()) ) {
 			this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
 			message = "User Added";
 		} else {

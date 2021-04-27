@@ -3,8 +3,17 @@ package com.neoris.tcl.controller;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_ASSET;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_OTHER;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES1;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES2;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES3;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES4;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES5;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYROLL;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES1;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES2;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES3;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES4;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
 import java.time.Year;
@@ -161,29 +170,41 @@ public class RollupController {
 
         LOG.info("Now processing rollup = {}", rollUp);
         // 1.- Start RollUp Service.
+        
+        LOG.info("Processing Rollup Del Data by company ");
+        service.rollDelData(rollUp.getCompanyid().intValue(),  rollUp.getSegment1(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+        
         rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
-        LOG.info("Processing Roolup Start ");
+        LOG.info("Processing Rollup Start ");
         service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment1(), "admin");
         rollUp.setAttribute1(HfmRollupEntries.STATUS_OK);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
 
         // 2.- Process Drill Details
+        processDrillDetailsHd(rollUp);
+        
+        LOG.info("*******************Processing Drill Details*********************** ");
+        // 2.1- Process Drill Details
         processDrillDetails(rollUp);
 
+        LOG.info("*********************Processing CostMngr Details*********************");
         // 3.- Process Cost Manager
         processCostManager(rollUp);//getheader
 
         // 4.- Run the Drills...
         processDrils(rollUp);
 
+        
+        LOG.info("*********************Processing Validations*********************");
         // 5.- Run the validations..
         processValidations(rollUp);
 
         // 6.- Run Match account...
+        LOG.info("*********************Processing Match ACccounts*********************");
         processMatchAccount(rollUp);
 
-        LOG.info("Finish processing rollups!!");
+        LOG.info("**********************Finish processing rollups!!********************************");
     }
 
     /**
@@ -352,15 +373,28 @@ public class RollupController {
         rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
         PrimeFaces.current().ajax().update(DT_ROLLUP);
 
-        Thread payablesThread = null;
-        Thread receivablesThread = null;
+        Thread payablesThread1 = null;
+        Thread payablesThread2 = null;
+        Thread payablesThread3 = null;
+        Thread payablesThread4 = null;
+        Thread payablesThread5 = null;
+        Thread receivablesThread1 = null;
+        Thread receivablesThread2 = null;
+        Thread receivablesThread3 = null;
+        Thread receivablesThread4 = null;
         Thread payrollThread = null;
         Thread assetsThread = null;
         Thread otherThread = null;
 
-        ProcessRollUps rollUpPayables = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES, 0, false, false);
-        LOG.info("******rollUpPayables*****" + rollUpPayables);
-        ProcessRollUps rollUpReceivables = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES, 0, false, false);
+        ProcessRollUps rollUpPayables1 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES1, 0, false, false);
+        ProcessRollUps rollUpPayables2 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES2, 0, false, false);
+        ProcessRollUps rollUpPayables3 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES3, 0, false, false);
+        ProcessRollUps rollUpPayables4 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES4, 0, false, false);
+        ProcessRollUps rollUpPayables5 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES5, 0, false, false);
+        ProcessRollUps rollUpReceivables1 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES1, 0, false, false);
+        ProcessRollUps rollUpReceivables2 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES2, 0, false, false);
+        ProcessRollUps rollUpReceivables3 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES3, 0, false, false);
+        ProcessRollUps rollUpReceivables4 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES4, 0, false, false);
         ProcessRollUps rollUpPayroll = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLL, 0, false, false);
         ProcessRollUps rollUpAssets = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSET, 0, false, false);
         ProcessRollUps rollUpOther = getProcessRollUpsInstance(rollUp, P_CONCEPT_OTHER, 0, false, false);
@@ -368,8 +402,15 @@ public class RollupController {
         // 2.- Process the drills details...
         LOG.info("Preparing threads for rollUp process...");
         try {
-            payablesThread = createRollUpTread(rollUpPayables);
-            receivablesThread = createRollUpTread(rollUpReceivables);
+        	payablesThread1 = createRollUpTread(rollUpPayables1);
+        	payablesThread2 = createRollUpTread(rollUpPayables2);
+        	payablesThread3 = createRollUpTread(rollUpPayables3);
+        	payablesThread4 = createRollUpTread(rollUpPayables4);
+        	payablesThread5 = createRollUpTread(rollUpPayables5);
+            receivablesThread1 = createRollUpTread(rollUpReceivables1);
+            receivablesThread2 = createRollUpTread(rollUpReceivables2);
+            receivablesThread3 = createRollUpTread(rollUpReceivables3);
+            receivablesThread4 = createRollUpTread(rollUpReceivables4);
             payrollThread = createRollUpTread(rollUpPayroll);
             assetsThread = createRollUpTread(rollUpAssets);
             otherThread = createRollUpTread(rollUpOther);
@@ -380,12 +421,34 @@ public class RollupController {
             return;
         }
 
-        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES, rollUp.getCompanyid());
-        payablesThread.start();
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES1, rollUp.getCompanyid());
+        payablesThread1.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES2, rollUp.getCompanyid());
+        payablesThread2.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES3, rollUp.getCompanyid());
+        payablesThread3.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES4, rollUp.getCompanyid());
+        payablesThread4.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES5, rollUp.getCompanyid());
+        payablesThread5.start();
 
-        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES, rollUp.getCompanyid());
-        receivablesThread.start();
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES1, rollUp.getCompanyid());
+        receivablesThread1.start();
 
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES2, rollUp.getCompanyid());
+        receivablesThread2.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES3, rollUp.getCompanyid());
+        receivablesThread3.start();
+        
+        LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES4, rollUp.getCompanyid());
+        receivablesThread4.start();
+        
+       
         LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLL, rollUp.getCompanyid());
         payrollThread.start();
 
@@ -398,8 +461,15 @@ public class RollupController {
         // 3.- wait for finish these process and start Costmanager
         try {
             //otherThread.sleep(5000);
-            payablesThread.join();
-            receivablesThread.join();
+        	payablesThread1.join();
+        	payablesThread2.join();
+        	payablesThread3.join();
+        	payablesThread4.join();
+        	payablesThread5.join();
+            receivablesThread1.join();
+            receivablesThread2.join();
+            receivablesThread3.join();
+            receivablesThread4.join();
             payrollThread.join();
             assetsThread.join();
             otherThread.join();
@@ -410,6 +480,57 @@ public class RollupController {
         }
         PrimeFaces.current().ajax().update(DT_ROLLUP);
         LOG.info("Thread for rollUp Finish!");
+    }
+    
+    /**
+     * 
+     * @param rollUp
+     */
+    private void processDrillDetailsHd(HfmRollupEntries rollUp) {
+        LOG.info("Preparing Headers rollups...");
+       // rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
+       // PrimeFaces.current().ajax().update(DT_ROLLUP);
+
+        Thread payablesThread = null;
+        Thread receivablesThread = null;
+      
+
+        ProcessRollUps rollUpPayables = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES, 0, false, false);
+        ProcessRollUps rollUpReceivables = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES, 0, false, false);
+       
+        // 2.- Process the drills details...
+        LOG.info("Preparing threads for header-rollUp process...");
+        try {
+            payablesThread = createRollUpTread(rollUpPayables);
+            receivablesThread = createRollUpTread(rollUpReceivables);
+          
+        } catch (Exception e) {
+            LOG.error("Error creating threads: {}", e.getMessage(), e);
+           // rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+           // PrimeFaces.current().ajax().update(DT_ROLLUP);
+            return;
+        }
+
+        LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES, rollUp.getCompanyid());
+        payablesThread.start();
+
+        LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES, rollUp.getCompanyid());
+        receivablesThread.start();
+
+
+        // 3.- wait for finish these process and start Costmanager
+        try {
+            //otherThread.sleep(5000);
+            payablesThread.join();
+            receivablesThread.join();
+            
+           // rollUp.setAttribute2(HfmRollupEntries.STATUS_OK);
+        } catch (InterruptedException e) {
+            LOG.error("Error running header process: {}", e.getMessage(), e);
+            rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+        }
+        PrimeFaces.current().ajax().update(DT_ROLLUP);
+        LOG.info("Thread for HEADER-rollUp Finish!");
     }
 
     /**

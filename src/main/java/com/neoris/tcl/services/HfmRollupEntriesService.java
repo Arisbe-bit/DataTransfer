@@ -55,6 +55,18 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		data.delete(entity);
 	}
 
+	
+	@Override
+	public void rollDelData(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_USERID) {
+		LOG.info("Entering to run rollUpDelData: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);
+		try {
+			data.rollDelData(P_ORGID, P_SEGMENT, P_PERIOD, P_YEAR, P_USERID);
+			LOG.error("********************IHfmRollupEntriesDao.rollDelData  Finished:***************************");
+		} catch (Exception e) {
+			LOG.error("Error al correr IHfmRollupEntriesDao.rollDelData: => {}", e.getMessage());
+		}
+
+	}
 	@Override
 	public void rollUpStart(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID) {
 		LOG.info("Entering to  run rollUpStart: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);

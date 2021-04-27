@@ -18,9 +18,9 @@ public interface IUserDao extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);
     
     @Modifying
-    @Query(value = "UPDATE hfm_users u SET u.username=?, u.name=?, u.enabled=?, u.admin=?, u.dsvscompany=?, u.hfmcodes=?, hfmcodesoa=?, hfmcodestypes=?, u.layouthist= ?, u.matchaccounts=?, u.partners=?, u.payablesaccounts=?, u.receivablesaccounts=?, u.rollup= ?, u.rolluphist=? WHERE userid=?",
+    @Query(value = "UPDATE hfm_users u SET  u.name=?, u.enabled=?, u.admin=?, u.dsvscompany=?, u.hfmcodes=?, hfmcodesoa=?, hfmcodestypes=?, u.layouthist= ?, u.matchaccounts=?, u.partners=?, u.payablesaccounts=?, u.receivablesaccounts=?, u.rollup= ?, u.rolluphist=? WHERE u.username=?",
     		nativeQuery = true)
-    Optional<User> saveWithoutPassword(String name, String username, Integer enabled, Integer userid);
+    Optional<User> saveWithoutPassword(String name, String username, Integer enabled);
     
 //    @Modifying
 //    @Query(
