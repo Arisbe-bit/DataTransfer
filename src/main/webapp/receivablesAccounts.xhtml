@@ -100,7 +100,7 @@
                             <div class="p-field">
                                 <p:outputLabel for="@next" value="ICP Code" />
                                 <p:selectOneMenu id="icpcode" value="#{receivablesaccControllerBean.currentRecTab.icpcode}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}" var="item" itemLabel="#{item.id.icpcode}" itemValue="#{item.id.icpcode}" />
+                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}" var="item" itemLabel="#{item.icpcode}" itemValue="#{item.icpcode}" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
                             </div>

@@ -65,7 +65,7 @@ public class HfmFFSSDetailsHist implements Serializable {
 			String docnumber, String upd, String hfmparent, String userid, String errortext, int headerid,
 			int headeridrev, BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit,
 			String invoicedate, String category, int omit, String areaid, String periodid) {
-		super();
+
 		this.id = id;
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;

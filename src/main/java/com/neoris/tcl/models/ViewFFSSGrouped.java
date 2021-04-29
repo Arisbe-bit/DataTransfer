@@ -8,40 +8,37 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Subselect;
+
 
 @Entity
-@Table(name = "ROLLUP_VIEW_FFSS_GROUPED")
+@Subselect("select num,companyid,hfmcode,periodname,costcenter,accountid,icp,partnerid,tpname,omit,amount from ROLLUP_VIEW_FFSS_GROUPED" )
 public class ViewFFSSGrouped implements Serializable {
 
-	private static final long serialVersionUID = 5676213260556508605L;
+	private static final long serialVersionUID = 5676513260556508605L;
 
 	@Id
-	private Long num;
+	private String num;
 
-	private int companyid;
+	private String companyid;
 	private String periodname;
 	private String costcenter;
 	private String hfmcode;
 	private String accountid;
 	private String icp;
-
-	@Column(columnDefinition = "VARCHAR(20) default '0' ")
 	private String partnerid;
 	private String tpname;
-
-	@ColumnDefault(value = "0")
-	private int omit;
+	private String omit;
 	private BigDecimal amount;
-	private String hfmparent;
+//	private String hfmparent;
 
 	public ViewFFSSGrouped() {
 
 	}
 
-	public ViewFFSSGrouped(Long num, int companyid, String periodname, String costcenter, String hfmcode,
-			String accountid, String icp, String partnerid, String tpname, int omit, BigDecimal amount,
-			String hfmparent) {
+	public ViewFFSSGrouped(String num, String companyid, String periodname, String costcenter, String hfmcode,
+			String accountid, String icp, String partnerid, String tpname, String omit, BigDecimal amount
+			) {
 		this.num = num;
 		this.companyid = companyid;
 		this.periodname = periodname;
@@ -53,22 +50,22 @@ public class ViewFFSSGrouped implements Serializable {
 		this.tpname = tpname;
 		this.omit = omit;
 		this.amount = amount;
-		this.hfmparent = hfmparent;
+		
 	}
 
-	public Long getNum() {
+	public String getNum() {
 		return num;
 	}
 
-	public void setNum(Long num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 
-	public int getCompanyid() {
+	public String getCompanyid() {
 		return companyid;
 	}
 
-	public void setCompanyid(int companyid) {
+	public void setCompanyid(String companyid) {
 		this.companyid = companyid;
 	}
 
@@ -128,11 +125,11 @@ public class ViewFFSSGrouped implements Serializable {
 		this.tpname = tpname;
 	}
 
-	public int getOmit() {
+	public String getOmit() {
 		return omit;
 	}
 
-	public void setOmit(int omit) {
+	public void setOmit(String omit) {
 		this.omit = omit;
 	}
 
@@ -144,20 +141,13 @@ public class ViewFFSSGrouped implements Serializable {
 		this.amount = amount;
 	}
 
-	public String getHfmparent() {
-		return hfmparent;
-	}
-
-	public void setHfmparent(String hfmparent) {
-		this.hfmparent = hfmparent;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "ViewFFSSGrouped [num=" + num + ", companyid=" + companyid + ", periodname=" + periodname
 				+ ", costcenter=" + costcenter + ", hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp
 				+ ", partnerid=" + partnerid + ", tpname=" + tpname + ", omit=" + omit + ", amount=" + amount
-				+ ", hfmparent=" + hfmparent + "]";
+				+ "]";
 	}
 
 }

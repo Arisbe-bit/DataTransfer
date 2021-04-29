@@ -73,7 +73,6 @@ public class RollupController {
  	
  	//sumarized FFSS 
  	 private List<ViewFFSSGrouped> lstSumFS;
- 	private List<Map<String, Object>>  lstFSgrouped;
      private ViewFFSSGrouped curFSgroup;
 
      //HFM Layout
@@ -626,15 +625,15 @@ public class RollupController {
         LOG.info("Obtains curHfmFfss = {}", curHfmFfss);
         this.curHfmFfss = curHfmFfss;
         Long companyid = curHfmFfss.getCompanyId();
-        String vhfmcode = curHfmFfss.getHfmcode();
+        String hfmcode = curHfmFfss.getHfmcode().toString();
         
         
         try {
             
-    	        LOG.info("Query SUM FFSS  LIST with company = {}, vhfmcode = {}", companyid,vhfmcode);
+    	        LOG.info("Query SUM FFSS  LIST with company = {}, hfmcode = {}", companyid,hfmcode);
     	        
-    	        //this.lstFSgrouped = serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
-    	        this.lstSumFS =  serviceFSG.findByCompanyidAndHfmcode(companyid.intValue(),vhfmcode);
+    	        this.lstSumFS = serviceFSG.findByCompanyidAndHfmcode(companyid.toString(), hfmcode);
+    	        
     	        //LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ? lstFSgrouped.size() : "is null");
     	        LOG.info("return lstFSgrouped with items => {}", lstSumFS != null ? lstSumFS.size() : "is null");
     	
@@ -648,7 +647,7 @@ public class RollupController {
     	           // this.lstSumFS.forEach(i -> LOG.info( i != null ?  i.toString() : "item is null!!!"));
     	        }
             }catch (Exception e) {
-    			LOG.error("ERRor -> {}", e.getMessage());
+    			LOG.error("setCurHfmFfss ERRor -> {}", e.getMessage());
     		} 
          
         LOG.info("Update view grouped FFSS ...");
@@ -790,20 +789,14 @@ public class RollupController {
 		return curFSgroup;
 	}
 
-	public List<Map<String, Object>> getLstFSgrouped() {
-		return lstFSgrouped;
-	}
-
-	public void setLstFSgrouped(List<Map<String, Object>> lstFSgrouped) {
-		this.lstFSgrouped = lstFSgrouped;
-	}
+	
 
 	public void setCurFSgroup(ViewFFSSGrouped curFSgroup) {
 		this.curFSgroup = curFSgroup;
 		
 		 LOG.info("Obtains curFSgroup = {}", curFSgroup);
 	        
-	        int companyid = curFSgroup.getCompanyid();
+	        int companyid = Integer.valueOf(curFSgroup.getCompanyid());
 	        String vhfmcode = curFSgroup.getHfmcode();
 	        String partnerid = curFSgroup.getPartnerid();
 	        String costcenter = curFSgroup.getCostcenter();

@@ -52,7 +52,7 @@
 	</ui:define>
 	<ui:define name="topnav">
 		<h1 class="outputLabel center">
-			<h:outputText value="Welcome to Cemex!" />
+			<h:outputText value="Welcome!" />
 		</h1>
 	</ui:define>
 	<ui:define name="content">
@@ -70,12 +70,12 @@
 					<p:outputLabel value="${param['cause']}" styleClass="error" rendered="${!empty param['cause']}" /><br/>					
 					<p:outputLabel value="Error is: ${errorMessage}" styleClass="error" rendered="${!empty errorMessage}" />
 				</f:facet>
-				<p:panelGrid columns="2" columnClasses="label, value" styleClass="ui-fluid center ui-noborder">
+				<p:panelGrid columns="2" columnClasses="label, value" styleClass="ui-fluid center ui-noborder"  >
 					<h:outputText value="Username: *" />
 					<p:inputText id="username" placeholder="Username" required="true" label="username" />
 
 					<h:outputText value="Password: *" />
-					<p:password id="password" placeholder="Password" required="true" label="password" />
+					<p:password id="password" placeholder="Password" required="true" label="password"  />
 				</p:panelGrid>
 				<f:facet name="footer">
 					<center>

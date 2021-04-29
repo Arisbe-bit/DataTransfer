@@ -218,7 +218,7 @@ public class ReceivablesAccController {
 
 		LOG.info("Receivables- company edit  => {}", this.currentVRec.getOrganization_id());
 		lstCustno = servicecust.findByOrganizationid(this.currentVRec.getOrganization_id());
-		LOG.info("return lstSuppno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
+		LOG.info("return lstcustno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
 
 		this.currentRecTab = new SetReceivablesIcp();
 		this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));

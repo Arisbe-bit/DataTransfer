@@ -51,9 +51,9 @@ public class TradingPartnerController {
         LOG.info("Entering to save Trading Partner Type => {}, event ={}", this.curtp, event);
         
         if(newCode) {
-            Optional<SetIcpcodes> icp = service.findById(curtp.getId());
+            Optional<SetIcpcodes> icp = service.findById(curtp.getIcpcode());
             if(icp.isPresent()) {
-                String errorMessage = String.format("The record with ICPid = %s and ICPCode = %s already exist. Can't create new record.", curtp.getId().getIcpid(), curtp.getId().getIcpcode()); 
+                String errorMessage = String.format("The record with  ICPCode = %s already exist. Can't create new record.",  curtp.getIcpcode()); 
                 Functions.addErrorMessage("Error adding new Code", errorMessage);
                 PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
                 return;

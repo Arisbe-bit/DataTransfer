@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.neoris.tcl.models.ViewFFSSGroupedHist;
 
 @Repository
-public interface IViewRollupFFSSGconsHistDao extends JpaRepository<ViewFFSSGroupedHist, Long>{
+public interface IViewRollupFFSSGconsHistDao extends JpaRepository<ViewFFSSGroupedHist, String>{
 	
-	 List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(int companyid,String hfmcode);
+	 List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(String companyid,String hfmcode);
+	 
 
 }

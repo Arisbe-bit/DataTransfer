@@ -134,18 +134,18 @@
 							<p:outputPanel rendered="#{not empty hfmUsersBean.curUser}">
 
 								<div class="p-field">
-									<p:outputLabel for="username" value="Username"/>
-									<p:inputText id="username" value="#{hfmUsersBean.curUser.username}" required="true" requiredMessage="User is requiered" validatorMessage="User validations fails." />
+									<p:outputLabel for="username" value="Username (maxlength 15)"/>
+									<p:inputText id="username" value="#{hfmUsersBean.curUser.username}" maxlength="15" required="true" requiredMessage="User is requiered" validatorMessage="User validations fails." />
 									<p:message for="@previous"/>
 								</div>
 								<div class="p-field">
-									<p:outputLabel for="password">Password</p:outputLabel>
+									<p:outputLabel for="password">Password ()maxlength 15)</p:outputLabel>
 									<p:password id="password" value="#{hfmUsersBean.curUser.password}" maxlength="15" toggleMask="true" feedback="true" redisplay="true" required="true" requiredMessage="Password is requiered" validatorMessage="Password validation fails"/>
 									<p:message for="@previous"/>
 								</div>
 								<div class="p-field">
 									<p:outputLabel for="name">Name</p:outputLabel>
-									<p:inputText id="name" value="#{hfmUsersBean.curUser.name}" required="true" requiredMessage="The name of the user is requiered"/>
+									<p:inputText id="name" value="#{hfmUsersBean.curUser.name}" maxlength ="255" required="true" requiredMessage="The name of the user is requiered"/>
 									<p:message for="@previous"/>
 								</div>
 								<div class="p-field">

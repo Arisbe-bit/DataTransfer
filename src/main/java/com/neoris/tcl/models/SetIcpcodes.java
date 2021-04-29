@@ -1,9 +1,10 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -19,24 +20,31 @@ public class SetIcpcodes implements Serializable {
 	 */
 	private static final long serialVersionUID = -1388880172612949672L;
 
-	@EmbeddedId
-	private SetIcpcodesPK id;
-
+	//@EmbeddedId
+	//private SetIcpcodesPK id;
+  @Id
+  private String icpcode;
+  
 	private String icpdesc;
 	
+	private String icpid;
 	private String tptype;
 
 	public SetIcpcodes() {
-	    this.setId(new SetIcpcodesPK());
+	   
 	}
 
-	public SetIcpcodesPK getId() {
-		return this.id;
+	
+
+	public SetIcpcodes(String icpcode, String icpdesc, String icpid, String tptype) {
+		
+		this.icpcode = icpcode;
+		this.icpdesc = icpdesc;
+		this.icpid = icpid;
+		this.tptype = tptype;
 	}
 
-	public void setId(SetIcpcodesPK id) {
-		this.id = id;
-	}
+
 
 	public String getIcpdesc() {
 		return this.icpdesc;
@@ -54,11 +62,40 @@ public class SetIcpcodes implements Serializable {
 		this.tptype = tptype;
 	}
 
-	@Override
-	public String toString() {
-		return "SetIcpcodes [id=" + id + ", icpdesc=" + icpdesc + ", tptype=" + tptype + "]";
+	
+	public String getIcpid() {
+		return this.icpid;
 	}
 
+	public void setIcpid(String icpid) {
+		this.icpid = icpid;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(icpcode);
+	}
+
+
+
+	public String getIcpcode() {
+		return icpcode;
+	}
+
+
+
+	public void setIcpcode(String icpcode) {
+		this.icpcode = icpcode;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "SetIcpcodes [icpcode=" + icpcode + ", icpdesc=" + icpdesc + ", icpid=" + icpid + ", tptype=" + tptype
+				+ "]";
+	}
+	
 
 
 }

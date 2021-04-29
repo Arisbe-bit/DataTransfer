@@ -10,7 +10,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.neoris.tcl.dao.ISetIcpcodesDao;
 import com.neoris.tcl.models.SetIcpcodes;
-import com.neoris.tcl.models.SetIcpcodesPK;
+
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
@@ -20,7 +20,7 @@ public class SetIcpcodesService implements ISetIcpcodesService {
 	private ISetIcpcodesDao data;
 
 	@Override
-	public Optional<SetIcpcodes> findById(SetIcpcodesPK id) {
+	public Optional<SetIcpcodes> findById(String id) {
 		return data.findById(id);
 	}
 

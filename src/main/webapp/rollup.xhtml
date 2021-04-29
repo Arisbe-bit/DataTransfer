@@ -47,10 +47,13 @@
 	padding: 3px;
 }
 .colorrownm{
-	 background-color: #54a90a !important;
+	 background-color: #C0C0C0 !important;
         background-image: none !important;
         color: #ffffff !important;
+        font-weight: bold;
 }
+
+
 
 .ui-datatable-even{
 	background: #6ab2eo;
@@ -126,6 +129,7 @@
                                 <div class="rollups-table-header rollup-text-align-center">
                                     <span>ROLLUP</span>
                                 </div>
+                                
                             </f:facet>
                             <p:ajax event="rowSelect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
                             <p:ajax event="rowUnselect" update=":#{rollupControllerBean.formNameId}:start-rollup-process-button" />
@@ -170,30 +174,30 @@
                             <p:column headerText="value">
                                 <h:outputText value="#{rollup.rvalue}" />
                             </p:column>
-                             <p:column headerText=" Balance Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF">
+                             <p:column headerText=" Balance Validation" styleClass="rollup-text-align-center" style="background-color: #D3D3D3">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
-                                    <h:outputText value="#{rollup.attribute1}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+                                    <h:outputText value="#{rollup.attribute1}" />
                                 </i>
                             </p:column>
-                            <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF ">
+                            <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center" style="background-color: #D3D3D3 ">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
-                                    <h:outputText value="#{rollup.attribute4}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+                                    <h:outputText value="#{rollup.attribute4}" />
                                 </i>
                             </p:column>
-                            <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center" style="background-color: #1E90FF">
-                                <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
-                                    <h:outputText value="#{rollup.attribute5}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
-                                </i>
+                            <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center"  style="background-color: #D3D3D3">
+                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 1003 ? 'fa fa-spinner':' '}"  />
+                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 93 ? 'fa fa-close':' '}"  />
+                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 86 ? 'fa fa-check':' '}"  />    								
                             </p:column>
                             
-                            <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center" style="background-color: #1E90FF">
+                            <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center" style="background-color: #D3D3D3">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
-                                    <h:outputText value="#{rollup.validations}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+                                    <h:outputText value="#{rollup.validations}"  />
                                 </i>
                             </p:column>
-                            <p:column headerText="Finished Process " styleClass="rollup-text-align-center" style="background-color: #1E90FF">
+                            <p:column headerText="Finished Process " styleClass="rollup-text-align-center" style="background-color: #D3D3D3">
                                 <i class="#{rollup.trialBalanceIcon}" id="i-ru-tb-#{rollup.companyid}">
-                                    <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}" />
+                                    <h:outputText value="#{rollup.attribute6}"  />
                                 </i>
                             </p:column>
                             <p:column headerText="View FFSS" exportable="false">
@@ -217,6 +221,7 @@
                         </p:dataTable>
                     </p:tab>
                     <p:tab title="FFSS" id="tabHHFF" disabled="true">
+                     
                         <div class="div-75" style="text-align : justify">
                             <p:dataTable id="dt-hfm-tab-ffss"
                                 widgetVar="dtHfmFfss" var="hfmffss"
@@ -227,28 +232,29 @@
                                 tableStyle="width:auto" stickyHeader="true" stripedRows="true"
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">
+                                
                                     <p:toolbar id="toolbar-hfmffss">
-                                        <p:toolbarGroup>
+                                        <p:toolbarGroup>	
                                             <div class="hfmffss-table-header">
                                                 <h:outputText value="FFSS " style="font-weight: bold" />
                                             </div>
                                         </p:toolbarGroup>
-                                        <p:toolbarGroup align="right">
-                                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstHfmFfss}">
-                                                <p:dataExporter type="xls" target="dt-hfm-tab-ffss" fileName="HFM_FFSS" pageOnly="true" />
-                                            </p:commandButton>
-                                        </p:toolbarGroup>
+                                         <p:toolbarGroup>	
+                                          <p:commandButton value="Export" id="btnExport"  icon="fa fa-file-excel-o"  styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstHfmFfss}">
+                                                <p:dataExporter type="xls" target="rollupForm:tabViewRollUps:dt-hfm-tab-ffss" fileName="HFM_FFSS" pageOnly="true" />
+                                  </p:commandButton>
+                                         </p:toolbarGroup>
                                     </p:toolbar>
                                 </f:facet>
-                                <p:column headerText="Classification"  sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
+                                <p:column headerText="Classification" exportable="true"  sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
                                     <h:outputText value="#{hfmffss.classification}" >
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Account Type"  sortBy="#{hfmffss.naturalb}" filterBy="#{hfmffss.naturalb}">
+                                <p:column headerText="Account Type" exportable="true" sortBy="#{hfmffss.naturalb}" filterBy="#{hfmffss.naturalb}">
                                     <h:outputText value="#{hfmffss.naturalb}" >
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Hfmcode"  sortBy="#{hfmffss.hfmcode}" filterBy="#{hfmffss.hfmcode}">
+                                <p:column headerText="Hfmcode"  exportable="true" sortBy="#{hfmffss.hfmcode}" filterBy="#{hfmffss.hfmcode}">
                                     <h:outputText value="#{hfmffss.hfmcode}" >
                                      </h:outputText>
                                 </p:column>
@@ -291,13 +297,15 @@
                                 value="#{rollupControllerBean.lstMatchAcc}" reflow="true" 
                                 styleClass="matchacc-table" rowKey="#{matchacc.companyid}"
                                 paginator="true" rows="15" resizableColumns="true"    stripedRows="true"
-                                resizeMode="expand" paginatorPosition="bottom" size="small">
+                                resizeMode="expand" paginatorPosition="bottom" size="small"
+                                rowStyleClass="#{matchacc.hfmcode eq 8000000? 'colorrownm' : null}"
+                               >
                                 <f:facet name="header">
                                     <div class="rollups-table-header">
                                         <h:outputText value="GLOBAL VALIDATION" />
                                     </div>
                                 </f:facet>
-                                <p:column headerText="Hfmcode"> 
+                                <p:column headerText="Hfmcode" > 
                                     <h:outputText value="#{matchacc.hfmcode}" />
                                 </p:column>
                                 <p:column headerText="Description">
@@ -310,6 +318,7 @@
                                 </p:column>
                             </p:dataTable>
                         </div>
+                     
                     </p:tab>
                    
                     <p:tab title="Sumarized FFSS Detail" id="tabgrouped" disabled="true">
@@ -317,7 +326,7 @@
                             <p:dataTable  id="dtfsgrouped" 
                                 widgetVar="dtgrouped" var="accgroup"
                                 value="#{rollupControllerBean.lstSumFS}" reflow="true"
-                                 rowKey="#{accgroup.companyid}"
+                                 rowKey="#{accgroup.num}"
                                 paginator="true" rows="15" stickyHeader="true" stripedRows="true"
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">                                    
@@ -329,7 +338,7 @@
                                         </p:toolbarGroup>
                                         <p:toolbarGroup align="right">
                                             <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstSumFS}">
-                                                <p:dataExporter type="xls" target="dtfsgrouped" fileName="FFSSDetails" pageOnly="true" />
+                                                <p:dataExporter type="xls" target="tabgrouped.dtfsgrouped" fileName="FFSSDetails" pageOnly="true" />
                                             </p:commandButton>
                                         </p:toolbarGroup>
                                     </p:toolbar>

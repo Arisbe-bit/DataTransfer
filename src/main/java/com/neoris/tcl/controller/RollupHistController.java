@@ -213,7 +213,7 @@ public class RollupHistController {
 
 			// this.lstFSgrouped =
 			// serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
-			this.lstSumFS = serviceFSG.findByCompanyidAndHfmcode(companyid.intValue(), vhfmcode);
+			this.lstSumFS = serviceFSG.findByCompanyidAndHfmcode(companyid.toString(), vhfmcode);
 			// LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ?
 			// lstFSgrouped.size() : "is null");
 			LOG.info("return lstFSgrouped with items => {}", lstSumFS != null ? lstSumFS.size() : "is null");
@@ -339,7 +339,7 @@ public class RollupHistController {
 
 		LOG.info("Obtains curFSgroup = {}", curFSgroup);
 
-		int companyid = curFSgroup.getCompanyid();
+		int companyid = Integer.valueOf(curFSgroup.getCompanyid());
 		String vhfmcode = curFSgroup.getHfmcode();
 		String partnerid = curFSgroup.getPartnerid();
 		String costcenter = curFSgroup.getCostcenter();

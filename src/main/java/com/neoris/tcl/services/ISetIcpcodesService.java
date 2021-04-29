@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.neoris.tcl.models.SetIcpcodes;
-import com.neoris.tcl.models.SetIcpcodesPK;
+
 
 public interface ISetIcpcodesService {
 
-	Optional<SetIcpcodes> findById(SetIcpcodesPK id);
+	Optional<SetIcpcodes> findById(String id);
 
 	List<SetIcpcodes> findAll();
 
