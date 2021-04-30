@@ -185,8 +185,8 @@
                                 </i>
                             </p:column>
                             <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center"  style="background-color: #D3D3D3">
-                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 1003 ? 'fa fa-spinner':' '}"  />
-                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 93 ? 'fa fa-close':' '}"  />
+                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 1003 ? 'fa fa-spinner fa-2x':' '}"  />
+                                    <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 93 ? 'fa fa-close fa-3x':' '}"  />
                                     <h:outputText value="#{rollup.attribute5}"  styleClass="#{rollup.companyid eq 86 ? 'fa fa-check':' '}"  />    								
                             </p:column>
                             
@@ -229,7 +229,7 @@
                                 reflow="true" styleClass="hfmffss-table"
                                 rowKey="#{hfmffss.companyid}" paginator="true"
                                 rows="20" resizableColumns="true"
-                                tableStyle="width:auto" stickyHeader="true" stripedRows="true"
+                                tableStyle="width:auto" stickyHeader="true" 
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">
                                 
@@ -239,13 +239,16 @@
                                                 <h:outputText value="FFSS " style="font-weight: bold" />
                                             </div>
                                         </p:toolbarGroup>
-                                         <p:toolbarGroup>	
-                                          <p:commandButton value="Export" id="btnExport"  icon="fa fa-file-excel-o"  styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstHfmFfss}">
-                                                <p:dataExporter type="xls" target="rollupForm:tabViewRollUps:dt-hfm-tab-ffss" fileName="HFM_FFSS" pageOnly="true" />
-                                  </p:commandButton>
+                                         <p:toolbarGroup>	                                        
+			                                   <p:commandButton value="Export" id="btnExport"  icon="fa fa-file-excel-o"  styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rollupControllerBean.lstHfmFfss}">
+			                                                <p:dataExporter type="xls" target="rollupForm:tabViewRollUps:dt-hfm-tab-ffss" fileName="HFM_FFSS" pageOnly="true" />
+			                                   <f:setPropertyActionListener value="false" target="#{clsExportarComparendo.exportarCustom}" />  
+			                                  </p:commandButton>
+									
                                          </p:toolbarGroup>
                                     </p:toolbar>
                                 </f:facet>
+                                
                                 <p:column headerText="Classification" exportable="true"  sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
                                     <h:outputText value="#{hfmffss.classification}" >
                                     </h:outputText>
@@ -296,7 +299,7 @@
                                 widgetVar="matchaccount" var="matchacc"
                                 value="#{rollupControllerBean.lstMatchAcc}" reflow="true" 
                                 styleClass="matchacc-table" rowKey="#{matchacc.companyid}"
-                                paginator="true" rows="15" resizableColumns="true"    stripedRows="true"
+                                paginator="true" rows="15" resizableColumns="true"    
                                 resizeMode="expand" paginatorPosition="bottom" size="small"
                                 rowStyleClass="#{matchacc.hfmcode eq 8000000? 'colorrownm' : null}"
                                >
@@ -327,7 +330,7 @@
                                 widgetVar="dtgrouped" var="accgroup"
                                 value="#{rollupControllerBean.lstSumFS}" reflow="true"
                                  rowKey="#{accgroup.num}"
-                                paginator="true" rows="15" stickyHeader="true" stripedRows="true"
+                                paginator="true" rows="15" stickyHeader="true" 
                                 resizeMode="expand" paginatorPosition="bottom" size="small">
                                 <f:facet name="header">                                    
                                      <p:toolbar id="toolbar-fsgrouped">

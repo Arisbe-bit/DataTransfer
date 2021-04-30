@@ -34,7 +34,7 @@
 			<p:submenu label="RollUP" icon="fa fa-refresh ">
 				<p:menuitem value="RollUp Process" icon="fa fa-circle-o-notch fa-spin fa-lg fa-fw" action="#{menuController.rollup}" rendered="#{menuController.rollUpRole}"/>
 				<p:menuitem value="RollUP History" icon="fa fa-history" action="#{menuController.rolluphist}" rendered="#{menuController.rolluphistRole}"/>
-				<p:menuitem value="Accounting policies" icon="fa fa-check-circle-o" action="#{menuController.policies}" rendered="#{menuController.policiesRole}" /> 
+				<p:menuitem value="Manual Entries" icon="fa fa-check-circle-o" action="#{menuController.manualentries}" rendered="#{menuController.policiesRole}" /> 
 			</p:submenu>
 			
 			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.admin}" rendered="#{menuController.adminRole}"/>

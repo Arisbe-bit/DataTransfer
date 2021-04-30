@@ -40,6 +40,10 @@ public class ViewOrclAccountsController {
 		LOG.info("Initializing currentOrcl");
 		this.currentOrcl = new HfmOracleAcc(); 
 		
+		 LOG.info("Initializing lstOrclAccountsHFM...");
+	       // this.lstAcc = service.findAll();
+	        this.lstOrcl = service.findAll();
+		
 	}
 
 	public List<HfmOracleAcc> getLstOrcl() {

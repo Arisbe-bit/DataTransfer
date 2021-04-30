@@ -9,7 +9,7 @@ import com.neoris.tcl.models.ViewFFSSGrouped;
 
 
 
-public interface IViewRollupFFSSGconsDao extends JpaRepository<ViewFFSSGrouped, Long>{	
+public interface IViewRollupFFSSGconsDao extends JpaRepository<ViewFFSSGrouped, String>{	
 
 	 List<ViewFFSSGrouped> findByCompanyidAndHfmcode(String companyid,String hfmcode);
 	 List<ViewFFSSGrouped> findByCompanyid(Long companyid);

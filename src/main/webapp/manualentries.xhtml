@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+
+    <ui:define name="title">
+        <title>${hfmaccentriesControllerBean.title}</title>
+    </ui:define>
+
+    <ui:define name="header">
+        <h1>${hfmaccentriesControllerBean.title}</h1>
+        <h2><h:outputText value="Welcome, #{menuController.name}" /></h2>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+               <p:growl id="messages" showDetail="true" />
+				<div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+		               <div class="products-buttonbar">
+		                    <div>
+		                        <p:toolbar>
+		                            <p:toolbarGroup >
+		                                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmaccentriesControllerBean.openNew}" update=":form:manage-code-content" oncomplete="PF('#{hfmaccentriesControllerBean.dialogName}').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+		                                    <p:resetInput target=":form:manage-code-content" />
+		                                </p:commandButton>
+		                                <p:commandButton value="#{hfmaccentriesControllerBean.deleteButtonMessage}" id="#{hfmaccentriesControllerBean.deleteCodesButton}" icon="pi pi-trash" actionListener="#{hfmaccentriesControllerBean.deleteSelected}" styleClass="ui-button-danger" style="margin-left: 0.3em" disabled="#{!hfmaccentriesControllerBean.hasSelectedCodes()}" update="@this">
+		                                    <p:confirm header="Confirmation" message="Delete the selected codes?" icon="pi pi-exclamation-triangle" />
+		                                </p:commandButton>
+		                            </p:toolbarGroup>
+		                            <p:toolbarGroup align="center">
+		                           		 <p:outputLabel for="entity" value="Enter Company :  " />
+			                                <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.currentries.companyid}" filter="true" filterMatchMode="startsWith">
+			                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemcid" itemLabel="#{itemcid.segment1}" itemValue="#{itemcid.companyid}" />
+				                          	<p:ajax event="change" 
+													listener="#{hfmaccentriesControllerBean.companyidChange}"
+													process="@this"
+													update=":form:period"
+													/>	
+		                                </p:selectOneMenu>
+		                            </p:toolbarGroup>
+		                            <p:toolbar>
+		                            </p:toolbar>
+		                            		                            
+		                        </p:toolbar>
+		                    </div>
+		                </div>
+		                <p:dataTable id="#{hfmaccentriesControllerBean.dataTableName}" 
+		                widgetVar="dtCodes" var="currentid" 
+		                value="#{hfmaccentriesControllerBean.lstaccent}" 
+		                reflow="true" styleClass="products-table" 
+		                selection="#{hfmaccentriesControllerBean.lstSlctedentries}" 
+		                rowKey="#{currentid.itemid}" paginator="true" rows="5" 
+		                stickyHeader="true" stripedRows="true" rowSelectMode="add" size="small" paginatorPosition="bottom">
+		                    <f:facet name="header">
+		                        <span style="font-weight: bold">${hfmaccentriesControllerBean.title}</span>
+		                  
+		                    </f:facet>
+		                    <p:ajax event="rowSelect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButton}" />
+		                    <p:ajax event="rowUnselect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButton}" />
+		                    <p:ajax event="rowSelectCheckbox" update=":form:#{hfmaccentriesControllerBean.deleteCodesButton}" />
+		                    <p:ajax event="rowUnselectCheckbox" update=":form:#{hfmaccentriesControllerBean.deleteCodesButton}" />
+		                    <p:ajax event="toggleSelect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButton}" />
+		
+		                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+		                    </p:column>
+		
+							<p:column headerText="Item No." sortBy="#{currentid.itemid}" filterBy="#{currentid.itemid}">
+		                        <h:outputText value="#{currentid.itemid}" />
+		                    </p:column>
+		                    <p:column headerText="Period Name" sortBy="#{currentid.periodnm}" filterBy="#{currentid.periodnm}">
+		                        <h:outputText value="#{currentid.periodnm}" />
+		                    </p:column>
+		                  
+		                   
+		                    <p:column headerText="Actions" exportable="false" width="10%">
+		                        <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('#{hfmaccentriesControllerBean.dialogName}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
+		                            <f:setPropertyActionListener value="#{currentid}" target="#{hfmaccentriesControllerBean.manualentries}" />
+		                            <p:resetInput target=":form:manage-code-content" />
+		                        </p:commandButton>
+		
+		                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" oncomplete="PF('deleteCodeDialog').show()">
+		                            <f:setPropertyActionListener value="#{currentid}" target="#{hfmaccentriesControllerBean.manualentries}" />
+		                        </p:commandButton>
+		                                           							
+		                               <p:commandButton id="btngL"  icon="pi pi-cog"  value="Apply" action="#{rollupControllerBean.applyprocess}"  ajax="true"  styleClass="edit-button rounded-button ui-button-success"  update="@this">
+		                                   <f:setPropertyActionListener value="#{currentid}" target="#{hfmaccentriesControllerBean.manualentries}" />
+		                                	<p:confirm header="Confirmation" message="Start Application" icon="pi pi-exclamation-triangle" />
+		                                </p:commandButton>
+		                                 
+		                    </p:column>
+		
+		                </p:dataTable>
+		                
+		                 <!-- This form is for add new o modify a code -->
+                <p:dialog header="Entries Details" width="450" showEffect="fade" modal="true" widgetVar="#{hfmaccentriesControllerBean.dialogName}" responsive="true">
+                    <p:outputPanel id="manage-code-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentmanual}">
+                         <div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="period" value="Period" />
+								<p:selectOneMenu id="period" editable="true"
+									value="#{hfmaccentriesControllerBean.currentmanual.periodnm}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItems value="#{hfmaccentriesControllerBean.lstperiod}"
+										var="itemf" 
+										itemLabel="#{itemf.period}"
+										itemValue="#{itemf.period}" />										
+								</p:selectOneMenu>
+							</div>	
+                           
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('#{hfmaccentriesControllerBean.dialogName}').hide()" class="ui-button-secondary" />
+                    </f:facet>
+                </p:dialog>
+
+		                <p:confirmDialog widgetVar="deleteCodeDialogDet" showEffect="fade" width="300" message="Delete the Code?" header="Confirm" severity="warn">
+		                    <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.delete}" process="@this" oncomplete="PF('deleteCodeDialog').hide()" />
+		                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCodeDialog').hide()" />
+		                </p:confirmDialog>
+		
+		                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+		                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+		                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+		                </p:confirmDialog>
+		            </div>    
+				 <p:divider layout="vertical" />
+        		<div class="p-col-5 p-d-flex p-ai-center p-jc-center">
+		               <div class="products-buttonbar">
+		                    <div>
+		                        <p:toolbar>
+		                            <p:toolbarGroup >
+		                                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmaccentriesControllerBean.openNewDet}" update=":form:manage-code-contentDet" oncomplete="PF('#{hfmaccentriesControllerBean.dialogNameDet}').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+		                                    <p:resetInput target=":form:manage-code-contentDet" />
+		                                </p:commandButton>
+		                                <p:commandButton value="#{hfmaccentriesControllerBean.deleteButtonMessageDet}" id="#{hfmaccentriesControllerBean.deleteCodesButtonDet}" icon="pi pi-trash" actionListener="#{hfmaccentriesControllerBean.deleteSelectedDet}" styleClass="ui-button-danger" style="margin-left: 0.3em" disabled="#{!hfmaccentriesControllerBean.hasSelectedCodesDet()}" update="@this">
+		                                    <p:confirm header="Confirmation" message="Delete the selected items" icon="pi pi-exclamation-triangle" />
+		                                </p:commandButton>
+		                            </p:toolbarGroup>
+		                           
+		                            <p:toolbarGroup align="right">
+		                                <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+		                                    <p:dataExporter type="xls" target="#{hfmaccentriesControllerBean.dataTableNameDet}" fileName="${hfmaccentriesControllerBean.titleDet}" />
+		                                </p:commandButton>
+		                            </p:toolbarGroup>
+		                            
+		                        </p:toolbar>
+		                    </div>
+		                </div>
+		                <p:dataTable id="#{hfmaccentriesControllerBean.dataTableNameDet}" 
+		                widgetVar="dtCodesDet" var="currentidDet" 
+		                value="#{hfmaccentriesControllerBean.lstaccentdet}" 
+		                reflow="true" styleClass="products-table" 
+		                selection="#{hfmaccentriesControllerBean.lstSlctedentdet}" 
+		                rowKey="#{currentidDet.itemid}" paginator="true" rows="15" 
+		                stickyHeader="true" stripedRows="true" rowSelectMode="add" size="small" paginatorPosition="bottom">
+		                    <f:facet name="header">
+		                        <span style="font-weight: bold">${hfmaccentriesControllerBean.titleDet}</span>
+		                  
+		                    </f:facet>
+		                    <p:ajax event="rowSelect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButtonDet}" />
+		                    <p:ajax event="rowUnselect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButtonDet}" />
+		                    <p:ajax event="rowSelectCheckbox" update=":form:#{hfmaccentriesControllerBean.deleteCodesButtonDet}" />
+		                    <p:ajax event="rowUnselectCheckbox" update=":form:#{hfmaccentriesControllerBean.deleteCodesButtonDet}" />
+		                    <p:ajax event="toggleSelect" update=":form:#{hfmaccentriesControllerBean.deleteCodesButtonDet}" />
+		
+		                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+		                    </p:column>
+		
+							<p:column headerText="No." sortBy="#{currentidDet.movid}" filterBy="#{currentidDet.movid}">
+		                        <h:outputText value="#{currentidDet.movid}" />
+		                    </p:column>
+		                    <p:column headerText="HfmCode" sortBy="#{currentidDet.hfmcode}" filterBy="#{currentidDet.hfmcode}">
+		                        <h:outputText value="#{currentidDet.hfmcode}" />
+		                    </p:column>
+		                  
+		                    <p:column headerText="Debits" sortBy="#{currentidDet.debits}" filterBy="#{currentidDet.debits}">
+		                        <h:outputText value="#{currentidDet.debits}" />
+		                    </p:column>
+		                     <p:column headerText="Credits" sortBy="#{currentidDet.credits}" filterBy="#{currentidDet.credits}">
+		                        <h:outputText value="#{currentidDet.credits}">
+		                          <f:convertNumber pattern="###,###,###,###.##"/> 
+		                        </h:outputText>
+		                    </p:column>
+		                    <p:column headerText="ICP Code" sortBy="#{currentidDet.icpcode}" filterBy="#{currentidDet.icpcode}">
+		                        <h:outputText value="#{currentidDet.icpcode}" >
+		                          <f:convertNumber pattern="###,###,###,###.##"/> 
+		                        </h:outputText>
+		                    </p:column>
+		                    <p:column headerText="Actions" exportable="false" width="10%">
+		                        <p:commandButton icon="pi pi-pencil" update=":form:manage-code-contentDet" oncomplete="PF('#{hfmaccentriesControllerBean.dialogNameDet}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
+		                            <f:setPropertyActionListener value="#{currentidDet}" target="#{hfmaccentriesControllerBean.currentdet}" />
+		                            <p:resetInput target=":form:manage-code-contentDet" />
+		                        </p:commandButton>
+		
+		                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" oncomplete="PF('deleteCodeDialogDet').show()">
+		                            <f:setPropertyActionListener value="#{currentidDet}" target="#{hfmaccentriesControllerBean.currentdet}" />
+		                        </p:commandButton>
+		                                           							
+		                              
+		                                 
+		                    </p:column>
+		
+		                </p:dataTable>
+		            </div>  
+        		
+                <!-- This form is for add new o modify a code -->
+                <p:dialog header="Movements Details" width="450" showEffect="fade" modal="true" widgetVar="#{hfmaccentriesControllerBean.dialogNameDet}" responsive="true">
+                    <p:outputPanel id="manage-code-contentDet" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentdet}">
+                         <div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="hfmco" value="Hmfcode" />
+								<p:selectOneMenu id="hfmco"
+									value="#{hfmaccentriesControllerBean.currentdet.hfmcode}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
+										var="itemp" 
+										itemLabel="#{itemp.hfmcode}"
+										itemValue="#{itemp.hfmcode}" />										
+								</p:selectOneMenu>
+							</div>	
+                           <div class="p-field">
+								<p:outputLabel for="debits">Debits</p:outputLabel>
+								<p:inputText id="debits" value="#{hfmaccentriesControllerBean.currentdet.debits}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="credits">Credits</p:outputLabel>
+								<p:inputText id="credits" value="#{hfmaccentriesControllerBean.currentdet.credits}" required="true" />
+							</div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.saveDet}" update=":form:manage-code-contentDet" process=":form:manage-code-contentDet @this" />
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('#{hfmaccentriesControllerBean.dialogNameDet}').hide()" class="ui-button-secondary" />
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteCodeDialogDet" showEffect="fade" width="300" message="Delete the Row" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.deleteDet}" process="@this" oncomplete="PF('deleteCodeDialogDet').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCodeDialogDet').hide()" />
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+                
+               
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

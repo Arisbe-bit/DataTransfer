@@ -144,8 +144,8 @@ public class MenuController {
 		return String.format(REDIRECT, "/definedaccounts");
 	}
 
-	public String policies() {
-		return String.format(REDIRECT, "/policies");
+	public String manualentries() {
+		return String.format(REDIRECT, "/manualentries");
 	}
 
 	public String logout() {

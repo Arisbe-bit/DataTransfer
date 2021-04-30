@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.neoris.tcl.models.HfmAccEntries;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssPK;
 
@@ -20,5 +21,9 @@ public interface IHfmFfssDao extends JpaRepository<HfmFfss, HfmFfssPK> {
      * @return
      */
     public List<HfmFfss> findByCompanyId(Long companyId);
+    
+    
 
+
+	    
 }
