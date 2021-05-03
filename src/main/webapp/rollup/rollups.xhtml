@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/rollup.xhtml">
+        <ui:define name="rollupContent">
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="@this">
+                        <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt-rollup" widgetVar="dtRollUps"            	
+            	value="#{rollupControllerBean.lstRollUps}"
+            	selection="#{rollupControllerBean.lstSelectedRollups}"
+            	var="rollup"
+            	styleClass="ui-datatable-tablewrapper"            	
+            	rowKey="#{rollup.companyid}"
+            	paginator="true" rows="15" resizableColumns="true"
+            	resizeMode="expand" tableStyle="width:auto"
+            	rowStyleClass=""
+            	rowSelectMode="new" paginatorPosition="bottom" reflow="true">
+                <f:facet name="header">
+                    <div class="rollups-table-header rollup-text-align-center">
+                        <span>
+                            <h:outputText value="ROLLUP" />
+                        </span>
+                    </div>
+                </f:facet>
+
+                <p:ajax event="rowSelect" update=":rollupForm:start-rollup-process-button" />
+                <p:ajax event="rowUnselect" update=":rollupForm:start-rollup-process-button" />
+                <p:ajax event="rowSelectCheckbox" update=":rollupForm:start-rollup-process-button" />
+                <p:ajax event="rowUnselectCheckbox" update=":rollupForm:start-rollup-process-button" />
+                <p:ajax event="toggleSelect" update=":rollupForm:start-rollup-process-button" />
+
+                <p:column selectionMode="multiple" exportable="false" width="5%"></p:column>
+                <p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
+                    <h:outputText value="#{rollup.entity}" />
+                </p:column>
+                <p:column headerText="Application" styleClass="rollup-text-align-left">
+                    <h:outputText value="#{rollup.rapplication}" />
+                </p:column>
+                <p:column headerText="Scenario" styleClass="rollup-text-align-left">
+                    <h:outputText value="#{rollup.scenario}" />
+                </p:column>
+                <p:column headerText="Year" sortBy="#{rollup.ryear}" filterBy="#{rollup.ryear}">
+                    <h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
+                        <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
+                    </h:inputText>
+                </p:column>
+                <p:column headerText="Period" sortBy="#{rollup.rperiod}" filterBy="#{rollup.rperiod}">
+                    <h:selectOneMenu id="month" value="#{rollup.rperiod}">
+                        <f:selectItem itemLabel="JAN" itemValue="01" />
+                        <f:selectItem itemLabel="FEB" itemValue="02" />
+                        <f:selectItem itemLabel="MAR" itemValue="03" />
+                        <f:selectItem itemLabel="APR" itemValue="04" />
+                        <f:selectItem itemLabel="MAY" itemValue="05" />
+                        <f:selectItem itemLabel="JUN" itemValue="06" />
+                        <f:selectItem itemLabel="JUL" itemValue="07" />
+                        <f:selectItem itemLabel="AUG" itemValue="08" />
+                        <f:selectItem itemLabel="SEP" itemValue="09" />
+                        <f:selectItem itemLabel="OCT" itemValue="10" />
+                        <f:selectItem itemLabel="NOV" itemValue="11" />
+                        <f:selectItem itemLabel="DEC" itemValue="12" />
+                        <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
+                    </h:selectOneMenu>
+                </p:column>
+                <p:column headerText="view">
+                    <h:outputText value="#{rollup.rview}" />
+                </p:column>
+                <p:column headerText="value">
+                    <h:outputText value="#{rollup.rvalue}" />
+                </p:column>
+                <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-bal-va">
+                    <i class="#{rollup.trialBalanceIcon}" id="i-ba-va-#{rollup.companyid}">
+                        <h:outputText value="#{rollup.attribute1}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
+                <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-tra-pa-va">
+                    <i class="#{rollup.balanceValidationIcon}" id="i-tra-pa-va-#{rollup.companyid}">
+                        <h:outputText value="#{rollup.attribute4}" class="#{empty rollup.balanceValidationIcon ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
+                <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-cos-ce-va">
+                	<i class="#{rollup.costCenterValidationIcon}" id="i-cos-ce-va-#{rollup.companyid}">
+                    	<h:outputText value="#{rollup.attribute5}" class="#{empty rollup.costCenterValidationIcon ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
+                <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center rollup-process-status" id="col-acc-bal-va">
+                    <i class="#{rollup.validationsIcon}" id="i-acc-bal-va-#{rollup.companyid}">
+                        <h:outputText value="#{rollup.validations}" class="#{empty rollup.validationsIcon ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
+                <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status" id="col-finish-process">
+                    <i class="#{rollup.finishedProcessIcon}" id="i-finish-process-#{rollup.companyid}">
+                        <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.finishedProcessIcon ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
+                <p:column headerText="View FFSS" exportable="false">
+                    <p:commandButton id="btnView" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail" action="#{rollupControllerBean.submitToFFSS}" ajax="false">
+                        <f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column headerText="Generate HFM Layout" exportable="false">
+                    <p:commandButton id="btngL" icon="pi pi-cog" value="Layout" actionListener="#{rollupControllerBean.layoutprocess}" ajax="true" styleClass="edit-button rounded-button ui-button-success" update="@this btnViewL" process="@this">
+                        <f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
+                        <p:confirm header="Confirmation" message="Start Processing Layout" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:column headerText="View HFM Layout" exportable="false">
+                    <p:commandButton id="btnViewL" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view HFM Layout" action="#{rollupControllerBean.submitToLayouts}" ajax="false">
+                        <f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+            <p:poll interval="10"
+            	listener="#{rollupControllerBean.poll}"
+            	update=":rollupForm:dt-rollup:col-bal-va :rollupForm:dt-rollup:col-tra-pa-va :rollupForm:dt-rollup:col-cos-ce-va :rollupForm:dt-rollup:col-acc-bal-va :rollupForm:dt-rollup:col-finish-process" />
+        </ui:define>
+    </ui:composition>
+
+</html>

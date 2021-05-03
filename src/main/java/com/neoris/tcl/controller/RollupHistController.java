@@ -1,17 +1,13 @@
 package com.neoris.tcl.controller;
 
-
 import java.time.Year;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.TabChangeEvent;
-import org.primefaces.event.TabCloseEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +26,6 @@ import com.neoris.tcl.services.IHfmFfssHistService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.IViewRollupFFSSGconsHistService;
 import com.neoris.tcl.services.IViewRollupMatchFFSSHistService;
-import com.neoris.tcl.utils.ProcessRollUps;
 import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "rolluphistControllerBean")
@@ -39,7 +34,6 @@ public class RollupHistController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(RollupHistController.class);
 
-	
 	private List<HfmRollupEntries> lstRollUps;
 	private List<HfmRollupEntries> lstSelectedRollups;
 	private HfmRollupEntries curRollUp;
@@ -108,11 +102,6 @@ public class RollupHistController {
 		return this.lstSelectedRollups != null && !this.lstSelectedRollups.isEmpty();
 	}
 
-	public String getImageCemex() {
-		return "/resources/img/loading.gif";
-	}
-
-	
 	/**
 	 * 
 	 * @param event
@@ -144,20 +133,17 @@ public class RollupHistController {
 		LOG.info("Obtain curRollUp = {}", curRollUp);
 		this.curRollUp = curRollUp;
 		Long companyId = curRollUp.getCompanyid();
-		String perdionm = curRollUp.getRperiod()+"-"+curRollUp.getRyear().substring(2);
-		
+		String perdionm = curRollUp.getRperiod() + "-" + curRollUp.getRyear().substring(2);
 
 		try {
-			LOG.info("Query HFM_FFSS with company = {}, period = {}", companyId,perdionm);
+			LOG.info("Query HFM_FFSS with company = {}, period = {}", companyId, perdionm);
 			this.lstHfmFfss = hfmFfSsService.findByCompanyIdAndPeriodid(companyId, perdionm);
 
 			LOG.info("return lstHfmFfss with items => {}", lstHfmFfss != null ? lstHfmFfss.size() : "is null");
 
-			
+			LOG.info("Query MATCH ACCOUNT Hist LIST with company = {}, period = {}", companyId, perdionm);
 
-			LOG.info("Query MATCH ACCOUNT Hist LIST with company = {}, period = {}", companyId,perdionm);
-
-			this.lstMatchAcc = matchaccService.findByCompanyidAndPeriodid(companyId,perdionm);
+			this.lstMatchAcc = matchaccService.findByCompanyidAndPeriodid(companyId, perdionm);
 			LOG.info("return lstMatchAcc with items => {}", lstMatchAcc != null ? lstMatchAcc.size() : "is null");
 
 			if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
@@ -209,7 +195,7 @@ public class RollupHistController {
 
 		try {
 
-			LOG.info("Query SUM FFSS  LIST with company = {}, vhfmcode {}", companyid,vhfmcode);
+			LOG.info("Query SUM FFSS  LIST with company = {}, vhfmcode {}", companyid, vhfmcode);
 
 			// this.lstFSgrouped =
 			// serviceFSG.findByCompanyidAndhfmparentAndhfmcode(companyId.intValue(),vhfmcode,vhfmcode);
@@ -243,27 +229,6 @@ public class RollupHistController {
 	 */
 	public void curHfmffssClic(AjaxBehaviorEvent event) {
 		LOG.info("curHfmffssClic with event = {}", event.getComponent());
-	}
-
-	
-	/**
-	 * 
-	 * @param event
-	 */
-	public void onTabChange(TabChangeEvent<?> event) {
-		String message = String.format("Active Tab ID:[%s], Title:[%s], Client ID:[%s]", event.getTab().getId(),
-				event.getTab().getTitle(), event.getTab().getClientId());
-		LOG.info(message);
-	}
-
-	/**
-	 * 
-	 * @param event
-	 */
-	public void onTabClose(TabCloseEvent<?> event) {
-		String message = String.format("Closed tab: %s, client ID = %s", event.getTab().getTitle(),
-				event.getTab().getClientId());
-		LOG.info(message);
 	}
 
 	/**
@@ -318,8 +283,6 @@ public class RollupHistController {
 		this.curMacthAcc = curMacthAcc;
 	}
 
-	
-
 	public List<ViewFFSSGroupedHist> getLstSumFS() {
 		return lstSumFS;
 	}
@@ -331,8 +294,6 @@ public class RollupHistController {
 	public ViewFFSSGroupedHist getCurFSgroup() {
 		return curFSgroup;
 	}
-
-	
 
 	public void setCurFSgroup(ViewFFSSGroupedHist curFSgroup) {
 		this.curFSgroup = curFSgroup;
@@ -348,12 +309,13 @@ public class RollupHistController {
 
 		try {
 
-			LOG.info("Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}, periodnnm {}", companyid,vhfmcode,partnerid,
-					costcenter,accountid,periodnm);
+			LOG.info(
+					"Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}, periodnnm {}",
+					companyid, vhfmcode, partnerid, costcenter, accountid, periodnm);
 
 			this.lstHfmFfssDetails = hfmFfssDetailsService
-					.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(companyid, vhfmcode,
-							costcenter, accountid, partnerid,periodnm);
+					.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(companyid,
+							vhfmcode, costcenter, accountid, partnerid, periodnm);
 
 			LOG.info("return lstHfmFfssDetails with items => {}",
 					lstHfmFfssDetails != null ? lstHfmFfssDetails.size() : "is null");
@@ -397,14 +359,14 @@ public class RollupHistController {
 	 * @param process
 	 * @return
 	 */
-	private ProcessRollUps getProcessRollUpsInstance(HfmRollupEntries rollUp, String process, int numDrill,
-			boolean processValidations, boolean matchAccounts) {
-		ProcessRollUps rollup = new ProcessRollUps(rollUp, this.service, process, numDrill, processValidations,
-				matchAccounts);
-		rollup.setFacesContext(FacesContext.getCurrentInstance());
-		rollup.setPrimefaces(PrimeFaces.current());
-		return rollup;
-	}
+//	private ProcessRollUps getProcessRollUpsInstance(HfmRollupEntries rollUp, String process, int numDrill,
+//			boolean processValidations, boolean matchAccounts) {
+//		ProcessRollUps rollup = new ProcessRollUps(rollUp, this.service, process, numDrill, processValidations,
+//				matchAccounts, Functions.getUser() );
+//		rollup.setFacesContext(FacesContext.getCurrentInstance());
+//		rollup.setPrimefaces(PrimeFaces.current());
+//		return rollup;
+//	}
 
 	/**
 	 * 
@@ -413,12 +375,12 @@ public class RollupHistController {
 	 * @param numDrill
 	 * @return
 	 */
-	private Thread createRollUpTread(ProcessRollUps rollup) {
-		LOG.info("create thread for ProcessRollUps => {}", rollup);
-		Thread thead = new Thread(rollup);
-		thead.setName(rollup.getProcessId());
-		LOG.info("Return with thead => {}", thead);
-		return thead;
-	}
+//	private Thread createRollUpTread(ProcessRollUps rollup) {
+//		LOG.info("create thread for ProcessRollUps => {}", rollup);
+//		Thread thead = new Thread(rollup);
+//		thead.setName(rollup.getProcessId());
+//		LOG.info("Return with thead => {}", thead);
+//		return thead;
+//	}
 
 }

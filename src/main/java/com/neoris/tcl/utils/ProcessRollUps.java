@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 
 
@@ -28,14 +29,16 @@ public class ProcessRollUps implements Runnable {
 	private String processId;
 	private FacesContext facesContext;
 	private PrimeFaces primefaces;
+	private User user;
 
-	public ProcessRollUps(HfmRollupEntries rollUp, IHfmRollupEntriesService service, String process, int numDrill, boolean processValidations, boolean matchAccounts) {
+	public ProcessRollUps(HfmRollupEntries rollUp, IHfmRollupEntriesService service, String process, int numDrill, boolean processValidations, boolean matchAccounts, User user) {
 		this.rollUp = rollUp;
 		this.service = service;
 		this.process = process;
 		this.numDrill = numDrill;
 		this.processValidations = processValidations;
 		this.matchAccounts = matchAccounts;
+		this.setUser(user);
 	}
 
 	public ProcessRollUps() {
@@ -62,7 +65,7 @@ public class ProcessRollUps implements Runnable {
 		String mensaje = String.format("Processing Match Account for company:%s, period: %s, year: %s", rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
 		addMessage("Match Accounts", mensaje);
-		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), "admin");
+		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 	}
 
 	private void processRollUps() {
@@ -84,7 +87,7 @@ public class ProcessRollUps implements Runnable {
 		String mensaje = String.format("Processing Validations for company:%s, period: %s, year: %s", rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
 		addMessage("Validations", mensaje);
-		service.rollUpValidations(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment1(), "admin");
+		service.rollUpValidations(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment1(), user.getUsername());
 	}
 
 	/**
@@ -97,31 +100,31 @@ public class ProcessRollUps implements Runnable {
 		addMessage(String.format("Drilss[%s]", num), mensaje);		
 		switch (num) {
 		case 1:
-			service.costManager1Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager1Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 2:
-			service.costManager2Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager2Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 3:
-			service.costManager3Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager3Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 4:
-			service.costManager4Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager4Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 5:
-			service.costManager5Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager5Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 6:
-			service.costManager6Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager6Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 7:
-			service.costManager7Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager7Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 8:
-			service.costManager8Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager8Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		case 9:
-			service.costManager9Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), "admin");
+			service.costManager9Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
 			break;
 		default:
 			LOG.warn("The Drill Number: {} doesn´t exists!!!", num);
@@ -210,14 +213,21 @@ public class ProcessRollUps implements Runnable {
 	private void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         this.facesContext.addMessage(null, message);
-    }
-    
+    }    
 
 	@Override
 	public String toString() {
 		return String.format(
 				"ProcessRollUps [rollUp=%s, service=%s, process=%s, numDrill=%s, processValidations=%s, matchAccounts=%s, processId=%s]",
 				rollUp, service, process, numDrill, processValidations, matchAccounts, processId);
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
