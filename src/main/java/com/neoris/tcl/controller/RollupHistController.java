@@ -388,9 +388,9 @@ public class RollupHistController {
 				String mensaje = String.format("No Match account records found for companyId=%s", companyid);
 				LOG.info(mensaje);
 				// Functions.addWarnMessage("Attention", mensaje);
-			} else {
+			} /*else {
 				LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
-			}
+			}*/
 
 			
 		} catch (Exception e) {
@@ -453,12 +453,12 @@ public class RollupHistController {
 	public String submitToLayouts() {
 		LOG.info("Redirecting to {}....", LAYOUT);
 		Long companyId = curRollUp.getCompanyid();
-		String periodnm = curRollUp.getRperiod() + "-" + curRollUp.getRyear().substring(2);
+		String periodnm = curRollUp.getRperiod() +  curRollUp.getRyear().substring(2);
 
 		
-		LOG.info("Query lstlayoutHist LIST with company = {}", companyId);
+		LOG.info("Query lstlayoutHist LIST with company = {}, periodnm = {}", companyId,periodnm);
 
-		this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
+		this.lstlayout = serviceLay.findByIdCompanyidAndPeriodid(companyId.intValue(), periodnm);
 		LOG.info("return lstlayouthist with items => {}", lstlayout != null ? lstlayout.size() : "is null");
 
 		if (this.lstlayout == null || this.lstlayout.isEmpty()) {
@@ -472,4 +472,5 @@ public class RollupHistController {
 		return LAYOUT;
 	}
 
+	
 }

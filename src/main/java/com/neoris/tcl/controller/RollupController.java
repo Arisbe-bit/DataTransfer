@@ -836,6 +836,7 @@ public class RollupController {
 				LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
 			}
 
+			/*
 			LOG.info("Query lstlayout LIST with company = {}", companyId);
 
 			this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
@@ -847,7 +848,7 @@ public class RollupController {
 				// Functions.addWarnMessage("Attention", mensaje);
 			} else { 
 				LOG.info("Records for lstlayout = {}", lstlayout);
-			}
+			}*/
 		} catch (Exception e) {
 			LOG.error("ERROR in setCurRollUp -> {}", e.getMessage());
 		} 
@@ -909,7 +910,21 @@ public class RollupController {
 		//layoutprocess();
 		LOG.info("Redirecting to {}....", LAYOUT);
 		  LOG.info("Initializing lstLayout...");
-	        this.lstlayout = serviceLay.findAll();
+	       // this.lstlayout = serviceLay.findAll();
+		  int companyid = curRollUp.getCompanyid().intValue();
+		  
+	        LOG.info("Query lstlayout LIST with company = {}", companyid);
+
+			this.lstlayout = serviceLay.findByIdCompanyid(companyid);
+			LOG.info("return lstlayout with items => {}", lstlayout != null ? lstlayout.size() : "is null");
+
+			if (this.lstlayout == null || this.lstlayout.isEmpty()) {
+				String mensaje = String.format("No records found for companyId: %s", companyid);
+				LOG.info(mensaje);
+				// Functions.addWarnMessage("Attention", mensaje);
+			} else { 
+				LOG.info("Records for lstlayout = {}", lstlayout);
+			}
 	        
 		return LAYOUT;
 	}

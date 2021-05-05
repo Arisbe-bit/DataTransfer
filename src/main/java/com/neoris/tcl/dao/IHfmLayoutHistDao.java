@@ -12,6 +12,7 @@ import com.neoris.tcl.models.HfmLayoutHistPK;
 public interface IHfmLayoutHistDao extends CrudRepository<HfmLayoutHist, HfmLayoutHistPK> {
 	
 	public List<HfmLayoutHist> findByIdCompanyid(int companyid);
+	public List<HfmLayoutHist> findByIdCompanyidAndPeriodid(int companyid, String periodid);
 	  
 
 }

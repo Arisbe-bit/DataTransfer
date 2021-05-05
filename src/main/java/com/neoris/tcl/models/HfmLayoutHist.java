@@ -31,19 +31,27 @@ public class HfmLayoutHist implements Serializable  {
 	private String userid;
 
 	private Timestamp updated;
+	
+	private String periodid;
 
 	public HfmLayoutHist() {
 	    this.setId(new HfmLayoutHistPK());
 	}
 
-	public HfmLayoutHist(HfmLayoutHistPK id,  String data, String entity, Timestamp updated, String userid) {
-		this.id = id;
 	
+
+	public HfmLayoutHist(HfmLayoutHistPK id, String data, String entity, String userid, Timestamp updated,
+			String periodid) {
+		
+		this.id = id;
 		this.data = data;
 		this.entity = entity;
-		this.updated = updated;
 		this.userid = userid;
+		this.updated = updated;
+		this.periodid = periodid;
 	}
+
+
 
 	public HfmLayoutHistPK getId() {
 		return this.id;
@@ -86,12 +94,27 @@ public class HfmLayoutHist implements Serializable  {
 		this.userid = userid;
 	}
 
+
+
+	public String getPeriodid() {
+		return periodid;
+	}
+
+
+
+	public void setPeriodid(String periodid) {
+		this.periodid = periodid;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "HfmLayoutHist [id=" + id + ", data=" + data + ", entity=" + entity + ", userid=" + userid + ", updated="
-				+ updated + "]";
+				+ updated + ", periodid=" + periodid + "]";
 	}
 
+	
 	
 
 	
