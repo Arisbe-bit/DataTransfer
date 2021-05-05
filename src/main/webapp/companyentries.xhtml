@@ -135,6 +135,7 @@
 									value="#{rollupentriesControllerBean.currEntries.entity}"  maxlength="20"
 									required="true" />
 							</div>
+							
 							<div class="p-field">
 								<p:outputLabel for="rapplic">Application (maxlength 20)</p:outputLabel>
 								<p:inputText id="rapplic"
@@ -159,13 +160,14 @@
 									value="#{rollupentriesControllerBean.currEntries.rvalue}" maxlength="20"
 									required="true" />
 							</div>
-
 							<div class="p-field">
-								<p:outputLabel for="companyId">Oracle Company</p:outputLabel>
-								<p:inputText id="companyId"
-									value="#{rollupentriesControllerBean.currEntries.companyid}"
-									required="true" />
-							</div>
+                                <p:outputLabel for="companyid" value="Company" />
+                                <p:selectOneMenu id="companyid" value="rollupentriesControllerBean.currEntries}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="vieworclcompControllerBean.lstcomp}" 
+                                    var="itemp" itemLabel="#{itemp.companycode}" itemValue="#{itemp.companyid}" />
+                                </p:selectOneMenu>
+                            </div>
+							
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">

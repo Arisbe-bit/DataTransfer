@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.ViewOrclCompany;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
+import com.neoris.tcl.services.IViewOrclCompanyService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -31,11 +33,27 @@ public class HfmRollupEntriesController {
     private List<HfmRollupEntries> lstSelectedEnt;
     private HfmRollupEntries currEntries;
     private boolean newCode;
+    
+    //companies
+    private List<ViewOrclCompany> lstcomp;
+    private IViewOrclCompanyService servcomp;
 
     @PostConstruct
     public void init() {
         LOG.info("Initializing Rollup Entries...");
         this.lstEntries = service.findAll();
+        
+        /*
+		try{
+			LOG.info("Initializing lstcomp...");
+		
+			  this.lstcomp = servcomp.findAll();
+
+			LOG.info(" lstcomp "+this.lstcomp.size());
+		}catch (Exception e) {
+			LOG.error("init lstcomp ERRor -> {}", e.getMessage());
+		}
+      */
     }
 
     public void openNew() {
@@ -150,4 +168,14 @@ public class HfmRollupEntriesController {
         this.currEntries = currEntries;
     }
 
+	public List<ViewOrclCompany> getLstcomp() {
+		return lstcomp;
+	}
+
+	public void setLstcomp(List<ViewOrclCompany> lstcomp) {
+		this.lstcomp = lstcomp;
+	}
+
+    
+    
 }

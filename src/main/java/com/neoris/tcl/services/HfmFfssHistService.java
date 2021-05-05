@@ -51,9 +51,10 @@ public class HfmFfssHistService implements IHfmFfssHistService{
 		}
 
 	    @Override
-	    public List<HfmFfSsHist> findByCompanyIdAndPeriodid(Long companyId, String period) {
-	        LOG.info("Getting HfmFfss list with companyId,period ={} ", companyId, period);
-	        return data.findByCompanyIdAndPeriodid(companyId,period);
+	    public List<HfmFfSsHist> findByCompanyidAndPeriodid(Long companyid, String period) {
+	        LOG.info("Getting HfmFfsshist list with companyid{}", companyid);
+	        LOG.info("Getting HfmFfsshist list with period ={} ",  period);
+	        return data.findByCompanyidAndPeriodid(companyid,period);
 	    }
 
 }

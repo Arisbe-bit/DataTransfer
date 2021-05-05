@@ -7,11 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Subselect;
+
 
 
 @Entity
-@Subselect("select num,companyid,hfmcode,periodname,costcenter,accountid,icp,partnerid,tpname,omit,hfmparent,amount from ROLLUP_VIEW_FFSS_GROUPEDHIST" )
+@Table(name ="HFM_FFSS_GROUPEDHIST")
 public class ViewFFSSGroupedHist implements Serializable{
 	
 private static final long serialVersionUID = 5676214260556508605L;

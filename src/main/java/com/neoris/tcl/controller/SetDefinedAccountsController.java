@@ -19,6 +19,7 @@ import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetDefinedAccounts;
 import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.models.ViewCostCenter;
+import com.neoris.tcl.models.ViewPartnersICP;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmOracleAccService;
 import com.neoris.tcl.services.ISetDefinedAccountsService;
@@ -35,13 +36,8 @@ public class SetDefinedAccountsController {
 
 	@Autowired
 	private ISetDefinedAccountsService service;
-	@Autowired
-	private ISetIcpcodesService serviceTPT;
-	@Autowired
 	private IHfmOracleAccService serviceOAS;
-	@Autowired
 	private IViewCostCenterService serviceC;
-	
 	private List<SetDefinedAccounts> lsttpAccs;
 	private List<SetDefinedAccounts> lstSelectdAccs;
 	private SetDefinedAccounts curtpAccs; // actual iterator
@@ -49,10 +45,13 @@ public class SetDefinedAccountsController {
 	//Company
   	private List<HfmRollupEntries> lstcompany;
 
-	private List<SetIcpcodes> lsttpType;	
 	private List<HfmOracleAcc> lstOrcl;	
 	private List<ViewCostCenter> lstCC;
 	private Authentication authentication;
+	
+	//oracle accounts
+	
+	
 	private User user;
 
 	@PostConstruct
@@ -60,15 +59,7 @@ public class SetDefinedAccountsController {
 		LOG.info("Initializing lstAccounting Accounts...");
 		this.lsttpAccs = service.findAll();
 		
-	try {
-		LOG.info("Initializing ICP Codes...");
-		this.lsttpType = serviceTPT.findAll();
-		LOG.info(" lsttpType "+this.lsttpType.size());
-		
-	}catch (Exception e) {
-		LOG.error("init ICPs ERRor -> {}", e.getMessage());
-	}
-		
+	
 		try{
 			LOG.info("Initializing Cost Centers...");
 		
@@ -200,14 +191,7 @@ public class SetDefinedAccountsController {
 		
 	}
 
-	public List<SetIcpcodes> getLsttpType() {
-		return lsttpType;
-	}
-
-	public void setLsttpType(List<SetIcpcodes> lsttpType) {
-		this.lsttpType = lsttpType;
-	}
-
+	
 	public List<HfmOracleAcc> getLstOrcl() {
 		return lstOrcl;
 	}

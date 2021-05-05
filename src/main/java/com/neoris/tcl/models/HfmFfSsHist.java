@@ -21,8 +21,8 @@ public class HfmFfSsHist implements Serializable {
 	private Long num;
 	// private HfmFfssPK id;
 
-	@Column(name = "COMPANYID")
-	private Long companyId;
+	@Column(name = "companyid")
+	private Long companyid;
 
 	@Column(name = "CURRENCY_CODE", columnDefinition = "VARCHAR(3) default 'USD'")
 	private String currencyCode;
@@ -50,6 +50,7 @@ public class HfmFfSsHist implements Serializable {
 
 	private String description;
 
+	
 	private String periodid;
 
 	public HfmFfSsHist() {
@@ -57,12 +58,12 @@ public class HfmFfSsHist implements Serializable {
 		this.balance = new BigDecimal(0);
 	}
 
-	public HfmFfSsHist(Long num, Long companyId, String currencyCode, String hfmcode, String period, BigDecimal balance,
+	public HfmFfSsHist(Long num, Long companyid, String currencyCode, String hfmcode, String period, BigDecimal balance,
 			String hfmcodeOld, Timestamp updated, String userid, String classification, String naturalb,
 			String errortext, String description, String periodid) {
 
 		this.num = num;
-		this.companyId = companyId;
+		this.companyid = companyid;
 		this.currencyCode = currencyCode;
 		this.hfmcode = hfmcode;
 		this.period = period;
@@ -85,12 +86,12 @@ public class HfmFfSsHist implements Serializable {
 		this.num = num;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public Long getcompanyid() {
+		return companyid;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setcompanyid(Long companyid) {
+		this.companyid = companyid;
 	}
 
 	public String getCurrencyCode() {
@@ -207,7 +208,7 @@ public class HfmFfSsHist implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HfmFfSsHist [num=" + num + ", companyId=" + companyId + ", currencyCode=" + currencyCode + ", hfmcode="
+		return "HfmFfSsHist [num=" + num + ", companyid=" + companyid + ", currencyCode=" + currencyCode + ", hfmcode="
 				+ hfmcode + ", period=" + period + ", balance=" + balance + ", hfmcodeOld=" + hfmcodeOld + ", updated="
 				+ updated + ", userid=" + userid + ", classification=" + classification + ", naturalb=" + naturalb
 				+ ", errortext=" + errortext + ", description=" + description + ", periodid=" + periodid + "]";

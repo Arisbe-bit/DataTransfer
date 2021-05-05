@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c_rt="http://java.sun.com/jstl/core_rt"
+    xmlns:form="http://www.springframework.org/tags/form"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/rolluphist.xhtml">
+        <ui:define name="rollupContenthist">
+            <p:dataTable id="dtfsgroupedhist" widgetVar="dtgrouped" var="accgroup" value="#{rolluphistControllerBean.lstSumFS}" reflow="true" rowKey="#{accgroup.num}" paginator="true" rows="15" stickyHeader="true" resizeMode="expand" paginatorPosition="bottom" size="small">
+                <f:facet name="header">
+                    <p:toolbar id="toolbar-fsgrouped">
+                        <p:toolbarGroup>
+                            <div class="accgrouped-table-header rollup-text-align-center">
+                                <strong><h:outputText value="SUMARIZED FFSS DETAIL"/></strong>
+                            </div>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rolluphistControllerBean.lstSumFS}">
+                                <p:dataExporter type="xls" target="rollupForm:dtfsgrouped" fileName="FFSSDetails"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </f:facet>
+                <p:column headerText="HFM Code" sortBy="#{accgroup.hfmcode}" filterBy="#{accgroup.hfmcode}">
+                    <h:outputText value="#{accgroup.hfmcode}"/>
+                </p:column>
+                <p:column headerText="Cost Center" sortBy="#{accgroup.costcenter}" filterBy="#{accgroup.costcenter}">
+                    <h:outputText value="#{accgroup.costcenter}"/>
+                </p:column>
+                <p:column headerText="Accountid" sortBy="#{accgroup.accountid}" filterBy="#{accgroup.accountid}">
+                    <h:outputText value="#{accgroup.accountid}"/>
+                </p:column>
+                <p:column headerText="ICP" sortBy="#{accgroup.icp}" filterBy="#{accgroup.icp}">
+                    <h:outputText value="#{accgroup.icp}"/>
+                </p:column>
+                <p:column headerText="Partner Id" sortBy="#{accgroup.partnerid}" filterBy="#{accgroup.partnerid}">
+                    <h:outputText value="#{accgroup.partnerid}"/>
+                </p:column>
+                <p:column headerText="Partner Name" sortBy="#{accgroup.tpname}" filterBy="#{accgroup.tpname}">
+                    <h:outputText value="#{accgroup.tpname}"/>
+                </p:column>
+                <p:column headerText="Amount" sortBy="#{accgroup.amount}" filterBy="#{accgroup.amount}" styleClass="rollup-text-align-right #{accgroup.amount lt 0 ? 'negative' : ''}">
+                    <h:outputText value="#{accgroup.amount}">
+                        <f:convertNumber pattern="###,###,###,###.##"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="View Details" exportable="false">
+                    <p:commandButton id="btnViewDetail" icon="pi pi-eye" update="rollupForm:messages" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail" value="Details" action="#{rolluphistControllerBean.submitToMovements}">
+                        <f:ajax execute="@this" listener="#{rolluphistControllerBean.curHfmffssClic}" event="click" />
+                        <f:setPropertyActionListener value="#{accgroup}" target="#{rolluphistControllerBean.curFSgroup}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

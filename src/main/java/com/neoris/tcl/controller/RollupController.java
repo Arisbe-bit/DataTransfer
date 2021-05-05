@@ -120,6 +120,8 @@ public class RollupController {
 //		ec = FacesContext.getCurrentInstance().getExternalContext();
 //		this.breadCrumbModel = new DefaultMenuModel();
 		LOG.info("Calendar year={}, month={}", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
+		
+		
 	}
 	
 	/**
@@ -860,7 +862,7 @@ public class RollupController {
 	 */
 	public String submitToSumary() {
 
-		Long companyid = curHfmFfss.getCompanyId();
+		Long companyid = curHfmFfss.getcompanyId();
 		String hfmcode = curHfmFfss.getHfmcode().toString();
 
 		try {
@@ -906,6 +908,9 @@ public class RollupController {
 	public String submitToLayouts() {
 		//layoutprocess();
 		LOG.info("Redirecting to {}....", LAYOUT);
+		  LOG.info("Initializing lstLayout...");
+	        this.lstlayout = serviceLay.findAll();
+	        
 		return LAYOUT;
 	}
 

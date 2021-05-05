@@ -12,7 +12,7 @@ import org.hibernate.annotations.Subselect;
 
 
 @Entity
-@Subselect("select num,companyid,hfmcode,periodname,costcenter,accountid,icp,partnerid,tpname,omit,amount from ROLLUP_VIEW_FFSS_GROUPED" )
+@Table(name = "HFM_FFSS_GROUPED")
 public class ViewFFSSGrouped implements Serializable {
 
 	private static final long serialVersionUID = 5676513260556508605L;

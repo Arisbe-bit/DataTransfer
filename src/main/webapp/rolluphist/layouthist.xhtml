@@ -5,10 +5,10 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="/rollup.xhtml">
-        <ui:define name="rollupContent">
+    <ui:composition template="/rolluphist.xhtml">
+        <ui:define name="rollupContenthist">
  			
-            <p:dataTable id="dthfmlayout" widgetVar="dthfmlayoutWV" var="layout" value="#{rollupControllerBean.lstlayout}" 
+            <p:dataTable id="dthfmlayouthist" widgetVar="dthfmlayoutWV" var="layout" value="#{rolluphistControllerBean.lstlayout}" 
             rowKey="#{layout.companyid}" reflow="true" resizableColumns="true" 
             tableStyle="width:auto" paginator="true" rows="20" stickyHeader="true" stripedRows="true" 
             resizeMode="expand" paginatorPosition="bottom" >
@@ -16,13 +16,13 @@
                  <p:toolbar id="toolbar-hfmlayput">
 	                <p:toolbarGroup>
 	                    <div class="layout-table-header">
-	                        <strong><h:outputText value="HFM Layout"/></strong>
+	                        <strong><h:outputText value="HFM Layout History"/></strong>
 	                    </div>
 	                 </p:toolbarGroup>
 	                  
 	                <p:toolbarGroup>
-	                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rollupControllerBean.lstlayout}">
-	                        <p:dataExporter type="xls" target="rollupForm:dthfmlayout" fileName="LayputHFM"/>
+	                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rolluphistControllerBean.lstlayout}">
+	                        <p:dataExporter type="xls" target="rollupForm:dthfmlayouthist" fileName="LayputHFM"/>
 	                    </p:commandButton>
 	                </p:toolbarGroup>
             </p:toolbar>

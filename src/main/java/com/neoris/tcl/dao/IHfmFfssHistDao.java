@@ -12,5 +12,5 @@ import com.neoris.tcl.models.HfmFfssHistPK;
 
 public interface IHfmFfssHistDao  extends JpaRepository<HfmFfSsHist, HfmFfssHistPK>{
 
-	public List<HfmFfSsHist> findByCompanyIdAndPeriodid(Long companyId,String period);
+	public List<HfmFfSsHist> findByCompanyidAndPeriodid(Long companyid,String period);
 }

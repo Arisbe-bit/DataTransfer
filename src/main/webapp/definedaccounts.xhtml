@@ -110,8 +110,7 @@
                                     <f:selectItem itemLabel="Current Year" itemValue="C" />
                                 </p:selectOneMenu>
                             </div>
-                           
-                           
+zs                           
                              <div class="p-field">
                                 <p:outputLabel for="source" value="Source"></p:outputLabel>
                                <p:selectOneMenu id="source" value="#{setdefaccountsControllerBean.curtpAccs.id.source}">
@@ -125,7 +124,7 @@
                             </div>
                              <div class="p-field">
                                 <p:outputLabel for="costcenter" value="Cost Center" />
-                                  <p:selectOneMenu id="costcenter" value="#{setdefaccountsControllerBean.curtpAccs.id.costcenter}" filter="true" filterMatchMode="startsWith">
+                                  <p:selectOneMenu id="costcenter" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.costcenter}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItems value="#{setdefaccountsControllerBean.lstCC}" 
                                     var="costc" 
                                     itemLabel="#{costc.costcenter}" 
@@ -139,20 +138,30 @@
                             </div>
                              <div class="p-field">
                                 <p:outputLabel for="accountid" value="Oracle Account ID" />
-                                 <p:inputText id="accountid" value="#{setdefaccountsControllerBean.curtpAccs.id.accountid}" maxlength="5" required="true" requiredMessage="Oracle Account is requiered"/>
-                                <p:message for="@previous"/>
+                                  <p:selectOneMenu id="accountid" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.accountid}" filter="true" filterMatchMode="startsWith"  required="true" requiredMessage="Oracle Account is requiered">
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstOrcl}" 
+                                    var="accid" 
+                                    itemLabel="#{accid.accountid}" 
+                                    itemValue="#{accid.accountid}" 
+                                    />
+                                   <p:ajax event="change" 
+										listener="#{setdefaccountsControllerBean.costcenterChange}"
+										process="@this"
+										update=":form:accountid"/> 
+                                </p:selectOneMenu>
                             </div>
-                           <div class="p-field">
+                           
+                            <div class="p-field">
                                 <p:outputLabel for="icp" value="ICP Code" />
                                 <p:selectOneMenu id="icp" value="#{setdefaccountsControllerBean.curtpAccs.icpcode}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{setdefaccountsControllerBean.lstTP}"
+                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
                                      var="code"
                                       itemLabel="#{code.icpcode}" 
                                       itemValue="#{code.icpcode}" />
                                 </p:selectOneMenu>
                                 
                             </div>
-
+                           
                         </p:outputPanel>
                     </p:outputPanel>
                     <f:facet name="footer">

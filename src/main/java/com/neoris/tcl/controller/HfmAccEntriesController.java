@@ -434,8 +434,23 @@ public class HfmAccEntriesController {
 		return "delete-codes-button-id-det";
 	}
 
-	public void applyprocess() {
+	public String getFormNameId() {
+		return "form";
+	}
 
+	public void applyprocess() {
+		LOG.info("Running apply entries with currentmanual = {}", currentmanual);
+		try {	
+			LOG.info("applyprocess ItemID ={} ", this.currentmanual.getItemid().intValue());
+			
+			service.rollUpApplyEntries(this.currentmanual.getCompanyid(), 
+					this.currentmanual.getPeriodnm(), this.user.getUsername(), this.currentmanual.getItemid().intValue());
+			Functions.addInfoMessage("Process", "Apply entries Finished!");
+			PrimeFaces.current().ajax().update(getFormNameId() + ":messages");
+		} catch (Exception e) {
+			LOG.error("Exception in applyprocess -> {}", e.getMessage());
+		}
+		
 	}
 
 	public List<HfmRollupEntries> getLstEntries() {
