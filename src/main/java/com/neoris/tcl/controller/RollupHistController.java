@@ -29,7 +29,7 @@ import com.neoris.tcl.services.IViewRollupMatchFFSSHistService;
 import com.neoris.tcl.utils.ViewScope;
 
 @Controller(value = "rolluphistControllerBean")
-@Scope(ViewScope.VIEW)
+@Scope("session")
 public class RollupHistController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(RollupHistController.class);
@@ -76,7 +76,8 @@ public class RollupHistController {
 	@PostConstruct
 	public void init() {
 		// Fill the rollup entity list
-		setLstRollUps(service.findAll());
+		//setLstRollUps(service.findAll());
+		this.lstRollUps = service.findAll();
 	}
 
 	public void openNew() {
@@ -312,13 +313,14 @@ public class RollupHistController {
 		String costcenter = curFSgroup.getCostcenter();
 		String accountid = curFSgroup.getAccountid();
 		String periodnm = curFSgroup.getPeriodname();
+		String periodid = curRollUp.getRperiod() + curRollUp.getRyear().substring(2);
 
 		try {
 
 			LOG.info(
-					"Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}, periodnnm {}",
+					"Query FFSS Details Hist LIST with company = {}, hfmcode {}, partnerid {}, costcenter {}, accountid {}, periodnm {}",
 					companyid, vhfmcode, partnerid, costcenter, accountid, periodnm);
-
+//findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm
 			this.lstHfmFfssDetails = hfmFfssDetailsService
 					.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartneridAndIdPeriodnm(companyid,
 							vhfmcode, costcenter, accountid, partnerid, periodnm);

@@ -3,14 +3,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c_rt="http://java.sun.com/jstl/core_rt"
+    xmlns:form="http://www.springframework.org/tags/form"
+    xmlns:spring="http://www.springframework.org/tags"
     xmlns:p="http://primefaces.org/ui">
-    
+
     <ui:composition template="/rolluphist.xhtml">
-        <ui:define name="rollupContenthist">
-            <p:toolbar id="toolbar-hfmffssh">
+        <ui:define name="rollupContent">
+            <p:toolbar id="toolbar-hfmffss">
                 <p:toolbarGroup>
-                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" 
-                    disabled="#{empty rolluphistControllerBean.lstHfmFfss}">
+                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rolluphistControllerBean.lstHfmFfss}">
                         <p:dataExporter type="xls" target="rollupForm:dt-hfm-tab-ffss" fileName="HFM_FFSS"/>
                     </p:commandButton>
                 </p:toolbarGroup>

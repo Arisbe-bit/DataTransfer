@@ -29,7 +29,7 @@ private static final long serialVersionUID = 5676214260556508605L;
 	private String tpname;
 	private String omit;
 	private BigDecimal amount;
-	private String hfmparent;
+//	private String hfmparent;
 	
 	public ViewFFSSGroupedHist() {
 		
@@ -39,8 +39,8 @@ private static final long serialVersionUID = 5676214260556508605L;
 	
 
 	public ViewFFSSGroupedHist(String num, String companyid, String periodname, String costcenter, String hfmcode,
-			String accountid, String icp, String partnerid, String tpname, String omit, BigDecimal amount,
-			String hfmparent) {
+			String accountid, String icp, String partnerid, String tpname, String omit, BigDecimal amount
+			) {
 		this.num = num;
 		this.companyid = companyid;
 		this.periodname = periodname;
@@ -52,7 +52,7 @@ private static final long serialVersionUID = 5676214260556508605L;
 		this.tpname = tpname;
 		this.omit = omit;
 		this.amount = amount;
-		this.hfmparent = hfmparent;
+		//this.hfmparent = hfmparent;
 	}
 
 
@@ -146,20 +146,14 @@ private static final long serialVersionUID = 5676214260556508605L;
 		this.amount = amount;
 	}
 
-	public String getHfmparent() {
-		return hfmparent;
-	}
-
-	public void setHfmparent(String hfmparent) {
-		this.hfmparent = hfmparent;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "ViewFFSSGrouped [num=" + num + ", companyid=" + companyid + ", periodname=" + periodname
 				+ ", costcenter=" + costcenter + ", hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp
 				+ ", partnerid=" + partnerid + ", tpname=" + tpname + ", omit=" + omit + ", amount=" + amount
-				+ ", hfmparent=" + hfmparent + "]";
+				+  "]";
 	}
 	
 	

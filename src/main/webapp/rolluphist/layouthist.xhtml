@@ -6,9 +6,9 @@
     xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/rolluphist.xhtml">
-        <ui:define name="rollupContenthist">
+        <ui:define name="rollupContent">
  			
-            <p:dataTable id="dthfmlayouthist" widgetVar="dthfmlayoutWV" var="layout" value="#{rolluphistControllerBean.lstlayout}" 
+            <p:dataTable id="dthfmlayout" widgetVar="dthfmlayoutWV" var="layout" value="#{rolluphistControllerBean.lstlayout}" 
             rowKey="#{layout.companyid}" reflow="true" resizableColumns="true" 
             tableStyle="width:auto" paginator="true" rows="20" stickyHeader="true" stripedRows="true" 
             resizeMode="expand" paginatorPosition="bottom" >
@@ -22,7 +22,7 @@
 	                  
 	                <p:toolbarGroup>
 	                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rolluphistControllerBean.lstlayout}">
-	                        <p:dataExporter type="xls" target="rollupForm:dthfmlayouthist" fileName="LayputHFM"/>
+	                        <p:dataExporter type="xls" target="rollupForm:dthfmlayout" fileName="LayputHFM"/>
 	                    </p:commandButton>
 	                </p:toolbarGroup>
             </p:toolbar>

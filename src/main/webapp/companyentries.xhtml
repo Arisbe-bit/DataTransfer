@@ -161,9 +161,9 @@
 									required="true" />
 							</div>
 							<div class="p-field">
-                                <p:outputLabel for="companyid" value="Company" />
-                                <p:selectOneMenu id="companyid" value="rollupentriesControllerBean.currEntries}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="vieworclcompControllerBean.lstcomp}" 
+                                <p:outputLabel for="companyid" value="Companyid" />
+                                <p:selectOneMenu id="companyid" value="rollupentriesControllerBean.currEntries.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{vieworclcompControllerBean.lstcomp}" 
                                     var="itemp" itemLabel="#{itemp.companycode}" itemValue="#{itemp.companyid}" />
                                 </p:selectOneMenu>
                             </div>

@@ -6,8 +6,17 @@
     xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/rolluphist.xhtml">
-        <ui:define name="rollupContenthist">
-                    <p:dataTable id="dt-rolluphist" widgetVar="dtRollUphists"            	
+        <ui:define name="rollupContent">
+
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton id="start-rollup-process-button" value="#{rolluphistControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rolluphistControllerBean.processSelectedRollUps}" styleClass="#{rolluphistControllerBean.processButtonStyleClass}" disabled="#{!rolluphistControllerBean.hasSelectedRollUps()}" update="@this">
+                        <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable id="dt-rollup" widgetVar="dtRollUps"            	
             	value="#{rolluphistControllerBean.lstRollUps}"
             	selection="#{rolluphistControllerBean.lstSelectedRollups}"
             	var="rollup"
@@ -24,10 +33,17 @@
                         </span>
                     </div>
                 </f:facet>
-               <p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
+
+                <p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
                     <h:outputText value="#{rollup.entity}" />
                 </p:column>
-                 <p:column headerText="Year" sortBy="#{rollup.ryear}" filterBy="#{rollup.ryear}">
+                <p:column headerText="Application" styleClass="rollup-text-align-left">
+                    <h:outputText value="#{rollup.rapplication}" />
+                </p:column>
+                <p:column headerText="Scenario" styleClass="rollup-text-align-left">
+                    <h:outputText value="#{rollup.scenario}" />
+                </p:column>
+                <p:column headerText="Year" sortBy="#{rollup.ryear}" filterBy="#{rollup.ryear}">
                     <h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
                         <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
                     </h:inputText>
@@ -49,6 +65,12 @@
                         <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
                     </h:selectOneMenu>
                 </p:column>
+                <p:column headerText="view">
+                    <h:outputText value="#{rollup.rview}" />
+                </p:column>
+                <p:column headerText="value">
+                    <h:outputText value="#{rollup.rvalue}" />
+                </p:column>
                 
                 <p:column headerText="View FFSS" exportable="false">
                     <p:commandButton id="btnView" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail" action="#{rolluphistControllerBean.submitToFFSS}" ajax="false">
@@ -56,6 +78,7 @@
                     </p:commandButton>
                 </p:column>
                
+
                 <p:column headerText="View HFM Layout" exportable="false">
                     <p:commandButton id="btnViewL" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view HFM Layout" action="#{rolluphistControllerBean.submitToLayouts}" ajax="false">
                         <f:setPropertyActionListener value="#{rollup}" target="#{rolluphistControllerBean.curRollUp}" />

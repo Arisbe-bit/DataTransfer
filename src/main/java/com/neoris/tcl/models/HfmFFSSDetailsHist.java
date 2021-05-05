@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROLLUP_VFFSSDET_HIST")
+@Table(name = "HFM_FFSS_DETAILS_HIST")
 public class HfmFFSSDetailsHist implements Serializable {
 
 	private static final long serialVersionUID = 5676213260556508605L;

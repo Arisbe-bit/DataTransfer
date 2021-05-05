@@ -58,6 +58,7 @@ public class HfmRollupEntriesController {
 
     public void openNew() {
         this.currEntries = new HfmRollupEntries();
+        
     }
 
     public void save() {

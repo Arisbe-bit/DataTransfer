@@ -9,8 +9,8 @@
     xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/rolluphist.xhtml">
-        <ui:define name="rollupContenthist">
-            <p:dataTable id="dt-hfm-tab-ffss-detailsh" widgetVar="dtHfmFfssDetails" var="hfmffssDetail" value="#{rolluphistControllerBean.lstHfmFfssDetails}" rowKey="#{hfmffssDetail.companyid}" paginator="true" rows="10" reflow="true" stickyHeader="true" tableStyle="width:auto" resizeMode="expand" paginatorPosition="bottom">
+        <ui:define name="rollupContent">
+            <p:dataTable id="dt-hfm-tab-ffss-details" widgetVar="dtHfmFfssDetails" var="hfmffssDetail" value="#{rolluphistControllerBean.lstHfmFfssDetails}" rowKey="#{hfmffssDetail.companyid}" paginator="true" rows="10" reflow="true" stickyHeader="true" tableStyle="width:auto" resizeMode="expand" paginatorPosition="bottom">
                 <f:facet name="header">
                     <p:toolbar id="toolbar-fsdetails">
                         <p:toolbarGroup>
