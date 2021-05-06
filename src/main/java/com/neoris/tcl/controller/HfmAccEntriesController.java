@@ -19,16 +19,17 @@ import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmPeriodFfss;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetHfmCodes;
+import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmAccEntriesService;
 import com.neoris.tcl.services.IHfmPeriodFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.ISetHfmCodesService;
+import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
-import org.primefaces.component.datatable.DataTable;
 @Controller(value = "hfmaccentriesControllerBean")
 @Scope(ViewScope.VIEW)
 public class HfmAccEntriesController {
@@ -41,14 +42,17 @@ public class HfmAccEntriesController {
 	private IHfmPeriodFfssService servperiod;
 	@Autowired
 	private IHfmAccEntriesDetService servicedet;
-    @Autowired
-    private IHfmRollupEntriesService serviceEntries;
-    @Autowired
-    private ISetHfmCodesService serviceHfmcodes;
-    
-    private List<SetHfmCodes> lstHfmcodes;    
+	@Autowired
+	private IHfmRollupEntriesService serviceEntries;
+	@Autowired
+	private ISetHfmCodesService serviceHfmcodes;
+	@Autowired
+	private ISetIcpcodesService serviceIcpCodes;
 
-    private List<HfmRollupEntries> lstEntries;
+	private List<SetHfmCodes> lstHfmcodes;
+	private List<SetIcpcodes> lstIcpcodes;
+
+	private List<HfmRollupEntries> lstEntries;
 
 	private List<HfmAccEntries> lstaccent;
 	private List<HfmAccEntries> lstSlctedentries;
@@ -70,20 +74,21 @@ public class HfmAccEntriesController {
 	@PostConstruct
 	public void init() {
 
-		this.user = Functions.getUser();
-		this.lstEntries = serviceEntries.findAll();  // this is for combobox
-		this.lstHfmcodes = serviceHfmcodes.findAll();
 		this.currentries = new HfmAccEntries();
-		
-		if(this.lstEntries != null && !this.lstEntries.isEmpty()) {
+		this.user = Functions.getUser();
+		this.lstEntries = serviceEntries.findAll(); // this is for combobox
+		this.lstHfmcodes = serviceHfmcodes.findAll();
+		this.lstIcpcodes = serviceIcpCodes.findAll();
+
+		if (this.lstEntries != null && !this.lstEntries.isEmpty()) {
 			LOG.info("lstEntries filled! Initializing currentries. => {}", this.lstEntries);
 			this.currentries.setApplied(0);
-			this.currentries.setUserid(this.user.getUsername());			
+			this.currentries.setUserid(this.user.getUsername());
 			this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
 
 			LOG.info("Gettin lstaccent with company id = {}", this.currentries.getCompanyid());
 			this.lstaccent = service.findByCompanyid(this.currentries.getCompanyid());
-		}		
+		}
 
 		try {
 			LOG.info("Getting lstperiod...");
@@ -96,8 +101,10 @@ public class HfmAccEntriesController {
 		LOG.info("Initializing finish!");
 	}
 
+	/**
+	 * 
+	 */
 	public void openNew() {
-
 		this.currentries = new HfmAccEntries();
 		this.currentries.setCompanyid(this.currentries.getCompanyid());
 		this.currentries.setUserid(this.user.getUsername());
@@ -124,7 +131,7 @@ public class HfmAccEntriesController {
 
 		PrimeFaces.current().executeScript("PF('entryDialogWV').hide()");
 		PrimeFaces.current().executeScript("PF('dtParentWV').clearFilters()");
-		//PrimeFaces.current().ajax().update("form:messages", "form:dtParent");
+		// PrimeFaces.current().ajax().update("form:messages", "form:dtParent");
 	}
 
 	/**
@@ -287,6 +294,7 @@ public class HfmAccEntriesController {
 	}
 
 	public void setLstSlctedentdet(List<HfmAccEntriesDet> lstSlctedentdet) {
+		LOG.info("Recibo lstSlctedentdet = {}", lstSlctedentdet);
 		this.lstSlctedentdet = lstSlctedentdet;
 	}
 
@@ -312,24 +320,17 @@ public class HfmAccEntriesController {
 			LOG.error("Exception in companyidChange -> service.findByCompanyid -> {}", e.getMessage());
 		}
 
-//		try {
-//			this.lstperiod = servperiod.findByCompanyid(this.currentries.getCompanyid());
-//			LOG.info("companyidChange servperiod.findByCompanyid items size = {} ", this.lstperiod.size());
-//		} catch (Exception e) {
-//			LOG.error("** Exception in change lstperiod -> {}", e.getMessage());
-//		}
-
-		try {	
+		try {
 			LOG.info("change lstaccentdet with ItemID ={} ", this.currentries.getItemid().intValue());
-			this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());	
+			this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
 			LOG.info("companyidChange servicedet.findByItemid item size ={} ", this.lstaccentdet.size());
 
 		} catch (Exception e) {
 			LOG.error("Exception in lservicedet.findByItemid -> {}", e.getMessage());
 		}
-		
+
 		LOG.info("companyidChange Finish!!");
-		//PrimeFaces.current().ajax().update("form:dtParent", "form:period");
+		// PrimeFaces.current().ajax().update("form:dtParent", "form:period");
 	}
 
 	/**
@@ -337,7 +338,7 @@ public class HfmAccEntriesController {
 	 */
 	public void openNewDet() {
 		this.currentdet = new HfmAccEntriesDet();
-		this.currentdet.setItemid(this.currentries.getItemid());			
+		this.currentdet.setItemid(this.currentries.getItemid());
 		LOG.info("currentdet = {}", this.currentdet);
 	}
 
@@ -346,17 +347,17 @@ public class HfmAccEntriesController {
 		LOG.info("itemdId " + this.currentries.getItemid().intValue());
 		LOG.info("Entering to save item  => {}", this.currentdet);
 		this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
-		
+
 		try {
-			this.currentdet = servicedet.save(currentdet);			
+			this.currentdet = servicedet.save(currentdet);
 			LOG.info("save lstaccentdet " + this.lstaccentdet.size());
 			Functions.addInfoMessage("Succes", "Record saved");
 		} catch (Exception e) {
-			Functions.addErrorMessage("Error", "Error saving record: " +e.getMessage());
+			Functions.addErrorMessage("Error", "Error saving record: " + e.getMessage());
 			LOG.error("save lstaccentdet ERROR -> {}", e.getMessage());
 		}
-		
-		PrimeFaces.current().executeScript("PF('" + getDialogNameDet() + "').hide()");		
+
+		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').hide()");
 		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearFilters()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableNameDet());
 	}
@@ -365,8 +366,8 @@ public class HfmAccEntriesController {
 		LOG.info("Entering to delete row => {}", this.currentdet);
 		servicedet.delete(this.currentdet);
 		this.currentdet = null;
-		try {
 
+		try {
 			this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
 			LOG.info("delete lstaccentdet " + this.lstaccentdet.size());
 		} catch (Exception e) {
@@ -381,8 +382,8 @@ public class HfmAccEntriesController {
 		LOG.info("[deleteSelected] = > Entering to delete item: {}", this.lstSlctedentdet);
 		servicedet.deleteAll(this.lstSlctedentdet);
 		this.lstSlctedentdet = null;
-		try {
 
+		try {
 			this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
 			LOG.info("deleteSelectedDet lstaccentdet " + this.lstaccentdet.size());
 		} catch (Exception e) {
@@ -415,9 +416,9 @@ public class HfmAccEntriesController {
 		return "Manual Entries Details Setting";
 	}
 
-	public String getDialogNameDet() {
-		return "entryDialogDetailWV";
-	}
+//	public String getDialogNameDet() {
+//		return "entryDialogDetailWV";
+//	}
 
 	public String getDataTableNameDet() {
 		return "dtDetails";
@@ -433,33 +434,35 @@ public class HfmAccEntriesController {
 
 	public void applyprocess() {
 		LOG.info("Running apply entries with currentmanual = {}", currentries);
-		try {	
+		try {
 			LOG.info("applyprocess ItemID ={} ", this.currentries.getItemid().intValue());
-			
-			service.rollUpApplyEntries(this.currentries.getCompanyid(), 
-					this.currentries.getPeriodnm(), this.user.getUsername(), this.currentries.getItemid().intValue());
+
+			service.rollUpApplyEntries(this.currentries.getCompanyid(), this.currentries.getPeriodnm(),
+					this.user.getUsername(), this.currentries.getItemid().intValue());
 			Functions.addInfoMessage("Process", "Apply entries Finished!");
 			PrimeFaces.current().ajax().update(getFormNameId() + ":messages");
 		} catch (Exception e) {
 			LOG.error("Exception in applyprocess -> {}", e.getMessage());
-		}		
+		}
 	}
 
 	public List<HfmRollupEntries> getLstEntries() {
 		return lstEntries;
 	}
-	
+
 	/**
 	 * Event fired when clic on the parent row.
+	 * 
 	 * @param ev
 	 */
 	public void dtParent_rowSelect(AjaxBehaviorEvent ev) {
 		LOG.info("Me hicieron click en row. ev = {}", ev);
 		LOG.info("lstSlctedentries = {}", lstSlctedentries);
-		//DataTable td = (DataTable) ev.getSource();
-		
-		//LOG.info("Row Index = {}, rowData = {}, rows ={}, selectiion = {}",td.getRowIndex(), td.getRowData(), td.getRows(), td.getSelection());
-		//this.currentries = (HfmAccEntries) td.getSelection();
+		// DataTable td = (DataTable) ev.getSource();
+
+		// LOG.info("Row Index = {}, rowData = {}, rows ={}, selectiion =
+		// {}",td.getRowIndex(), td.getRowData(), td.getRows(), td.getSelection());
+		// this.currentries = (HfmAccEntries) td.getSelection();
 		this.currentries = lstSlctedentries.get(0);
 		this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
 		LOG.info("Regreso con lstaccentdet = {}", lstaccentdet);
@@ -467,5 +470,9 @@ public class HfmAccEntriesController {
 
 	public List<SetHfmCodes> getLstHfmcodes() {
 		return lstHfmcodes;
+	}
+
+	public List<SetIcpcodes> getLstIcpcodes() {
+		return lstIcpcodes;
 	}
 }
