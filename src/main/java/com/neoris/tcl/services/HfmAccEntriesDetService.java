@@ -26,7 +26,7 @@ public class HfmAccEntriesDetService implements IHfmAccEntriesDetService{
 	}
 
 	@Override
-	public List<HfmAccEntriesDet> findByItemid(int itemid) {
+	public List<HfmAccEntriesDet> findByItemid(Long itemid) {
 		return data.findByItemid(itemid);
 					
 	}

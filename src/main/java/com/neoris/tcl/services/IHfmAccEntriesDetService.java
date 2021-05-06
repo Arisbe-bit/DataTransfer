@@ -11,7 +11,7 @@ public interface IHfmAccEntriesDetService {
 
    List<HfmAccEntriesDet> findAll();
 	
-	List<HfmAccEntriesDet> findByItemid(int itemid);
+	List<HfmAccEntriesDet> findByItemid(Long itemid);
 	
 	Optional<HfmAccEntriesDet> findById(Long id);
 

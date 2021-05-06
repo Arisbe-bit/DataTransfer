@@ -11,6 +11,6 @@ import com.neoris.tcl.models.HfmAccEntriesDet;
 
 public interface IHfmAccEntriesDetDao extends CrudRepository<HfmAccEntriesDet,Id>{
 	
-	 public List<HfmAccEntriesDet> findByItemid(int itemid);
+	 public List<HfmAccEntriesDet> findByItemid(Long itemid);
 
 }
