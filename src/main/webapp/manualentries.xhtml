@@ -29,35 +29,25 @@
         <h:form id="form">
             <p:growl id="messages" showDetail="true" />
             <p:messages id="msgs" showDetail="true" closable="true">
-            	<p:autoUpdate/>
-        	</p:messages>
+                <p:autoUpdate/>
+            </p:messages>
             <div class="card" id="cardMainID">
 
                 <p:panelGrid columns="2" id="panelGridRollUpFFSS" columnClasses="table-main, table-details">
                     <f:facet name="header">
                         <h:outputText value="${hfmaccentriesControllerBean.title}" />
                     </f:facet>
-                    
+
                     <!--  Column 1 -->
 
-                    <p:dataTable id="dtParent"
-                    	widgetVar="dtParentWV"
-                    	var="accEntries"
-                    	value="#{hfmaccentriesControllerBean.lstaccent}"
-                    	reflow="true"
-                    	styleClass="products-table" 
-                    	selection="#{hfmaccentriesControllerBean.lstSlctedentries}"
-                    	rowKey="#{accEntries.itemid}"
-                    	paginator="true" rows="10"
-                    	stripedRows="true" rowSelectMode="new"
-                    	size="small" paginatorPosition="bottom">
+                    <p:dataTable id="dtParent" widgetVar="dtParentWV" var="accEntries" value="#{hfmaccentriesControllerBean.lstaccent}" reflow="true" selection="#{hfmaccentriesControllerBean.lstSlctedentries}" rowKey="#{accEntries.itemid}" paginator="true" rows="10" stripedRows="true" rowSelectMode="new" size="small" paginatorPosition="bottom">
                         <f:facet name="caption">
                             <strong>
                                 <h:outputText value="${hfmaccentriesControllerBean.title}"/>
                             </strong>
                         </f:facet>
                         <f:facet name="header">
-                        	 <p:toolbar>
+                            <p:toolbar>
                                 <p:toolbarGroup >
                                     <p:commandButton id="btnNewMaster" value="New" icon="pi pi-plus" actionListener="#{hfmaccentriesControllerBean.openNew}" update=":form:manage-code-content" oncomplete="PF('entryDialogWV').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
                                     </p:commandButton>
@@ -74,7 +64,7 @@
                                 </p:toolbarGroup>
                             </p:toolbar>
                         </f:facet>
-                        <p:ajax event="rowSelect" update=":form:dtParent:btnDeleteMaster :form:dtParent :form:dtDetails" listener="#{hfmaccentriesControllerBean.dtParent_rowSelect}" />                        	
+                        <p:ajax event="rowSelect" update=":form:dtParent:btnDeleteMaster :form:dtParent :form:dtDetails" listener="#{hfmaccentriesControllerBean.dtParent_rowSelect}" />
                         <p:ajax event="rowUnselect" update=":form:dtParent:btnDeleteMaster" />
                         <p:ajax event="rowSelectCheckbox" update=":form:dtParent:btnDeleteMaster" />
                         <p:ajax event="rowUnselectCheckbox" update=":form:dtParent:btnDeleteMaster" />
@@ -104,19 +94,11 @@
                                 <p:confirm header="Confirmation" message="Start Application" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
                         </p:column>
-                    </p:dataTable>                    
+                    </p:dataTable>
 
                     <!--  Column 2 -->
 
-                    <p:dataTable id="dtDetails" widgetVar="dtDetailsWV"
-                    	var="currentidDet"
-                    	value="#{hfmaccentriesControllerBean.lstaccentdet}"
-                    	reflow="true" styleClass="products-table"
-                    	selection="#{hfmaccentriesControllerBean.lstSlctedentdet}"
-                    	rowKey="#{currentidDet.itemid}"
-                    	paginator="true" rows="15"
-                    	stripedRows="true" rowSelectMode="add"
-                    	size="small" paginatorPosition="bottom">
+                    <p:dataTable id="dtDetails" widgetVar="dtDetailsWV" value="#{hfmaccentriesControllerBean.lstaccentdet}" selection="#{hfmaccentriesControllerBean.lstSlctedentdet}" var="currentidDet" reflow="true" rowKey="#{currentidDet.itemid}" rows="15" rowSelectMode="add" size="small" paginator="true" paginatorPosition="bottom">
                         <f:facet name="caption">
                             <strong>
                                 <h:outputText value="${hfmaccentriesControllerBean.titleDet}"/>
@@ -125,7 +107,7 @@
                         <f:facet name="header">
                             <p:toolbar>
                                 <p:toolbarGroup >
-                                    <p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmaccentriesControllerBean.openNewDet}" update=":form:manage-code-contentDet" oncomplete="PF('#{hfmaccentriesControllerBean.dialogNameDet}').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+                                    <p:commandButton value="New" icon="pi pi-plus" actionListener="#{hfmaccentriesControllerBean.openNewDet}" oncomplete="PF('entryDialogDetailWV').show()" update=":form:manage-code-contentDet" styleClass="ui-button-success" style="margin-right: 0.3em">
                                     </p:commandButton>
                                     <p:commandButton value="#{hfmaccentriesControllerBean.deleteButtonMessageDet}" id="btnDeleteDetails" icon="pi pi-trash" actionListener="#{hfmaccentriesControllerBean.deleteSelectedDet}" styleClass="ui-button-danger" style="margin-left: 0.3em" disabled="#{!hfmaccentriesControllerBean.hasSelectedCodesDet()}" update="@this">
                                         <p:confirm header="Confirmation" message="Delete the selected items" icon="pi pi-exclamation-triangle" />
@@ -138,11 +120,11 @@
                                 </p:toolbarGroup>
                             </p:toolbar>
                         </f:facet>
-                        <p:ajax event="rowSelect" update=":form:dtDetails:btnDeleteDetails" />
-                        <p:ajax event="rowUnselect" update=":form:dtDetails:btnDeleteDetails" />
-                        <p:ajax event="rowSelectCheckbox" update=":form:dtDetails:btnDeleteDetails" />
-                        <p:ajax event="rowUnselectCheckbox" update=":form:dtDetails:btnDeleteDetails" />
-                        <p:ajax event="toggleSelect" update=":form:dtDetails:btnDeleteDetails" />
+                        <p:ajax event="rowSelect" update="form:dtDetails:btnDeleteDetails" />
+                        <p:ajax event="rowUnselect" update="form:dtDetails:btnDeleteDetails" />
+                        <p:ajax event="rowSelectCheckbox" update="form:dtDetails:btnDeleteDetails" />
+                        <p:ajax event="rowUnselectCheckbox" update="form:dtDetails:btnDeleteDetails" />
+                        <p:ajax event="toggleSelect" update="form:dtDetails:btnDeleteDetails" />
 
                         <p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
                         </p:column>
@@ -155,7 +137,7 @@
 
                         <p:column headerText="Debits" sortBy="#{currentidDet.debits}" filterBy="#{currentidDet.debits}">
                             <h:outputText value="#{currentidDet.debits}">
-                            	 <f:convertNumber pattern="###,###,###,###.##"/>
+                                <f:convertNumber pattern="###,###,###,###.##"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Credits" sortBy="#{currentidDet.credits}" filterBy="#{currentidDet.credits}">
@@ -164,14 +146,14 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="ICP Code" sortBy="#{currentidDet.icpcode}" filterBy="#{currentidDet.icpcode}">
-                            <h:outputText value="#{currentidDet.icpcode}">                               
+                            <h:outputText value="#{currentidDet.icpcode}">
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Actions" exportable="false" width="15%">
-                            <p:commandButton icon="pi pi-pencil" update=":form:dtDetails" oncomplete="PF('#{hfmaccentriesControllerBean.dialogNameDet}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process=":form:manage-code-contentDet @this">
+                            <p:commandButton icon="pi pi-pencil" update=":form:dtDetails" oncomplete="PF('entryDialogDetailWV').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process=":form:manage-code-contentDet @this">
                                 <f:setPropertyActionListener value="#{currentidDet}" target="#{hfmaccentriesControllerBean.currentdet}" />
                             </p:commandButton>
-                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" actionListener="#{hfmaccentriesControllerBean.deleteDet}" >
+                            <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" actionListener="#{hfmaccentriesControllerBean.deleteDet}">
                                 <f:setPropertyActionListener value="#{currentidDet}" target="#{hfmaccentriesControllerBean.currentdet}" />
                                 <p:confirm header="Confirmation" message="Delete this record?" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
@@ -185,13 +167,13 @@
             <p:dialog header="Edit Entry" width="450" showEffect="fade" modal="true" widgetVar="entryDialogWV" responsive="true">
                 <p:outputPanel id="manage-code-content" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentries}">
-                    	<div class="p-field">
-                    		<p:outputLabel for="entity" value="Select Company:" />
-                    		<p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.currentries.companyid}" filter="true" filterMatchMode="startsWith">
-                    			<f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />                            	
+                        <div class="p-field">
+                            <p:outputLabel for="entity" value="Select Company:" />
+                            <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.currentries.companyid}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
                             </p:selectOneMenu>
-                    	</div>
-                        <div class="p-field">                        	
+                        </div>
+                        <div class="p-field">
                             <p:outputLabel for="period" value="Period:" />
                             <p:selectOneMenu id="period" value="#{hfmaccentriesControllerBean.currentries.periodnm}" editable="true">
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstperiod}" var="itemf" itemLabel="#{itemf.periodnm}" itemValue="#{itemf.periodnm}" />
@@ -205,8 +187,8 @@
                 </f:facet>
             </p:dialog>
 
-			<!-- Dialog for editing detail table -->
-			<p:dialog header="Movements Details" width="450" showEffect="fade" modal="true" widgetVar="#{hfmaccentriesControllerBean.dialogNameDet}" responsive="true">
+            <!-- Dialog for editing detail table -->
+            <p:dialog header="Movements Details" width="450" showEffect="fade" modal="true" widgetVar="entryDialogDetailWV" responsive="true">
                 <p:outputPanel id="manage-code-contentDet" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentdet}">
                         <div class="p-field">
@@ -225,17 +207,19 @@
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="icpcode" value="ICP Code"/>
-                            <p:inputText id="icpcode" value="#{hfmaccentriesControllerBean.currentdet.icpcode}" required="true" />
+                            <p:selectOneMenu id="icpcode" value="#{hfmaccentriesControllerBean.currentdet.icpcode}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" var="icp" itemLabel="#{empty icp.icpdesc ? icp.icpcode : icp.icpdesc}" itemValue="#{icp.icpcode}" />
+                            </p:selectOneMenu>
                         </div>
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
                     <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.saveDet}" update=":form:dtDetails" process=":form:manage-code-contentDet" />
-                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('#{hfmaccentriesControllerBean.dialogNameDet}').hide()" class="ui-button-secondary" />
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('entryDialogDetailWV').hide()" class="ui-button-secondary" />
                 </f:facet>
             </p:dialog>
 
-			<!-- Global confirmation dialog -->
+            <!-- Global confirmation dialog -->
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350" id="globalDlgConfirmID">
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat" />
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
