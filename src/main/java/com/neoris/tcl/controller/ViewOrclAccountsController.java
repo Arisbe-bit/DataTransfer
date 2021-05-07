@@ -42,7 +42,7 @@ public class ViewOrclAccountsController {
 		
 		 LOG.info("Initializing lstOrclAccountsHFM...");
 	       // this.lstAcc = service.findAll();
-	        this.lstOrcl = service.findAll();
+	  //      this.lstOrcl = service.findAll();
 		
 	}
 

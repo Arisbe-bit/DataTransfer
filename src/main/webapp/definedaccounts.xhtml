@@ -96,7 +96,8 @@
                             <div class="p-field">
                                 <p:outputLabel for="companyid" value="Company" />
                                 <p:selectOneMenu id="companyid" value="#{setdefaccountsControllerBean.curtpAccs.id.companyid}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
+                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" 
+                                    var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
 	                          <p:ajax event="change" 
 										listener="#{setdefaccountsControllerBean.companyidChange}"
 										process="@this"

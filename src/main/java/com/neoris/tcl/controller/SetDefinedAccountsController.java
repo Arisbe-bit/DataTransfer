@@ -36,8 +36,10 @@ public class SetDefinedAccountsController {
 
 	@Autowired
 	private ISetDefinedAccountsService service;
+	@Autowired
 	private IHfmOracleAccService serviceOAS;
-	private IViewCostCenterService serviceC;
+	@Autowired
+	private IViewCostCenterService servcc;
 	private List<SetDefinedAccounts> lsttpAccs;
 	private List<SetDefinedAccounts> lstSelectdAccs;
 	private SetDefinedAccounts curtpAccs; // actual iterator
@@ -45,11 +47,11 @@ public class SetDefinedAccountsController {
 	//Company
   	private List<HfmRollupEntries> lstcompany;
 
-	private List<HfmOracleAcc> lstOrcl;	
+  	private List<HfmOracleAcc> lstOrcl;
 	private List<ViewCostCenter> lstCC;
 	private Authentication authentication;
 	
-	//oracle accounts
+	private int lcompanyid; 
 	
 	
 	private User user;
@@ -63,11 +65,11 @@ public class SetDefinedAccountsController {
 		try{
 			LOG.info("Initializing Cost Centers...");
 		
-		  this.lstCC = serviceC.findAll();
+		  this.lstCC = servcc.findAll();
 
 			LOG.info(" lstCC "+this.lstCC.size());
 		}catch (Exception e) {
-			LOG.error("init lstCC ERRor -> {}", e.getMessage());
+			LOG.error("init lstCC ERRor -> {}", e.getMessage(),e);
 		}
 		
 		this.authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -175,18 +177,18 @@ public class SetDefinedAccountsController {
 		this.curtpAccs = curtpAccs;
 		
 	 try {	
-		this.lstCC = serviceC.findAll();
+		this.lstCC = servcc.findAll();
 		
-		LOG.info("DefAccounts company  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
+		LOG.info("setCurtpAccs company  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
 		
 		
 		//LOG.info("current lstCC "+this.lstCC.size());
 		
 		lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
-		LOG.info("return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+		LOG.info("setCurtpAccs return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
 		
 	   } catch (Exception e) {
-			LOG.error("setcur ERRor -> {}", e.getMessage());
+			LOG.error("setCurtpAccs ERRor -> {}", e.getMessage());
 		}
 		
 	}
@@ -209,6 +211,7 @@ public class SetDefinedAccountsController {
 	}
 	
 	
+
 	public List<ViewCostCenter> getLstCC() {
 		return lstCC;
 	}
@@ -218,23 +221,27 @@ public class SetDefinedAccountsController {
 	}
 
 	public void companyidChange() {
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+				
 		try {
-			LOG.info("DefAccounts company  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
-			this.lstCC = serviceC.findAll();
-			LOG.info("change lstCC "+this.lstCC.size());			
+			LOG.info("companyidChange company  => {},costcenter  => {}", this.lcompanyid,this.curtpAccs.getId().getCostcenter());
+			//this.lstCC = servcc.findAll();
+			//LOG.info("change lstCC "+this.lstCC.size());			
 		} catch (Exception e) {
-			LOG.error("ERRor -> {}", e.getMessage());
+			LOG.error("companyidChange ERRor -> {}", e.getMessage());
 		}
 	}
 	
 	
 	public void costcenterChange() {
 		try {
-			LOG.info("DefAccCC companyid  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
-			lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
-			LOG.info("return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+			LOG.info("costcenterChange companyid  => {},costcenter  => {}", this.lcompanyid ,this.curtpAccs.getId().getCostcenter());
+			lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.lcompanyid ,this.curtpAccs.getId().getCostcenter());
+			
+			
+			LOG.info("costcenterChange return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
 		} catch (Exception e) {
-			LOG.error("chcc ERRor -> {}", e.getMessage());
+			LOG.error("costcenterChange ERRor -> {}", e.getMessage());
 		}
 	}
 	

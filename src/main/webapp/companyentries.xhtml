@@ -162,7 +162,7 @@
 							</div>
 							<div class="p-field">
                                 <p:outputLabel for="companyid" value="Companyid" />
-                                <p:selectOneMenu id="companyid" value="rollupentriesControllerBean.currEntries.companyid}" filter="true" filterMatchMode="startsWith">
+                                <p:selectOneMenu id="companyid" editable="true"  value="rollupentriesControllerBean.currEntries.companyid}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItems value="#{vieworclcompControllerBean.lstcomp}" 
                                     var="itemp" itemLabel="#{itemp.companycode}" itemValue="#{itemp.companyid}" />
                                 </p:selectOneMenu>

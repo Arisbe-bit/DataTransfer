@@ -1,5 +1,6 @@
 package com.neoris.tcl.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import com.neoris.tcl.models.HfmPeriodFfss;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.models.SetIcpcodes;
+import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmAccEntriesService;
@@ -27,6 +29,7 @@ import com.neoris.tcl.services.IHfmPeriodFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.services.ISetIcpcodesService;
+import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -68,8 +71,15 @@ public class HfmAccEntriesController {
 	private List<HfmAccEntriesDet> lstaccentdet;
 	private List<HfmAccEntriesDet> lstSlctedentdet;
 	private HfmAccEntriesDet currentdet;
+	
+	private List<ViewCostCenter> lstCC;
+	@Autowired
+	private IViewCostCenterService servcc;
 
 	private User user;
+	
+	private int vcompanyid;
+	private String vperiodnm;
 
 	@PostConstruct
 	public void init() {
@@ -77,10 +87,21 @@ public class HfmAccEntriesController {
 		this.currentries = new HfmAccEntries();
 		this.user = Functions.getUser();
 		this.lstEntries = serviceEntries.findAll(); // this is for combobox
-		this.lstHfmcodes = serviceHfmcodes.findAll();
-		this.lstIcpcodes = serviceIcpCodes.findAll();
+		
 
 		if (this.lstEntries != null && !this.lstEntries.isEmpty()) {
+
+		this.user = Functions.getUser();
+		this.currentries = new HfmAccEntries();
+		this.lstEntries = serviceEntries.findAll();
+		this.lstHfmcodes = serviceHfmcodes.findAll();
+		this.lstIcpcodes = serviceIcpCodes.findAll();
+		
+		
+		}
+		/*
+		if(this.lstEntries != null && !this.lstEntries.isEmpty()) {
+
 			LOG.info("lstEntries filled! Initializing currentries. => {}", this.lstEntries);
 			this.currentries.setApplied(0);
 			this.currentries.setUserid(this.user.getUsername());
@@ -89,15 +110,19 @@ public class HfmAccEntriesController {
 			LOG.info("Gettin lstaccent with company id = {}", this.currentries.getCompanyid());
 			this.lstaccent = service.findByCompanyid(this.currentries.getCompanyid());
 		}
+		*/
+		
 
-		try {
-			LOG.info("Getting lstperiod...");
-			this.lstperiod = servperiod.findAll();
-			LOG.info("init lstperiod with {} elements.", this.lstperiod.size());
-		} catch (Exception e) {
-			LOG.error("init lstperiod ERROR -> {}", e.getMessage(), e);
+		
+		try{
+			LOG.info("Initializing Cost Centers...");
+		
+		  this.lstCC = servcc.findAll();
+
+			LOG.info(" lstCC "+this.lstCC.size());
+		}catch (Exception e) {
+			LOG.error("init lstCC ERRor -> {}", e.getMessage(),e);
 		}
-
 		LOG.info("Initializing finish!");
 	}
 
@@ -111,6 +136,8 @@ public class HfmAccEntriesController {
 		this.currentries.setApplied(0);
 
 		LOG.info("manual currentries company  => {}", this.currentries.getCompanyid());
+		
+		
 	}
 
 	/**
@@ -273,13 +300,6 @@ public class HfmAccEntriesController {
 		this.curperiod = curperiod;
 	}
 
-//	public HfmAccEntries getCurrentmanual() {
-//		return currentmanual;
-//	}
-//
-//	public void setCurrentmanual(HfmAccEntries currentmanual) {
-//		this.currentmanual = currentmanual;
-//	}
 
 	public List<HfmAccEntriesDet> getLstaccentdet() {
 		return lstaccentdet;
@@ -332,14 +352,40 @@ public class HfmAccEntriesController {
 		LOG.info("companyidChange Finish!!");
 		// PrimeFaces.current().ajax().update("form:dtParent", "form:period");
 	}
+	public void companyidChangeSel(AjaxBehaviorEvent ev) {
+		LOG.info("companyidChangeSel company  => {}", this.currentries.getCompanyid());
+		
+		try {
+			LOG.info("Getting lstperiod...");
+			this.lstperiod = servperiod.findByCompanyid(this.currentries.getCompanyid());
+			LOG.info("init lstperiod with {} elements.", this.lstperiod.size());
+			
+			
+		} catch (Exception e) {
+			LOG.error("init lstperiod ERROR -> {}", e.getMessage(), e);
+		}
+
+		
+		
+	}
 
 	/**
 	 * 
 	 */
 	public void openNewDet() {
+		
+		
+		double num=0;
+		
+		
 		this.currentdet = new HfmAccEntriesDet();
 		this.currentdet.setItemid(this.currentries.getItemid());
 		LOG.info("currentdet = {}", this.currentdet);
+		
+		
+		
+		this.currentdet.setDebits( new BigDecimal(num));
+		this.currentdet.setCredits( new BigDecimal(num));
 	}
 
 	public void saveDet() {
@@ -394,6 +440,7 @@ public class HfmAccEntriesController {
 		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearFilters()");
 	}
 
+	
 	public boolean hasSelectedCodesDet() {
 		return this.lstSlctedentdet != null && !this.lstSlctedentdet.isEmpty();
 	}
@@ -433,14 +480,17 @@ public class HfmAccEntriesController {
 	}
 
 	public void applyprocess() {
-		LOG.info("Running apply entries with currentmanual = {}", currentries);
-		try {
-			LOG.info("applyprocess ItemID ={} ", this.currentries.getItemid().intValue());
 
-			service.rollUpApplyEntries(this.currentries.getCompanyid(), this.currentries.getPeriodnm(),
-					this.user.getUsername(), this.currentries.getItemid().intValue());
-			Functions.addInfoMessage("Process", "Apply entries Finished!");
-			PrimeFaces.current().ajax().update(getFormNameId() + ":messages");
+		LOG.info("***********Running apply entries*********** ");
+		try {	
+			LOG.info("applyprocess ItemID ={} ,perdiodnm ={}", this.vcompanyid,this.vperiodnm);
+			
+			LOG.info("start apply ");
+			service.rollUpApplyEntries(this.vcompanyid, 
+					this.vperiodnm, this.user.getUsername(), this.currentries.getItemid().intValue());
+
+			
+			
 		} catch (Exception e) {
 			LOG.error("Exception in applyprocess -> {}", e.getMessage());
 		}
@@ -466,6 +516,11 @@ public class HfmAccEntriesController {
 		this.currentries = lstSlctedentries.get(0);
 		this.lstaccentdet = servicedet.findByItemid(this.currentries.getItemid());
 		LOG.info("Regreso con lstaccentdet = {}", lstaccentdet);
+		
+		this.vcompanyid = this.currentries.getCompanyid();
+		this.vperiodnm =  this.currentries.getPeriodnm();
+		
+		LOG.info("COmpanyid "+this.vcompanyid+ " period "+ this.vperiodnm);
 	}
 
 	public List<SetHfmCodes> getLstHfmcodes() {
@@ -475,4 +530,14 @@ public class HfmAccEntriesController {
 	public List<SetIcpcodes> getLstIcpcodes() {
 		return lstIcpcodes;
 	}
+
+	public List<ViewCostCenter> getLstCC() {
+		return lstCC;
+	}
+
+	public void setLstCC(List<ViewCostCenter> lstCC) {
+		this.lstCC = lstCC;
+	}
+	
+	
 }

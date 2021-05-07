@@ -32,7 +32,7 @@ public class Functions {
     
     public static String cryptPassword(String password) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		//String password[] = { "Neoris2021", "Cemex2021", "Mor#7310", "12345" };
+		//String password[] = { "x" };
 		//for (int i = 0; i < password.length; i++)
 		//	System.out.println( String.format("%s = %s", password[i], passwordEncoder.encode(password[i])) );
     	return passwordEncoder.encode(password);

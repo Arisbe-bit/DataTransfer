@@ -25,26 +25,34 @@ public class HfmAccEntriesDet implements Serializable {
 	private String hfmcode;
 	private BigDecimal debits;
 	private BigDecimal credits;
+	private BigDecimal amount;
 	private String icpcode;
+	private String areaid;
+	private String description;
 	
-//	@ManyToOne
-//    @JoinColumn(name="itemid")
-//	private HfmAccEntries entries;
+
 
 	public HfmAccEntriesDet() {
 
 	}
 
-	public HfmAccEntriesDet(Long itemid, Long movid, String hfmcode, BigDecimal debits, BigDecimal credits,
-			String icpcode) {
+	
 
-		this.itemid = itemid;
-		this.movid = movid;
-		this.hfmcode = hfmcode;
-		this.debits = debits;
-		this.credits = credits;
-		this.icpcode = icpcode;
-	}
+	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal debits, BigDecimal credits,
+		BigDecimal amount, String icpcode, String areaid, String description) {
+	
+	this.movid = movid;
+	this.itemid = itemid;
+	this.hfmcode = hfmcode;
+	this.debits = debits;
+	this.credits = credits;
+	this.amount = amount;
+	this.icpcode = icpcode;
+	this.areaid = areaid;
+	this.description = description;
+}
+
+
 
 	public Long getItemid() {
 		return itemid;
@@ -94,10 +102,38 @@ public class HfmAccEntriesDet implements Serializable {
 		this.icpcode = icpcode;
 	}
 
+	
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+
+	public String getAreaid() {
+		return areaid;
+	}
+
+	public void setAreaid(String areaid) {
+		this.areaid = areaid;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public String toString() {
 		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode + ", debits=" + debits
-				+ ", credits=" + credits + ", icpcode=" + icpcode + "]";
+				+ ", credits=" + credits + ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid
+				+ ", description=" + description + "]";
 	}
+
+	
 
 }

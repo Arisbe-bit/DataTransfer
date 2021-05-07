@@ -10,31 +10,45 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Subselect;
 
 @Entity
-@Subselect("select costcenter,ccname ,opexarea from ROLLUP_VOPEXAREA")
+@Table(name = "ROLLUP_VOPEXAREA")
 public class ViewCostCenter implements Serializable{
-	
-	private static final long serialVersionUID = 5449771232153970467L;
+	//@Subselect("select NUM,COSTCENTER,ccname ,opexarea from ROLLUP_VOPEXAREA")
+	private static final long serialVersionUID = 5449771232100970467L;
 	
 	@Id
-	@Column(name = "COSTCENTER")
+	private Long num;
+	
+	@Column
 	private String costcenter;
-	
-	@Column(name = "CCNAME")
+	@Column
 	private String ccname;
-	
-	@Column(name = "OPEXAREA")
+	@Column
 	private String opexarea;
 	
 	public ViewCostCenter() {
 		
 	}
 	
-	public ViewCostCenter(String costcenter, String ccname, String opexarea) {
+
+	public ViewCostCenter(Long num, String costcenter, String ccname, String opexarea) {
 		
+		this.num = num;
 		this.costcenter = costcenter;
 		this.ccname = ccname;
 		this.opexarea = opexarea;
 	}
+
+
+	public Long getNum() {
+		return num;
+	}
+
+
+	public void setNum(Long num) {
+		this.num = num;
+	}
+
+
 	public String getCostcenter() {
 		return costcenter;
 	}
@@ -53,11 +67,13 @@ public class ViewCostCenter implements Serializable{
 	public void setOpexarea(String opexarea) {
 		this.opexarea = opexarea;
 	}
+
+
 	@Override
 	public String toString() {
-		return "ViewCostCenter [costcenter=" + costcenter + ", ccname=" + ccname + ", opexarea=" + opexarea + "]";
+		return "ViewCostCenter [num=" + num + ", costcenter=" + costcenter + ", ccname=" + ccname + ", opexarea="
+				+ opexarea + "]";
 	}
 	
 	
-
 }

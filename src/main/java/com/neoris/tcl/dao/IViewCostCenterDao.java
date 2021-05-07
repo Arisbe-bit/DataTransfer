@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.neoris.tcl.models.ViewCostCenter;
 
-@Repository
-public interface IViewCostCenterDao extends JpaRepository<ViewCostCenter, Id>{
+
+public interface IViewCostCenterDao extends JpaRepository<ViewCostCenter, Long>{
 
 }

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROLLUPHFMFFSSPERIOD")
+@Table(name = "rolluphfmffssperiod")
 public class HfmPeriodFfss implements Serializable {
 
 	/**

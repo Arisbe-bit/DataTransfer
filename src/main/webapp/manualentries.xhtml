@@ -79,7 +79,13 @@
                         <p:column headerText="Period Name" sortBy="#{accEntries.periodnm}" filterBy="#{accEntries.periodnm}" width="50%">
                             <h:outputText value="#{accEntries.periodnm}" />
                         </p:column>
-
+ 						<p:column headerText="User Id" sortBy="#{accEntries.userid}" filterBy="#{accEntries.userid}" width="50%">
+                            <h:outputText value="#{accEntries.userid}" />
+                        </p:column>
+                        <p:column headerText="Applied" sortBy="#{accEntries.applied}" styleClass="rollup-text-align-center" filterBy="#{accEntries.applied}" width="50%">
+                            <h:outputText value="#{accEntries.applied}" class="#{accEntries.applied eq 1 ? 'fa fa-check fa-2x':'fa fa-close fa-2x'}"/>
+                          
+                        </p:column>
                         <p:column headerText="Actions" exportable="false" width="30%">
                             <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('entryDialogWV').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
                                 <f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
@@ -89,9 +95,10 @@
                                 <f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
                                 <p:confirm header="Confirmation" message="Delete entry #{accEntries.periodnm}?" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
-                            <p:commandButton id="btngL" icon="pi pi-cog" value="Apply" action="#{rollupControllerBean.applyprocess}" ajax="true" styleClass="edit-button rounded-button ui-button-success" update="@this">
+                            <p:commandButton id="btngL" icon="pi pi-cog" value="Apply" actionListener="#{hfmaccentriesControllerBean.applyprocess}" ajax="true" styleClass="edit-button rounded-button ui-button-success" update="@form">
                                 <f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
-                                <p:confirm header="Confirmation" message="Start Application" icon="pi pi-exclamation-triangle" />
+                                
+
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
@@ -135,18 +142,18 @@
                             <h:outputText value="#{currentidDet.hfmcode}" />
                         </p:column>
 
-                        <p:column headerText="Debits" sortBy="#{currentidDet.debits}" filterBy="#{currentidDet.debits}">
-                            <h:outputText value="#{currentidDet.debits}">
-                                <f:convertNumber pattern="###,###,###,###.##"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="Credits" sortBy="#{currentidDet.credits}" filterBy="#{currentidDet.credits}">
-                            <h:outputText value="#{currentidDet.credits}">
+                       
+                        <p:column headerText="Amount" sortBy="#{currentidDet.amount}" styleClass="rollup-text-align-right" filterBy="#{currentidDet.amount}">
+                            <h:outputText value="#{currentidDet.amount}">
                                 <f:convertNumber pattern="###,###,###,###.##"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="ICP Code" sortBy="#{currentidDet.icpcode}" filterBy="#{currentidDet.icpcode}">
                             <h:outputText value="#{currentidDet.icpcode}">
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="AreaId" sortBy="#{currentidDet.areaid}" filterBy="#{currentidDet.areaid}">
+                            <h:outputText value="#{currentidDet.areaid}">
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Actions" exportable="false" width="15%">
@@ -155,7 +162,6 @@
                             </p:commandButton>
                             <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" actionListener="#{hfmaccentriesControllerBean.deleteDet}">
                                 <f:setPropertyActionListener value="#{currentidDet}" target="#{hfmaccentriesControllerBean.currentdet}" />
-                                <p:confirm header="Confirmation" message="Delete this record?" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
@@ -170,12 +176,18 @@
                         <div class="p-field">
                             <p:outputLabel for="entity" value="Select Company:" />
                             <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.currentries.companyid}" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}"
+                                 var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
+                                 <p:ajax event="change" 
+										listener="#{hfmaccentriesControllerBean.companyidChangeSel}"
+										process="@this"
+										update=":form:periodnm"/>
                             </p:selectOneMenu>
                         </div>
-                        <div class="p-field">
-                            <p:outputLabel for="period" value="Period:" />
-                            <p:selectOneMenu id="period" value="#{hfmaccentriesControllerBean.currentries.periodnm}" editable="true">
+               
+                        <div class="p-field p-col-12 p-md-4">
+                            <p:outputLabel for="periodnm" value="periodnm" />
+                            <p:selectOneMenu id="periodnm" editable="true" value="#{hfmaccentriesControllerBean.currentries.periodnm}" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstperiod}" var="itemf" itemLabel="#{itemf.periodnm}" itemValue="#{itemf.periodnm}" />
                             </p:selectOneMenu>
                         </div>
@@ -188,29 +200,33 @@
             </p:dialog>
 
             <!-- Dialog for editing detail table -->
-            <p:dialog header="Movements Details" width="450" showEffect="fade" modal="true" widgetVar="entryDialogDetailWV" responsive="true">
+            <p:dialog header="Movements Details" width="550" showEffect="fade" modal="true" widgetVar="entryDialogDetailWV" responsive="true">
                 <p:outputPanel id="manage-code-contentDet" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentdet}">
                         <div class="p-field">
                             <p:outputLabel for="hfmco" value="Hmfcode" />
                             <p:selectOneMenu id="hfmco" value="#{hfmaccentriesControllerBean.currentdet.hfmcode}" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{hfmaccentriesControllerBean.lstHfmcodes}" var="itemp" itemLabel="#{empty itemp.description ? itemp.hfmcode : itemp.description}" itemValue="#{itemp.hfmcode}" />
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstHfmcodes}" 
+                                var="itemp" itemLabel="#{itemp.hfmcode}" itemValue="#{itemp.hfmcode}" />
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field">
-                            <p:outputLabel for="debits" value="Debits"/>
-                            <p:inputText id="debits" value="#{hfmaccentriesControllerBean.currentdet.debits}" required="true" />
+                            <p:outputLabel for="amount" value="Amount"/>
+                            <p:inputText id="amount" value="#{hfmaccentriesControllerBean.currentdet.amount}" required="true" decimalSeparator="." thousandSeparator=","/>
                         </div>
-                        <div class="p-field">
-                            <p:outputLabel for="credits" value="Credits"/>
-                            <p:inputText id="credits" value="#{hfmaccentriesControllerBean.currentdet.credits}" required="true" />
-                        </div>
+                       
                         <div class="p-field">
                             <p:outputLabel for="icpcode" value="ICP Code"/>
                             <p:selectOneMenu id="icpcode" value="#{hfmaccentriesControllerBean.currentdet.icpcode}" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" var="icp" itemLabel="#{empty icp.icpdesc ? icp.icpcode : icp.icpdesc}" itemValue="#{icp.icpcode}" />
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" var="icp" itemLabel="#{icp.icpcode}" itemValue="#{icp.icpcode}" />
                             </p:selectOneMenu>
                         </div>
+                        <div class="p-field">
+                            <p:outputLabel for="decription" value="Decription Maxlength(250 )"/>
+                            <p:inputText id="decription" value="#{hfmaccentriesControllerBean.currentdet.description}" required="true" Maxlength="250" />
+                        </div>
+                       
+                       
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">

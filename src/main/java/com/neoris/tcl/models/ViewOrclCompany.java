@@ -2,6 +2,7 @@ package com.neoris.tcl.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,8 +16,11 @@ public class ViewOrclCompany implements Serializable{
 	@Id
 	private Long companyid;
 	
+	@Column
 	private String companynm;
+	@Column
 	private String currencycode;
+	@Column
 	private String companycode;
 	
 	public ViewOrclCompany() {

@@ -3,6 +3,7 @@ package com.neoris.tcl.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.neoris.tcl.dao.IHfmAccEntriesDao;
 import com.neoris.tcl.models.HfmAccEntries;
+import com.neoris.tcl.utils.Functions;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
@@ -61,11 +63,15 @@ public class HfmAccEntriesService implements IHfmAccEntriesService{
 
 	@Override
 	public void rollUpApplyEntries(int p_orgid, String p_periodnm, String p_userid, int p_itemid) {
-		LOG.info("Entering to  run apply entries: p_orgid = {}, p_periodnm = {}, p_itemid = {} ", p_orgid, p_itemid, p_itemid);
+		LOG.info("Entering to  run apply entries: p_orgid = {}, p_periodnm = {}, p_itemid = {} ", p_orgid, p_periodnm, p_itemid);
 		try {
 			data.rollUpApplyEntries(p_orgid, p_periodnm, p_userid, p_itemid); 
 			
-			LOG.info("********************rollUpApplyEntries Starting:***************************");
+			LOG.info("********************rollUpApplyEntries Finished:***************************");
+			
+			Functions.addInfoMessage("Apply Process", "Manual Entries Applied!");
+			PrimeFaces.current().ajax().update("form" + ":messages");
+			
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmAccEntriesDao.rollUpApplyEntries: => {}", e.getMessage());
 		}

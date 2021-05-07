@@ -62,11 +62,6 @@ public class RollupController {
 	private static final String LAYOUT = "/rollup/layout";
 	private static final String MOVEMENTS = "/rollup/movements";
 	
-//	private final static String ROLLUPS_XML = ROLLUPS + DOT_XML;
-//	private final static String FFSS_XML = FFSS + DOT_XML;
-//	private static final String SUMARY_XML = SUMARY + DOT_XML;
-//	private static final String LAYOUT_XML = LAYOUT + DOT_XML;
-//	private static final String MOVEMENTS_XML = MOVEMENTS + DOT_XML;
 
 	private List<HfmRollupEntries> lstRollUps;
 	private List<HfmRollupEntries> lstSelectedRollups;
@@ -221,12 +216,13 @@ public class RollupController {
 				rollUp.getRyear(), user.getUsername());
 
 		rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
+		rollUp.setValidations(HfmRollupEntries.STATUS_PROCESSING);
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 		LOG.info("Processing Rollup Start ");
 		service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				rollUp.getSegment1(), user.getUsername());
 
-		rollUp.setAttribute1(HfmRollupEntries.STATUS_OK);
+		
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		// 2.- Process Drill Details
@@ -246,12 +242,18 @@ public class RollupController {
 		LOG.info("*********************Processing Validations*********************");
 		// 5.- Run the validations..
 		processValidations(rollUp);
-
+		rollUp.setValidations(HfmRollupEntries.STATUS_OK);
 		// 6.- Run Match account...
 		LOG.info("*********************Processing Match ACccounts*********************");
 		processMatchAccount(rollUp);
 
 		LOG.info("**********************Finish processing rollups!!********************************");
+		
+		rollUp.setAttribute1(HfmRollupEntries.STATUS_OK);
+		rollUp.setAttribute6(HfmRollupEntries.STATUS_OK);
+		Functions.addInfoMessage("Succes", "RollUps Proceced!!");
+		PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
+	
 	}
 
 	/**
@@ -908,10 +910,12 @@ public class RollupController {
 	 */
 	public String submitToLayouts() {
 		//layoutprocess();
+		 int companyid = curRollUp.getCompanyid().intValue();
+		 
 		LOG.info("Redirecting to {}....", LAYOUT);
 		  LOG.info("Initializing lstLayout...");
 	       // this.lstlayout = serviceLay.findAll();
-		  int companyid = curRollUp.getCompanyid().intValue();
+		 
 		  
 	        LOG.info("Query lstlayout LIST with company = {}", companyid);
 
