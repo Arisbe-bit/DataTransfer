@@ -20,5 +20,7 @@ public interface ISetDefinedAccountsService {
 	void delete(SetDefinedAccounts entity);
 
 	void deleteAll(List<SetDefinedAccounts> entityList);
+	
+	List<SetDefinedAccounts>  findByIdCompanyid(int companyid);
 
 }

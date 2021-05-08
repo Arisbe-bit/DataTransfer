@@ -21,7 +21,9 @@ import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.models.ViewPartnersICP;
 import com.neoris.tcl.security.models.User;
+import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmOracleAccService;
+import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.ISetDefinedAccountsService;
 import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.services.IViewCostCenterService;
@@ -40,6 +42,8 @@ public class SetDefinedAccountsController {
 	private IHfmOracleAccService serviceOAS;
 	@Autowired
 	private IViewCostCenterService servcc;
+	@Autowired
+	private IHfmRollupEntriesService servcomp;
 	private List<SetDefinedAccounts> lsttpAccs;
 	private List<SetDefinedAccounts> lstSelectdAccs;
 	private SetDefinedAccounts curtpAccs; // actual iterator
@@ -58,10 +62,16 @@ public class SetDefinedAccountsController {
 
 	@PostConstruct
 	public void init() {
-		LOG.info("Initializing lstAccounting Accounts...");
-		this.lsttpAccs = service.findAll();
 		
-	
+		this.curtpAccs = new SetDefinedAccounts();
+		
+		LOG.info("Initializing lstcompany ...");
+		
+		this.lstcompany = servcomp.findAll();
+		
+		
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		
 		try{
 			LOG.info("Initializing Cost Centers...");
 		
@@ -76,18 +86,23 @@ public class SetDefinedAccountsController {
 		if (this.authentication.getPrincipal() instanceof User) {
 			this.user = (User) this.authentication.getPrincipal();
 		}
+		
+		
 	}
 
 	public void openNew() {
-		this.curtpAccs = new SetDefinedAccounts();
-			
+		//this.curtpAccs = new SetDefinedAccounts();
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+		LOG.info(" open new "+lcompanyid);
 	}
 
 	public void save() {
 		LOG.info("Entering to save Accounting Accounts => {}", this.curtpAccs);
 		this.curtpAccs.setUserid(user.getUsername());
 		this.curtpAccs = service.save(curtpAccs);
-		this.lsttpAccs = service.findAll();
+		
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		
 		Functions.addInfoMessage("Succes", "Accounting Accounts saved");
 		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
@@ -98,7 +113,7 @@ public class SetDefinedAccountsController {
 		LOG.info("Entering to delete Accounting Accounts => {}", this.curtpAccs);
 		service.delete(this.curtpAccs);
 		this.curtpAccs = null;
-		this.lsttpAccs = service.findAll();
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
 		Functions.addInfoMessage("Succes", "Code Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -108,7 +123,7 @@ public class SetDefinedAccountsController {
 		LOG.info("[deleteSelected] = > Entering to delete Accounting Account: {}", this.lstSelectdAccs);
 		service.deleteAll(this.lstSelectdAccs);
 		this.lstSelectdAccs = null;
-		this.lsttpAccs = service.findAll();
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
 		Functions.addInfoMessage("Succes", "Accounting Account Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -232,6 +247,17 @@ public class SetDefinedAccountsController {
 		}
 	}
 	
+	public void companyidChangeorcl() {
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+				
+		try {
+			LOG.info("companyidChangeorcl company  => {},costcenter  => {}", this.lcompanyid);
+			this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
+			LOG.info("companyidChangeorcl lsttpAccs "+this.lsttpAccs.size());			
+		} catch (Exception e) {
+			LOG.error("companyidChangeorcl ERRor -> {}", e.getMessage());
+		}
+	}
 	
 	public void costcenterChange() {
 		try {

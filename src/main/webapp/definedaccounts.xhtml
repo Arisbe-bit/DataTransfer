@@ -33,6 +33,18 @@
                                     <p:confirm header="Confirmation" message="Delete the selected codes Types?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </p:toolbarGroup>
+                              <p:toolbarGroup align="center">
+	                                <p:outputLabel for="entity" value="Select Company :  " />
+	                                <p:selectOneMenu id="entity" value="#{setdefaccountsControllerBean.curtpAccs.id.companyid}" filter="true" filterMatchMode="startsWith">
+	                                   <f:selectItem itemLabel="Select One" itemValue="" />
+	                                    <f:selectItems value="#{setdefaccountsControllerBean.lstcompany}" var="itemco" itemLabel="#{itemco.entity}" itemValue="#{itemco.companyid}" />
+		                          	<p:ajax event="change" 
+											listener="#{setdefaccountsControllerBean.companyidChangeorcl}"
+											process="@this" update=":form:dt-codes"
+											/>	
+                                </p:selectOneMenu>
+                                
+                           </p:toolbarGroup>
                             <p:toolbarGroup align="right">
                                 <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                     <p:dataExporter type="xls" target="#{setdefaccountsControllerBean.dataTableName}" fileName="${setdefaccountsControllerBean.title}" />
@@ -73,7 +85,7 @@
                     <p:column headerText="Source" sortBy="#{current.id.source}" filterBy="#{current.id.source}">
                         <h:outputText value="#{current.id.source}" />
                     </p:column>
-                    <p:column headerText="Period" sortBy="#{current.cperiod}" filterBy="#{current.cperiod}">
+                    <p:column headerText="Period (A=All period C=Current Year)" sortBy="#{current.cperiod}" filterBy="#{current.cperiod}">
                         <h:outputText value="#{current.cperiod}" />
                     </p:column>
                     <p:column headerText="Actions" exportable="false" width="10%">
@@ -142,19 +154,16 @@
                                   <p:selectOneMenu id="accountid" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.accountid}" filter="true" filterMatchMode="startsWith"  required="true" requiredMessage="Oracle Account is requiered">
                                     <f:selectItems value="#{setdefaccountsControllerBean.lstOrcl}" 
                                     var="accid" 
-                                    itemLabel="#{accid.accountid}" 
-                                    itemValue="#{accid.accountid}" 
+                                    itemLabel="#{accid.oracleacct}" 
+                                    itemValue="#{accid.oracleacct}" 
                                     />
-                                   <p:ajax event="change" 
-										listener="#{setdefaccountsControllerBean.costcenterChange}"
-										process="@this"
-										update=":form:accountid"/> 
-                                </p:selectOneMenu>
+                                    </p:selectOneMenu>
                             </div>
                            
                             <div class="p-field">
                                 <p:outputLabel for="icp" value="ICP Code" />
                                 <p:selectOneMenu id="icp" value="#{setdefaccountsControllerBean.curtpAccs.icpcode}" filter="true" filterMatchMode="startsWith">
+                                   <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
                                      var="code"
                                       itemLabel="#{code.icpcode}" 

@@ -54,6 +54,11 @@ public class SetDefinedAccountsService  implements ISetDefinedAccountsService{
 			data.deleteAll(entityList);		
 		}
 
+		@Override
+		public List<SetDefinedAccounts> findByIdCompanyid(int companyid) {
+			return (List<SetDefinedAccounts>) data.findByIdCompanyid(companyid);
+		}
+
 		
 
 }
