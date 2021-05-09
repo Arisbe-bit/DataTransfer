@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.datatable.DataTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +61,7 @@ public class HfmAccEntriesController {
 	private List<HfmRollupEntries> lstEntries;
 
 	private List<HfmAccEntries> lstaccent;
-	private List<HfmAccEntries> lstSelectedEntries;
+	// private List<HfmAccEntries> lstSelectedEntries;
 	private HfmAccEntries currentries;
 
 	private List<HfmFfss> lstHfmFfss;
@@ -67,8 +70,8 @@ public class HfmAccEntriesController {
 	private List<HfmPeriodFfss> lstperiod;
 	private HfmPeriodFfss curperiod;
 
-	//private List<HfmAccEntriesDet> lstaccentdet;
-	private List<HfmAccEntriesDet> lstSelectedEntDet;
+	// private List<HfmAccEntriesDet> lstaccentdet;
+	// private List<HfmAccEntriesDet> lstSelectedEntDet;
 	private HfmAccEntriesDet currentdet;
 
 	private List<ViewCostCenter> lstCC;
@@ -89,16 +92,17 @@ public class HfmAccEntriesController {
 		this.lstEntries = serviceEntries.findAll(); // this is for combobox
 
 		if (this.lstEntries != null && !this.lstEntries.isEmpty()) {
-			// Get the first company ID from list  and set to curent entry
-			this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
+			// Get the first company ID from list and set to curent entry
+			// this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
+			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
 			this.lstHfmcodes = serviceHfmcodes.findAll();
 			this.lstIcpcodes = serviceIcpCodes.findAll();
 			// find the list of accent for first company...
-			this.lstaccent = service.findByCompanyid(this.currentries.getCompanyid());
+			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 
 			// finally set the first element of lstaccent to current entry.
-			if(this.lstaccent != null && !this.lstaccent.isEmpty()) {
+			if (this.lstaccent != null && !this.lstaccent.isEmpty()) {
 				this.currentries = this.lstaccent.get(0);
 			}
 		}
@@ -120,7 +124,7 @@ public class HfmAccEntriesController {
 		try {
 			LOG.info("[init] Initializing Cost Centers...");
 			this.lstCC = servcc.findAll();
-			LOG.info(" lstCC " + this.lstCC.size());
+			LOG.info("[init] lstCC = {}", this.lstCC.size());
 		} catch (Exception e) {
 			LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
 		}
@@ -148,11 +152,11 @@ public class HfmAccEntriesController {
 		try {
 			this.currentries = service.save(currentries);
 			this.lstaccent = service.findByCompanyid(this.currentries.getCompanyid());
-			LOG.info("[save] lstaccent " + this.lstaccent.size());
-			Functions.addInfoMessage("Succes", "item saved");
+			LOG.info("[save] lstaccent size = {}", this.lstaccent.size());
+			Functions.addInfoMessage("[save] Succes", "item saved");
 		} catch (Exception e) {
 			LOG.error("[save]  lstaccent Exception -> {}", e.getMessage());
-			Functions.addErrorMessage("Error", "Error saving:" + e.getMessage());
+			Functions.addErrorMessage("[save] Error", "Error saving:" + e.getMessage());
 		}
 		PrimeFaces.current().executeScript("PF('entryDialogWV').hide()");
 		refreshUI();
@@ -164,13 +168,16 @@ public class HfmAccEntriesController {
 	public void delete() {
 		LOG.info("Entering to delete item => {}", this.currentries);
 
-		int companyId = currentries.getCompanyid();
 		try {
+			LOG.info("[delete] Deleting Entries Detail....");
+			servicedet.deleteAll(this.currentries.getLstEntriesDet());
+			LOG.info("[delete] Done! Delete Entry....");
 			service.delete(this.currentries);
 			this.currentries = null;
-			this.lstaccent = service.findByCompanyid(companyId);
-			LOG.info("[delete] lstaccent " + this.lstaccent.size());
-			Functions.addInfoMessage("Succes", "Entry Removed");
+			LOG.info("[delete] Done! Refreshing Entries List for company = {}", this.vcompanyid);
+			this.lstaccent = service.findByCompanyid(this.vcompanyid);
+			LOG.info("[delete] Done! lstaccent size = {} items!", this.lstaccent.size());
+			Functions.addInfoMessage("Succes", "Entry and Entry Child Items Removed");
 		} catch (Exception e) {
 			Functions.addErrorMessage("Error", "Error deleting:" + e.getMessage());
 			LOG.error("[delete] Exception deleting -> {}", e.getMessage());
@@ -183,36 +190,36 @@ public class HfmAccEntriesController {
 	 * 
 	 * @param event
 	 */
-	public void deleteSelected(ActionEvent event) {
-		LOG.info("[deleteSelected] = > Entering to delete item: {}", this.lstSelectedEntries);
-		service.deleteAll(this.lstSelectedEntries);
-		this.lstSelectedEntries = null;
-		this.lstaccent = service.findAll();
-		Functions.addInfoMessage("Succes", "Entries Removed");
-		refreshUI();
-	}
+//	public void deleteSelected(ActionEvent event) {
+//		LOG.info("[deleteSelected] = > Entering to delete item: {}", this.lstSelectedEntries);
+//		service.deleteAll(this.lstSelectedEntries);
+//		this.lstSelectedEntries = null;
+//		this.lstaccent = service.findAll();
+//		Functions.addInfoMessage("Succes", "Entries Removed");
+//		refreshUI();
+//	}
 
-	public boolean hasSelectedCodes() {
-		return this.lstSelectedEntries != null && !this.lstSelectedEntries.isEmpty();
-	}
+//	public boolean hasSelectedCodes() {
+//		return this.lstSelectedEntries != null && !this.lstSelectedEntries.isEmpty();
+//	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getDeleteButtonMessage() {
-		String message = "Delete %s item%s selected";
-		String retval = "Delete";
-		if (hasSelectedCodes()) {
-			int size = this.lstSelectedEntries.size();
-			if (size > 1) {
-				retval = String.format(message, size, "s");
-			} else {
-				retval = String.format(message, size, "");
-			}
-		}
-		return retval;
-	}
+//	public String getDeleteButtonMessage() {
+//		String message = "Delete %s item%s selected";
+//		String retval = "Delete";
+//		if (hasSelectedCodes()) {
+//			int size = this.lstSelectedEntries.size();
+//			if (size > 1) {
+//				retval = String.format(message, size, "s");
+//			} else {
+//				retval = String.format(message, size, "");
+//			}
+//		}
+//		return retval;
+//	}
 
 	public String getTitle() {
 		return "Manual Entries Setting";
@@ -238,20 +245,21 @@ public class HfmAccEntriesController {
 		this.lstaccent = lstaccent;
 	}
 
-	public List<HfmAccEntries> getLstSelectedEntries() {
-		return lstSelectedEntries;
-	}
-
-	public void setLstSelectedEntries(List<HfmAccEntries> lstSelectedEntries) {
-		this.lstSelectedEntries = lstSelectedEntries;
-	}
+//	public List<HfmAccEntries> getLstSelectedEntries() {
+//		return lstSelectedEntries;
+//	}
+//
+//	public void setLstSelectedEntries(List<HfmAccEntries> lstSelectedEntries) {
+//		this.lstSelectedEntries = lstSelectedEntries;
+//	}
 
 	public HfmAccEntries getCurrentries() {
 		return currentries;
 	}
 
 	public void setCurrentries(HfmAccEntries currentries) {
-		LOG.info("[setCurrentries] Recibo currentries = {}", currentries);
+		LOG.info("[setCurrentries] Recibo currentries companyId = {}, ItemID = {}", currentries.getCompanyid(),
+				currentries.getItemid());
 		this.currentries = currentries;
 	}
 
@@ -308,6 +316,8 @@ public class HfmAccEntriesController {
 	}
 
 	public void setCurrentdet(HfmAccEntriesDet currentdet) {
+		LOG.info("[setCurrentdet] Recibo currentdet id= {}, Mov Id = {}", currentdet.getItemid(),
+				currentdet.getMovid());
 		this.currentdet = currentdet;
 	}
 
@@ -315,12 +325,12 @@ public class HfmAccEntriesController {
 	 * Fire event for company ID Change
 	 */
 	public void companyidChange(AjaxBehaviorEvent ev) {
-		vcompanyid = this.currentries.getCompanyid();
+		// vcompanyid = this.currentries.getCompanyid();
 		LOG.info("[companyidChange] manual entries company  => {}", vcompanyid);
 
 		try {
 			this.lstaccent = service.findByCompanyid(vcompanyid);
-			if(this.lstaccent.isEmpty()) {
+			if (this.lstaccent.isEmpty()) {
 				this.currentries = new HfmAccEntries();
 				this.currentries.setCompanyid(vcompanyid);
 			} else {
@@ -328,19 +338,23 @@ public class HfmAccEntriesController {
 			}
 			LOG.info("[companyidChange]  lstaccent size = {}", this.lstaccent.size());
 		} catch (Exception e) {
-			LOG.error("[companyidChange] Exception in companyidChange -> service.findByCompanyid -> {}", e.getMessage());
+			LOG.error("[companyidChange] Exception in companyidChange -> service.findByCompanyid -> {}",
+					e.getMessage());
 		}
 
 		try {
 			LOG.info("[companyidChange] change lstaccentdet with ItemID ={} ", this.currentries.getItemid().intValue());
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ", currentries.getLstEntriesDet().size());
+			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ",
+					currentries.getLstEntriesDet().size());
 
 		} catch (Exception e) {
 			LOG.error("[companyidChange] Exception in lservicedet.findByItemid -> {}", e.getMessage());
 		}
 
-		this.lstSelectedEntries.clear();
+//		if(this.lstSelectedEntries != null) {
+//			this.lstSelectedEntries.clear();
+//		}
 		LOG.info("[companyidChange] companyidChange Finish!!");
 		refreshUI();
 	}
@@ -370,6 +384,8 @@ public class HfmAccEntriesController {
 	public void openNewDet() {
 
 		LOG.info("[openNewDet] click para crear un nuevo HfmAccEntriesDet");
+		LOG.info("[openNewDet] currentries = {}", currentries);
+
 		double num = 0;
 
 		this.currentdet = new HfmAccEntriesDet();
@@ -380,13 +396,13 @@ public class HfmAccEntriesController {
 	}
 
 	/**
-	 * Save de Table details form data
+	 * Save the Table details form data
 	 */
 	public void saveDet() {
 
 		LOG.info("[saveDet] itemdId " + this.currentries.getItemid().intValue());
 		LOG.info("[saveDet] Entering to save item  => {}", this.currentdet);
-		
+
 		try {
 			this.currentdet = servicedet.save(currentdet);
 			LOG.info("[saveDet] save lstaccentdet " + currentries.getLstEntriesDet().size());
@@ -413,7 +429,7 @@ public class HfmAccEntriesController {
 		} catch (Exception e) {
 			LOG.error("[deleteDet] delete lstaccentdet Error -> {}", e.getMessage());
 		}
-		Functions.addInfoMessage("Succes", "Row Removed");
+		Functions.addInfoMessage("Succes", "Entity detail Removed");
 		this.refreshUI();
 	}
 
@@ -421,48 +437,48 @@ public class HfmAccEntriesController {
 	 * 
 	 * @param event
 	 */
-	public void deleteSelectedDet(ActionEvent event) {
-		LOG.info("[deleteSelected] = > Entering to delete items: {}", this.lstSelectedEntDet);
-		servicedet.deleteAll(this.lstSelectedEntDet);
-		this.lstSelectedEntDet = null;
+//	public void deleteSelectedDet(ActionEvent event) {
+//		LOG.info("[deleteSelected] = > Entering to delete items: {}", this.lstSelectedEntDet);
+//		servicedet.deleteAll(this.lstSelectedEntDet);
+//		this.lstSelectedEntDet = null;
+//
+//		try {
+//			LOG.info("[deleteSelectedDet] updating currentries.lstEntriesDet...");
+//			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
+//			LOG.info("[deleteSelected] lstaccentdet = {}", currentries.getLstEntriesDet().size());
+//		} catch (Exception e) {
+//			LOG.error("[deleteSelectedDet] lstaccentdet ERRor -> {}", e.getMessage());
+//		}
+//		Functions.addInfoMessage("Succes", "Fields Removed");
+//		this.refreshUI();
+//	}
 
-		try {
-			LOG.info("[deleteSelectedDet] updating currentries.lstEntriesDet...");
-			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			LOG.info("[deleteSelected] lstaccentdet = {}", currentries.getLstEntriesDet().size());
-		} catch (Exception e) {
-			LOG.error("[deleteSelectedDet] lstaccentdet ERRor -> {}", e.getMessage());
-		}
-		Functions.addInfoMessage("Succes", "Fields Removed");
-		this.refreshUI();
-	}
+//	public boolean hasSelectedCodesDet() {
+//		return this.lstSelectedEntDet != null && !this.lstSelectedEntDet.isEmpty();
+//	}
 
-	public boolean hasSelectedCodesDet() {
-		return this.lstSelectedEntDet != null && !this.lstSelectedEntDet.isEmpty();
-	}
+//	public String getDeleteButtonMessageDet() {
+//		String message = "Delete %s item%s selected";
+//		String retval = "Delete";
+//		if (hasSelectedCodesDet()) {
+//			int size = this.lstSelectedEntDet.size();
+//			if (size > 1) {
+//				retval = String.format(message, size, "s");
+//			} else {
+//				retval = String.format(message, size, "");
+//			}
+//		}
+//		return retval;
+//	}
 
-	public String getDeleteButtonMessageDet() {
-		String message = "Delete %s item%s selected";
-		String retval = "Delete";
-		if (hasSelectedCodesDet()) {
-			int size = this.lstSelectedEntDet.size();
-			if (size > 1) {
-				retval = String.format(message, size, "s");
-			} else {
-				retval = String.format(message, size, "");
-			}
-		}
-		return retval;
-	}
-
-	public List<HfmAccEntriesDet> getLstSelectedEntDet() {
-		return lstSelectedEntDet;
-	}
-
-	public void setLstSelectedEntDet(List<HfmAccEntriesDet> lstSelectedEntDet) {
-		LOG.info("[setLstSelectedEntDet] Recibo lstSelectedEntDet = {}", lstSelectedEntDet);
-		this.lstSelectedEntDet = lstSelectedEntDet;
-	}
+//	public List<HfmAccEntriesDet> getLstSelectedEntDet() {
+//		return lstSelectedEntDet;
+//	}
+//
+//	public void setLstSelectedEntDet(List<HfmAccEntriesDet> lstSelectedEntDet) {
+//		LOG.info("[setLstSelectedEntDet] Recibo lstSelectedEntDet = {}", lstSelectedEntDet);
+//		this.lstSelectedEntDet = lstSelectedEntDet;
+//	}
 
 	public String getTitleDet() {
 		return "Manual Entries Details Setting";
@@ -509,13 +525,14 @@ public class HfmAccEntriesController {
 	 * @param ev
 	 */
 	public void dtParent_rowSelect(AjaxBehaviorEvent ev) {
-		LOG.info("[dtParent_rowSelect] lstSelectedEntries = {}", lstSelectedEntries);
+//		LOG.info("[dtParent_rowSelect] lstSelectedEntries = {}", lstSelectedEntries);
 		// DataTable td = (DataTable) ev.getSource();
 
 		// LOG.info("Row Index = {}, rowData = {}, rows ={}, selectiion =
 		// {}",td.getRowIndex(), td.getRowData(), td.getRows(), td.getSelection());
 		// this.currentries = (HfmAccEntries) td.getSelection();
-		this.currentries = lstSelectedEntries.get(0);
+//		this.currentries = lstSelectedEntries.get(0);
+		LOG.info("[dtParent_rowSelect] this.currentries = {}", this.currentries);
 		currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
 		LOG.info("[dtParent_rowSelect] Regreso con lstaccentdet = {}", currentries.getLstEntriesDet());
 
@@ -523,8 +540,35 @@ public class HfmAccEntriesController {
 		this.vperiodnm = this.currentries.getPeriodnm();
 
 		this.refreshUI();
-		LOG.info("[dtParent_rowSelect] Company id = {}, period = {}", this.vcompanyid, this.vperiodnm);	
-		
+		LOG.info("[dtParent_rowSelect] Company id = {}, period = {}", this.vcompanyid, this.vperiodnm);
+
+	}
+
+	/**
+	 * Event fired on rowselect of detail table.
+	 * 
+	 * @param ev
+	 */
+	public void dtDetails_rowSelect(AjaxBehaviorEvent ev) {
+		DataTable td = (DataTable) ev.getSource();
+		LOG.info("[dtDetails_rowSelect] Row Index = {}, rowData = {}, rows ={}, selectiion ={}", td.getRowIndex(),
+				td.getRowData(), td.getRows(), td.getSelection());
+		this.currentdet = (HfmAccEntriesDet) td.getSelection();
+		LOG.info("[dtDetails_rowSelect] this.currentdet = {}", this.currentdet);
+	}
+
+	public void btnEditOnClick(ActionEvent ev) {
+		LOG.info("[btnEditOnClick] Event = {}", ev);
+		if (ev.getSource() instanceof CommandButton) {
+			CommandButton button = (CommandButton) ev.getSource();
+			LOG.info("[btnEditOnClick] value = {}, title = {}, id=", button.getValue(), button.getTitle(),
+					button.getId());
+
+		}
+		if (ev.getSource() instanceof HtmlCommandButton) {
+			HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
+			LOG.info("[btnEditOnClick] value = {}, title = {}", button.getValue(), button.getTitle());
+		}
 	}
 
 	public List<SetHfmCodes> getLstHfmcodes() {
@@ -550,13 +594,20 @@ public class HfmAccEntriesController {
 	public void setNumColums(int numColums) {
 		this.numColums = numColums;
 	}
-	
+
 	public int getVcompanyid() {
 		return vcompanyid;
 	}
 
 	public void setVcompanyid(int vcompanyid) {
+		LOG.info("Recibo companyId = {}", vcompanyid);
 		this.vcompanyid = vcompanyid;
+	}
+
+	public boolean hasEntryData() {
+		boolean retval = (this.currentries != null && this.currentries.getItemid() != null
+				&& this.currentries.getItemid() > 0);
+		return retval;
 	}
 
 	/**
@@ -571,18 +622,17 @@ public class HfmAccEntriesController {
 
 		LOG.info("[refreshUI] ajax update=> form:panelGridRollUpFFSS");
 		PrimeFaces.current().ajax().update("form:panelGridRollUpFFSS");
-		
+
 		LOG.info("[refreshUI] ajax update=> form:dtParent");
 		PrimeFaces.current().ajax().update("form:dtParent");
-		
+
 		LOG.info("[refreshUI] ajax update=> form:dtDetails");
 		PrimeFaces.current().ajax().update("form:dtDetails");
-		
+
 		LOG.info("[refreshUI] ajax update=> form:messages");
 		PrimeFaces.current().ajax().update("form:messages");
 
 		LOG.info("[refreshUI] Terminé");
-
 	}
 
 }

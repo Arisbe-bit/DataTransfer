@@ -76,7 +76,7 @@ public class MenuController {
 	}
 
 	public String rolluphist() {
-		return String.format(REDIRECT, "/rolluphist");
+		return String.format(REDIRECT, "/rolluphist/rollupshist");
 	}
 
 	public String layout() {
