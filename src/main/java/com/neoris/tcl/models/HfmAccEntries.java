@@ -15,12 +15,15 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Entity
 @Table(name = "hfm_manual_entries")
 public class HfmAccEntries implements Serializable {
 
 	private static final long serialVersionUID = 1717875553545677091L;
+	private final static Logger LOG = LoggerFactory.getLogger(HfmAccEntries.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ")
@@ -33,14 +36,6 @@ public class HfmAccEntries implements Serializable {
 
 	@ColumnDefault(value = "0")
 	private int applied;
-
-	public List<HfmAccEntriesDet> getLstEntriesDet() {
-		return lstEntriesDet;
-	}
-
-	public void setLstEntriesDet(List<HfmAccEntriesDet> lstEntriesDet) {
-		this.lstEntriesDet = lstEntriesDet;
-	}
 
 //	@OneToMany
 //	@JoinColumn(name = "itemid")
@@ -98,6 +93,15 @@ public class HfmAccEntries implements Serializable {
 
 	public void setApplied(int applied) {
 		this.applied = applied;
+	}
+
+	public List<HfmAccEntriesDet> getLstEntriesDet() {
+		return lstEntriesDet;
+	}
+
+	public void setLstEntriesDet(List<HfmAccEntriesDet> lstEntriesDet) {
+		LOG.info("Recibo lstEntriesDet = {}", lstEntriesDet);
+		this.lstEntriesDet = lstEntriesDet;
 	}
 
 	@Override
