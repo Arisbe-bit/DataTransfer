@@ -8,7 +8,6 @@ import com.neoris.tcl.models.SetDefinedAccounts;
 import com.neoris.tcl.models.SetDefinedAccountsPK;
 
 public interface ISetDefinedAccountsDao  extends CrudRepository<SetDefinedAccounts,SetDefinedAccountsPK>{
-	
-	List<SetDefinedAccounts> findByIdCompanyid(int companyid);
+		List<SetDefinedAccounts> findByIdCompanyid(int companyid);
 
 }

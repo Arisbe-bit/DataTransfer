@@ -18,7 +18,6 @@ import com.neoris.tcl.models.SetHfmCodes;
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetDefinedAccountsService  implements ISetDefinedAccountsService{
-
 	@Autowired
 	private ISetDefinedAccountsDao data;
 

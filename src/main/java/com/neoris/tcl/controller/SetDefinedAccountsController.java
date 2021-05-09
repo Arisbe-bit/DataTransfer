@@ -108,7 +108,6 @@ public class SetDefinedAccountsController {
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
-
 	public void delete() {
 		LOG.info("Entering to delete Accounting Accounts => {}", this.curtpAccs);
 		service.delete(this.curtpAccs);

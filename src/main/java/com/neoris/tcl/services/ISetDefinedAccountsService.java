@@ -8,7 +8,6 @@ import com.neoris.tcl.models.SetDefinedAccountsPK;
 
 public interface ISetDefinedAccountsService {
 	
-	
 	Optional<SetDefinedAccounts> findById(SetDefinedAccountsPK id);
 
 	List<SetDefinedAccounts> findAll();

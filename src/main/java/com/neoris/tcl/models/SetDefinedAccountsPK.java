@@ -14,7 +14,6 @@ public class SetDefinedAccountsPK implements Serializable {
 	private int companyid;
 	private String costcenter;
 	private String source;
-
 	public SetDefinedAccountsPK() {
 
 	}
