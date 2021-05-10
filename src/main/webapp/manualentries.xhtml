@@ -164,6 +164,10 @@
                             <h:outputText value="#{entryDetail.tptype}">
                             </h:outputText>
                         </p:column>
+                        <p:column headerText="Description" sortBy="#{entryDetail.description}" filterBy="#{entryDetail.description}">
+                            <h:outputText value="#{entryDetail.description}">
+                            </h:outputText>
+                        </p:column>
                         <p:column headerText="Actions" exportable="false" width="15%">
                             <p:commandButton actionListener="#{hfmaccentriesControllerBean.btnEditOnClick}" styleClass="rounded-button ui-button-success" icon="fa fa-pencil-square-o" id="btnEditDetail" style="margin-left: 0.3em" oncomplete="PF('entryDialogDetailWV').show()" update=":form:manage-code-contentDet">
                                 <f:setPropertyActionListener value="#{entryDetail}" target="#{hfmaccentriesControllerBean.currentdet}" />
@@ -216,7 +220,7 @@
                                 <p:selectOneMenu id="tptype" value="#{hfmaccentriesControllerBean.currentdet.tptype}">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{tptypesControllerBean.lsttpType}" var="item" itemLabel="#{item.tptype}" itemValue="#{item.tptype}" />
-                                    <p:ajax event="change" listener="#{hfmaccentriesControllerBean.tptypeChange}" process="@this" update="form:opexarea form:icpcode form:hfmco"/>
+                                    <p:ajax event="change" listener="#{hfmaccentriesControllerBean.tptypeChange}" process="@this" update="form:opexarea form:icpcode form:hfmco form:Currencyc"/>
                                 </p:selectOneMenu>
                             </div>
                         <div class="p-field">
@@ -248,10 +252,17 @@
                                     />
                                 </p:selectOneMenu>
                             </div>
-                       <div class="p-field">
-                            <p:outputLabel for="currencyid" value="Currency Code"/>
-                            <p:inputText id="currencyid" value="#{hfmaccentriesControllerBean.currentdet.currencyid}"/>
-                        </div>
+                          <div class="p-field">
+                              <p:outputLabel for="Currencyc" value="Currency Code" />
+                                <p:selectOneMenu id="Currencyc" editable="true" value="#{hfmaccentriesControllerBean.currentdet.currencyid}" filter="true" filterMatchMode="startsWith">
+                                  <f:selectItems value="#{hfmaccentriesControllerBean.lstcurrencies}" 
+                                  var="curcode" 
+                                  itemLabel="#{curcode.currencycode}" 
+                                  itemValue="#{curcode.currencycode}" 
+                                  />
+                              </p:selectOneMenu>
+                          </div>
+                       
                         <div class="p-field">
                             <p:outputLabel for="decription" value="Decription Maxlength(250 )"/>
                             <p:inputText id="decription" value="#{hfmaccentriesControllerBean.currentdet.description}" required="true" Maxlength="250" requiredMessage="A description is required!"/>

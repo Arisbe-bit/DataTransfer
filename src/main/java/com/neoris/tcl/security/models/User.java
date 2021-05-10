@@ -22,7 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "hfm_users")
+@Table(name = "HFM_USERS")
 public class User implements UserDetails {
 
 	private final static Logger LOG = LoggerFactory.getLogger(User.class);

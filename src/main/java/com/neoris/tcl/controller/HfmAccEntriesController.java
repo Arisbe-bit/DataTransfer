@@ -1,7 +1,6 @@
 package com.neoris.tcl.controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +22,7 @@ import com.neoris.tcl.models.HfmAccEntriesDet;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmPeriodFfss;
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.SetCurrecyCode;
 import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.models.ViewCostCenter;
@@ -31,6 +31,7 @@ import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmAccEntriesService;
 import com.neoris.tcl.services.IHfmPeriodFfssService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
+import com.neoris.tcl.services.ISetCurrecyCodeService;
 import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.services.IViewCostCenterService;
@@ -55,14 +56,15 @@ public class HfmAccEntriesController {
 	private ISetHfmCodesService serviceHfmcodes;
 	@Autowired
 	private ISetIcpcodesService serviceIcpCodes;
-
+	
+	
 	private List<SetHfmCodes> lstHfmcodes;
 	private List<SetIcpcodes> lstIcpcodes;
 
 	private List<HfmRollupEntries> lstEntries;
 
 	private List<HfmAccEntries> lstaccent;
-	// private List<HfmAccEntries> lstSelectedEntries;
+	
 	private HfmAccEntries currentries;
 
 	private List<HfmFfss> lstHfmFfss;
@@ -78,9 +80,10 @@ public class HfmAccEntriesController {
 	private List<ViewCostCenter> lstCC;
 	@Autowired
 	private IViewCostCenterService servcc;
-
+	@Autowired
+	private ISetCurrecyCodeService servcur;
 	
-	
+	private List<SetCurrecyCode> lstcurrencies;
 	
 	
 	private User user;
@@ -400,6 +403,7 @@ public class HfmAccEntriesController {
 		
 		if ( this.currentdet.getTptype().equals("GOP") ) {
 			this.lstIcpcodes = null;
+			this.lstcurrencies = null;
 			try {
 				LOG.info("[init] Initializing Cost Centers...");
 				this.lstCC = servcc.findAll();
@@ -409,10 +413,22 @@ public class HfmAccEntriesController {
 			}
 			
 		}
+		else if (this.currentdet.getTptype().equals("CURRENCIES")) {
+			this.lstIcpcodes = null;
+			this.lstCC =null;
+			try {
+				LOG.info("[init] Initializing Currencies...");
+				this.lstcurrencies = servcur.findAll();
+				LOG.info("[init] lscurrencies = {}", this.lstcurrencies.size());
+			} catch (Exception e) {
+				LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
+			}
+		}
 		else
 		{
 			try {
 				this.lstCC =null;
+				this.lstcurrencies = null;
 				LOG.info("[tptypeChange] Getting lsticpcodes...");
 				this.lstIcpcodes = serviceIcpCodes.findByTptype(this.currentdet.getTptype());
 				LOG.info("[tptypeChange]init lstIcpcodes with {} elements.", this.lstIcpcodes.size());
@@ -423,7 +439,7 @@ public class HfmAccEntriesController {
 		}
 
 			
-		PrimeFaces.current().ajax().update("form:opexarea","form:icpcode");
+		PrimeFaces.current().ajax().update("form:opexarea","form:icpcode","form:hfmco","form:Currencyc");
 
 
 			
@@ -683,6 +699,15 @@ public class HfmAccEntriesController {
 	public void setVcompanyid(int vcompanyid) {
 		LOG.info("Recibo companyId = {}", vcompanyid);
 		this.vcompanyid = vcompanyid;
+	}
+	
+
+	public List<SetCurrecyCode> getLstcurrencies() {
+		return lstcurrencies;
+	}
+
+	public void setLstcurrencies(List<SetCurrecyCode> lstcurrencies) {
+		this.lstcurrencies = lstcurrencies;
 	}
 
 	public boolean hasEntryData() {

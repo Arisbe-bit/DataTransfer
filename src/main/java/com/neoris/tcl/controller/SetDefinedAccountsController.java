@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmOracleAcc;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetDefinedAccounts;
+import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.models.SetIcpcodes;
 import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.models.ViewPartnersICP;
@@ -25,6 +26,7 @@ import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmOracleAccService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.ISetDefinedAccountsService;
+import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
@@ -44,6 +46,12 @@ public class SetDefinedAccountsController {
 	private IViewCostCenterService servcc;
 	@Autowired
 	private IHfmRollupEntriesService servcomp;
+	@Autowired 
+	ISetHfmCodesService servhfm;
+	@Autowired
+	ISetIcpcodesService sericp;
+	
+	
 	private List<SetDefinedAccounts> lsttpAccs;
 	private List<SetDefinedAccounts> lstSelectdAccs;
 	private SetDefinedAccounts curtpAccs; // actual iterator
@@ -54,6 +62,8 @@ public class SetDefinedAccountsController {
   	private List<HfmOracleAcc> lstOrcl;
 	private List<ViewCostCenter> lstCC;
 	private Authentication authentication;
+	
+
 	
 	private int lcompanyid; 
 	

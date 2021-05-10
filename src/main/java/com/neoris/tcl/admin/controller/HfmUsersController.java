@@ -28,8 +28,8 @@ public class HfmUsersController {
 	@Autowired
 	private IUserService service;
 
-	@Autowired
-	private IRoleService roleService;
+	//@Autowired
+	//private IRoleService roleService;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -38,7 +38,7 @@ public class HfmUsersController {
 
 	private List<User> lstUsers;
 	private List<User> lstSelectdUsers;
-	private List<Role> lstRoles;
+	//private List<Role> lstRoles;
 	private User curUser;
 
 	@PostConstruct
@@ -46,8 +46,8 @@ public class HfmUsersController {
 		LOG.info("Initializing lstUsers...");
 		this.lstUsers = service.findAll();
 
-		LOG.info("Initializing lstRoles...");
-		this.lstRoles = roleService.findAll();
+		//LOG.info("Initializing lstRoles...");
+		//this.lstRoles = roleService.findAll();
 	}
 
 	public void openNew() {
@@ -123,20 +123,20 @@ public class HfmUsersController {
 		this.lstSelectdUsers = lstSelectdUsers;
 	}
 
-	public List<Role> getLstRoles() {
+	/*public List<Role> getLstRoles() {
 		return lstRoles;
 	}
 
 	public void setLstRoles(List<Role> lstRoles) {
 		this.lstRoles = lstRoles;
-	}
+	}*/
 
 	public User getCurUser() {
 		return curUser;
 	}
 
 	public void setCurUser(User curUser) {
-		LOG.info("Recibo curUser = {}", curUser);
+		LOG.info(" curUser = {}", curUser);
 		this.curUser = curUser;
 		this.curUser.setPasswordBackUp(this.curUser.getPassword());
 	}

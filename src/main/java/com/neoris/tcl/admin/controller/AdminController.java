@@ -29,9 +29,9 @@ public class AdminController {
 		return String.format(REDIRECT, "/admin/users");		
 	}
 	
-	/*public String roles() {
+	public String roles() {
 		return String.format(REDIRECT, "/admin/roles");		
-	}	*/
+	}	
 
 	public String getName() {
 		return authentication.getName();
