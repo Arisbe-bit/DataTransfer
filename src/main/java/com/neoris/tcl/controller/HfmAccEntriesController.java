@@ -451,18 +451,23 @@ public class HfmAccEntriesController {
 	 */
 	public void openNewDet() {
 
-		LOG.info("[openNewDet] click para crear un nuevo HfmAccEntriesDet");
-		LOG.info("[openNewDet] currentries = {}", currentries);
-
-		double num = 0;
-
-		this.currentdet = new HfmAccEntriesDet();
+		int vapplied = this.currentries.getApplied();
 		
-		this.currentdet.setItemid(this.currentries.getItemid());
-		this.currentdet.setDebits(new BigDecimal(num));
-		this.currentdet.setCredits(new BigDecimal(num));
+		LOG.info("[openNewDet] click para crear un nuevo HfmAccEntriesDet " +vapplied);
 		
-		LOG.info("[openNewDet] currentdet = {}", this.currentdet);
+				
+			LOG.info("[openNewDet] currentries = {}", currentries);
+			double num = 0;
+	
+			this.currentdet = new HfmAccEntriesDet();
+			
+			this.currentdet.setItemid(this.currentries.getItemid());
+			this.currentdet.setDebits(new BigDecimal(num));
+			this.currentdet.setCredits(new BigDecimal(num));
+			
+			LOG.info("[openNewDet] currentdet = {}", this.currentdet);
+		
+		
 	}
 
 	/**
@@ -499,7 +504,7 @@ public class HfmAccEntriesController {
 				 LOG.info("[saveDet]num: "+ num);
 				 
 				 if ( num !=0  ) {
-					 Functions.addInfoMessage("Warning", "The total amount != 0");
+					 Functions.addWarnMessage("Warning", "The total amount != 0");
 						LOG.info("[saveDet] Warning", "The total amount != 0");
 				 }
 					
@@ -711,8 +716,8 @@ public class HfmAccEntriesController {
 	}
 
 	public boolean hasEntryData() {
-		boolean retval = (this.currentries != null && this.currentries.getItemid() != null
-				&& this.currentries.getItemid() > 0);
+		boolean retval = ( this.currentries != null && this.currentries.getItemid() != null
+				&& this.currentries.getItemid() > 0 && this.currentries.getApplied() == 0) ;
 		return retval;
 	}
 
