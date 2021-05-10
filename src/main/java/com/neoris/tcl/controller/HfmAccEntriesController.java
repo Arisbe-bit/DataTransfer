@@ -1,6 +1,7 @@
 package com.neoris.tcl.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -472,12 +473,16 @@ public class HfmAccEntriesController {
 			//servicedet.rollupitemvalidate(this.currentdet.getItemid(),vamount);
 			
 			for  (HfmAccEntriesDet det : this.currentries.getLstEntriesDet()) {
-				vamount.add(det.getAmount());
+				LOG.info("detamount: "+det.getAmount().toString());
+				//vamount.add(det.getAmount());
+				num = num +det.getAmount().doubleValue();			
 			}
 					
-				 LOG.info("[saveDet]amount: "+ vamount);
+			
+				 //LOG.info("[saveDet]amount: "+ vamount.toString());
+				 LOG.info("[saveDet]num: "+ num);
 				 
-				 if ( vamount.equals(0) ) {
+				 if ( num !=0  ) {
 					 Functions.addInfoMessage("Warning", "The total amount != 0");
 						LOG.info("[saveDet] Warning", "The total amount != 0");
 				 }
