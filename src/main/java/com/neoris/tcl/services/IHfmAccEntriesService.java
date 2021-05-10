@@ -23,4 +23,5 @@ public interface IHfmAccEntriesService {
 	
 	void rollUpApplyEntries(int p_orgid, String p_periodnm, String p_userid, int p_itemid);
 	
+	
 }

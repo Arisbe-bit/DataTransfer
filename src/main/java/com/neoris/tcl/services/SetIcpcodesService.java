@@ -49,4 +49,9 @@ public class SetIcpcodesService implements ISetIcpcodesService {
 		data.deleteAll(entityList);		
 	}
 
+	@Override
+	public List<SetIcpcodes> findByTptype(String tptype) {
+		return (List<SetIcpcodes>) data.findByTptype(tptype);
+	}
+
 }

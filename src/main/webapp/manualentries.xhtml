@@ -74,7 +74,8 @@
                                 <p:toolbarGroup align="right">
                                     <p:outputLabel for="entity" value="Select Company :  " />
                                     <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.vcompanyid}" filter="true" filterMatchMode="startsWith">
-                                        <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity.concat(' - ').concat(entry.companyid)}" itemValue="#{entry.companyid}" />
+                                       <f:selectItem itemLabel="Select One" itemValue="" />
+                                        <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
                                         <p:ajax event="change" listener="#{hfmaccentriesControllerBean.companyidChange}" process="@this" update=":form:dtParent :form:dtDetails" />
                                     </p:selectOneMenu>
                                 </p:toolbarGroup>
@@ -151,8 +152,16 @@
                             <h:outputText value="#{entryDetail.icpcode}">
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="AreaId" sortBy="#{entryDetail.areaid}" filterBy="#{entryDetail.areaid}">
+                        <p:column headerText="Area Code" sortBy="#{entryDetail.areaid}" filterBy="#{entryDetail.areaid}">
                             <h:outputText value="#{entryDetail.areaid}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Cuurency Code" sortBy="#{entryDetail.currencyid}" filterBy="#{entryDetail.currencyid}">
+                            <h:outputText value="#{entryDetail.currencyid}">
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="Trading Partner Type" sortBy="#{entryDetail.tptype}" filterBy="#{entryDetail.tptype}">
+                            <h:outputText value="#{entryDetail.tptype}">
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Actions" exportable="false" width="15%">
@@ -176,6 +185,7 @@
                         <div class="p-field">
                             <p:outputLabel for="entity" value="Select Company:" />
                             <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.currentries.companyid}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
                                 <p:ajax event="change" listener="#{hfmaccentriesControllerBean.companyidChangeSel}" process="@this" update=":form:periodnm"/>
                             </p:selectOneMenu>
@@ -200,9 +210,18 @@
             <p:dialog header="Movements Details" width="550" showEffect="fade" modal="true" widgetVar="entryDialogDetailWV" responsive="true">
                 <p:outputPanel id="manage-code-contentDet" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentdet}">
+                       
+                        <div class="p-field p-col-12 p-md-4">
+                                <p:outputLabel for="tptype" value="Type   (maxlength 15)" />
+                                <p:selectOneMenu id="tptype" value="#{hfmaccentriesControllerBean.currentdet.tptype}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{tptypesControllerBean.lsttpType}" var="item" itemLabel="#{item.tptype}" itemValue="#{item.tptype}" />
+                                    <p:ajax event="change" listener="#{hfmaccentriesControllerBean.tptypeChange}" process="@this" update="form:opexarea form:icpcode form:hfmco"/>
+                                </p:selectOneMenu>
+                            </div>
                         <div class="p-field">
                             <p:outputLabel for="hfmco" value="Hmfcode" />
-                            <p:selectOneMenu id="hfmco" value="#{hfmaccentriesControllerBean.currentdet.hfmcode}" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu id="hfmco" value="#{hfmaccentriesControllerBean.currentdet.hfmcode}" required="true"  filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstHfmcodes}" var="itemp" itemLabel="#{itemp.hfmcode}" itemValue="#{itemp.hfmcode}" />
                             </p:selectOneMenu>
                         </div>
@@ -211,15 +230,27 @@
                             <p:inputNumber id="amount" value="#{hfmaccentriesControllerBean.currentdet.amount}" required="true" requiredMessage="Amount is required!" decimalSeparator="." thousandSeparator=","/>
                             <p:message for="@previous"/>
                         </div>
+                      
                         <div class="p-field">
                             <p:outputLabel for="icpcode" value="ICP Code"/>
                             <p:selectOneMenu id="icpcode" value="#{hfmaccentriesControllerBean.currentdet.icpcode}" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" var="icp" itemLabel="#{icp.icpcode}" itemValue="#{icp.icpcode}" />
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" 
+                                var="icpcode" itemLabel="#{icpcode.icpcode}" itemValue="#{icpcode.icpcode}" />
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field">
-                            <p:outputLabel for="areaid" value="Area ID"/>
-                            <p:inputText id="areaid" value="#{hfmaccentriesControllerBean.currentdet.areaid}"/>
+                                <p:outputLabel for="opexarea" value="Area Code" />
+                                  <p:selectOneMenu id="opexarea" editable="true" value="#{hfmaccentriesControllerBean.currentdet.areaid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{hfmaccentriesControllerBean.lstCC}" 
+                                    var="costc" 
+                                    itemLabel="#{costc.opexarea}" 
+                                    itemValue="#{costc.opexarea}" 
+                                    />
+                                </p:selectOneMenu>
+                            </div>
+                       <div class="p-field">
+                            <p:outputLabel for="currencyid" value="Currency Code"/>
+                            <p:inputText id="currencyid" value="#{hfmaccentriesControllerBean.currentdet.currencyid}"/>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="decription" value="Decription Maxlength(250 )"/>

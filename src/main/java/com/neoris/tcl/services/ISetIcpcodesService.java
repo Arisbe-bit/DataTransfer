@@ -19,5 +19,7 @@ public interface ISetIcpcodesService {
 	void delete(SetIcpcodes entity);
 
 	void deleteAll(List<SetIcpcodes> entityList);
+	
+	List<SetIcpcodes> findByTptype(String tptype);
 
 }

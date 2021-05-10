@@ -1,5 +1,6 @@
 package com.neoris.tcl.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +24,6 @@ public interface IHfmAccEntriesDetService {
 
 	void deleteAll(List<HfmAccEntriesDet> entityList);
 	
+	//public BigDecimal rollupitemvalidate(Long itemid);
+	void rollupitemvalidate(Long itemid, BigDecimal p_amount);
 }

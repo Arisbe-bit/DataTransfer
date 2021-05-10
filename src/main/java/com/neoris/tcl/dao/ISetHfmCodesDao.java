@@ -6,8 +6,11 @@ import java.util.List;
 
 import com.neoris.tcl.models.SetHfmCodes;
 
+
 public interface ISetHfmCodesDao extends CrudRepository<SetHfmCodes, String> {
 
+	List<SetHfmCodes> findByTptype(String tptype);
+	 
 	
 	
 }

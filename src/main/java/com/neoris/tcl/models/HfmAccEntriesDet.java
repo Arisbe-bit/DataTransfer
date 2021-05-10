@@ -33,14 +33,21 @@ public class HfmAccEntriesDet implements Serializable {
 	private String icpcode;
 	private String areaid;
 	private String description;
+	private String currencyid;
+	private String tptype;
 
 	public HfmAccEntriesDet() {
 
 	}
 
-	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal debits, BigDecimal credits,
-			BigDecimal amount, String icpcode, String areaid, String description) {
+	
 
+
+
+
+	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal debits, BigDecimal credits,
+			BigDecimal amount, String icpcode, String areaid, String description, String currencyid, String tptype) {
+		
 		this.movid = movid;
 		this.itemid = itemid;
 		this.hfmcode = hfmcode;
@@ -50,7 +57,14 @@ public class HfmAccEntriesDet implements Serializable {
 		this.icpcode = icpcode;
 		this.areaid = areaid;
 		this.description = description;
+		this.currencyid = currencyid;
+		this.tptype = tptype;
 	}
+
+
+
+
+
 
 	public Long getItemid() {
 		return itemid;
@@ -128,11 +142,53 @@ public class HfmAccEntriesDet implements Serializable {
 		return description.substring(0, Math.min(description.length(), 20));
 	}
 
+	
+
+
+	public String getCurrencyid() {
+		return currencyid;
+	}
+
+
+
+	public void setCurrencyid(String currencyid) {
+		this.currencyid = currencyid;
+	}
+
+
+
+
+
+
+	public String getTptype() {
+		return tptype;
+	}
+
+
+
+
+
+
+	public void setTptype(String tptype) {
+		this.tptype = tptype;
+	}
+
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode + ", debits=" + debits
 				+ ", credits=" + credits + ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid
-				+ ", description=" + description + "]";
+				+ ", description=" + description + ", currencyid=" + currencyid + ", tptype=" + tptype + "]";
 	}
+
+
+
+
+
+
 
 }
