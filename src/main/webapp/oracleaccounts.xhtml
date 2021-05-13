@@ -26,12 +26,25 @@
 
                 <div class="products-buttonbar">
                     <div>
-                        <p:toolbar>
+                        <p:toolbar>                             
+                              <p:toolbarGroup align="center">
+	                                <p:outputLabel for="entity" value="Select Company :  " />
+	                                <p:selectOneMenu id="entity" value="#{vieworclaccountsControllerBean.currentOrcl.orgid}" filter="true" filterMatchMode="startsWith">
+	                                   <f:selectItem itemLabel="Select One" itemValue="" />
+	                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemco" itemLabel="#{itemco.entity}" itemValue="#{itemco.companyid}" />
+		                          	<p:ajax event="change" 
+											listener="#{vieworclaccountsControllerBean.companyidChange}"
+											process="@this"
+											update=":form"
+											/>	
+                                </p:selectOneMenu>
+                                
+                           </p:toolbarGroup>
                             <p:toolbarGroup align="right">
                                 <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                     <p:dataExporter type="xls" target="#{vieworclaccountsControllerBean.dataTableName}" fileName="${vieworclaccountsControllerBean.title}" />
                                 </p:commandButton>
-                            </p:toolbarGroup>
+                             </p:toolbarGroup>  
                         </p:toolbar>
                     </div>
                 </div>
@@ -40,50 +53,43 @@
 					widgetVar="dtCodes" var="oracleacc" rowKey="#{oracleacc.num}"
 					value="#{vieworclaccountsControllerBean.lstOrcl}" reflow="true"
 					styleClass="products-table" paginator="true" rows="15"
-					rowSelectMode="checkbox" size="small" paginatorPosition="bottom"
+					 size="small" paginatorPosition="bottom"
 					scrollable="true">
 					<f:facet name="header">
 						<span><h:outputText value="#{vieworclaccountsControllerBean.title}" /></span>
+						
 					</f:facet>
-
-					<p:column headerText="Select" selectionMode="multiple"
-						exportable="false" width="5%">
-					</p:column>
 					<p:column headerText="Company" sortBy="#{oracleacc.companyid}"
 						filterBy="#{oracleacc.companyid}" width="10%">
 						<h:outputText value="#{oracleacc.companyid}" />
 					</p:column>
-					<p:column headerText="Enabled" sortBy="#{oracleacc.enabled}"
-						filterBy="#{oracleacc.enabled}" width="5%">
-						<h:outputText value="#{oracleacc.enabled}" />
-					</p:column>
 					<p:column headerText="HFM Code" sortBy="#{oracleacc.hfmcode}"
 						filterBy="#{oracleacc.hfmcode}" width="10%">
 						<h:outputText value="#{oracleacc.hfmcode}" />
+					</p:column>
+					<p:column headerText="Cost Center" sortBy="#{oracleacc.costcenter}"
+						filterBy="#{oracleacc.costcenter}" width="10%">
+						<h:outputText value="#{oracleacc.costcenter}" />
 					</p:column>
 					<p:column headerText="Cost Center NM"
 						sortBy="#{oracleacc.costcenternm}"
 						filterBy="#{oracleacc.costcenternm}" width="10%">
 						<h:outputText value="#{oracleacc.costcenternm}" />
 					</p:column>
-					<p:column headerText="Cost Center" sortBy="#{oracleacc.costcenter}"
-						filterBy="#{oracleacc.costcenter}" width="10%">
-						<h:outputText value="#{oracleacc.costcenter}" />
-					</p:column>
 					<p:column headerText="Oracle Account"
 						sortBy="#{oracleacc.oracleacct}"
 						filterBy="#{oracleacc.oracleacct}" width="10%">
 						<h:outputText value="#{oracleacc.oracleacct}" />
 					</p:column>
-					<p:column headerText="Account Num" sortBy="#{oracleacc.accountnm}"
+					<p:column headerText="Account Description" sortBy="#{oracleacc.accountnm}"
 						filterBy="#{oracleacc.accountnm}" width="10%">
 						<h:outputText value="#{oracleacc.accountnm}" />
 					</p:column>
-					<p:column headerText="Future Use" sortBy="#{oracleacc.futureuse2}"
+					<p:column headerText="Opex Area" sortBy="#{oracleacc.futureuse2}"
 						filterBy="#{oracleacc.futureuse2}" width="10%">
 						<h:outputText value="#{oracleacc.futureuse2}" />
 					</p:column>
-					<p:column headerText="Future Use NM"
+					<p:column headerText="Area Description"
 						sortBy="#{oracleacc.futureuse2nm}"
 						filterBy="#{oracleacc.futureuse2nm}" width="10%">
 						<h:outputText value="#{oracleacc.futureuse2nm}" />
@@ -92,6 +98,10 @@
 						sortBy="#{oracleacc.accounttype}"
 						filterBy="#{oracleacc.accounttype}" width="10%">
 						<h:outputText value="#{oracleacc.accounttype}" />
+					</p:column>
+					<p:column headerText="Enabled" sortBy="#{oracleacc.enabled}"
+						filterBy="#{oracleacc.enabled}" width="5%">
+						<h:outputText value="#{oracleacc.enabled}" />
 					</p:column>
 					<p:column headerText="End Date Active"
 						sortBy="#{oracleacc.enddateactive}"
@@ -107,8 +117,7 @@
                             <div class="p-field">
                                 <p:outputLabel for="companyid" value="Company" />
                                 <p:selectOneMenu id="companyid" value="#{vieworclaccountsControllerBean.currentOrcl.companyid}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
+                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemp" itemLabel="#{itemp.segment1}" itemValue="#{itemp.companyid}" />
                                 </p:selectOneMenu>
                             </div>
 

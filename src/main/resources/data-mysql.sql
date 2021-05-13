@@ -1,22 +1,21 @@
-INSERT INTO HFM_USERS (userid, username, password, name, admin) VALUES (1, 'admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador', 1);
+INSERT INTO HFM_USERS (username, password, name, admin) VALUES ('admin','$2a$10$snp8icx1fzMCeBcIiPGw/eWDFP62CfRsSEr/7cOU/y.88zj2Ijt9O', 'System Administrador', 1);
 /* INSERT INTO HFM_USERS (userid, username, password, name, admin, hfmcodes, hfmcodesoa, hfmcodestypes, matchaccounts, partners, rollup) VALUES (2, 'ari','$2a$10$vlwMxNoDDxzkCPZJgZaCPeVDroqo9W3pSzSV/3cAox8dc9sqiSew6', 'Ari Morales', 0, 1, 1, 1, 1, 1, 1);  */
 
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (1,'ADMIN', 'Administration');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('1', '86', 'PERIOD NM FOR COMPANY 86');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('2', '87', 'PERIOD NM FOR COMPANY 87');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('3', '88', 'PERIOD NM FOR COMPANY 88');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('4', '89', 'PERIOD NM FOR COMPANY 89');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('5', '90', 'PERIOD NM FOR COMPANY 90');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('6', '93', 'PERIOD NM FOR COMPANY 93');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('7', '95', 'PERIOD NM FOR COMPANY 95');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('8', '96', 'PERIOD NM FOR COMPANY 96');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('9', '98', 'PERIOD NM FOR COMPANY 98');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('10', '101', 'PERIOD NM FOR COMPANY 101');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('11', '103', 'PERIOD NM FOR COMPANY 103');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('12', '137', 'PERIOD NM FOR COMPANY 137');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('13', '1003', 'PERIOD NM FOR COMPANY 1003');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('14', '1064', 'PERIOD NM FOR COMPANY 1064');
 
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (2,'HFMCODES', 'HFMCodes');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (3,'HFMCODESOA', 'HFMCodes-Oracle Accounts');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (4,'HFMCODESTYPES', 'Trading Partner Types');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (5,'PARTNERS', 'Trading Partners');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (6,'PAYABLESACCOUNTS', 'Payables Accounts');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (7,'RECEIVABLESACCOUNTS', 'Receivables Accounts');
-
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (8,'MATCHACCOUNTS', 'Match Accounts');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (9,'DSVSCOMPANY', 'HFM Data by Company');
-
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (10,'ROLLUP', 'RollUp Process');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (11,'ROLLUPHIST', 'RollUp History');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (12,'POLICIES', 'Accounting policies');
-INSERT INTO HFM_ROLES (roleid, role, description) VALUES (13,'DEFINEDACCOUNT', 'Deefined Accounts');
 
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170100','INTERCIAS');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('1170200','INTERCIAS');
@@ -481,6 +480,21 @@ Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('6815111','ASSOCIATES');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('6815112','ASSOCIATES');
 Insert into SET_HFM_CODES (HFMCODE,TPTYPE) values ('6819130','ASSOCIATES');
 
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('1', '86', 'PERIOD NM FOR COMPANY 86');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('2', '87', 'PERIOD NM FOR COMPANY 87');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('3', '88', 'PERIOD NM FOR COMPANY 88');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('4', '89', 'PERIOD NM FOR COMPANY 89');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('5', '90', 'PERIOD NM FOR COMPANY 90');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('6', '93', 'PERIOD NM FOR COMPANY 93');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('7', '95', 'PERIOD NM FOR COMPANY 95');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('8', '96', 'PERIOD NM FOR COMPANY 96');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('9', '98', 'PERIOD NM FOR COMPANY 98');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('10', '101', 'PERIOD NM FOR COMPANY 101');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('11', '103', 'PERIOD NM FOR COMPANY 103');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('12', '137', 'PERIOD NM FOR COMPANY 137');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('13', '1003', 'PERIOD NM FOR COMPANY 1003');
+INSERT INTO `rolluphfmffssperiod` (`num`, `companyid`, `periodnm`) VALUES ('14', '1064', 'PERIOD NM FOR COMPANY 1064');
+
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (86,'TCL','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (87,'TCL_PACKAGING','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (88,'TCL_PONSA','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
@@ -492,7 +506,7 @@ Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPE
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (98,'RMBC','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (101,'TCL_TRADING_USD','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (103,'TCL_NEVIS_USD','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
-Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (137,'TCL','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
+Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (137,'TCL_137','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (1003,'ARAWAK_CON_BBD','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 Insert into HFM_ROLLUP_ENTRIES (COMPANYID,ENTITY,RAPPLICATION,SCENARIO,RYEAR,RPERIOD,RVIEW,RVALUE,SEGMENT,ATTRIBUTE1,ATTRIBUTE2,ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,ATTRIBUTE6,VALIDATIONS,RECLASSIFICATIONS) values (1064,'TTLI_TRADING_USD','AMERICA','ACTUAL_TTIF','2020','12','YTD','<Entity Currency>',null,'Ok','Processing','Starting',null,'Starting','Processing',null,null);
 

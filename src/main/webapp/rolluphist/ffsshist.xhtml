@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c_rt="http://java.sun.com/jstl/core_rt"
+    xmlns:form="http://www.springframework.org/tags/form"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/rolluphist.xhtml">
+        <ui:define name="rollupContent">
+            <p:toolbar id="toolbar-hfmffss">
+                <p:toolbarGroup>
+                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rolluphistControllerBean.lstHfmFfss}">
+                        <p:dataExporter type="xls" target="rollupForm:dt-hfm-tab-ffss" fileName="HFM_FFSS"/>
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+            
+            <p:panelGrid columns="2" id="panelGridRollUpFFSS" columnClasses="hfmffss-table-main, hfmffss-table-details">
+            	<f:facet name="header">
+            		<h:outputText value="ROLLUP FFSS History" />
+            	</f:facet>
+            	<!-- Column 1 -->
+	            <p:dataTable id="dt-hfm-tab-ffss"
+	            	widgetVar="dtHfmFfss"
+	            	var="hfmffss"
+	            	value="#{rolluphistControllerBean.lstHfmFfss}"
+	            	reflow="true"
+	            	rowKey="#{hfmffss.companyid}"
+	            	paginator="true" rows="20"
+	            	resizableColumns="true"
+	            	stickyHeader="true" resizeMode="expand"
+	            	paginatorPosition="bottom" size="small"
+	            	scrollable="true">
+	                <f:facet name="header">
+	                    <h:outputText value="#{empty rolluphistControllerBean.curRollUp ? 'No company!' : 'FFSS for company '.concat(rolluphistControllerBean.curRollUp.entity) }" style="font-weight: bold" />
+	                </f:facet>
+	
+	                <p:column headerText="Classification" exportable="true" sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
+	                    <h:outputText value="#{hfmffss.classification}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Account Type" exportable="true" sortBy="#{hfmffss.naturalb}" filterBy="#{hfmffss.naturalb}">
+	                    <h:outputText value="#{hfmffss.naturalb}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Hfmcode" exportable="true" sortBy="#{hfmffss.hfmcode}" filterBy="#{hfmffss.hfmcode}">
+	                    <h:outputText value="#{hfmffss.hfmcode}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Description" sortBy="#{hfmffss.description}" filterBy="#{hfmffss.description}">
+	                    <h:outputText value="#{hfmffss.description}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Balance" sortBy="#{hfmffss.formatedBalance}" filterBy="#{hfmffss.formatedBalance}" styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
+	                    <h:outputText value="#{hfmffss.formatedBalance}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Currency Code" sortBy="#{hfmffss.currencyCode}" filterBy="#{hfmffss.currencyCode}">
+	                    <h:outputText value="#{hfmffss.currencyCode}">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="Rollup Errors"  sortBy="#{hfmffss.errortext}" filterBy="#{hfmffss.errortext}" >
+	                    <h:outputText value="#{hfmffss.errortext}" style="text-align : justify">
+	                    </h:outputText>
+	                </p:column>
+	                <p:column headerText="View Details" exportable="false">
+	                    <p:commandButton id="btnViewDetail" icon="pi pi-eye" update="rollupForm:messages" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail" value="Details" action="#{rolluphistControllerBean.submitToSumary}">
+	                        <f:ajax execute="@this" listener="#{rolluphistControllerBean.curHfmffssClic}" event="click" />
+	                        <f:setPropertyActionListener value="#{hfmffss}" target="#{rolluphistControllerBean.curHfmFfss}" />
+	                    </p:commandButton>
+	                </p:column>
+	            </p:dataTable>
+	            <!-- Column 2 -->
+	            <p:dataTable id="dt-macthacc"
+	            	widgetVar="matchaccount" var="matchacc"
+	            	value="#{rolluphistControllerBean.lstMatchAcc}"
+	            	reflow="true" rowKey="#{matchacc.companyid}" paginator="true"
+	            	rows="15" resizableColumns="true" resizeMode="expand"
+	            	paginatorPosition="bottom" size="small"
+	            	rowStyleClass="#{matchacc.hfmcode eq 8000000? 'colorrownm' : null}">
+				    <f:facet name="header">
+				        <div class="rollups-table-header">
+				            <h:outputText value="GLOBAL VALIDATION" />
+				        </div>
+				    </f:facet>
+				    <p:column headerText="Hfmcode">
+				        <h:outputText value="#{matchacc.hfmcode}" />
+				    </p:column>
+				    <p:column headerText="Description">
+				        <h:outputText value="#{matchacc.description}"></h:outputText>
+				    </p:column>
+				    <p:column headerText="Amount" styleClass="rollup-text-align-right #{matchacc.balance lt 0 ? 'negative' : ''}">
+				        <h:outputText value="#{matchacc.balance}">
+				            <f:convertNumber pattern="###,###,###,###.##"/>
+				        </h:outputText>
+				    </p:column>
+				</p:dataTable>
+	            
+	        </p:panelGrid>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

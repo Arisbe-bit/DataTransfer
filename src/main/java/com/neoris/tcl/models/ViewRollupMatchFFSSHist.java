@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROLLUP_VIEW_MATCH_FFSSHIST")
+@Table(name = "HFM_FFSS_MATCH_FFSSHIST")
 public class ViewRollupMatchFFSSHist implements Serializable {
 	
 

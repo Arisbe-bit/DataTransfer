@@ -3,9 +3,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/template/layout.xhtml">
     <ui:define name="css">
-        <style type="text/css">
+<style type="text/css">
 .ui-datatable-tablewrapper {
 	font-size: small;
 	font-family: system-ui;
@@ -46,14 +47,16 @@
 	width: 30%;
 	padding: 3px;
 }
-
-
+.colorrownm{
+	 background-color: #C0C0C0 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        font-weight: bold;
+}
 .ui-datatable-even{
 	background: #6ab2eo;
 	color: #FFFFFF
 }
-
-
 .ui-datatable-odd{
 	background-color: #6ab2eo;
 }
@@ -61,7 +64,20 @@
 #rollupForm\:tabViewRollUps\:tabHHFF {
 	overflow: hidden;
 }
-        </style>
+
+.hfmffss-table-main {
+	width: 75%;
+}
+.hfmffss-table-details {
+	width: 25%;
+	vertical-align: top;	
+}
+.rollup-process-status {
+	background-color: #D3D3D3; 
+	white-space: normal !important; 
+	width: 100px;
+}
+ </style>
     </ui:define>
     <ui:define name="js">
         <script>
@@ -70,8 +86,8 @@
 		    if (isNaN(e.value)) {
 		        message = 'The year must be a number';
 		    } else {
-		        if (!(#{rolluphistControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950)) {
-		            message = 'The year must be between 1950 and #{rolluphistControllerBean.currYear}';
+		        if (!(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950)) {
+		            message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
 		        }
 		    }
 		    if (message !== '') {
@@ -83,432 +99,37 @@
         </script>
     </ui:define>
     <ui:define name="title">
-        <title>${rolluphistControllerBean.title}</title>
+        <title>${rollupControllerBean.title}</title>
     </ui:define>
     <ui:define name="header">
         <h1>
             <i class="fa fa-cogs fa-lg"></i>
-            <h:outputText value=" ${rolluphistControllerBean.title}" />
+            <h:outputText value="${rollupControllerBean.title}" />
         </h1>
     </ui:define>
+
     <ui:define name="content">
-        <h:form id="#{rolluphistControllerBean.formNameId}">
+        <h:form id="rollupForm">
+        	<p:log id="log" rendered="false"/>
+        	<p:growl id="messages" showDetail="true" />
+        	<h:messages globalOnly="true" id="globalMsgId" />
+   
+        	<div class="card" id="breadcrumMenuID">
+        		<p:breadCrumb id="beadcrumbID">
+        			<p:menuitem value="Home" action="/index"/>
+		            <p:menuitem value="RollUps" action="/rolluphist/rollupshist"/>
+		            <p:menuitem value="FFSS" action="/rolluphist/ffsshist"/>
+		            <p:menuitem value="Sumary" action="/rolluphist/sumaryhist"/>
+		            <p:menuitem value="Movements" action="/rolluphist/movementshist"/>
+		            <p:menuitem value="Layouts" action="/rolluphist/layouthist"/>
+        		</p:breadCrumb>
+        	</div>
             <div class="card" style="overflow: hidden" id="rollupcardId">
-                <p:log id="log" rendered="false"/>
-                <p:growl id="messages" showDetail="true" />
-                <h:messages globalOnly="true" id="globalMsgId" />
-                <p:toolbar>
-                    <p:toolbarGroup>
-                        <p:commandButton id="start-rollup-process-button" value="#{rolluphistControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rolluphistControllerBean.processSelectedRollUps}" styleClass="#{rolluphistControllerBean.processButtonStyleClass}" disabled="#{!rolluphistControllerBean.hasSelectedRollUps()}" update="@this">
-                            <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
-                        </p:commandButton>
-                    </p:toolbarGroup>
-                </p:toolbar>
-                <p:tabView id="tabViewRollUps" widgetVar="wvTabViewRollUps">
-                    <p:ajax event="tabChange" listener="#{rolluphistControllerBean.onTabChange}" update=":#{rolluphistControllerBean.formNameId}:messages" />
-                    <p:ajax event="tabClose" listener="#{rolluphistControllerBean.onTabClose}" update=":#{rolluphistControllerBean.formNameId}:messages" />
-                    <p:tab title="RollUps" id="tabRollUp">
-                        <p:dataTable id="dt-rollup"
-                            widgetVar="dtRollUps"
-                            var="rollup" value="#{rolluphistControllerBean.lstRollUps}"
-                            reflow="true" styleClass="ui-datatable-tablewrapper"
-                            selection="#{rolluphistControllerBean.lstSelectedRollups}"
-                            rowKey="#{rollup.companyid}" paginator="true"
-                            rows="10" resizableColumns="true" resizeMode="expand"
-                            tableStyle="width:auto"
-                            rowSelectMode="new" paginatorPosition="bottom"
-                            rowIndexVar="ruItem">
-                            <f:facet name="header">
-                                <div class="rollups-table-header rollup-text-align-center">
-                                    <span>ROLLUP</span>
-                                </div>
-                            </f:facet>
-                            <p:ajax event="rowSelect" update=":#{rolluphistControllerBean.formNameId}:start-rollup-process-button" />
-                            <p:ajax event="rowUnselect" update=":#{rolluphistControllerBean.formNameId}:start-rollup-process-button" />
-                            <p:ajax event="rowSelectCheckbox" update=":#{rolluphistControllerBean.formNameId}:start-rollup-process-button" />
-                            <p:ajax event="rowUnselectCheckbox" update=":#{rolluphistControllerBean.formNameId}:start-rollup-process-button" />
-                            <p:ajax event="toggleSelect" update=":#{rolluphistControllerBean.formNameId}:start-rollup-process-button" />
-                            
-                            <p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
-                                <h:outputText value="#{rollup.entity}" />
-                            </p:column>
-                           
-                            <p:column headerText="Year" sortBy="#{rollup.ryear}" filterBy="#{rollup.ryear}">
-                                <h:inputText id="year" size="4" maxlength="4" required="true" value="#{rollup.ryear}" onblur="year_onblur(this)">
-                                    <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
-                                </h:inputText>
-                            </p:column>
-                            <p:column headerText="Period" sortBy="#{rollup.rperiod}" filterBy="#{rollup.rperiod}">
-                                <h:selectOneMenu id="month" value="#{rollup.rperiod}">
-                                    <f:selectItem itemLabel="JAN" itemValue="01" />
-                                    <f:selectItem itemLabel="FEB" itemValue="02" />
-                                    <f:selectItem itemLabel="MAR" itemValue="03" />
-                                    <f:selectItem itemLabel="APR" itemValue="04" />
-                                    <f:selectItem itemLabel="MAY" itemValue="05" />
-                                    <f:selectItem itemLabel="JUN" itemValue="06" />
-                                    <f:selectItem itemLabel="JUL" itemValue="07" />
-                                    <f:selectItem itemLabel="AUG" itemValue="08" />
-                                    <f:selectItem itemLabel="SEP" itemValue="09" />
-                                    <f:selectItem itemLabel="OCT" itemValue="10" />
-                                    <f:selectItem itemLabel="NOV" itemValue="11" />
-                                    <f:selectItem itemLabel="DEC" itemValue="12" />
-                                    <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
-                                </h:selectOneMenu>
-                            </p:column>
-                            
-                            <p:column headerText="View FFSS" exportable="false">
-                                <p:commandButton id="btnView" icon="fa fa-search-plus" oncomplete="PF('wvTabViewRollUps').enable(1); PF('wvTabViewRollUps').select(1)" update="rollupForm:messages, rollupForm:tabViewRollUps:dt-hfm-tab-ffss, rollupForm:tabViewRollUps:dt-macthacc" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail">
-                                    <f:setPropertyActionListener value="#{rollup}" target="#{rolluphistControllerBean.curRollUp}" />
-                                </p:commandButton>
-                            </p:column>
-                             
-                           
-                            <p:column headerText="View HFM Layout" exportable="false">
-                                <p:commandButton id="btnViewL" icon="fa fa-search-plus" oncomplete="PF('wvTabViewRollUps').enable(4); PF('wvTabViewRollUps').select(4)" update="rollupForm:messages, rollupForm:tabViewRollUps:dthfmlayout" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail">
-                                    <f:setPropertyActionListener value="#{rollup}" target="#{rolluphistControllerBean.curRollUp}" />
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </p:tab>
-                    <p:tab title="FFSS" id="tabHHFF" disabled="true">
-                        <div class="div-75" style="text-align : justify">
-                            <p:dataTable id="dt-hfm-tab-ffss"
-                                widgetVar="dtHfmFfss" var="hfmffss"
-                                value="#{rolluphistControllerBean.lstHfmFfss}"
-                                reflow="true" styleClass="hfmffss-table"
-                                rowKey="#{hfmffss.companyid}" paginator="true"
-                                rows="20" resizableColumns="true"
-                                tableStyle="width:auto" stickyHeader="true" stripedRows="true"
-                                resizeMode="expand" paginatorPosition="bottom" size="small">
-                                <f:facet name="header">
-                                    <p:toolbar id="toolbar-hfmffss">
-                                        <p:toolbarGroup>
-                                            <div class="hfmffss-table-header">
-                                                <h:outputText value="FFSS " style="font-weight: bold" />
-                                            </div>
-                                        </p:toolbarGroup>
-                                        <p:toolbarGroup align="right">
-                                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rolluphistControllerBean.lstHfmFfss}">
-                                                <p:dataExporter type="xls" target="dt-hfm-tab-ffss" fileName="HFM_FFSS" pageOnly="true" />
-                                            </p:commandButton>
-                                        </p:toolbarGroup>
-                                    </p:toolbar>
-                                </f:facet>
-                                <p:column headerText="Classification"  sortBy="#{hfmffss.classification}" filterBy="#{hfmffss.classification}">
-                                    <h:outputText value="#{hfmffss.classification}" >
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Account Type"  sortBy="#{hfmffss.naturalb}" filterBy="#{hfmffss.naturalb}">
-                                    <h:outputText value="#{hfmffss.naturalb}" >
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Hfmcode"  sortBy="#{hfmffss.hfmcode}" filterBy="#{hfmffss.hfmcode}">
-                                    <h:outputText value="#{hfmffss.hfmcode}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Description"  sortBy="#{hfmffss.description}" filterBy="#{hfmffss.description}">
-                                    <h:outputText value="#{hfmffss.description}" >
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="Balance"  sortBy="#{hfmffss.formatedBalance}" filterBy="#{hfmffss.formatedBalance}"
-                                styleClass="rollup-text-align-right #{hfmffss.balance lt 0 ? 'negative' : ''}">
-                                    <h:outputText value="#{hfmffss.formatedBalance}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Currency Code"  sortBy="#{hfmffss.currencyCode}" filterBy="#{hfmffss.currencyCode}">
-                                    <h:outputText value="#{hfmffss.currencyCode}"   >
-                                     </h:outputText>
-                                </p:column>
-                               <p:column headerText="Rollup Errors"  sortBy="#{hfmffss.errortext}" filterBy="#{hfmffss.errortext}">
-                                    <h:outputText value="#{hfmffss.errortext}"  style="text-align : justify">
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="View Details" exportable="false">
-                                    <p:commandButton id="btnViewDetail" icon="pi pi-eye"
-                                        oncomplete="PF('wvTabViewRollUps').enable(2); PF('wvTabViewRollUps').select(2)"
-                                        update="rollupForm:messages, rollupForm:tabViewRollUps:dtfsgrouped"
-                                        styleClass="edit-button rounded-button ui-button-success"
-                                        process="@this" alt="view detail" value="Details">
-                                        <f:ajax execute="@this" listener="#{rolluphistControllerBean.curHfmffssClic}" event="click" />
-                                        <f:setPropertyActionListener value="#{hfmffss}" target="#{rolluphistControllerBean.curHfmFfss}" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                        <div class="div-5">
-                        <p:column>    </p:column>
-                        
-                        </div>
-                        <div class="div-25">
-                            <p:dataTable id="dt-macthacc"
-                                widgetVar="matchaccount" var="matchacc"
-                                value="#{rolluphistControllerBean.lstMatchAcc}" reflow="true"
-                                styleClass="matchacc-table" rowKey="#{matchacc.companyid}"
-                                paginator="true" rows="15" resizableColumns="true"   stripedRows="true"
-                                resizeMode="expand" paginatorPosition="bottom" size="small">
-                                <f:facet name="header">
-                                    <div class="rollups-table-header">
-                                        <h:outputText value="GLOBAL VALIDATION" />
-                                    </div>
-                                </f:facet>
-                                <p:column headerText="Hfmcode"> 
-                                    <h:outputText value="#{matchacc.hfmcode}" />
-                                </p:column>
-                                <p:column headerText="Description">
-                                    <h:outputText value="#{matchacc.description}"></h:outputText>
-                                </p:column>
-                                <p:column headerText="Amount" styleClass="rollup-text-align-right #{matchacc.balance lt 0 ? 'negative' : ''}">
-                                    <h:outputText value="#{matchacc.balance}">
-                                    	<f:convertNumber pattern="###,###,###,###.##"/>
-                                    </h:outputText>
-                                </p:column>
-                            </p:dataTable>
-                        </div>
-                    </p:tab>
-                   
-                    <p:tab title="Sumarized FFSS Detail" id="tabgrouped" disabled="true">
-                     <div class="card">
-                            <p:dataTable  id="dtfsgrouped" 
-                                widgetVar="dtgrouped" var="accgroup"
-                                value="#{rolluphistControllerBean.lstSumFS}" reflow="true"
-                                 rowKey="#{accgroup.companyid}"
-                                paginator="true" rows="15" stickyHeader="true" stripedRows="true"
-                                resizeMode="expand" paginatorPosition="bottom" size="small">
-                                <f:facet name="header">                                    
-                                     <p:toolbar id="toolbar-fsgrouped">
-                                        <p:toolbarGroup>
-                                            <div class="accgrouped-table-header">
-                                        		<span style="font-weight: bold">SUMARIZED FFSS DETAIL</span>
-                                    		</div>
-                                        </p:toolbarGroup>
-                                        <p:toolbarGroup align="right">
-                                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rolluphistControllerBean.lstSumFS}">
-                                                <p:dataExporter type="xls" target="dtfsgrouped" fileName="FFSSDetails" pageOnly="true" />
-                                            </p:commandButton>
-                                        </p:toolbarGroup>
-                                    </p:toolbar>
-                                </f:facet>
-                                <p:column headerText="HFM Code"  sortBy="#{accgroup.hfmcode}" filterBy="#{accgroup.hfmcode}">
-                                    <h:outputText value="#{accgroup.hfmcode}" >
-                                     </h:outputText>
-                                </p:column>
-                                 <p:column headerText="Cost Center" sortBy="#{accgroup.costcenter}" filterBy="#{accgroup.costcenter}">
-                                    <h:outputText value="#{accgroup.costcenter}"></h:outputText>
-                                </p:column>
-                                 <p:column headerText="Accountid" sortBy="#{accgroup.accountid}" filterBy="#{accgroup.accountid}">
-                                    <h:outputText value="#{accgroup.accountid}"></h:outputText>
-                                </p:column>
-                                <p:column headerText="ICP" sortBy="#{accgroup.icp}" filterBy="#{accgroup.icp}">
-                                    <h:outputText value="#{accgroup.icp}"></h:outputText>
-                                </p:column>
-                                <p:column headerText="Partner Id"  sortBy="#{accgroup.partnerid}" filterBy="#{accgroup.partnerid}">
-                                    <h:outputText value="#{accgroup.partnerid}"></h:outputText>
-                                </p:column>
-                                <p:column headerText="Partner Name" sortBy="#{accgroup.tpname}" filterBy="#{accgroup.tpname}">
-                                    <h:outputText value="#{accgroup.tpname}"></h:outputText>
-                                </p:column>
-                                <p:column headerText="Amount" sortBy="#{accgroup.amount}" filterBy="#{accgroup.amount}" 
-                                  styleClass="rollup-text-align-right #{accgroup.amount lt 0 ? 'negative' : ''}" >
-                                    <h:outputText value="#{accgroup.amount}"  >
-                                    <f:convertNumber pattern="###,###,###,###.##"/>
-                                    </h:outputText>
-                                </p:column>
-                                <p:column headerText="View Details" exportable="false">
-                                    <p:commandButton id="btnViewDetail" icon="pi pi-eye"
-                                        oncomplete="PF('wvTabViewRollUps').enable(3); PF('wvTabViewRollUps').select(3)"
-                                        update="rollupForm:messages, rollupForm:tabViewRollUps:tabHHFFDetail"
-                                        styleClass="edit-button rounded-button ui-button-success"
-                                        process="@this" alt="view detail" value="Details">
-                                        <f:ajax execute="@this" listener="#{rolluphistControllerBean.curHfmffssClic}" event="click" />
-                                        <f:setPropertyActionListener value="#{accgroup}" target="#{rolluphistControllerBean.curFSgroup}" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                         </div>
-                        </p:tab>
-	                     <p:tab title="FFSS Movements" id="tabHHFFDetail" disabled="true">
-	                      <div class="div-100">
-	                        <p:dataTable id="dt-hfm-tab-ffss-details" 
-	                            widgetVar="dtHfmFfssDetails"
-	                            var="hfmffssDetail"
-	                            value="#{rolluphistControllerBean.lstHfmFfssDetails}"
-	                             rowKey="#{hfmffssDetail.companyid}"
-	                            reflow="true"  tableStyle="width:auto" 
-	                            paginator="true" rows="20"  stickyHeader="true" stripedRows="true" 
-	                            resizeMode="expand" paginatorPosition="bottom">
-	                            <f:facet name="header">
-	                                <p:toolbar id="toolbar-fsdetails">
-                                        <p:toolbarGroup>
-                                             <div class="fsdetails-table-header">
-	                                    <span style="font-weight: bold"> FFSS Movements</span>
-	                                </div>
-                                        </p:toolbarGroup>
-                                        <p:toolbarGroup align="right">
-                                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rolluphistControllerBean.lstHfmFfssDetails}">
-                                                <p:dataExporter type="xls" target="tabHHFFDetail" fileName="FFSSMovements" pageOnly="true" />
-                                            </p:commandButton>
-                                        </p:toolbarGroup>
-                                    </p:toolbar>
-	                            </f:facet>	   
-	                             <p:column headerText="Period Name"  sortBy="#{hfmffssDetail.id.periodnm}" filterBy="#{hfmffssDetail.id.periodnm}">
-		                                <h:outputText value="#{hfmffssDetail.id.periodnm}" >
-		                                </h:outputText>
-		                          </p:column>                         
-		                            <p:column headerText="HFM Code"  sortBy="#{hfmffssDetail.id.hfmcode}" filterBy="#{hfmffssDetail.id.hfmcode}">
-		                                <h:outputText value="#{hfmffssDetail.id.hfmcode}" >
-		                                </h:outputText>
-		                            </p:column>
-		                          <p:column headerText="Account Id"  sortBy="#{hfmffssDetail.id.accountid}" filterBy="#{hfmffssDetail.id.accountid}">
-	                                <h:outputText value="#{hfmffssDetail.id.accountid}" >
-	                                </h:outputText>
-	                            </p:column>
-	                           <p:column headerText="Cost Center"  sortBy="#{hfmffssDetail.id.costcenter}" filterBy="#{hfmffssDetail.id.costcenter}">
-	                                <h:outputText value="#{hfmffssDetail.id.costcenter}" >
-	                                </h:outputText>
-	                            </p:column>
-	                            <p:column headerText="ICP" sortBy="#{hfmffssDetail.id.icp}" filterBy="#{hfmffssDetail.id.icp}">
-	                                <h:outputText value="#{hfmffssDetail.id.icp}" >
-	                                </h:outputText>
-	                            </p:column>
-	                           
-	                            <p:column headerText="Partner Id" sortBy="#{hfmffssDetail.id.partnerid}" filterBy="#{hfmffssDetail.id.partnerid}">
-	                                <h:outputText value="#{hfmffssDetail.id.partnerid}" >
-	                                </h:outputText>
-	                            </p:column>
-	                            
-	                            <p:column headerText="TP Name" sortBy="#{hfmffssDetail.tpname}" filterBy="#{hfmffssDetail.tpname}">
-	                                <h:outputText value="#{hfmffssDetail.tpname}" >
-	                                </h:outputText>
-	                            </p:column>          
-	                             <p:column headerText="Amount" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}"
-	                              styleClass="rollup-text-align-right #{hfmffssDetail.id.amount lt 0 ? 'negative' : ''}"     >
-	                                <h:outputText value="#{hfmffssDetail.id.amount}"  >
-	                                <f:convertNumber pattern="###,###,###,###.##"/>
-	                                </h:outputText>
-	                            </p:column>
-								<p:column headerText="Currency Code"
-									sortBy="#{hfmffssDetail.id.currencycode}"
-									filterBy="#{hfmffssDetail.id.currencycode}">
-									<h:outputText value="#{hfmffssDetail.id.currencycode}">
-									</h:outputText>
-								</p:column>
-								<p:column headerText="Batch Name" sortBy="#{hfmffssDetail.batchname}" filterBy="#{hfmffssDetail.batchname}">
-	                                <h:outputText value="#{hfmffssDetail.batchname}" >
-	                                </h:outputText>
-	                            </p:column>
-	                            <p:column headerText="Category" sortBy="#{hfmffssDetail.category}" filterBy="#{hfmffssDetail.category}">
-	                                <h:outputText value="#{hfmffssDetail.category}" >
-	                                </h:outputText>
-	                            </p:column>
-	                            <p:column headerText="Doc Number" sortBy="#{hfmffssDetail.docnumber}" filterBy="#{hfmffssDetail.docnumber}">
-	                                <h:outputText value="#{hfmffssDetail.docnumber}" >
-	                                </h:outputText>
-	                            </p:column>
-		                          <p:column headerText="Debits" sortBy="#{hfmffssDetail.transdebit}" filterBy="#{hfmffssDetail.transdebit}"
-		                          styleClass="rollup-text-align-right #{hfmffssDetail.transdebit lt 0 ? 'negative' : ''}"    >
-                                <h:outputText value="#{hfmffssDetail.transdebit}" >
-                                <f:convertNumber pattern="###,###,###,###.##"/>
-                                </h:outputText>
-                            </p:column>
-                            	<p:column headerText="Credits" sortBy="#{hfmffssDetail.transcredit}" filterBy="#{hfmffssDetail.transcredit}"
-                              styleClass="rollup-text-align-right #{hfmffssDetail.transcredit lt 0 ? 'negative' : ''}"   >
-                                <h:outputText value="#{hfmffssDetail.transcredit}" >
-                                <f:convertNumber pattern="###,###,###,###.##"/>
-                                </h:outputText>
-                                 </p:column>
-	                             <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">
-	                                <h:outputText value="#{hfmffssDetail.id.datasource}" >
-	                                </h:outputText>
-	                            </p:column>
-                            
-	                             <p:column headerText="Error Text" sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
-	                                <h:outputText value="#{hfmffssDetail.errortext}" >
-	                                </h:outputText>
-	                            </p:column>
-	                        </p:dataTable>
-	                       </div> 
-	                    </p:tab>
-	                    <p:tab title="HFM Layout" id="tablayout" disabled="true">
-                         <div class="div-75">
-                            <p:dataTable  id="dthfmlayout" 
-                                widgetVar="dthfmlayout" var="layout"
-                                value="#{rolluphistControllerBean.lstlayout}" 
-                                 rowKey="#{layout.companyid}"
-                                 reflow="true"
-                                 resizableColumns="true" tableStyle="width:auto"
-                                paginator="true" rows="20" stickyHeader="true" stripedRows="true"
-                                resizeMode="expand" paginatorPosition="bottom" size="small">
-                                <f:facet name="header">
-                                    <div class="layout-table-header">
-                                        <span style="font-weight: bold">HFM Layout</span>
-                                    </div>
-                                </f:facet>
-                                <p:column headerText="HFM Code"  sortBy="#{layout.id.account}" filterBy="#{layout.id.account}">
-                                    <h:outputText value="#{layout.id.account}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Period"  sortBy="#{layout.id.period}" filterBy="#{layout.id.period}">
-                                    <h:outputText value="#{layout.id.period}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Entity"  sortBy="#{layout.entity}" filterBy="#{layout.entity}">
-                                    <h:outputText value="#{layout.entity}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Scenario"  sortBy="#{layout.id.scenario}" filterBy="#{layout.id.scenario}">
-                                    <h:outputText value="#{layout.id.scenario}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Value"  sortBy="#{layout.id.value}" filterBy="#{layout.id.value}">
-                                    <h:outputText value="#{layout.id.value}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="View"  sortBy="#{layout.id.zview}" filterBy="#{layout.id.zview}">
-                                    <h:outputText value="#{layout.id.zview}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Year"  sortBy="#{layout.id.zyear}" filterBy="#{layout.id.zyear}">
-                                    <h:outputText value="#{layout.id.zyear}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="ICP Code"  sortBy="#{layout.id.icp}" filterBy="#{layout.id.icp}">
-                                    <h:outputText value="#{layout.id.icp}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cust1"  sortBy="#{layout.id.cust1}" filterBy="#{layout.id.cust1}">
-                                    <h:outputText value="#{layout.id.cust1}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cust2"  sortBy="#{layout.id.cust2}" filterBy="#{layout.id.cust2}">
-                                    <h:outputText value="#{layout.id.cust2}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cust3"  sortBy="#{layout.id.cust3}" filterBy="#{layout.id.cust3}">
-                                    <h:outputText value="#{layout.id.cust3}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Cust4"  sortBy="#{layout.id.cust4}" filterBy="#{layout.id.cust4}">
-                                    <h:outputText value="#{layout.id.cust4}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Data"  sortBy="#{layout.data}" filterBy="#{layout.data}" 
-                                   styleClass="rollup-text-align-right" >
-                                    <h:outputText value="#{layout.data}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="User Id"  sortBy="#{layout.userid}" filterBy="#{layout.userid}">
-                                    <h:outputText value="#{layout.userid}" >
-                                     </h:outputText>
-                                </p:column>
-                                <p:column headerText="Updated"  sortBy="#{layout.updated}" filterBy="#{layout.updated}">
-                                    <h:outputText value="#{layout.updated}" >
-                                     </h:outputText>
-                                </p:column>
-                                
-                            </p:dataTable>
-                         </div>
-                        </p:tab>
-                </p:tabView>
+
+				<ui:insert name="rollupContent">
+					<h:outputText value=" RollUp Content!" />
+				</ui:insert>		
+
                 <p:confirmDialog global="true" showEffect="fade" width="300">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />

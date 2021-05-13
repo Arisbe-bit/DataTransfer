@@ -27,7 +27,7 @@ public class ViewRollipFFSSGconsHistService  implements IViewRollupFFSSGconsHist
 
 	
 	@Override
-	public List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(int companyid,  String hfmcode) {
+	public List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(String companyid,  String hfmcode) {
 		  return data.findByCompanyidAndHfmcode(companyid,  hfmcode);
 	}
 	

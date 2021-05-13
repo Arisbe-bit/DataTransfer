@@ -14,5 +14,5 @@ public interface IViewRollupFFSSGconsHistService {
 
 	
 	
-	List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(int companyid,String hfmcode);
+	List<ViewFFSSGroupedHist> findByCompanyidAndHfmcode(String companyid,String hfmcode);
 }

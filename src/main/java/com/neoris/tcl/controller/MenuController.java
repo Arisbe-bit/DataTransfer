@@ -10,12 +10,11 @@ import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.RequestScope;
 
 import com.neoris.tcl.security.models.User;
+import com.neoris.tcl.utils.Functions;
 
 @Controller(value = "menuController")
 @RequestScope
@@ -24,7 +23,6 @@ public class MenuController {
 	private final static Logger LOG = LoggerFactory.getLogger(MenuController.class);
 	private final static String REDIRECT = "%s?faces-redirect=true";
 	private MenuModel model;
-	private Authentication authentication;
 	private User user;
 
 	@PostConstruct
@@ -32,56 +30,9 @@ public class MenuController {
 		LOG.debug("Initializing MenuController...");
 		model = new DefaultMenuModel();
 
-		authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication.getPrincipal() instanceof User) {
-			user = (User) authentication.getPrincipal();
-		}
+		this.user = Functions.getUser();
 
-//        LOG.info("Building model for menu");
-//
-//        //First submenu
-//        DefaultSubMenu firstSubmenu = DefaultSubMenu.builder()
-//                .label("Dynamic Submenu")
-//                .build();
-//
-//        DefaultMenuItem item = DefaultMenuItem.builder()
-//                .value("External")
-//                .url("http://www.primefaces.org")
-//                .icon("pi pi-home")
-//                .build();
-//        firstSubmenu.getElements().add(item);
-//
-//        model.getElements().add(firstSubmenu);
-//
-//        //Second submenu
-//        DefaultSubMenu secondSubmenu = DefaultSubMenu.builder()
-//                .label("Dynamic Actions")
-//                .build();
-//
-//        item = DefaultMenuItem.builder()
-//                .value("Save")
-//                .icon("pi pi-save")
-//                .command("#{menuView.save}")
-//                .update("messages")
-//                .build();
-//        secondSubmenu.getElements().add(item);
-//
-//        item = DefaultMenuItem.builder()
-//                .value("Delete")
-//                .icon("pi pi-times")
-//                .command("#{menuView.delete}")
-//                .ajax(false)
-//                .build();
-//        secondSubmenu.getElements().add(item);
-//
-//        item = DefaultMenuItem.builder()
-//                .value("Redirect")
-//                .icon("pi pi-search")
-//                .command("#{menuView.redirect}")
-//                .build();
-//        secondSubmenu.getElements().add(item);
-//
-//        model.getElements().add(secondSubmenu);
+
 	}
 
 	public String hfmcodes() {
@@ -121,11 +72,11 @@ public class MenuController {
 	}
 
 	public String rollup() {
-		return String.format(REDIRECT, "/rollup");
+		return String.format(REDIRECT, "/rollup/rollups");
 	}
 
 	public String rolluphist() {
-		return String.format(REDIRECT, "/rolluphist");
+		return String.format(REDIRECT, "/rolluphist/rollupshist");
 	}
 
 	public String layout() {
@@ -144,8 +95,8 @@ public class MenuController {
 		return String.format(REDIRECT, "/definedaccounts");
 	}
 
-	public String policies() {
-		return String.format(REDIRECT, "/policies");
+	public String manualentries() {
+		return String.format(REDIRECT, "/manualentries");
 	}
 
 	public String logout() {
@@ -188,13 +139,17 @@ public class MenuController {
 	}
 
 	public String getesText() {
-		return "Accounting es";
+		return "Accounting is";
 	}
 
 	public String getName() {
-		return authentication.getName();
+		return user.getName();
 	}
 	
+	public String getUsername() {
+		return user.getUsername();
+	}
+
 	public boolean isAdminRole() {
 		return user.isAdmin();
 	}
@@ -242,7 +197,7 @@ public class MenuController {
 	public boolean isPoliciesRole() {
 		return user.isPolicies() || user.isAdmin();
 	}
-	
+
 	public boolean isDefinedaccountsRole() {
 		return user.isDefinedaccounts() || user.isAdmin();
 	}

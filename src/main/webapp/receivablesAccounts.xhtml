@@ -85,7 +85,7 @@
                                 <p:outputLabel for="@next" value="Company" />
                                 <p:selectOneMenu id="companyid" value="#{receivablesaccControllerBean.currentRecTab.id.companyid}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Company is requiered">
                                     <f:selectItem itemLabel="Select uno" itemValue="#{null}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{receivablesaccControllerBean.mapCompany}" var="mapa" itemLabel="#{mapa.key.concat('-').concat(mapa.value)}" itemValue="#{mapa.value}" />
+                                    <f:selectItems value="#{receivablesaccControllerBean.mapCompany}" var="mapa" itemLabel="#{mapa.key}" itemValue="#{mapa.value}" />
                                     <f:ajax event="change" listener="#{receivablesaccControllerBean.changeItemValue}" execute="@this" render="@none" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
@@ -100,7 +100,7 @@
                             <div class="p-field">
                                 <p:outputLabel for="@next" value="ICP Code" />
                                 <p:selectOneMenu id="icpcode" value="#{receivablesaccControllerBean.currentRecTab.icpcode}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}" var="item" itemLabel="#{item.id.icpcode}" itemValue="#{item.id.icpcode}" />
+                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}" var="item" itemLabel="#{item.icpcode}" itemValue="#{item.icpcode}" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
                             </div>

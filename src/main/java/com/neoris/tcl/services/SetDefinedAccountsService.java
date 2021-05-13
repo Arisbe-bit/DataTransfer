@@ -18,7 +18,6 @@ import com.neoris.tcl.models.SetHfmCodes;
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetDefinedAccountsService  implements ISetDefinedAccountsService{
-
 	@Autowired
 	private ISetDefinedAccountsDao data;
 
@@ -52,6 +51,11 @@ public class SetDefinedAccountsService  implements ISetDefinedAccountsService{
 		@Override
 		public void deleteAll(List<SetDefinedAccounts> entityList) {
 			data.deleteAll(entityList);		
+		}
+
+		@Override
+		public List<SetDefinedAccounts> findByIdCompanyid(int companyid) {
+			return (List<SetDefinedAccounts>) data.findByIdCompanyid(companyid);
 		}
 
 		

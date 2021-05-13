@@ -13,5 +13,5 @@ public interface IHfmLayoutHistService {
 	
 	List<HfmLayoutHist> findByIdCompanyid(int companyid);
 	
-
+	List<HfmLayoutHist> findByIdCompanyidAndPeriodid(int companyid, String periodid);
 }

@@ -56,7 +56,7 @@
 					value="#{tradingpartnerControllerBean.lstTP}" reflow="true"
 					styleClass="products-table"
 					selection="#{tradingpartnerControllerBean.lstSelectdTP}"
-					rowKey="#{curtps.id.rowKey}" 
+					rowKey="#{curtps.icpcode}" 
 					paginator="true" 
 					rows="20" stickyHeader="true" stripedRows="true" 
 					rowSelectMode="add" 
@@ -74,16 +74,16 @@
 					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
 					</p:column>
 
-					<p:column headerText="Trading Partner Code" sortBy="#{curtps.id.icpcode}" filterBy="#{curtps.id.icpcode}">
-						<h:outputText value="#{curtps.id.icpcode}" />
+					<p:column headerText="Trading Partner Code" sortBy="#{curtps.icpcode}" filterBy="#{curtps.icpcode}">
+						<h:outputText value="#{curtps.icpcode}" />
 					</p:column>
 					
 					<p:column headerText="Trading Partner Type" sortBy="#{curtps.tptype}" filterBy="#{curtps.tptype}">
 						<h:outputText value="#{curtps.tptype}" />
 					</p:column>
 
-					<p:column headerText="Id"  sortBy="#{curtps.id.icpid}" filterBy="#{curtps.id.icpid}">
-						<h:outputText value="#{curtps.id.icpid}" />
+					<p:column headerText="ICP Id"  sortBy="#{curtps.icpid}" filterBy="#{curtps.icpid}">
+						<h:outputText value="#{curtps.icpid}" />
 					</p:column>
 
 					<p:column headerText="Description"  sortBy="#{curtps.icpdesc}" filterBy="#{curtps.icpdesc}">
@@ -121,7 +121,7 @@
 							rendered="#{not empty tradingpartnerControllerBean.curtp}">
 							<div class="p-field">
 								<p:outputLabel for="ICPCode">ICPCode (maxlength 25 )</p:outputLabel>
-								<p:inputText id="ICPCode" value="#{tradingpartnerControllerBean.curtp.id.icpcode}" maxlength="25" required="true" />
+								<p:inputText id="ICPCode" value="#{tradingpartnerControllerBean.curtp.icpcode}" maxlength="25" required="true" />
 							</div>
 							<div class="p-field p-col-12 p-md-4">
 								<p:outputLabel for="tptype" value="Type" />
@@ -135,7 +135,7 @@
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="ICPID">ICPID   (maxlength 5) </p:outputLabel>
-								<p:inputText id="ICPID" value="#{tradingpartnerControllerBean.curtp.id.icpid}" maxlength="5" required="true" />
+								<p:inputText id="ICPID" value="#{tradingpartnerControllerBean.curtp.icpid}" maxlength="5" required="true" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="icpdesc">Description (maxlength 50)</p:outputLabel>

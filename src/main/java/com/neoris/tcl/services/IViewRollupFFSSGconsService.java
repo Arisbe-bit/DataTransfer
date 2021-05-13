@@ -10,7 +10,9 @@ public interface IViewRollupFFSSGconsService {
 	
 	List<ViewFFSSGrouped> findAll();
 
-	List<Map<String,Object>>  findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent,String hfmcode);
 	
-	List<ViewFFSSGrouped> findByCompanyidAndHfmcode(int companyid,String hfmcode);
+	
+	List<ViewFFSSGrouped> findByCompanyidAndHfmcode(String companyid,String hfmcode);
+	
+	List<ViewFFSSGrouped> findByCompanyid(Long companyid);
 }

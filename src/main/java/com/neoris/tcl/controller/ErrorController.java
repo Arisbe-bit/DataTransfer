@@ -14,15 +14,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.faces.FacesException;
+import javax.faces.context.ExceptionHandler;
+import javax.faces.context.ExceptionHandlerWrapper;
+
 @Controller
-public class ErrorController {
+public class ErrorController  {
 
 	private final static Logger LOG = LoggerFactory.getLogger(ErrorController.class);
 	private final static String LOGIN_XHTML = "/login.xhtml";
-
-	public ErrorController() {
-	}
-
+	
 	@RequestMapping(value = "/error", method = RequestMethod.GET)
 	public String handleError(HttpServletRequest request) {
 

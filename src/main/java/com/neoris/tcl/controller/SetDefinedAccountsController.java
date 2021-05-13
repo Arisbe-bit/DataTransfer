@@ -15,12 +15,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmOracleAcc;
+import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetDefinedAccounts;
-import com.neoris.tcl.models.SetTradingPartnersTypes;
+import com.neoris.tcl.models.SetHfmCodes;
+import com.neoris.tcl.models.SetIcpcodes;
+import com.neoris.tcl.models.ViewCostCenter;
+import com.neoris.tcl.models.ViewPartnersICP;
 import com.neoris.tcl.security.models.User;
+import com.neoris.tcl.services.IHfmAccEntriesDetService;
 import com.neoris.tcl.services.IHfmOracleAccService;
+import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.ISetDefinedAccountsService;
-import com.neoris.tcl.services.ISetTradingPartnersTypesService;
+import com.neoris.tcl.services.ISetHfmCodesService;
+import com.neoris.tcl.services.ISetIcpcodesService;
+import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -33,55 +41,88 @@ public class SetDefinedAccountsController {
 	@Autowired
 	private ISetDefinedAccountsService service;
 	@Autowired
-	private ISetTradingPartnersTypesService serviceTPT;
-	@Autowired
 	private IHfmOracleAccService serviceOAS;
-
+	@Autowired
+	private IViewCostCenterService servcc;
+	@Autowired
+	private IHfmRollupEntriesService servcomp;
+	@Autowired 
+	ISetHfmCodesService servhfm;
+	@Autowired
+	ISetIcpcodesService sericp;
+	
+	
 	private List<SetDefinedAccounts> lsttpAccs;
 	private List<SetDefinedAccounts> lstSelectdAccs;
 	private SetDefinedAccounts curtpAccs; // actual iterator
+	
+	//Company
+  	private List<HfmRollupEntries> lstcompany;
 
-	private List<SetTradingPartnersTypes> lsttpType;
-	private List<HfmOracleAcc> lstOrcl;
-
+  	private List<HfmOracleAcc> lstOrcl;
+	private List<ViewCostCenter> lstCC;
 	private Authentication authentication;
+	
+
+	
+	private int lcompanyid; 
+	
+	
 	private User user;
 
 	@PostConstruct
 	public void init() {
-		LOG.info("Initializing lstAccounting Accounts...");
-		this.lsttpAccs = service.findAll();
-		LOG.info("Initializing lsttpType Accounts...");
-		this.lsttpType = serviceTPT.findAll();
-		LOG.info("Initializing Oracle Accounts...");
-		this.lstOrcl = serviceOAS.findAll();
+		
+		this.curtpAccs = new SetDefinedAccounts();
+		
+		LOG.info("Initializing lstcompany ...");
+		
+		this.lstcompany = servcomp.findAll();
+		
+		
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		
+		try{
+			LOG.info("Initializing Cost Centers...");
+		
+		  this.lstCC = servcc.findAll();
 
+			LOG.info(" lstCC "+this.lstCC.size());
+		}catch (Exception e) {
+			LOG.error("init lstCC ERRor -> {}", e.getMessage(),e);
+		}
+		
 		this.authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (this.authentication.getPrincipal() instanceof User) {
 			this.user = (User) this.authentication.getPrincipal();
 		}
+		
+		
 	}
 
 	public void openNew() {
-		this.curtpAccs = new SetDefinedAccounts();
+		//this.curtpAccs = new SetDefinedAccounts();
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+		LOG.info(" open new "+lcompanyid);
 	}
 
 	public void save() {
 		LOG.info("Entering to save Accounting Accounts => {}", this.curtpAccs);
 		this.curtpAccs.setUserid(user.getUsername());
 		this.curtpAccs = service.save(curtpAccs);
-		this.lsttpAccs = service.findAll();
+		
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		
 		Functions.addInfoMessage("Succes", "Accounting Accounts saved");
 		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
-
 	public void delete() {
 		LOG.info("Entering to delete Accounting Accounts => {}", this.curtpAccs);
 		service.delete(this.curtpAccs);
 		this.curtpAccs = null;
-		this.lsttpAccs = service.findAll();
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
 		Functions.addInfoMessage("Succes", "Code Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -91,7 +132,7 @@ public class SetDefinedAccountsController {
 		LOG.info("[deleteSelected] = > Entering to delete Accounting Account: {}", this.lstSelectdAccs);
 		service.deleteAll(this.lstSelectdAccs);
 		this.lstSelectdAccs = null;
-		this.lsttpAccs = service.findAll();
+		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
 		Functions.addInfoMessage("Succes", "Accounting Account Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
@@ -158,16 +199,25 @@ public class SetDefinedAccountsController {
 
 	public void setCurtpAccs(SetDefinedAccounts curtpAccs) {
 		this.curtpAccs = curtpAccs;
+		
+	 try {	
+		this.lstCC = servcc.findAll();
+		
+		LOG.info("setCurtpAccs company  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
+		
+		
+		//LOG.info("current lstCC "+this.lstCC.size());
+		
+		lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
+		LOG.info("setCurtpAccs return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+		
+	   } catch (Exception e) {
+			LOG.error("setCurtpAccs ERRor -> {}", e.getMessage());
+		}
+		
 	}
 
-	public List<SetTradingPartnersTypes> getLsttpType() {
-		return lsttpType;
-	}
-
-	public void setLsttpType(List<SetTradingPartnersTypes> lsttpType) {
-		this.lsttpType = lsttpType;
-	}
-
+	
 	public List<HfmOracleAcc> getLstOrcl() {
 		return lstOrcl;
 	}
@@ -176,4 +226,58 @@ public class SetDefinedAccountsController {
 		this.lstOrcl = lstOrcl;
 	}
 
+	public List<HfmRollupEntries> getLstcompany() {
+		return lstcompany;
+	}
+
+	public void setLstcompany(List<HfmRollupEntries> lstcompany) {
+		this.lstcompany = lstcompany;
+	}
+	
+	
+
+	public List<ViewCostCenter> getLstCC() {
+		return lstCC;
+	}
+
+	public void setLstCC(List<ViewCostCenter> lstCC) {
+		this.lstCC = lstCC;
+	}
+
+	public void companyidChange() {
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+				
+		try {
+			LOG.info("companyidChange company  => {},costcenter  => {}", this.lcompanyid,this.curtpAccs.getId().getCostcenter());
+			//this.lstCC = servcc.findAll();
+			//LOG.info("change lstCC "+this.lstCC.size());			
+		} catch (Exception e) {
+			LOG.error("companyidChange ERRor -> {}", e.getMessage());
+		}
+	}
+	
+	public void companyidChangeorcl() {
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+				
+		try {
+			LOG.info("companyidChangeorcl company  => {},costcenter  => {}", this.lcompanyid);
+			this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
+			LOG.info("companyidChangeorcl lsttpAccs "+this.lsttpAccs.size());			
+		} catch (Exception e) {
+			LOG.error("companyidChangeorcl ERRor -> {}", e.getMessage());
+		}
+	}
+	
+	public void costcenterChange() {
+		try {
+			LOG.info("costcenterChange companyid  => {},costcenter  => {}", this.lcompanyid ,this.curtpAccs.getId().getCostcenter());
+			lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.lcompanyid ,this.curtpAccs.getId().getCostcenter());
+			
+			
+			LOG.info("costcenterChange return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+		} catch (Exception e) {
+			LOG.error("costcenterChange ERRor -> {}", e.getMessage());
+		}
+	}
+	
 }

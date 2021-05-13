@@ -19,6 +19,6 @@ public interface ISetHfmCodesService {
 
 	void deleteAll(List<SetHfmCodes> entityList);
 	
-	
+	List<SetHfmCodes> findByTptype(String tptype);
 
 }

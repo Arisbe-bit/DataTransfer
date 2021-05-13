@@ -8,7 +8,6 @@ import com.neoris.tcl.models.SetDefinedAccountsPK;
 
 public interface ISetDefinedAccountsService {
 	
-	
 	Optional<SetDefinedAccounts> findById(SetDefinedAccountsPK id);
 
 	List<SetDefinedAccounts> findAll();
@@ -20,5 +19,7 @@ public interface ISetDefinedAccountsService {
 	void delete(SetDefinedAccounts entity);
 
 	void deleteAll(List<SetDefinedAccounts> entityList);
+	
+	List<SetDefinedAccounts>  findByIdCompanyid(int companyid);
 
 }

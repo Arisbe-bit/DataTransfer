@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c_rt="http://java.sun.com/jstl/core_rt"
+    xmlns:form="http://www.springframework.org/tags/form"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/rolluphist.xhtml">
+        <ui:define name="rollupContent">
+            <p:dataTable id="dt-hfm-tab-ffss-details" widgetVar="dtHfmFfssDetails" var="hfmffssDetail" value="#{rolluphistControllerBean.lstHfmFfssDetails}" rowKey="#{hfmffssDetail.companyid}" paginator="true" rows="10" reflow="true" stickyHeader="true" tableStyle="width:auto" resizeMode="expand" paginatorPosition="bottom">
+                <f:facet name="header">
+                    <p:toolbar id="toolbar-fsdetails">
+                        <p:toolbarGroup>
+                            <div class="fsdetails-table-header">
+                                <strong><h:outputText value="FFSS Movements History" /></strong> 
+                            </div>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">
+                            <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" ajax="false" disabled="#{empty rolluphistControllerBean.lstHfmFfssDetails}">
+                                <p:dataExporter type="xls" target="rollupForm:dt-hfm-tab-ffss-details" fileName="FFSSMovements"/>
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </f:facet>
+                <p:column headerText="Period Name" sortBy="#{hfmffssDetail.id.periodnm}" filterBy="#{hfmffssDetail.id.periodnm}">
+                    <h:outputText value="#{hfmffssDetail.id.periodnm}"/>
+                </p:column>
+                <p:column headerText="HFM Code" sortBy="#{hfmffssDetail.id.hfmcode}" filterBy="#{hfmffssDetail.id.hfmcode}">
+                    <h:outputText value="#{hfmffssDetail.id.hfmcode}"/>
+                </p:column>
+                <p:column headerText="Account Id" sortBy="#{hfmffssDetail.id.accountid}" filterBy="#{hfmffssDetail.id.accountid}">
+                    <h:outputText value="#{hfmffssDetail.id.accountid}"/>
+                </p:column>
+                <p:column headerText="Cost Center" sortBy="#{hfmffssDetail.id.costcenter}" filterBy="#{hfmffssDetail.id.costcenter}">
+                    <h:outputText value="#{hfmffssDetail.id.costcenter}"/>
+                </p:column>
+                <p:column headerText="ICP" sortBy="#{hfmffssDetail.id.icp}" filterBy="#{hfmffssDetail.id.icp}">
+                    <h:outputText value="#{hfmffssDetail.id.icp}"/>
+                </p:column>
+                <p:column headerText="Partner Id" sortBy="#{hfmffssDetail.id.partnerid}" filterBy="#{hfmffssDetail.id.partnerid}">
+                    <h:outputText value="#{hfmffssDetail.id.partnerid}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="TP Name" sortBy="#{hfmffssDetail.tpname}" filterBy="#{hfmffssDetail.tpname}">
+                    <h:outputText value="#{hfmffssDetail.tpname}">
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Amount" sortBy="#{hfmffssDetail.id.amount}" filterBy="#{hfmffssDetail.id.amount}" styleClass="rollup-text-align-right #{hfmffssDetail.id.amount lt 0 ? 'negative' : ''}">
+                    <h:outputText value="#{hfmffssDetail.id.amount}">
+                        <f:convertNumber pattern="###,###,###,###.##"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Currency Code" sortBy="#{hfmffssDetail.id.currencycode}" filterBy="#{hfmffssDetail.id.currencycode}">
+                    <h:outputText value="#{hfmffssDetail.id.currencycode}"/>
+                </p:column>
+                <p:column headerText="Batch Name" sortBy="#{hfmffssDetail.batchname}" filterBy="#{hfmffssDetail.batchname}">
+                    <h:outputText value="#{hfmffssDetail.batchname}"/>
+                </p:column>
+                <p:column headerText="Category" sortBy="#{hfmffssDetail.category}" filterBy="#{hfmffssDetail.category}">
+                    <h:outputText value="#{hfmffssDetail.category}"/>
+                </p:column>
+                <p:column headerText="Doc Number" sortBy="#{hfmffssDetail.docnumber}" filterBy="#{hfmffssDetail.docnumber}">
+                    <h:outputText value="#{hfmffssDetail.docnumber}"/>
+                </p:column>
+                <p:column headerText="Debits" sortBy="#{hfmffssDetail.transdebit}" filterBy="#{hfmffssDetail.transdebit}" styleClass="rollup-text-align-right #{hfmffssDetail.transdebit lt 0 ? 'negative' : ''}">
+                    <h:outputText value="#{hfmffssDetail.transdebit}">
+                        <f:convertNumber pattern="###,###,###,###.##"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Credits" sortBy="#{hfmffssDetail.transcredit}" filterBy="#{hfmffssDetail.transcredit}" styleClass="rollup-text-align-right #{hfmffssDetail.transcredit lt 0 ? 'negative' : ''}">
+                    <h:outputText value="#{hfmffssDetail.transcredit}"/>
+                </p:column>
+                <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">
+                    <h:outputText value="#{hfmffssDetail.id.datasource}"/>
+                </p:column>
+                <p:column headerText="Error Text" sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
+                    <h:outputText value="#{hfmffssDetail.errortext}"/>
+                </p:column>
+            </p:dataTable>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -11,15 +11,14 @@ public class SetDefinedAccountsPK implements Serializable {
 	private static final long serialVersionUID = 6102853690474970823L;
 
 	private String accountid;
-	private String companyid;
+	private int companyid;
 	private String costcenter;
 	private String source;
-
 	public SetDefinedAccountsPK() {
 
 	}
 
-	public SetDefinedAccountsPK(String accountid, String companyid, String costcenter, String source) {
+	public SetDefinedAccountsPK(String accountid, int companyid, String costcenter, String source) {
 		this.accountid = accountid;
 		this.companyid = companyid;
 		this.costcenter = costcenter;
@@ -34,11 +33,11 @@ public class SetDefinedAccountsPK implements Serializable {
 		this.accountid = accountid;
 	}
 
-	public String getCompanyid() {
+	public int getCompanyid() {
 		return companyid;
 	}
 
-	public void setCompanyid(String companyid) {
+	public void setCompanyid(int companyid) {
 		this.companyid = companyid;
 	}
 
@@ -57,6 +56,8 @@ public class SetDefinedAccountsPK implements Serializable {
 	public void setSource(String source) {
 		this.source = source;
 	}
+
+	
 
 	@Override
 	public String toString() {

@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Subselect;
+
 @Entity
-@Table(name = "ROLLUP_VIEW_MATCH_FFSS")
+@Table(name = "HFM_FFSS_MATCH_FFSS")
 public class ViewRollupMatchFFSS implements Serializable {
 
 	private static final long serialVersionUID = 5362381129863237217L;

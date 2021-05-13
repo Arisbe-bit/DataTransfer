@@ -8,18 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Subselect;
+
 @Entity
-@Table(name = "ROLLUP_VORACLEACCOUNTS")
+@Subselect("select num, orgid, companyid,hfmcode,costcenternm,costcenter,oracleacct,accountnm,futureuse2,futureuse2nm ,accounttype,enabled,enddateactive from ROLLUP_VORACLEACCOUNTS")
 public class HfmOracleAcc implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3849250262592129052L;
+	private static final long serialVersionUID = -3849211262592129052L;
 	@Id
 	private Long num;
+	private int orgid;
 	private String companyid; 
-	private String companynm; //no
 	private String hfmcode;
 	private String costcenternm;
 	private String costcenter;
@@ -36,13 +38,15 @@ public class HfmOracleAcc implements Serializable {
 
 	}
 
-	public HfmOracleAcc(Long num, String companyid, String companynm, String hfmcode, String costcenternm,
+	
+
+	public HfmOracleAcc(Long num, int orgid, String companyid,  String hfmcode, String costcenternm,
 			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
 			String accounttype, String enabled, LocalDate enddateactive) {
-
+		
 		this.num = num;
+		this.orgid = orgid;
 		this.companyid = companyid;
-		this.companynm = companynm;
 		this.hfmcode = hfmcode;
 		this.costcenternm = costcenternm;
 		this.costcenter = costcenter;
@@ -55,6 +59,8 @@ public class HfmOracleAcc implements Serializable {
 		this.enddateactive = enddateactive;
 	}
 
+
+
 	public String getCompanyid() {
 		return companyid;
 	}
@@ -63,14 +69,7 @@ public class HfmOracleAcc implements Serializable {
 		this.companyid = companyid;
 	}
 
-	public String getCompanynm() {
-		return companynm;
-	}
-
-	public void setCompanynm(String companynm) {
-		this.companynm = companynm;
-	}
-
+	
 	public String getHfmcode() {
 		return hfmcode;
 	}
@@ -159,12 +158,28 @@ public class HfmOracleAcc implements Serializable {
 		this.num = num;
 	}
 
+
+
+	public int getOrgid() {
+		return orgid;
+	}
+
+
+
+	public void setOrgid(int orgid) {
+		this.orgid = orgid;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "HfmOracleAcc [num=" + num + ", companyid=" + companyid + ", companynm=" + companynm + ", hfmcode="
-				+ hfmcode + ", costcenternm=" + costcenternm + ", costcenter=" + costcenter + ", oracleacct="
-				+ oracleacct + ", accountnm=" + accountnm + ", futureuse2=" + futureuse2 + ", futureuse2nm="
-				+ futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled + "]";
+		return "HfmOracleAcc [num=" + num + ", orgid=" + orgid + ", companyid=" + companyid 
+				+ ", hfmcode=" + hfmcode + ", costcenternm=" + costcenternm + ", costcenter=" + costcenter
+				+ ", oracleacct=" + oracleacct + ", accountnm=" + accountnm + ", futureuse2=" + futureuse2
+				+ ", futureuse2nm=" + futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled
+				+ ", enddateactive=" + enddateactive + "]";
 	}
+
 
 }

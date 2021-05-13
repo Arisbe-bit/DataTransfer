@@ -28,16 +28,20 @@ public class ViewRollipFFSSGconsService implements IViewRollupFFSSGconsService{
 		return (List<ViewFFSSGrouped>) data.findAll();
 	}
 
-	@Override
-	public List<Map<String, Object>> findByCompanyidAndhfmparentAndhfmcode(int companyId, String hfmparent,
-			String hfmcode) {
-		return data.findByCompanyidAndhfmparentAndhfmcode(companyId, hfmparent,  hfmcode);
-	}
+	
 
 	
 	@Override
-	public List<ViewFFSSGrouped> findByCompanyidAndHfmcode(int companyid,  String hfmcode) {
-		  return data.findByCompanyidAndHfmcode(companyid,  hfmcode);
+	public List<ViewFFSSGrouped> findByCompanyidAndHfmcode(String companyid, String hfmcode) {
+		  return data.findByCompanyidAndHfmcode(companyid, hfmcode);
+	}
+
+
+
+
+	@Override
+	public List<ViewFFSSGrouped> findByCompanyid(Long companyid) {
+		  return data.findByCompanyid(companyid);
 	}
 	
 	

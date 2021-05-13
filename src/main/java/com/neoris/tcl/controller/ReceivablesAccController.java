@@ -74,8 +74,7 @@ public class ReceivablesAccController {
 		this.lstcompany = serviceEntries.findAll();
 
 		// We use this list instead the company list. f:itemlist don't works!
-		this.mapCompany = this.lstcompany.stream()
-				.map(r -> new KeyValue<String, String>(r.getEntity(), String.valueOf(r.getCompanyid())))
+		this.mapCompany = this.lstcompany.stream().map(r -> new KeyValue<String, String>(r.getEntity(), String.valueOf(r.getCompanyid())))
 				.collect(Collectors.toList());
 		LOG.info("mapCompany = {}", mapCompany);
 		LOG.info("Getting User form security context...");
@@ -219,7 +218,7 @@ public class ReceivablesAccController {
 
 		LOG.info("Receivables- company edit  => {}", this.currentVRec.getOrganization_id());
 		lstCustno = servicecust.findByOrganizationid(this.currentVRec.getOrganization_id());
-		LOG.info("return lstSuppno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
+		LOG.info("return lstcustno with items => {}", lstCustno != null ? lstCustno.size() : "is null");
 
 		this.currentRecTab = new SetReceivablesIcp();
 		this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));

@@ -22,6 +22,18 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	void rollUpStart(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
 	/**
+	 * Stored Procedure for processing RollUps
+	 * 
+	 * @param P_ORGID.-   Company ID
+	 * @param P_PERIOD.-  Perdiod: JAN - DEC
+	 * @param P_YEAR.-    Year
+	 * @param P_SEGMENT.- Segment
+	 * @param p_userid.-  User ID
+	 */
+	@Procedure("rollup_deldata")
+	void rollDelData(int p_orgid, String p_segment, String p_period, String p_year, String P_USERID);
+
+	/**
 	 * Stored Procedure for getting Header
 	 * 
 	 * @param P_ORGID

@@ -31,7 +31,7 @@ public class HfmFfss implements Serializable {
 	private Long num;
 	// private HfmFfssPK id;
 
-	@Column(name = "COMPANYID")
+	@Column(name = "companyid")
 	private Long companyId;
 
 	@Column(name = "CURRENCY_CODE", columnDefinition = "VARCHAR(3) default 'USD'")
@@ -92,11 +92,11 @@ public class HfmFfss implements Serializable {
 		this.num = num;
 	}
 
-	public Long getCompanyId() {
+	public Long getcompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(Long companyId) {
+	public void setcompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 

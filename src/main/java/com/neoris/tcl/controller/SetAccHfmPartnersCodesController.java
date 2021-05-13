@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmOracleAcc;
+import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetAccHfmPartnersCodes;
 import com.neoris.tcl.services.IHfmOracleAccService;
 import com.neoris.tcl.services.ISetAccHfmPartnersCodesService;
@@ -34,6 +35,8 @@ private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.
     
     private List<HfmOracleAcc> lstOrcl;
     private HfmOracleAcc currentOrcl; // actual iterator
+    
+
     
     @Autowired
     private IHfmOracleAccService serviceOrcl;
@@ -158,6 +161,8 @@ private final static Logger LOG = LoggerFactory.getLogger(TradingTypeController.
 	public void setCurrentOrcl(HfmOracleAcc currentOrcl) {
 		this.currentOrcl = currentOrcl;
 	}
+
+	
 	
 	
 }

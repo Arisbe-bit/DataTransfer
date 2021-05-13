@@ -21,7 +21,7 @@ public class HfmFfssDetails implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5676213260556508605L;
+	private static final long serialVersionUID = 5676213260456508605L;
 
 	@EmbeddedId
 	private HfmFfssDetailsPK id;

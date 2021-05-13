@@ -32,5 +32,10 @@ public class HfmLayoutHistService implements IHfmLayoutHistService{
 		return data.findByIdCompanyid(companyid);
 	}
 
+	@Override
+	public List<HfmLayoutHist> findByIdCompanyidAndPeriodid(int companyid, String periodid) {
+		return data.findByIdCompanyidAndPeriodid(companyid,periodid);
+	}
+
 	
 }

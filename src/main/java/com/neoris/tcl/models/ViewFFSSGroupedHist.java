@@ -8,16 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
+
+
 @Entity
-@Table(name = "ROLLUP_VIEW_FFSS_GROUPEDHIST")
+@Table(name ="HFM_FFSS_GROUPEDHIST")
 public class ViewFFSSGroupedHist implements Serializable{
 	
-private static final long serialVersionUID = 5676213260556508605L;
+private static final long serialVersionUID = 5676214260556508605L;
 	
 	@Id
-	private Long num;
+	private String num;
 	
-	private int companyid;
+	private String companyid;
 	private String periodname;
 	private String costcenter;
 	private String hfmcode;
@@ -25,9 +27,9 @@ private static final long serialVersionUID = 5676213260556508605L;
 	private String icp;
 	private String partnerid;
 	private String tpname;
-	private int omit;
+	private String omit;
 	private BigDecimal amount;
-	private String hfmparent;
+//	private String hfmparent;
 	
 	public ViewFFSSGroupedHist() {
 		
@@ -36,9 +38,9 @@ private static final long serialVersionUID = 5676213260556508605L;
 	
 	
 
-	public ViewFFSSGroupedHist(Long num, int companyid, String periodname, String costcenter, String hfmcode,
-			String accountid, String icp, String partnerid, String tpname, int omit, BigDecimal amount,
-			String hfmparent) {
+	public ViewFFSSGroupedHist(String num, String companyid, String periodname, String costcenter, String hfmcode,
+			String accountid, String icp, String partnerid, String tpname, String omit, BigDecimal amount
+			) {
 		this.num = num;
 		this.companyid = companyid;
 		this.periodname = periodname;
@@ -50,25 +52,25 @@ private static final long serialVersionUID = 5676213260556508605L;
 		this.tpname = tpname;
 		this.omit = omit;
 		this.amount = amount;
-		this.hfmparent = hfmparent;
+		//this.hfmparent = hfmparent;
 	}
 
 
 
 
-	public Long getNum() {
+	public String getNum() {
 		return num;
 	}
 
-	public void setNum(Long num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 
-	public int getCompanyid() {
+	public String getCompanyid() {
 		return companyid;
 	}
 
-	public void setCompanyid(int companyid) {
+	public void setCompanyid(String companyid) {
 		this.companyid = companyid;
 	}
 
@@ -128,11 +130,11 @@ private static final long serialVersionUID = 5676213260556508605L;
 		this.tpname = tpname;
 	}
 
-	public int getOmit() {
+	public String getOmit() {
 		return omit;
 	}
 
-	public void setOmit(int omit) {
+	public void setOmit(String omit) {
 		this.omit = omit;
 	}
 
@@ -144,20 +146,14 @@ private static final long serialVersionUID = 5676213260556508605L;
 		this.amount = amount;
 	}
 
-	public String getHfmparent() {
-		return hfmparent;
-	}
-
-	public void setHfmparent(String hfmparent) {
-		this.hfmparent = hfmparent;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "ViewFFSSGrouped [num=" + num + ", companyid=" + companyid + ", periodname=" + periodname
 				+ ", costcenter=" + costcenter + ", hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp
 				+ ", partnerid=" + partnerid + ", tpname=" + tpname + ", omit=" + omit + ", amount=" + amount
-				+ ", hfmparent=" + hfmparent + "]";
+				+  "]";
 	}
 	
 	
