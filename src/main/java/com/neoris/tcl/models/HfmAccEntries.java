@@ -36,6 +36,11 @@ public class HfmAccEntries implements Serializable {
 
 	@ColumnDefault(value = "0")
 	private int applied;
+	
+	private String description;
+	
+	@ColumnDefault(value = "UnPosting")
+	private String status;
 
 //	@OneToMany
 //	@JoinColumn(name = "itemid")
@@ -46,14 +51,49 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = new ArrayList<HfmAccEntriesDet>();
 	}
 
-	public HfmAccEntries(Long itemid, int companyid, String periodnm, String userid, int applied) {
+	
 
+	public HfmAccEntries(Long itemid, int companyid, java.lang.String periodnm, java.lang.String userid, int applied,
+			java.lang.String description, java.lang.String status, List<HfmAccEntriesDet> lstEntriesDet) {
+		
 		this.itemid = itemid;
 		this.companyid = companyid;
 		this.periodnm = periodnm;
 		this.userid = userid;
 		this.applied = applied;
+		this.description = description;
+		this.status = status;
+		this.lstEntriesDet = lstEntriesDet;
 	}
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 
 	public int getCompanyid() {
 		return companyid;
@@ -104,10 +144,15 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = lstEntriesDet;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "HfmAccEntries [itemid=" + itemid + ", companyid=" + companyid + ", periodnm=" + periodnm + ", userid="
-				+ userid + ", applied=" + applied + ", lstEntriesDet=" + lstEntriesDet + "]";
+				+ userid + ", applied=" + applied + ", description=" + description + ", status=" + status
+				+ ", lstEntriesDet=" + lstEntriesDet + "]";
 	}
+
+	
 
 }

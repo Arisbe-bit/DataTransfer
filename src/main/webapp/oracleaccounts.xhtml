@@ -28,8 +28,9 @@
                     <div>
                         <p:toolbar>                             
                               <p:toolbarGroup align="center">
-	                                <p:outputLabel for="entity" value="Enter Company :  " />
+	                                <p:outputLabel for="entity" value="Select Company :  " />
 	                                <p:selectOneMenu id="entity" value="#{vieworclaccountsControllerBean.currentOrcl.orgid}" filter="true" filterMatchMode="startsWith">
+	                                   <f:selectItem itemLabel="Select One" itemValue="" />
 	                                    <f:selectItems value="#{rollupentriesControllerBean.lstEntries}" var="itemco" itemLabel="#{itemco.entity}" itemValue="#{itemco.companyid}" />
 		                          	<p:ajax event="change" 
 											listener="#{vieworclaccountsControllerBean.companyidChange}"

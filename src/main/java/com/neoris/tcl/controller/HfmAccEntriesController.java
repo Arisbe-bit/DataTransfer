@@ -2,6 +2,7 @@ package com.neoris.tcl.controller;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlCommandButton;
@@ -38,6 +39,7 @@ import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
+
 @Controller(value = "hfmaccentriesControllerBean")
 @Scope(ViewScope.VIEW)
 public class HfmAccEntriesController {
@@ -57,7 +59,7 @@ public class HfmAccEntriesController {
 	@Autowired
 	private ISetIcpcodesService serviceIcpCodes;
 	
-	
+	private Optional<SetHfmCodes> lstHfmdesc;
 	private List<SetHfmCodes> lstHfmcodes;
 	private List<SetIcpcodes> lstIcpcodes;
 
@@ -104,7 +106,7 @@ public class HfmAccEntriesController {
 			// this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
 			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
-			//this.lstHfmcodes = serviceHfmcodes.findAll();
+			this.lstHfmcodes = serviceHfmcodes.findAll();
 			//this.lstIcpcodes = serviceIcpCodes.findAll();
 			// find the list of accent for first company...
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
@@ -141,6 +143,7 @@ public class HfmAccEntriesController {
 		this.currentries.setCompanyid(this.currentries.getCompanyid());
 		this.currentries.setUserid(this.user.getUsername());
 		this.currentries.setApplied(0);
+		this.currentries.setStatus("UnPosting");
 
 		LOG.info("[openNew] manual currentries company  => {}", this.currentries.getCompanyid());
 
@@ -388,9 +391,12 @@ public class HfmAccEntriesController {
 	 */
 	public void tptypeChange(AjaxBehaviorEvent ev) {
 		
-		LOG.info("[tptypeChange] tptype  => {}", this.currentdet.getTptype());
+		LOG.info("[tptypeChange] hfmcode  => {}", this.currentdet.getHfmcode());
 
-		try {
+		String tptype="";
+		String desc="";
+		
+		/*try {
 			LOG.info("[tptypeChange] Getting lsthfmcodes...");
 			this.lstHfmcodes = serviceHfmcodes.findByTptype(this.currentdet.getTptype());
 			LOG.info("[tptypeChange]init lsthfmcodes with {} elements.", this.lstHfmcodes.size());
@@ -398,10 +404,26 @@ public class HfmAccEntriesController {
 		} catch (Exception e) {
 			LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage(), e);
 		}
+		*/
 		
+		try {
+			LOG.info("[tptypeChange]...");
+			//this.lstHfmcodes = serviceHfmcodes.findByTptype(this.currentdet.getTptype());
+			
+			this.lstHfmdesc = serviceHfmcodes.findById(this.currentdet.getHfmcode());
+					
+			desc = this.lstHfmdesc.get().getDescription();
+			tptype = this.lstHfmdesc.get().getTptype();
+			
+			this.currentdet.setDescription(desc);
+			this.currentdet.setTptype(tptype);
+			LOG.info("Description {}, tptype {} ", desc,tptype);
+
+		} catch (Exception e) {
+			LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage());
+		}
 		
-		
-		if ( this.currentdet.getTptype().equals("GOP") ) {
+		if ( tptype.equals("GOP") ) {
 			this.lstIcpcodes = null;
 			this.lstcurrencies = null;
 			try {
@@ -413,7 +435,7 @@ public class HfmAccEntriesController {
 			}
 			
 		}
-		else if (this.currentdet.getTptype().equals("CURRENCIES")) {
+		else if (tptype.equals("CURRENCIES")) {
 			this.lstIcpcodes = null;
 			this.lstCC =null;
 			try {
@@ -439,7 +461,7 @@ public class HfmAccEntriesController {
 		}
 
 			
-		PrimeFaces.current().ajax().update("form:opexarea","form:icpcode","form:hfmco","form:Currencyc");
+		PrimeFaces.current().ajax().update("form:opexarea","form:icpcode","form:Currencyc");
 
 
 			
@@ -461,6 +483,7 @@ public class HfmAccEntriesController {
 	
 			this.currentdet = new HfmAccEntriesDet();
 			
+		
 			this.currentdet.setItemid(this.currentries.getItemid());
 			this.currentdet.setDebits(new BigDecimal(num));
 			this.currentdet.setCredits(new BigDecimal(num));
@@ -475,7 +498,7 @@ public class HfmAccEntriesController {
 	 */
 	public void saveDet() {
 		double num = 0;
-		BigDecimal vamount = new BigDecimal(0);
+		
 		LOG.info("[saveDet] itemdId " + this.currentries.getItemid().intValue());
 		LOG.info("[saveDet] Entering to save item  => {}", this.currentdet);
 
@@ -489,10 +512,7 @@ public class HfmAccEntriesController {
 		
 			LOG.info("***********Running item validation*********** ");
 			
-			
-			//vamount= servicedet.rollupitemvalidate(this.currentdet.getItemid());
-			//servicedet.rollupitemvalidate(this.currentdet.getItemid(),vamount);
-			
+				
 			for  (HfmAccEntriesDet det : this.currentries.getLstEntriesDet()) {
 				LOG.info("detamount: "+det.getAmount().toString());
 				//vamount.add(det.getAmount());
@@ -608,12 +628,37 @@ public class HfmAccEntriesController {
 
 			LOG.info("[applyprocess] start apply ");
 			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
-					this.currentries.getItemid().intValue());
-
+					this.currentries.getItemid().intValue(), 1);
+			this.currentries.setApplied(1);
+			this.currentries.setStatus("Posting");
 		} catch (Exception e) {
 			LOG.error("[applyprocess] Exception in applyprocess -> {}", e.getMessage());
 		}
+		
+		PrimeFaces.current().ajax().update("form:dtParent","form:dtDetails");
+		//this.refreshUI();
 	}
+	
+	public void unpostingprocess() {
+
+		LOG.info("***********Running apply entries*********** ");
+		try {
+			LOG.info("[unpostingprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
+
+			LOG.info("[unpostingprocess] start apply ");
+			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
+					this.currentries.getItemid().intValue(), 0);
+			this.currentries.setApplied(0);
+			this.currentries.setStatus("UnPosting");
+		} catch (Exception e) {
+			LOG.error("[unpostingprocess] Exception in unpostingprocess -> {}", e.getMessage());
+		}
+		
+		PrimeFaces.current().ajax().update("form:dtParent","form:dtDetails");
+	//	this.refreshUI();
+	}
+	
+	
 	
 	
 
