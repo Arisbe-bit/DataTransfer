@@ -88,6 +88,9 @@ public class User implements UserDetails {
 
 	@ColumnDefault(value = "0")
 	private boolean definedaccounts;
+	
+	@ColumnDefault(value = "0")
+	private boolean manualentrieshist;
 
 	@Transient
 	private List<Rol> selectdRoles;
@@ -95,12 +98,6 @@ public class User implements UserDetails {
 	@Transient
 	private String passwordBackUp;
 
-//	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-//	@JoinTable(name = "hfm_user_role", 
-//				joinColumns = @JoinColumn(name = "userid", foreignKey = @ForeignKey(name = "FK_USER")), 
-//				inverseJoinColumns = @JoinColumn(name = "roleid", foreignKey = @ForeignKey(name = "FK_ROLE"))
-//	)
-//	private Set<Role> roles;
 
 	public User() {
 		passwordBackUp = "";
@@ -112,7 +109,7 @@ public class User implements UserDetails {
 			String username, String password, String name, boolean enabled, boolean admin,
 			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean policies, boolean definedaccounts) {
+			boolean policies, boolean definedaccounts, boolean manualentrieshist) {
 		this.selectdRoles = new ArrayList<>();
 		this.username = username;
 		this.password = password;
@@ -131,6 +128,7 @@ public class User implements UserDetails {
 		this.rolluphist = rolluphist;
 		this.policies = policies;
 		this.definedaccounts = definedaccounts; 
+		this.manualentrieshist = manualentrieshist;
 		this.passwordBackUp ="";
 		this.populateList();
 	}
@@ -205,6 +203,11 @@ public class User implements UserDetails {
 		if(definedaccounts) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
 			selectdRoles.add(Rol.DEFINEDACCOUNT);
+		}
+		
+		if(manualentrieshist) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.MANUALENTRIESHIST.name()));
+			selectdRoles.add(Rol.MANUALENTRIESHIST);
 		}
 		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
@@ -361,6 +364,14 @@ public class User implements UserDetails {
 		return selectdRoles;
 	}
 
+	public boolean isManualentrieshist() {
+		return manualentrieshist;
+	}
+
+	public void setManualentrieshist(boolean manualentrieshist) {
+		this.manualentrieshist = manualentrieshist;
+	}
+
 	public void setSelectdRoles(List<Rol> selectdRoles) {
 		LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
 		this.selectdRoles = selectdRoles;
@@ -405,6 +416,10 @@ public class User implements UserDetails {
 			if (Rol.DEFINEDACCOUNT.equals(rol)) {
 				this.setDefinedaccounts(true);
 			}
+			
+			if (Rol.MANUALENTRIESHIST.equals(rol)) {
+				this.setDefinedaccounts(true);
+			}
 		}
 	}
 
@@ -422,6 +437,7 @@ public class User implements UserDetails {
 		this.rolluphist = false;
 		this.policies = false;
 		this.definedaccounts = false;
+		this.manualentrieshist = false;
 	}
 	
 	private void populateList() {
@@ -465,32 +481,13 @@ public class User implements UserDetails {
 		if (definedaccounts) {
 			selectdRoles.add(Rol.DEFINEDACCOUNT);
 		}
+		
+		if (manualentrieshist) {
+			selectdRoles.add(Rol.MANUALENTRIESHIST);
+		}
 	}
 
-//	public List<Rol> getUserRoles() {
-//		List<Rol> lstUserRoles;
-//		if(roles != null) {
-//			lstUserRoles = roles.stream()
-//			.map(role -> role.getRole())
-//			.collect(Collectors.toList());
-//		} else {
-//			lstUserRoles = new ArrayList<Rol>();
-//		}
-//		return lstUserRoles;
-//	}
 
-	/**
-	 * Update the user roles
-	 * 
-	 * @param selectdRoles .- List with new roles
-	 * @param lstRoles     .- Full List of roles.
-	 */
-//	public void updateRoles(List<Role> lstRoles) {
-//		LOG.info("User roles before = {}", this.roles);
-//		this.roles = lstRoles.stream()
-//				.filter(role -> selectdRoles.contains(role.getRole()))
-//				.collect(Collectors.toSet());
-//		LOG.info("User roles afeter = {}", this.roles);
-//	}
+
 
 }

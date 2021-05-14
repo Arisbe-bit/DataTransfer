@@ -485,8 +485,7 @@ public class HfmAccEntriesController {
 			
 		
 			this.currentdet.setItemid(this.currentries.getItemid());
-			this.currentdet.setDebits(new BigDecimal(num));
-			this.currentdet.setCredits(new BigDecimal(num));
+			
 			
 			LOG.info("[openNewDet] currentdet = {}", this.currentdet);
 		

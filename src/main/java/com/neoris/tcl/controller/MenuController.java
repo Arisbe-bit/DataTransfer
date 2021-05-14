@@ -98,6 +98,10 @@ public class MenuController {
 	public String manualentries() {
 		return String.format(REDIRECT, "/manualentries");
 	}
+	
+	public String manualentrieshist() {
+		return String.format(REDIRECT, "/manualentrieshist");
+	}
 
 	public String logout() {
 		LOG.info("Entering to logout...");
@@ -201,5 +205,10 @@ public class MenuController {
 	public boolean isDefinedaccountsRole() {
 		return user.isDefinedaccounts() || user.isAdmin();
 	}
+	
+	public boolean isManualentrieshistRole() {
+		return user.isManualentrieshist() || user.isAdmin();
+	}
+	
 
 }

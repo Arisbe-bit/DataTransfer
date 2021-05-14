@@ -60,11 +60,13 @@
                     <h:panelGroup layout="block" styleClass="column-title" rendered="#{hfmaccentriesControllerBean.numColums eq 2}">
                         <h:outputText value="${hfmaccentriesControllerBean.titleDet}"/>
                     </h:panelGroup>
-
-
                     <!--  Column 1 -->
 
-                    <p:dataTable id="dtParent" widgetVar="dtParentWV" var="accEntries" value="#{hfmaccentriesControllerBean.lstaccent}" selectionMode="single" selection="#{hfmaccentriesControllerBean.currentries}" rowKey="#{accEntries.itemid}" paginator="true" rows="10" stripedRows="true" reflow="true" size="small" paginatorPosition="bottom">
+                    <p:dataTable id="dtParent" widgetVar="dtParentWV" 
+                    var="accEntries" value="#{hfmaccentriesControllerBean.lstaccent}" selectionMode="single" 
+                    selection="#{hfmaccentriesControllerBean.currentries}" rowKey="#{accEntries.itemid}"
+                     paginator="true" rows="10" stripedRows="true" reflow="true" size="small" 
+                     paginatorPosition="bottom">
                         <f:facet name="header">
                             <p:toolbar>
                                 <p:toolbarGroup >
@@ -83,7 +85,6 @@
                         </f:facet>
                         <p:ajax event="rowSelect" update=":form:dtParent :form:dtDetails" listener="#{hfmaccentriesControllerBean.dtParent_rowSelect}" />
                         <p:ajax event="rowSelectCheckbox" update=":form:dtParent :form:dtDetails" listener="#{hfmaccentriesControllerBean.dtParent_rowSelect}" />
-
                         <p:column headerText="Document No." sortBy="#{accEntries.itemid}" filterBy="#{accEntries.itemid}" width="10%">
                             <h:outputText value="#{accEntries.itemid}" />
                         </p:column>
@@ -130,7 +131,9 @@
                     </h:panelGroup>
 
                     <p:dataTable id="dtDetails" widgetVar="dtDetailsWV"  var="entryDetail" 
-                    reflow="true" value="#{hfmaccentriesControllerBean.currentries.lstEntriesDet}" selectionMode="single" selection="#{hfmaccentriesControllerBean.currentdet}" rowKey="#{entryDetail.movid}" rows="15" rowIndexVar="itDet" size="small" paginator="true" paginatorPosition="bottom">
+                    reflow="true" value="#{hfmaccentriesControllerBean.currentries.lstEntriesDet}" selectionMode="single" 
+                    selection="#{hfmaccentriesControllerBean.currentdet}" rowKey="#{entryDetail.movid}" 
+                    rows="15" rowIndexVar="rowIndex" size="small" paginator="true" paginatorPosition="bottom">
                         <f:facet name="header">
                             <p:toolbar>
                                 <p:toolbarGroup >
@@ -146,20 +149,16 @@
                         </f:facet>
 
                         <p:ajax event="rowSelect" process="@this" update=":form:manage-code-contentDet" />
-                       <p:column>
-					        <f:facet name="header">
-					            <h:outputText value="index" />
-					        </f:facet>
-					        <h:outputText 
-					            value="#{index + 1}" />
-					    </p:column>
-					   <p:column headerText="Mov" sortBy="#{entryDetail.movid}" filterBy="#{entryDetail.movid}" width="5%">
-                            <h:outputText value="#{entryDetail.movid}" />
-                        </p:column>
+                      <p:column headerText="No." style="width:2%">
+			               #{rowIndex+1}
+			            </p:column>
                         <p:column headerText="HfmCode" sortBy="#{entryDetail.hfmcode}" filterBy="#{entryDetail.hfmcode}">
                             <h:outputText value="#{entryDetail.hfmcode}" />
                         </p:column>
-                       
+                       <p:column headerText="Description" sortBy="#{entryDetail.description}" filterBy="#{entryDetail.description}">
+                            <h:outputText value="#{entryDetail.description}">
+                            </h:outputText>
+                        </p:column>
                         <p:column headerText="ICP Code" sortBy="#{entryDetail.icpcode}" filterBy="#{entryDetail.icpcode}">
                             <h:outputText value="#{entryDetail.icpcode}">
                             </h:outputText>
@@ -176,10 +175,7 @@
                             <h:outputText value="#{entryDetail.tptype}">
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Description" sortBy="#{entryDetail.description}" filterBy="#{entryDetail.description}">
-                            <h:outputText value="#{entryDetail.description}">
-                            </h:outputText>
-                        </p:column>
+                       
                          <p:column headerText="Amount" sortBy="#{entryDetail.amount}" filterBy="#{entryDetail.amount}" styleClass="rollup-text-align-right">
                             <h:outputText value="#{entryDetail.amount}">
                                 <f:convertNumber pattern="###,###,###,###.##"/>

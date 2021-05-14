@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+
+    <ui:define name="Manual Entries History">
+        <title><h:outputText value="${viewentriesControllerBean.title}" /></title>
+    </ui:define>
+
+    <ui:define name="header">
+        <h1><h:outputText value="${viewentriesControllerBean.title}" /></h1>
+    </ui:define>
+    <ui:define name="css">
+        <style type="text/css">
+        .ui-datatable thead th, .ui-datatable tfoot td {
+        	font-size: small;
+        }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+                <p:growl id="messages" showDetail="true" />
+
+                <div class="products-buttonbar">
+                    <div>
+                        <p:toolbar>                             
+                              
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                                    <p:dataExporter type="xls" target="#{viewentriesControllerBean.dataTableName}" fileName="${viewentriesControllerBean.title}" />
+                                </p:commandButton>
+                             </p:toolbarGroup>  
+                        </p:toolbar>
+                    </div>
+                </div>
+
+				<p:dataTable id="#{viewentriesControllerBean.dataTableName}"
+					widgetVar="dtCodes" var="currentid" rowKey="#{currentid.num}"
+					value="#{viewentriesControllerBean.lstentries}" reflow="true"
+					styleClass="products-table" paginator="true" rows="20"
+					 size="small" paginatorPosition="bottom"
+					scrollable="true">
+					<f:facet name="header">
+						<span><h:outputText value="#{viewentriesControllerBean.title}" /></span>
+						
+					</f:facet>
+					 <p:column headerText="Document No." sortBy="#{currentid.itemid}" filterBy="#{currentid.itemid}" width="10%">
+                            <h:outputText value="#{currentid.itemid}" />
+                        </p:column>
+                        <p:column headerText="Period Name" sortBy="#{currentid.periodnm}" filterBy="#{currentid.periodnm}" width="15">
+                            <h:outputText value="#{currentid.periodnm}" />
+                        </p:column>
+                        <p:column headerText="User Id" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}" width="15%">
+                            <h:outputText value="#{currentid.userid}" />
+                        </p:column>
+                         <p:column headerText="Observations" sortBy="#{currentid.description}" filterBy="#{currentid.description}" width="15%">
+                            <h:outputText value="#{currentid.description}" />
+                        </p:column>                        
+                         <p:column headerText="Status" sortBy="#{currentid.status}" filterBy="#{currentid.status}" width="15%">
+                            <h:outputText value="#{currentid.status}" />
+                        </p:column>
+                       <p:column headerText="Applied" styleClass="rollup-text-align-center" width="10%">
+                            <center>
+                                <i class="#{currentid.applied eq 1 ? 'fa fa-check fa-1x':'fa fa-close fa-1x'}">
+                                    <h:outputText value="#{currentid.applied}" styleClass="sr-only"/>
+                                </i>
+                            </center>
+                        </p:column>
+                        
+				</p:dataTable>
+
+				
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
