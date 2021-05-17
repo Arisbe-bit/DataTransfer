@@ -1,9 +1,5 @@
 package com.neoris.tcl.controller;
 
-import java.security.Timestamp;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.models.HfmPeriodFfss;
+import com.neoris.tcl.models.HfmAllPeriods;
 import com.neoris.tcl.models.viewmanualentries;
-import com.neoris.tcl.services.IHfmPeriodFfssService;
+import com.neoris.tcl.services.IHfmAllPeriodsService;
 import com.neoris.tcl.services.IViewmanualentriesService;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -34,14 +30,14 @@ public class ViewmanualentriesController {
 	private String zperiodini;
 	private String zperiodfin;
 	
-	private List<HfmPeriodFfss> lstperiod;
-	private HfmPeriodFfss curperiod;
+	private List<HfmAllPeriods> lstperiod;
+	private HfmAllPeriods curperiod;
 
 	@Autowired
 	private IViewmanualentriesService service;
 	
 	@Autowired
-	private IHfmPeriodFfssService servperiods;
+	private IHfmAllPeriodsService servperiods;
 	  
 
 	@PostConstruct
@@ -114,44 +110,35 @@ public class ViewmanualentriesController {
 		this.zperiodfin = zperiodfin;
 	}
 
-	public List<HfmPeriodFfss> getLstperiod() {
+	public List<HfmAllPeriods> getLstperiod() {
 		return lstperiod;
 	}
 
-	public void setLstperiod(List<HfmPeriodFfss> lstperiod) {
+	public void setLstperiod(List<HfmAllPeriods> lstperiod) {
 		this.lstperiod = lstperiod;
 	}
 
-	public HfmPeriodFfss getCurperiod() {
+	public HfmAllPeriods getCurperiod() {
 		return curperiod;
 	}
 
-	public void setCurperiod(HfmPeriodFfss curperiod) {
+	public void setCurperiod(HfmAllPeriods curperiod) {
 		this.curperiod = curperiod;
 	}
 
 	public void periodChange() {
 		
-		String strDate = null;
-		String periodini=null;
-		String periodfin=null;
-		LOG.info("View periodini  => {}",this.getZperiodini());
-		LOG.info("View periodini  => {}",this.getZperiodfin());
-  
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");  
+		
+		String periodini=this.getZperiodini();
+		String periodfin=this.getZperiodfin();
+		LOG.info("View periodini  => {}",periodini);
+		LOG.info("View periodini  => {}",periodfin);
 		
 		try {
-
-		
-			Date date1=(Date) new SimpleDateFormat("yyyyMMdd").parse("01-"+this.getZperiodini());
-			Date date2=(Date) new SimpleDateFormat("yyyyMMdd").parse("01-"+this.getZperiodfin());
 			
 			
-			periodini =  dateFormat.format(date1); 
-			periodfin =  dateFormat.format(date2); 
-			
-			LOG.info("Execute "+periodini.toString()+"-"+periodfin.toString());
-			this.lstentries = service.findByPeriodidAndPeriodid(Integer.parseInt(periodini),Integer.parseInt(periodfin));
+			LOG.info("Execute ");
+			this.lstentries = service.findByPeriodidBetween(Integer.parseInt(periodini),Integer.parseInt(periodfin));
 			
 			LOG.info("change lstentries "+this.lstentries.size());			
 		} catch (Exception e) {

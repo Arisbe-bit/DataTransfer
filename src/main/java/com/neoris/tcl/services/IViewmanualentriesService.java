@@ -13,7 +13,7 @@ public interface IViewmanualentriesService {
 	
 	
 	List<viewmanualentries> findByPeriodnameAndPeriodname(Date periodini,Date periodfin);
-	List<viewmanualentries> findByPeriodidAndPeriodid(int periodini,int periodfin);
-	
+	//List<viewmanualentries> findByPeriodidreaterthanAndLessthan(int periodini,int periodfin);
+	List<viewmanualentries> findByPeriodidBetween(int periodini,int periodfin);
 
 }

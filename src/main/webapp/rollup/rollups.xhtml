@@ -29,8 +29,34 @@
             	rowSelectMode="new" paginatorPosition="bottom" reflow="true">
                 <f:facet name="header">
                     <div class="rollups-table-header rollup-text-align-center">
-                       
                     </div>
+                    <p:toolbar>  
+						  <p:toolbarGroup align="left">
+						 	<p:outputLabel for="zyear" value="Enter Year :  " />
+                            <h:inputText id="zyear" size="4" maxlength="4" required="true" value="#{rollupControllerBean.zyear}" onblur="year_onblur(this)">
+		                        <f:ajax event="change" update="#{:rollupForm:year}" execute="@this" render="@none" />
+		                    </h:inputText>  
+                           
+						 	<p:outputLabel for="zmonth" value=" Select Period :  " />
+                             <h:selectOneMenu id="zmonth" value="#{rollupControllerBean.zyear}">
+		                        <f:selectItem itemLabel="JAN" itemValue="01" />
+		                        <f:selectItem itemLabel="FEB" itemValue="02" />
+		                        <f:selectItem itemLabel="MAR" itemValue="03" />
+		                        <f:selectItem itemLabel="APR" itemValue="04" />
+		                        <f:selectItem itemLabel="MAY" itemValue="05" />
+		                        <f:selectItem itemLabel="JUN" itemValue="06" />
+		                        <f:selectItem itemLabel="JUL" itemValue="07" />
+		                        <f:selectItem itemLabel="AUG" itemValue="08" />
+		                        <f:selectItem itemLabel="SEP" itemValue="09" />
+		                        <f:selectItem itemLabel="OCT" itemValue="10" />
+		                        <f:selectItem itemLabel="NOV" itemValue="11" />
+		                        <f:selectItem itemLabel="DEC" itemValue="12" />
+		                       <f:ajax event="change" update="#{:rollupForm:month}" execute="@this" render="@none" />
+		                    </h:selectOneMenu>
+                           
+
+						  </p:toolbarGroup>
+                         </p:toolbar>
                 </f:facet>
 
                 <p:ajax event="rowSelect" update=":rollupForm:start-rollup-process-button" />

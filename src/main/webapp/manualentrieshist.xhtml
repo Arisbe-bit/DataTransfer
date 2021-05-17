@@ -58,14 +58,14 @@
                             <p:selectOneMenu id="periodini" editable="true" value="#{viewentriesControllerBean.zperiodini}" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
                                 var="itemf" itemLabel="#{itemf.periodnm}" 
-                                itemValue="#{itemf.periodnm}" />
+                                itemValue="#{itemf.periodid}" />
                             </p:selectOneMenu>
                            
 						 	<p:outputLabel for="periodfin" value="Select Final Period :  " />
                             <p:selectOneMenu id="periodfin" editable="true" value="#{viewentriesControllerBean.zperiodfin}" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
                                 var="itemf" itemLabel="#{itemf.periodnm}" 
-                                itemValue="#{itemf.periodnm}" />
+                                itemValue="#{itemf.periodid}" />
                             </p:selectOneMenu>                          
                          
                              <p:commandButton id="btnViewL" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" 

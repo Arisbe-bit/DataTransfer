@@ -35,9 +35,10 @@ public class ViewmanualentriesService implements IViewmanualentriesService {
 
 
 	@Override
-	public List<viewmanualentries> findByPeriodidAndPeriodid(int periodini, int periodfin) {
+	public List<viewmanualentries> findByPeriodidBetween(int periodini, int periodfin) {
 		
-		return data.findByPeriodidAndPeriodid(periodini, periodfin);
+		
+		return data.findByPeriodidBetween(periodini, periodfin);
 	}
 
 }
