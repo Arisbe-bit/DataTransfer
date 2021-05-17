@@ -16,6 +16,7 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVA
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES4;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
+import java.security.Timestamp;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.List;
@@ -103,12 +104,20 @@ public class RollupController {
 	private boolean autorefresh = true;
 
 	private Calendar calendar;
+	private int zyear;
+	private int zmonth;
+	 
 	
 	@PostConstruct
 	public void init() {
 		this.user = Functions.getUser();
 		this.calendar = Calendar.getInstance();
 		this.calendar.add(Calendar.MONTH, -1);
+		
+		this.zyear = (calendar.get(Calendar.YEAR)) ;
+		this.zmonth = (calendar.get(Calendar.MONTH) + 1);
+		LOG.info("Year{},Period {}",this.zyear,this.zmonth);
+		
 		// Fill the rollup entity list
 		LOG.info("Init rollupControllerBean...");
 		setLstRollUps(service.findAll());
@@ -174,6 +183,23 @@ public class RollupController {
 
 	public boolean hasSelectedRollUps() {
 		return this.lstSelectedRollups != null && !this.lstSelectedRollups.isEmpty();
+	}
+	
+
+	public int getZyear() {
+		return zyear;
+	}
+
+	public void setZyear(int zyear) {
+		this.zyear = zyear;
+	}
+
+	public int getZmonth() {
+		return zmonth;
+	}
+
+	public void setZmonth(int zmonth) {
+		this.zmonth = zmonth;
 	}
 
 	/**
@@ -795,6 +821,19 @@ public class RollupController {
 
 	public void setCurlayout(HfmLayout curlayout) {
 		this.curlayout = curlayout;
+	}
+	
+	public void periodChange() {
+		try {
+			
+			
+			LOG.info("periodchange company  => {}");
+					
+		} catch (Exception e) {
+			LOG.error("period change ERRor -> {}", e.getMessage());
+		}
+		
+		
 	}
 
 	/**

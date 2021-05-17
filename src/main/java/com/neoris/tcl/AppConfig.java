@@ -31,7 +31,7 @@ public class AppConfig implements WebMvcConfigurer {
 		LOG.info("Configuring StringEncryptor...");
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		config.setPassword("Neoris2021");
+		config.setPassword("N30r1stlc");
 		config.setAlgorithm("PBEWithMD5AndDES");
 		config.setKeyObtentionIterations("1000");
 		config.setPoolSize("1");

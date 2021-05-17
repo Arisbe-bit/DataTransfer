@@ -14,6 +14,7 @@
                         <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
                     </p:commandButton>
                 </p:toolbarGroup>
+              
             </p:toolbar>
 
             <p:dataTable id="dt-rollup" widgetVar="dtRollUps"            	
@@ -28,9 +29,7 @@
             	rowSelectMode="new" paginatorPosition="bottom" reflow="true">
                 <f:facet name="header">
                     <div class="rollups-table-header rollup-text-align-center">
-                        <span>
-                            <h:outputText value="ROLLUP" />
-                        </span>
+                       
                     </div>
                 </f:facet>
 
@@ -79,27 +78,27 @@
                     <h:outputText value="#{rollup.rvalue}" />
                 </p:column>
                 <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-bal-va">
-                    <i class="#{rollup.trialBalanceIcon}" id="i-ba-va-#{rollup.companyid}">
+                    <i class="#{rollup.trialBalanceIcon}" id="i-ba-va-#{rollup.attribute1}">
                         <h:outputText value="#{rollup.attribute1}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
                 <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-tra-pa-va">
-                    <i class="#{rollup.balanceValidationIcon}" id="i-tra-pa-va-#{rollup.companyid}">
+                    <i class="#{rollup.balanceValidationIcon}" id="i-tra-pa-va-#{rollup.attribute4}">
                         <h:outputText value="#{rollup.attribute4}" class="#{empty rollup.balanceValidationIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
                 <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-cos-ce-va">
-                	<i class="#{rollup.costCenterValidationIcon}" id="i-cos-ce-va-#{rollup.companyid}">
+                	<i class="#{rollup.costCenterValidationIcon}" id="i-cos-ce-va-#{rollup.attribute5}">
                     	<h:outputText value="#{rollup.attribute5}" class="#{empty rollup.costCenterValidationIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
                 <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center rollup-process-status" id="col-acc-bal-va">
-                    <i class="#{rollup.validationsIcon}" id="i-acc-bal-va-#{rollup.companyid}">
+                    <i class="#{rollup.validationsIcon}" id="i-acc-bal-va-#{rollup.validations}">
                         <h:outputText value="#{rollup.validations}" class="#{empty rollup.validationsIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
                 <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status" id="col-finish-process">
-                    <i class="#{rollup.finishedProcessIcon}" id="i-finish-process-#{rollup.companyid}">
+                    <i class="#{rollup.finishedProcessIcon}" id="i-finish-process-#{rollup.attribute6}">
                         <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.finishedProcessIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>

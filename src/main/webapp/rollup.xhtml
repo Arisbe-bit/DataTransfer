@@ -86,8 +86,8 @@
 		    if (isNaN(e.value)) {
 		        message = 'The year must be a number';
 		    } else {
-		        if (!(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950)) {
-		            message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
+		        if (!(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1998)) {
+		            message = 'The year must be between 1998 and #{rollupControllerBean.currYear}';
 		        }
 		    }
 		    if (message !== '') {

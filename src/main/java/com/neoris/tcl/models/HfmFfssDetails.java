@@ -70,16 +70,18 @@ public class HfmFfssDetails implements Serializable {
     private int num;
     @Column(name = "ICPID")
     private String icpid;
+    private String posting;
     
 	public HfmFfssDetails() {
 		this.setId(new HfmFfssDetailsPK());
 	}
 
+	
 	public HfmFfssDetails(HfmFfssDetailsPK id, String tpname, String hfmcodeold, String batchname, String docnumber,
 			String upd, String hfmparent, String userid, String errortext, int headerid, int headeridrev,
 			BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate,
-			String category, String omit, String areaid) {
-
+			String category, String omit, String areaid, int num, String icpid, String posting) {
+		
 		this.id = id;
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;
@@ -99,7 +101,11 @@ public class HfmFfssDetails implements Serializable {
 		this.category = category;
 		this.omit = omit;
 		this.areaid = areaid;
+		this.num = num;
+		this.icpid = icpid;
+		this.posting = posting;
 	}
+
 
 	public String getHfmcodeold() {
 		return hfmcodeold;
@@ -253,6 +259,24 @@ public class HfmFfssDetails implements Serializable {
 		this.omit = omit;
 	}
 
+	
+
+	public String getIcpid() {
+		return icpid;
+	}
+
+	public void setIcpid(String icpid) {
+		this.icpid = icpid;
+	}
+
+	public String getPosting() {
+		return posting;
+	}
+
+	public void setPosting(String posting) {
+		this.posting = posting;
+	}
+
 	@Override
 	public String toString() {
 		return "HfmFfssDetails [id=" + id + ", tpname=" + tpname + ", hfmcodeold=" + hfmcodeold + ", batchname="
@@ -260,7 +284,8 @@ public class HfmFfssDetails implements Serializable {
 				+ userid + ", errortext=" + errortext + ", headerid=" + headerid + ", headeridrev=" + headeridrev
 				+ ", debit=" + debit + ", credit=" + credit + ", transdebit=" + transdebit + ", transcredit="
 				+ transcredit + ", invoicedate=" + invoicedate + ", category=" + category + ", omit=" + omit
-				+ ", areaid=" + areaid + "]";
+				+ ", areaid=" + areaid + ", num=" + num + ", icpid=" + icpid + ", posting=" + posting + "]";
 	}
+
 
 }

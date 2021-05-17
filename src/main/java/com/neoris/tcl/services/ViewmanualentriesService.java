@@ -1,5 +1,6 @@
 package com.neoris.tcl.services;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,9 +26,18 @@ public class ViewmanualentriesService implements IViewmanualentriesService {
 		return (List<viewmanualentries>) data.findAll();
 	}
 
+	
 	@Override
-	public List<viewmanualentries> findByPeriodnm(String periodnm) {
-		return data.findByPeriodnm(periodnm);
+	public List<viewmanualentries> findByPeriodnameAndPeriodname(Date periodini, Date periodfin) {
+		
+		return data.findByPeriodnameAndPeriodname(periodini,periodfin);
+	}
+
+
+	@Override
+	public List<viewmanualentries> findByPeriodidAndPeriodid(int periodini, int periodfin) {
+		
+		return data.findByPeriodidAndPeriodid(periodini, periodfin);
 	}
 
 }

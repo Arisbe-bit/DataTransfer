@@ -10,7 +10,7 @@
 
     <ui:composition template="/rolluphist.xhtml">
         <ui:define name="rollupContent">
-            <p:dataTable id="dtfsgrouped" widgetVar="dtgrouped" var="accgroup" value="#{rolluphistControllerBean.lstSumFS}" reflow="true" rowKey="#{accgroup.num}" paginator="true" rows="15" stickyHeader="true" resizeMode="expand" paginatorPosition="bottom" size="small">
+            <p:dataTable id="dtfsgrouped" widgetVar="dtgrouped" var="accgroup" value="#{rolluphistControllerBean.lstSumFS}" reflow="true" rowKey="#{accgroup.num}" paginator="true" rows="15" stickyHeader="true" resizeMode="expand" paginatorPosition="bottom">
                 <f:facet name="header">
                     <p:toolbar id="toolbar-fsgrouped">
                         <p:toolbarGroup>

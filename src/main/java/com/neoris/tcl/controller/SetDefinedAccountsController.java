@@ -266,6 +266,8 @@ public class SetDefinedAccountsController {
 		} catch (Exception e) {
 			LOG.error("companyidChangeorcl ERRor -> {}", e.getMessage());
 		}
+		PrimeFaces.current().ajax().update("form:dt-codes");
+
 	}
 	
 	public void costcenterChange() {

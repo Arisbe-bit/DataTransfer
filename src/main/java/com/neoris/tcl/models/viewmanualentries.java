@@ -2,6 +2,7 @@ package com.neoris.tcl.models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ public class viewmanualentries implements Serializable{
 	private Long num;
 	
 	private Long itemid;
+	private String entity ;
 	private int companyid;
 	private String periodnm;
 	private String userid;
@@ -31,19 +33,25 @@ public class viewmanualentries implements Serializable{
 	private String areaid;
 	private String currencyid;
 	private String tptype;
+	private Date periodname;
+	private int periodid;
 	
 	public viewmanualentries() {
 		
 	}
 	
 	
-	
-	public viewmanualentries(Long num, Long itemid, int companyid, String periodnm, String userid, int applied,
-			String description, String status, Long movid, String hfmcode, BigDecimal amount, String icpcode,
-			String areaid, String currencyid, String tptype) {
 
+
+
+
+	public viewmanualentries(Long num, Long itemid, String entity, int companyid, String periodnm, String userid,
+			int applied, String description, String status, Long movid, String hfmcode, BigDecimal amount,
+			String icpcode, String areaid, String currencyid, String tptype, Date periodname, int periodid) {
+		
 		this.num = num;
 		this.itemid = itemid;
+		this.entity = entity;
 		this.companyid = companyid;
 		this.periodnm = periodnm;
 		this.userid = userid;
@@ -57,7 +65,62 @@ public class viewmanualentries implements Serializable{
 		this.areaid = areaid;
 		this.currencyid = currencyid;
 		this.tptype = tptype;
+		this.periodname = periodname;
+		this.periodid = periodid;
 	}
+
+
+
+
+
+
+	public int getPeriodid() {
+		return periodid;
+	}
+
+
+
+
+
+
+	public void setPeriodid(int periodid) {
+		this.periodid = periodid;
+	}
+
+
+
+
+
+
+	public Date getPeriodname() {
+		return periodname;
+	}
+
+
+
+
+
+	public void setPeriodname(Date periodname) {
+		this.periodname = periodname;
+	}
+
+
+
+
+
+	public String getEntity() {
+		return entity;
+	}
+
+
+
+
+
+	public void setEntity(String entity) {
+		this.entity = entity;
+	}
+
+
 
 
 
@@ -154,16 +217,21 @@ public class viewmanualentries implements Serializable{
 		this.num = num;
 	}
 
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "viewmanualentries [num=" + num + ", itemid=" + itemid + ", companyid=" + companyid + ", periodnm="
-				+ periodnm + ", userid=" + userid + ", applied=" + applied + ", description=" + description
-				+ ", status=" + status + ", movid=" + movid + ", hfmcode=" + hfmcode + ", amount=" + amount
-				+ ", icpcode=" + icpcode + ", areaid=" + areaid + ", currencyid=" + currencyid + ", tptype=" + tptype
-				+ "]";
+		return "viewmanualentries [num=" + num + ", itemid=" + itemid + ", entity=" + entity + ", companyid="
+				+ companyid + ", periodnm=" + periodnm + ", userid=" + userid + ", applied=" + applied
+				+ ", description=" + description + ", status=" + status + ", movid=" + movid + ", hfmcode=" + hfmcode
+				+ ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid + ", currencyid=" + currencyid
+				+ ", tptype=" + tptype + ", periodname=" + periodname + ", periodid=" + periodid + "]";
 	}
-	
-	
+
+
 	
 	
 	

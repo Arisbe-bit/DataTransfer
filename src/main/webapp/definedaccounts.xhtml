@@ -176,6 +176,7 @@
                             <div class="p-field">
                                 <p:outputLabel for="icp" value="ICP Code" />
                                 <p:selectOneMenu id="icp" value="#{setdefaccountsControllerBean.curtpAccs.icpcode}" filter="true" filterMatchMode="startsWith">
+                                   <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
                                      var="code"
                                       itemLabel="#{code.icpcode}" 
