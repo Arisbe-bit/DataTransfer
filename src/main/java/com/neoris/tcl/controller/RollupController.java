@@ -16,7 +16,6 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVA
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES4;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
-import java.security.Timestamp;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.validation.constraints.Min;
 
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -62,7 +62,6 @@ public class RollupController {
 	private static final String SUMARY = "/rollup/sumary";
 	private static final String LAYOUT = "/rollup/layout";
 	private static final String MOVEMENTS = "/rollup/movements";
-	
 
 	private List<HfmRollupEntries> lstRollUps;
 	private List<HfmRollupEntries> lstSelectedRollups;
@@ -99,35 +98,33 @@ public class RollupController {
 	@Autowired
 	private HfmLayoutService serviceLay;
 
-//	private MenuModel breadCrumbModel;
-//	private ExternalContext ec;
 	private boolean autorefresh = true;
 
 	private Calendar calendar;
+	@Min(1998)
 	private int zyear;
-	private int zmonth;
-	 
-	
+	private String zmonth;
+
 	@PostConstruct
 	public void init() {
 		this.user = Functions.getUser();
 		this.calendar = Calendar.getInstance();
 		this.calendar.add(Calendar.MONTH, -1);
-		
-		this.zyear = (calendar.get(Calendar.YEAR)) ;
-		this.zmonth = (calendar.get(Calendar.MONTH) + 1);
-		LOG.info("Year{},Period {}",this.zyear,this.zmonth);
-		
+
+		this.zyear = this.getCurrYear();
+		this.zmonth = this.getMonth(calendar.get(Calendar.MONTH) + 1);
+
+		LOG.info("Year{},Period {}", this.zyear, this.zmonth);
+
 		// Fill the rollup entity list
 		LOG.info("Init rollupControllerBean...");
 		setLstRollUps(service.findAll());
 //		ec = FacesContext.getCurrentInstance().getExternalContext();
 //		this.breadCrumbModel = new DefaultMenuModel();
 		LOG.info("Calendar year={}, month={}", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
-		
-		
+
 	}
-	
+
 	/**
 	 * Builds the Bradcrum
 	 */
@@ -184,21 +181,35 @@ public class RollupController {
 	public boolean hasSelectedRollUps() {
 		return this.lstSelectedRollups != null && !this.lstSelectedRollups.isEmpty();
 	}
-	
 
 	public int getZyear() {
 		return zyear;
 	}
 
 	public void setZyear(int zyear) {
+		if (zyear < 1998) {
+			Functions.addWarnMessage("Not valid Year", "The year must be bigger than 1998");
+			PrimeFaces.current().ajax().update("rollupForm:messages");
+			return;
+		}
+		String zID = "rollupForm:dt-rollup:%s:year";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRyear(String.valueOf(zyear));
+			PrimeFaces.current().ajax().update(String.format(zID, i));
+		}
 		this.zyear = zyear;
 	}
 
-	public int getZmonth() {
+	public String getZmonth() {
 		return zmonth;
 	}
 
-	public void setZmonth(int zmonth) {
+	public void setZmonth(String zmonth) {
+		String zID = "rollupForm:dt-rollup:%s:month";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRperiod(zmonth);
+			PrimeFaces.current().ajax().update(String.format(zID, i));
+		}
 		this.zmonth = zmonth;
 	}
 
@@ -248,7 +259,6 @@ public class RollupController {
 		service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				rollUp.getSegment1(), user.getUsername());
 
-		
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		// 2.- Process Drill Details
@@ -274,12 +284,12 @@ public class RollupController {
 		processMatchAccount(rollUp);
 
 		LOG.info("**********************Finish processing rollups!!********************************");
-		
+
 		rollUp.setAttribute1(HfmRollupEntries.STATUS_OK);
 		rollUp.setAttribute6(HfmRollupEntries.STATUS_OK);
 		Functions.addInfoMessage("Succes", "RollUps Proceced!!");
 		PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
-	
+
 	}
 
 	/**
@@ -623,7 +633,7 @@ public class RollupController {
 	public void setLstRollUps(List<HfmRollupEntries> lstRollUps) {
 		lstRollUps.forEach(r -> {
 			r.setRyear(String.valueOf(this.calendar.get(Calendar.YEAR)));
-			r.setRperiod(String.format("%02d", this.calendar.get(Calendar.MONTH) + 1));
+			r.setRperiod(this.getMonth(this.calendar.get(Calendar.MONTH) + 1));
 		});
 		this.lstRollUps = lstRollUps;
 	}
@@ -822,18 +832,16 @@ public class RollupController {
 	public void setCurlayout(HfmLayout curlayout) {
 		this.curlayout = curlayout;
 	}
-	
+
 	public void periodChange() {
 		try {
-			
-			
+
 			LOG.info("periodchange company  => {}");
-					
+
 		} catch (Exception e) {
 			LOG.error("period change ERRor -> {}", e.getMessage());
 		}
-		
-		
+
 	}
 
 	/**
@@ -855,7 +863,7 @@ public class RollupController {
 	 * @return
 	 */
 	public String submitToFFSS() {
-		
+
 		Long companyId = curRollUp.getCompanyid();
 
 		try {
@@ -878,22 +886,21 @@ public class RollupController {
 			}
 
 			/*
-			LOG.info("Query lstlayout LIST with company = {}", companyId);
-
-			this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
-			LOG.info("return lstlayout with items => {}", lstlayout != null ? lstlayout.size() : "is null");
-
-			if (this.lstlayout == null || this.lstlayout.isEmpty()) {
-				String mensaje = String.format("No records found for companyId: %s", companyId);
-				LOG.info(mensaje);
-				// Functions.addWarnMessage("Attention", mensaje);
-			} else { 
-				LOG.info("Records for lstlayout = {}", lstlayout);
-			}*/
+			 * LOG.info("Query lstlayout LIST with company = {}", companyId);
+			 * 
+			 * this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
+			 * LOG.info("return lstlayout with items => {}", lstlayout != null ?
+			 * lstlayout.size() : "is null");
+			 * 
+			 * if (this.lstlayout == null || this.lstlayout.isEmpty()) { String mensaje =
+			 * String.format("No records found for companyId: %s", companyId);
+			 * LOG.info(mensaje); // Functions.addWarnMessage("Attention", mensaje); } else
+			 * { LOG.info("Records for lstlayout = {}", lstlayout); }
+			 */
 		} catch (Exception e) {
 			LOG.error("ERROR in setCurRollUp -> {}", e.getMessage());
-		} 
-		
+		}
+
 		LOG.info("Redirecting to {}....", FFSS);
 		return FFSS;
 	}
@@ -948,27 +955,26 @@ public class RollupController {
 	 * @return
 	 */
 	public String submitToLayouts() {
-		//layoutprocess();
-		 int companyid = curRollUp.getCompanyid().intValue();
-		 
+		// layoutprocess();
+		int companyid = curRollUp.getCompanyid().intValue();
+
 		LOG.info("Redirecting to {}....", LAYOUT);
-		  LOG.info("Initializing lstLayout...");
-	       // this.lstlayout = serviceLay.findAll();
-		 
-		  
-	        LOG.info("Query lstlayout LIST with company = {}", companyid);
+		LOG.info("Initializing lstLayout...");
+		// this.lstlayout = serviceLay.findAll();
 
-			this.lstlayout = serviceLay.findByIdCompanyid(companyid);
-			LOG.info("return lstlayout with items => {}", lstlayout != null ? lstlayout.size() : "is null");
+		LOG.info("Query lstlayout LIST with company = {}", companyid);
 
-			if (this.lstlayout == null || this.lstlayout.isEmpty()) {
-				String mensaje = String.format("No records found for companyId: %s", companyid);
-				LOG.info(mensaje);
-				// Functions.addWarnMessage("Attention", mensaje);
-			} else { 
-				LOG.info("Records for lstlayout = {}", lstlayout);
-			}
-	        
+		this.lstlayout = serviceLay.findByIdCompanyid(companyid);
+		LOG.info("return lstlayout with items => {}", lstlayout != null ? lstlayout.size() : "is null");
+
+		if (this.lstlayout == null || this.lstlayout.isEmpty()) {
+			String mensaje = String.format("No records found for companyId: %s", companyid);
+			LOG.info(mensaje);
+			// Functions.addWarnMessage("Attention", mensaje);
+		} else {
+			LOG.info("Records for lstlayout = {}", lstlayout);
+		}
+
 		return LAYOUT;
 	}
 
@@ -1031,6 +1037,10 @@ public class RollupController {
 		{
 			PrimeFaces.current().executeScript("PF('rollUpPollIDWV').stop();");
 		}
+	}
+
+	private String getMonth(int month) {
+		return String.format("%02d", month);
 	}
 
 }

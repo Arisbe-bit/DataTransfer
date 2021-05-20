@@ -87,12 +87,13 @@
 		        message = 'The year must be a number';
 		    } else {
 		        if (!( parseInt(e.value) >= 1998)) {
-		            message = 'The year must be between 1998 ';
+		            message = 'The year must be bigger than 1998 ';
 		        }
 		    }
 		    if (message !== '') {
 		        $("#dialogMsgId").get(0).innerText = message;
 		        PF('dlgMessage').show();
+		        e.select();
 		        e.focus();
 		    }
 		}
@@ -136,7 +137,7 @@
                 </p:confirmDialog>
             </div>
             <p:dialog header="Information" widgetVar="dlgMessage" id="dlgMessageId" minHeight="40" minWidth="350" showEffect="fade" modal="true" closable="true">
-                <p class="p-m-0" id="dialogMsgId"></p>
+                <p id="dialogMsgId"></p>
                 <f:facet name="footer">
                     <p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
                 </f:facet>

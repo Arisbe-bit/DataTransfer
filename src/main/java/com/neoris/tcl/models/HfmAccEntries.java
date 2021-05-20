@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -36,10 +34,10 @@ public class HfmAccEntries implements Serializable {
 
 	@ColumnDefault(value = "0")
 	private int applied;
-	
+
 	private String description;
-	
-	@ColumnDefault(value = "UnPosting")
+
+	@ColumnDefault(value = "'UnPosting'")
 	private String status;
 
 //	@OneToMany
@@ -51,11 +49,9 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = new ArrayList<HfmAccEntriesDet>();
 	}
 
-	
-
 	public HfmAccEntries(Long itemid, int companyid, java.lang.String periodnm, java.lang.String userid, int applied,
 			java.lang.String description, java.lang.String status, List<HfmAccEntriesDet> lstEntriesDet) {
-		
+
 		this.itemid = itemid;
 		this.companyid = companyid;
 		this.periodnm = periodnm;
@@ -66,34 +62,21 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = lstEntriesDet;
 	}
 
-
-
 	public String getDescription() {
 		return description;
 	}
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
-	
-
-
 	public String getStatus() {
 		return status;
 	}
 
-
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
 
 	public int getCompanyid() {
 		return companyid;
@@ -144,15 +127,11 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = lstEntriesDet;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "HfmAccEntries [itemid=" + itemid + ", companyid=" + companyid + ", periodnm=" + periodnm + ", userid="
 				+ userid + ", applied=" + applied + ", description=" + description + ", status=" + status
 				+ ", lstEntriesDet=" + lstEntriesDet + "]";
 	}
-
-	
 
 }
