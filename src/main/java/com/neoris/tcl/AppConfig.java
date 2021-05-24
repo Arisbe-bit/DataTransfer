@@ -3,6 +3,7 @@ package com.neoris.tcl;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.myfaces.spi.WebConfigProvider;
 import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
@@ -28,6 +29,8 @@ public class AppConfig implements WebMvcConfigurer {
 
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
+//		String password = String.valueOf(Base64.decodeBase64("TjMwcjFzdGxj"));
+//		LOG.info("password = {}", password);
 		LOG.info("Configuring StringEncryptor...");
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
@@ -53,9 +56,9 @@ public class AppConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public ServletContextListener listener() {
-		LOG.info("Creating ServletContextListener...");
-		ServletContextListener listener = new StartupServletContextListener();
+	public ServletContextListener getContextListener() {
+		LOG.info("Configuring ServletContextListener...");
+		StartupServletContextListener listener = new StartupServletContextListener();
 		return listener;
 	}
 
@@ -72,13 +75,6 @@ public class AppConfig implements WebMvcConfigurer {
 		CustomScopeConfigurer viewScope = new CustomScopeConfigurer();
 		viewScope.addScope(ViewScope.VIEW, new ViewScope());
 		return viewScope;
-	}
-
-	@Bean
-	public ServletContextListener getContextListener() {
-		LOG.info("Configuring ServletContextListener...");
-		StartupServletContextListener listener = new StartupServletContextListener();
-		return listener;
 	}
 
 	@Bean

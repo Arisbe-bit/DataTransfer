@@ -31,8 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
+import com.neoris.tcl.beans.RollUpMessage;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
 import com.neoris.tcl.models.HfmLayout;
@@ -48,9 +50,11 @@ import com.neoris.tcl.services.IViewRollupFFSSGconsService;
 import com.neoris.tcl.services.IViewRollupMatchFFSSService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ProcessRollUps;
+import com.neoris.tcl.websocket.WebSocketConfig;
+import com.neoris.tcl.websocket.WebSocketService;
 
 @Controller(value = "rollupControllerBean")
-@Scope("session")
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class RollupController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(RollupController.class);
@@ -97,14 +101,14 @@ public class RollupController {
 	private IViewRollupFFSSGconsService serviceFSG;
 	@Autowired
 	private HfmLayoutService serviceLay;
-
-	private boolean autorefresh = true;
+	@Autowired
+	private WebSocketService webSocketService;
 
 	private Calendar calendar;
 	@Min(1998)
 	private int zyear;
 	private String zmonth;
-
+	
 	@PostConstruct
 	public void init() {
 		this.user = Functions.getUser();
@@ -114,44 +118,19 @@ public class RollupController {
 		this.zyear = this.getCurrYear();
 		this.zmonth = this.getMonth(calendar.get(Calendar.MONTH) + 1);
 
-		LOG.info("Year{},Period {}", this.zyear, this.zmonth);
+		LOG.info("Year:{}, Period:{}", this.zyear, this.zmonth);
 
-		// Fill the rollup entity list
 		LOG.info("Init rollupControllerBean...");
 		setLstRollUps(service.findAll());
-//		ec = FacesContext.getCurrentInstance().getExternalContext();
-//		this.breadCrumbModel = new DefaultMenuModel();
-		LOG.info("Calendar year={}, month={}", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
-
+		
+		if(webSocketService != null) {
+			LOG.info("Sending test message....");
+			RollUpMessage message = new RollUpMessage("i-ba-va-86", "fa fa-cog fa-spin fa-2x fa-fw icon-green", "sr-only", "Mensaje de inicio desde el controller");
+			webSocketService.notyfyRollUpProcess(message);
+		} else {
+			LOG.info("webSocketService is null!!!");
+		}
 	}
-
-	/**
-	 * Builds the Bradcrum
-	 */
-//	private void buildBreadCrumb() {
-//		String cp = ec.getRequestContextPath();
-//		boolean rendered;
-//		
-//		try {
-//			this.breadCrumbModel.getElements().clear();
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("Home", cp, true));
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("RollUp", cp + ROLLUPS_XML, true));
-//			
-//			rendered = (lstHfmFfss != null && !lstHfmFfss.isEmpty());
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("FFSS", cp + FFSS_XML, rendered));
-//	
-//			rendered = (lstSumFS != null && !lstSumFS.isEmpty());
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("Sumary", cp + SUMARY_XML, rendered));
-//			
-//			rendered = (lstHfmFfssDetails != null && !lstHfmFfssDetails.isEmpty());
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("Movements", cp + MOVEMENTS_XML, rendered));
-//	
-//			rendered = (lstlayout != null && !lstlayout.isEmpty());
-//			this.breadCrumbModel.getElements().add(this.createMenuItem("Layouts", cp + LAYOUT_XML, rendered));
-//		} catch (Exception e) {
-//			LOG.error("Exception while building breadcrum: => {}", e.getMessage());
-//		}		
-//	}
 
 	public void openNew() {
 		this.setCurRollUp(new HfmRollupEntries());
@@ -292,11 +271,6 @@ public class RollupController {
 
 	}
 
-	/**
-	 * 
-	 * @param event
-	 */
-	// ActionEvent event
 	public void layoutprocess() {
 		LOG.info("Running process with curRollUp = {}", curRollUp);
 		try {
@@ -326,7 +300,6 @@ public class RollupController {
 			LOG.error("Error running Match Account rollup: {}", e.getMessage(), e);
 			rollUp.setAttribute6(HfmRollupEntries.STATUS_ERROR);
 		}
-
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 	}
 
@@ -455,7 +428,8 @@ public class RollupController {
 	private void processDrillDetails(HfmRollupEntries rollUp) {
 		LOG.info("Preparing concept rollups...");
 		rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//this.pushStatus("Preparing concept rollups...");
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		Thread payablesThread1 = null;
 		Thread payablesThread2 = null;
@@ -970,7 +944,6 @@ public class RollupController {
 		if (this.lstlayout == null || this.lstlayout.isEmpty()) {
 			String mensaje = String.format("No records found for companyId: %s", companyid);
 			LOG.info(mensaje);
-			// Functions.addWarnMessage("Attention", mensaje);
 		} else {
 			LOG.info("Records for lstlayout = {}", lstlayout);
 		}
@@ -993,54 +966,27 @@ public class RollupController {
 		return thead;
 	}
 
-//	public MenuModel getBreadCrumbModel() {
-//		buildBreadCrumb();
-//		return breadCrumbModel;
-//	}
-//
-//	public void setBreadCrumbModel(MenuModel breadCrumbModel) {
-//		this.breadCrumbModel = breadCrumbModel;
-//	}
-
-	/**
-	 * 
-	 * @param title
-	 * @param action
-	 * @return
-	 */
-//	private DefaultMenuItem createMenuItem(String title, String url, boolean rendered) {
-//		DefaultMenuItem item = DefaultMenuItem.builder()
-//				.value(title)
-//				.ajax(false)
-//				.url(url)
-//				.rendered(rendered)
-//				.build();
-//		return item;
-//	}
-
-	public void poll() {
-		LOG.info("Refresing Poll Call");
-		this.lstRollUps = service.findAll();
-	}
-
-	public boolean isAutorefresh() {
-		LOG.info("Mando autorefresh = {}", autorefresh);
-		return autorefresh;
-	}
-
-	public void setAutorefresh(boolean autorefresh) {
-		this.autorefresh = autorefresh;
-		LOG.info("Recibo autorefresh = {}", autorefresh);
-		if (autorefresh) {
-			PrimeFaces.current().executeScript("PF('rollUpPollIDWV').start();");
-		}
-		{
-			PrimeFaces.current().executeScript("PF('rollUpPollIDWV').stop();");
-		}
-	}
-
 	private String getMonth(int month) {
 		return String.format("%02d", month);
 	}
 
+	public String getWebSocketEndPoint() {
+		return WebSocketConfig.WS_ROLLUPS_ENDPOINT;
+	}
+
+	public String getWebSocketTopic() {
+		return WebSocketConfig.WS_ROLLUPS_TOPIC;
+	}
+
+	public String getWebSocketApp() {
+		return WebSocketConfig.WS_ROLLUPS_APP;
+	}
+
+	public String getWebSocketMapping() {
+		return WebSocketConfig.WS_ROLLUPS_MAPPING;
+	}
+
+	public String getContextPath() {
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+	}
 }
