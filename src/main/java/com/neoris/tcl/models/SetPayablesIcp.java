@@ -23,16 +23,16 @@ public class SetPayablesIcp implements Serializable {
     private SetPayablesIcpPK id;
     private String icpcode;
     private String userid;
-    private String modified;
+   // private String modified;
 
     public SetPayablesIcp() {
         this.setId(new SetPayablesIcpPK());
     }
 
-    public SetPayablesIcp(SetPayablesIcpPK id, String userid, String modified) {
+    public SetPayablesIcp(SetPayablesIcpPK id, String userid) {
         this.id = id;
         this.userid = userid;
-        this.modified = modified;
+        //this.modified = modified;
 
     }
 
@@ -59,18 +59,11 @@ public class SetPayablesIcp implements Serializable {
         this.userid = userid;
     }
 
-    public String getModified() {
-        return modified;
-    }
-
-    public void setModified(String modified) {
-        this.modified = modified;
-    }
-
+   
     @Override
     public String toString() {
-        return String.format("SetPayablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid,
-                modified);
+        return String.format("SetPayablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid
+                );
     }
 
 }

@@ -1,6 +1,7 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class HfmLayout implements Serializable {
 
 
 
-	private String data;
+	private BigDecimal data;
 
 	private String entity;
 	
@@ -40,7 +41,7 @@ public class HfmLayout implements Serializable {
 	    this.setId(new HfmLayoutPK());
 	}
 
-	public HfmLayout(HfmLayoutPK id,  String data, String entity, Timestamp updated, String userid) {
+	public HfmLayout(HfmLayoutPK id,  BigDecimal data, String entity, Timestamp updated, String userid) {
 		this.id = id;
 		
 		this.data = data;
@@ -59,11 +60,11 @@ public class HfmLayout implements Serializable {
 
 	
 
-	public String getData() {
+	public BigDecimal getData() {
 		return this.data;
 	}
 
-	public void setData(String data) {
+	public void setData(BigDecimal data) {
 		this.data = data;
 	}
 

@@ -93,7 +93,8 @@ public class HfmAccEntriesController {
 	private int vcompanyid;
 	private String vperiodnm;
 	private int numColums = 1;
-
+	private String ventity;
+	
 	@PostConstruct
 	public void init() {
 
@@ -623,13 +624,20 @@ public class HfmAccEntriesController {
 
 		LOG.info("***********Running apply entries*********** ");
 		try {
+			
+			
+			LOG.info("[applyprocess] company id ={} ,perdiodnm ={}, item ={}", this.currentries.getCompanyid(),this.currentries.getPeriodnm(), this.currentries.getItemid());
 			LOG.info("[applyprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			LOG.info("[applyprocess] start apply ");
+		if ( this.vcompanyid > 0 && !this.vperiodnm.isEmpty()) {
 			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
 					this.currentries.getItemid().intValue(), 1);
 			this.currentries.setApplied(1);
 			this.currentries.setStatus("Posting");
+		}
+		else
+			LOG.warn("[applyprocess] Need select the company and period  ");
+		
 		} catch (Exception e) {
 			LOG.error("[applyprocess] Exception in applyprocess -> {}", e.getMessage());
 		}
@@ -640,15 +648,19 @@ public class HfmAccEntriesController {
 	
 	public void unpostingprocess() {
 
-		LOG.info("***********Running apply entries*********** ");
+		LOG.info("***********Running unapply entries*********** ");
 		try {
-			LOG.info("[unpostingprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
+			LOG.info("[unposting process] company id ={} ,perdiodnm ={}, item ={}", this.currentries.getCompanyid(),this.currentries.getPeriodnm(), this.currentries.getItemid());
+			LOG.info("[unposting process] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			LOG.info("[unpostingprocess] start apply ");
+			if ( this.vcompanyid > 0 && !this.vperiodnm.isEmpty()) {
 			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
 					this.currentries.getItemid().intValue(), 0);
 			this.currentries.setApplied(0);
 			this.currentries.setStatus("UnPosting");
+			}
+			else
+				LOG.warn("[unposting process] Need select the company and period  ");
 		} catch (Exception e) {
 			LOG.error("[unpostingprocess] Exception in unpostingprocess -> {}", e.getMessage());
 		}
@@ -769,6 +781,9 @@ public class HfmAccEntriesController {
 	 * Clear filters and selection in details table.
 	 */
 	private void refreshUI() {
+		
+		
+		
 		LOG.info("[refreshUI]  refresh in UI...");
 		PrimeFaces.current().executeScript("PF('dtParentWV').clearFilters()");
 		PrimeFaces.current().executeScript("PF('dtParentWV').clearSelection()");
@@ -788,6 +803,7 @@ public class HfmAccEntriesController {
 		PrimeFaces.current().ajax().update("form:messages");
 
 		LOG.info("[refreshUI] Terminé");
+		
 	}
 
 }

@@ -15,7 +15,7 @@ import org.hibernate.annotations.ColumnDefault;
  * 
  */
 @Entity
-@Table(name = "hfm_ffss_details")
+@Table(name = "ROLLUP_VFFSSDET")
 public class HfmFfssDetails implements Serializable {
 
 	/**

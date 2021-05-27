@@ -90,8 +90,8 @@ public class ReceivablesAccController {
 	}
 
 	public void save() {
-		this.currentRecTab.setUserid(user.getName());
-		this.currentRecTab.setModified(LocalDate.now().toString());
+		this.currentRecTab.setUserid(user.getUsername());
+		//this.currentRecTab.setModified(LocalDate.now().toString());
 		LOG.info("Entering to save Trading Partner  => {}", this.currentRecTab);
 
 		this.currentRecTab = service.save(this.currentRecTab);
@@ -202,8 +202,8 @@ public class ReceivablesAccController {
 			currentRectabx.getId().setCompanyid(new Long(viewPartnersRecICP.getOrganization_id()));
 			currentRectabx.getId().setCustno(viewPartnersRecICP.getCustno());
 			currentRectabx.setIcpcode(viewPartnersRecICP.getIcpcode());
-			currentRectabx.setUserid(user.getName());
-			currentRectabx.setModified(LocalDate.now().toString());
+			currentRectabx.setUserid(user.getUsername());
+			//currentRectabx.setModified(LocalDate.now().toString());
 
 			lstSelectdRectab.add(currentRectabx);
 		}
@@ -224,8 +224,8 @@ public class ReceivablesAccController {
 		this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
 		this.currentRecTab.getId().setCustno(currentVRec.getCustno());
 		this.currentRecTab.setIcpcode(currentVRec.getIcpcode());
-		this.currentRecTab.setUserid(user.getName());
-		this.currentRecTab.setModified(LocalDate.now().toString());
+		this.currentRecTab.setUserid(user.getUsername());
+		//this.currentRecTab.setModified(LocalDate.now().toString());
 	}
 
 	public List<ViewCustReceivables> getLstCustno() {

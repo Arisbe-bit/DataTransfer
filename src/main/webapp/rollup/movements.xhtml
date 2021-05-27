@@ -12,7 +12,7 @@
         <ui:define name="rollupContent">
             <p:dataTable id="dt-hfm-tab-ffss-details" widgetVar="dtHfmFfssDetails" var="hfmffssDetail" 
             value="#{rollupControllerBean.lstHfmFfssDetails}" rowKey="#{hfmffssDetail.companyid}" 
-            paginator="true" rows="10" reflow="true" stickyHeader="true" 
+            paginator="true" rows="10" reflow="true" resizeMode="expand"
             scrollable="true" paginatorPosition="bottom">
                 <f:facet name="header">
                     <p:toolbar id="toolbar-fsdetails">
@@ -59,7 +59,7 @@
                 <p:column headerText="Currency Code" sortBy="#{hfmffssDetail.id.currencycode}" filterBy="#{hfmffssDetail.id.currencycode}">
                     <h:outputText value="#{hfmffssDetail.id.currencycode}"/>
                 </p:column>
-                <p:column headerText="Batch Name" width="15%" sortBy="#{hfmffssDetail.batchname}" filterBy="#{hfmffssDetail.batchname}">
+                <p:column headerText="Batch Name"  sortBy="#{hfmffssDetail.batchname}" filterBy="#{hfmffssDetail.batchname}">
                     <h:outputText value="#{hfmffssDetail.batchname}"/>
                 </p:column>
                 <p:column headerText="Category" sortBy="#{hfmffssDetail.category}" filterBy="#{hfmffssDetail.category}">
@@ -85,7 +85,7 @@
                 <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">
                     <h:outputText value="#{hfmffssDetail.id.datasource}"/>
                 </p:column>
-                <p:column headerText="Error Text" width="20%" sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
+                <p:column headerText="Error Text"  sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
                     <h:outputText value="#{hfmffssDetail.errortext}"/>
                 </p:column>
             </p:dataTable>

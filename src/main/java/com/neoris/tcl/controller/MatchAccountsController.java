@@ -10,9 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.SetMatchAccounts;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.ISetMatchAccountsService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -29,13 +32,18 @@ private final static Logger LOG = LoggerFactory.getLogger(MatchAccountsControlle
 	private List<SetMatchAccounts> lstMatchAcc;
 	private List<SetMatchAccounts> lstSlctedMAccounts;
 	private SetMatchAccounts currmatch;
+	private Authentication authentication;
+	private User user;
 	
 	@PostConstruct
 	public void init() {
         LOG.info("Initializing Match Accounts...");
         this.lstMatchAcc = service.findAll();
         LOG.info("reg= {}", lstMatchAcc.size());
-     
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
     }
 	
 	
@@ -45,6 +53,7 @@ private final static Logger LOG = LoggerFactory.getLogger(MatchAccountsControlle
 	
 	
 	public void save() {
+		this.currmatch.setUserid(user.getUsername());
         LOG.info("Entering to save Macth Accounts  => {}", this.currmatch);
         this.currmatch = service.save(currmatch);
         this.lstMatchAcc = service.findAll();

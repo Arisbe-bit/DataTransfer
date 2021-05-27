@@ -22,9 +22,29 @@ public class SetTradingPartnersTypes implements Serializable {
 	@Id
 	private String tptype;
 	private String description;
+	private String userid;
 
 	public SetTradingPartnersTypes() {
 	}
+
+	
+	public SetTradingPartnersTypes(String tptype, String description, String userid) {
+		
+		this.tptype = tptype;
+		this.description = description;
+		this.userid = userid;
+	}
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
 
 	public String getTptype() {
 		return this.tptype;
@@ -42,9 +62,13 @@ public class SetTradingPartnersTypes implements Serializable {
 		this.description = description;
 	}
 
+
 	@Override
 	public String toString() {
-		return "SetTradingPartnersTypes [tptype=" + tptype + ", description=" + description + "]";
+		return "SetTradingPartnersTypes [tptype=" + tptype + ", description=" + description + ", userid=" + userid
+				+ "]";
 	}
+
+	
 
 }

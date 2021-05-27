@@ -64,7 +64,7 @@ public class HfmAccEntriesService implements IHfmAccEntriesService{
 
 	@Override
 	public void rollUpApplyEntries(int p_orgid, String p_periodnm, String p_userid, int p_itemid, int p_applied) {
-		LOG.info("Entering to  run apply entries: p_orgid = {}, p_periodnm = {}, p_itemid = {}, p_applied {} ", p_orgid, p_periodnm, p_itemid,p_applied);
+		LOG.info("Entering to  run apply entries: p_orgid = {}, p_periodnm = {},p_userid {}, p_itemid = {}, p_applied {} ", p_orgid, p_periodnm, p_userid,p_itemid,p_applied);
 		try {
 			data.rollUpApplyEntries(p_orgid, p_periodnm, p_userid, p_itemid,p_applied); 
 			
@@ -74,7 +74,7 @@ public class HfmAccEntriesService implements IHfmAccEntriesService{
 			PrimeFaces.current().ajax().update("form" + ":messages");
 			
 		} catch (Exception e) {
-			LOG.error("Error al correr IHfmAccEntriesDao.rollUpApplyEntries: => {}", e.getMessage());
+			LOG.error("Error in IHfmAccEntriesDao.rollUpApplyEntries: => {}", e.getMessage());
 		}
 		
 	}
