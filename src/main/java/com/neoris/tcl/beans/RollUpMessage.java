@@ -1,45 +1,23 @@
 package com.neoris.tcl.beans;
 
+import com.neoris.tcl.models.HfmRollupEntries;
+
 public class RollUpMessage {
 
-	private String id;
-	private String iClass;
-	private String spanClass;
 	private String message;
+	private String title;
+	private String severity;
+	private HfmRollupEntries rollup;
 
 	public RollUpMessage() {
+		this.rollup = new HfmRollupEntries();
 	}
 
-	public RollUpMessage(String id, String iClass, String spanClass, String message) {
-		super();
-		this.id = id;
-		this.iClass = iClass;
-		this.spanClass = spanClass;
+	public RollUpMessage(String message, String title, String severity, HfmRollupEntries rollup) {
 		this.message = message;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getiClass() {
-		return iClass;
-	}
-
-	public void setiClass(String iClass) {
-		this.iClass = iClass;
-	}
-
-	public String getSpanClass() {
-		return spanClass;
-	}
-
-	public void setSpanClass(String spanClass) {
-		this.spanClass = spanClass;
+		this.title = title;
+		this.rollup = rollup;
+		this.severity = severity;
 	}
 
 	public String getMessage() {
@@ -50,10 +28,35 @@ public class RollUpMessage {
 		this.message = message;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public HfmRollupEntries getRollup() {
+		return rollup;
+	}
+
+	public void setRollup(HfmRollupEntries rollup) {
+		this.rollup = rollup;
+	}
+
+	public String getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("RollUpMessage [id=%s, iClass=%s, spanClass=%s, message=%s]", id, iClass, spanClass,
-				message);
+		return String.format("RollUpMessage [message=%s, title=%s, severity=%s, rollup=%s]", message, title, severity,
+				rollup);
 	}
+
 
 }

@@ -34,7 +34,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.beans.RollUpMessage;
 import com.neoris.tcl.models.HfmFfss;
 import com.neoris.tcl.models.HfmFfssDetails;
 import com.neoris.tcl.models.HfmLayout;
@@ -123,13 +122,19 @@ public class RollupController {
 		LOG.info("Init rollupControllerBean...");
 		setLstRollUps(service.findAll());
 		
-		if(webSocketService != null) {
-			LOG.info("Sending test message....");
-			RollUpMessage message = new RollUpMessage("i-ba-va-86", "fa fa-cog fa-spin fa-2x fa-fw icon-green", "sr-only", "Mensaje de inicio desde el controller");
-			webSocketService.notyfyRollUpProcess(message);
-		} else {
-			LOG.info("webSocketService is null!!!");
-		}
+		LOG.info("Init setting rollup service to webSocketService...");
+		webSocketService.setRollUpService(service);
+		
+//		if(webSocketService != null) {
+//			LOG.info("Sending test message....");
+//			RollUpMessage message = new RollUpMessage();
+//			message.setMessage("Initializing Push service...");
+//			message.setSeverity("info");
+//			message.setTitle("Init");
+//			webSocketService.notyfyRollUpProcess(message);
+//		} else {
+//			LOG.info("webSocketService is null!!!");
+//		}
 	}
 
 	public void openNew() {
@@ -201,14 +206,14 @@ public class RollupController {
 
 		// Initilize status of each rollup pending for processing...
 		lstSelectedRollups.stream().forEach(roll -> roll.pending());
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		for (HfmRollupEntries rollup : lstSelectedRollups) {
 			// find rollup and its processing from original list
 			// if not, the messages dont refreshing
 			int idx = this.lstRollUps.indexOf(rollup);
 			processRollUp(this.lstRollUps.get(idx));
-			PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
+			//PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
 		}
 
 		// clean the selected rollups list...
@@ -233,12 +238,14 @@ public class RollupController {
 
 		rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
 		rollUp.setValidations(HfmRollupEntries.STATUS_PROCESSING);
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
+		webSocketService.sendPushNotification(rollUp);
+
 		LOG.info("Processing Rollup Start ");
 		service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				rollUp.getSegment1(), user.getUsername());
-
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
+		webSocketService.sendPushNotification(rollUp);
 
 		// 2.- Process Drill Details
 		processDrillDetailsHd(rollUp);
@@ -288,24 +295,28 @@ public class RollupController {
 
 	private void processMatchAccount(HfmRollupEntries rollUp) {
 		rollUp.setAttribute6(HfmRollupEntries.STATUS_PROCESSING);
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
+		webSocketService.sendPushNotification(rollUp);
 
 		ProcessRollUps rollUpMatchAccount = getProcessRollUpsInstance(rollUp, "", 0, false, true);
 		Thread matchAccountThread = createRollUpTread(rollUpMatchAccount);
 		matchAccountThread.run();
 		try {
 			matchAccountThread.join();
-			rollUp.setAttribute6(HfmRollupEntries.STATUS_OK);
+			//rollUp.setAttribute6(HfmRollupEntries.STATUS_OK);
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Match Account rollup: {}", e.getMessage(), e);
 			rollUp.setAttribute6(HfmRollupEntries.STATUS_ERROR);
-		}
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running MatchAccount", "error", rollUp);
+		}	
+		
 	}
 
 	private void processValidations(HfmRollupEntries rollUp) {
 		rollUp.setAttribute5(HfmRollupEntries.STATUS_PROCESSING);
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		webSocketService.sendPushNotification(rollUp);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		ProcessRollUps rollUpValidations = getProcessRollUpsInstance(rollUp, "", 0, true, false);
 		Thread validationsThread = createRollUpTread(rollUpValidations);
@@ -314,11 +325,13 @@ public class RollupController {
 		try {
 			validationsThread.join();
 			rollUp.setAttribute5(HfmRollupEntries.STATUS_OK);
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Validations rollup: {}", e.getMessage(), e);
 			rollUp.setAttribute5(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running Validation", "error", rollUp);
 		}
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 	}
 
 	/**
@@ -339,9 +352,11 @@ public class RollupController {
 		try {
 			costmanagerThread.join();
 			rollUp.setAttribute3(HfmRollupEntries.STATUS_OK);
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running costmanager: {}", e.getMessage(), e);
 			rollUp.setAttribute3(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running Cost manager", "error", rollUp);
 		}
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 	}
@@ -352,7 +367,8 @@ public class RollupController {
 	 */
 	private void processDrils(HfmRollupEntries rollUp) {
 		rollUp.setAttribute4(HfmRollupEntries.STATUS_PROCESSING);
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		webSocketService.sendPushNotification(rollUp);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		ProcessRollUps drillRollUp1 = getProcessRollUpsInstance(rollUp, "", 1, false, false);
 		ProcessRollUps drillRollUp2 = getProcessRollUpsInstance(rollUp, "", 2, false, false);
@@ -414,11 +430,13 @@ public class RollupController {
 			drillRollUp8Tread.join();
 			drillRollUp9Tread.join();
 			rollUp.setAttribute4(HfmRollupEntries.STATUS_OK);
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Drills rollup: {}", e.getMessage(), e);
 			rollUp.setAttribute4(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running Drills rollup", "error", rollUp);
 		}
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 	}
 
 	/**
@@ -428,6 +446,7 @@ public class RollupController {
 	private void processDrillDetails(HfmRollupEntries rollUp) {
 		LOG.info("Preparing concept rollups...");
 		rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
+		webSocketService.sendPushNotification(rollUp);
 		//this.pushStatus("Preparing concept rollups...");
 		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
@@ -475,7 +494,7 @@ public class RollupController {
 		} catch (Exception e) {
 			LOG.error("Error creating threads: {}", e.getMessage(), e);
 			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
-			PrimeFaces.current().ajax().update(DT_ROLLUP);
+			webSocketService.sendPushNotification(e.getMessage(), "Error Creating threads", "error", rollUp);
 			return;
 		}
 
@@ -531,11 +550,13 @@ public class RollupController {
 			assetsThread.join();
 			otherThread.join();
 			rollUp.setAttribute2(HfmRollupEntries.STATUS_OK);
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running process: {}", e.getMessage(), e);
 			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running process", "error", rollUp);
 		}
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 		LOG.info("Thread for rollUp Finish!");
 	}
 
@@ -562,8 +583,7 @@ public class RollupController {
 
 		} catch (Exception e) {
 			LOG.error("Error creating threads: {}", e.getMessage(), e);
-			// rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
-			// PrimeFaces.current().ajax().update(DT_ROLLUP);
+			webSocketService.sendPushNotification(e.getMessage(), "Error creating threads", "error",  rollUp);
 			return;
 		}
 
@@ -580,13 +600,15 @@ public class RollupController {
 			// otherThread.sleep(5000);
 			payablesThread.join();
 			receivablesThread.join();
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
 
 			// rollUp.setAttribute2(HfmRollupEntries.STATUS_OK);
 		} catch (InterruptedException e) {
 			LOG.error("Error running header process: {}", e.getMessage(), e);
 			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error Running header process", "error",  rollUp);
 		}
-		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 		LOG.info("Thread for HEADER-rollUp Finish!");
 	}
 
@@ -810,7 +832,7 @@ public class RollupController {
 	public void periodChange() {
 		try {
 
-			LOG.info("periodchange company  => {}");
+			LOG.info("periodchange company");
 
 		} catch (Exception e) {
 			LOG.error("period change ERRor -> {}", e.getMessage());
@@ -829,6 +851,7 @@ public class RollupController {
 				matchAccounts, this.user);
 		rollup.setFacesContext(FacesContext.getCurrentInstance());
 		rollup.setPrimefaces(PrimeFaces.current());
+		rollup.setWebSocketService(webSocketService);
 		return rollup;
 	}
 
@@ -989,4 +1012,21 @@ public class RollupController {
 	public String getContextPath() {
 		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
 	}
+	
+//	private void sendPushNotification(HfmRollupEntries rollup) {
+//		sendPushNotification("","","",rollup);
+//	}
+//
+//	/**
+//	 * Sends a Push notification to all clients for update the status of the current rollup
+//	 * @param message .- Optional message to show in notification browser
+//	 * @param title .- Title of the optional  message
+//	 * @param severity . Severity of message (info, warn, error)
+//	 * @param rollup .- Current rollup been processed.
+//	 */
+//	private void sendPushNotification(String message, String title, String severity, HfmRollupEntries rollup) {
+//		Optional<HfmRollupEntries> ru = service.findById(rollup.getCompanyid());
+//		RollUpMessage rum = new RollUpMessage(message, title, severity, ru.orElse(rollup));
+//		webSocketService.notyfyRollUpProcess(rum);
+//	}
 }

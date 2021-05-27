@@ -16,23 +16,38 @@ function connect() {
 }
 function pingStatus(message) {
     var endpoint = '/app/rollups';
-	var jSonMsg = JSON.stringify({'id':'','iClass':'','spanClass':'','message':message});
+	var jSonMsg = JSON.stringify({'title':'info', 'severity':'info', 'message':message});
     console.log("sending message:[" + message + "] to endpoint:" + endpoint);
     stompClient.send(endpoint, {}, jSonMsg);
 }
 function showStatus(message) {
-	var $id = $(message.id);
-	var $idspan = $id.find("span");
-	$id.removeClass().addClass(message.iClass);	
-	$idspan.removeClass();
-	if(message.spanClass.trim().length > 0){
-		$idspan.addClass(message.spanClass);
-	}	
+	
 	if(message.message.trim().length > 0) {
-		PF('wvMessage').renderMessage({"summary": "RollUp process", "detail": message.message, "severity":"info"});
-	}	
+		PF('wvMessage').renderMessage({"summary": message.title, "detail": message.message, "severity": message.severity});
+	}
+	// refresh every status from rollUp
+	if(message.rollup){
+		var rollup = message.rollup;
+		updateProcessStatus(rollup.balanceValidationID, rollup.trialBalanceIcon, rollup.attribute1);
+		updateProcessStatus(rollup.tradingPartnerValidationID, rollup.balanceValidationIcon, rollup.attribute4);
+		updateProcessStatus(rollup.costCenterValidationID, rollup.costCenterValidationIcon, rollup.attribute5);
+		updateProcessStatus(rollup.accountBalanceValidationID, rollup.validationsIcon, rollup.validations);
+		updateProcessStatus(rollup.finishProcessID, rollup.finishedProcessIcon, rollup.attribute6);
+	}
     console.log(message);
 }
+
+function updateProcessStatus(id, iclass, status) {
+	console.log("updating values: id=" + id + ", iclass = "+ iclass + ", status = " + status );
+	var $id = $('#' + id);
+	console.log("$id=" + $id );
+	var $span = $id.find("span");
+	var spanclass = (iclass.trim() === '' ? '': 'sr-only');
+	$id.removeClass().addClass(iclass);	
+	$span.removeClass().addClass(spanclass);
+	$span.get(0).innerText = status;
+}
+
 function year_onblur(e) {
     var message = '';
     if (isNaN(e.value)) {

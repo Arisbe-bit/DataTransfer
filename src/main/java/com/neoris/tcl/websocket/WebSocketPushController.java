@@ -1,4 +1,4 @@
-package com.neoris.tcl.controller;
+package com.neoris.tcl.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,21 +7,17 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.beans.RollUpMessage;
-//import com.neoris.tcl.utils.Functions;
-import com.neoris.tcl.websocket.WebSocketConfig;
 
 
 @Controller
-public class PushController {
+public class WebSocketPushController {
 	
-	private final static Logger LOG = LoggerFactory.getLogger(PushController.class);
+	private final static Logger LOG = LoggerFactory.getLogger(WebSocketPushController.class);
 
 	@MessageMapping(WebSocketConfig.WS_ROLLUPS_MAPPING)
 	@SendTo(WebSocketConfig.WS_ROLLUPS_TOPIC + WebSocketConfig.WS_ROLLUPS_MAPPING)
 	public RollUpMessage pushStatus(RollUpMessage message) {
 		LOG.info("[pushStatus] recibo mensage = {}", message);
-		message.setiClass("class-from-server");
-		message.setMessage(message.getMessage() + ", y esto es desde el server!!!");
 		return message;
 	}
 
