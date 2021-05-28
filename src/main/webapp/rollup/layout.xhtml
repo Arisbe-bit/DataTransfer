@@ -64,7 +64,9 @@
                     <h:outputText value="#{layout.id.cust4}"/>
                 </p:column>
                 <p:column headerText="Data" sortBy="#{layout.data}" filterBy="#{layout.data}" styleClass="rollup-text-align-right">
-                    <h:outputText value="#{layout.data}"/>
+                    <h:outputText value="#{layout.data}">
+                    	<f:convertNumber pattern="###,###,###,###.##"/>
+                     </h:outputText>
                 </p:column>
                 <p:column headerText="User Id" sortBy="#{layout.userid}" filterBy="#{layout.userid}">
                     <h:outputText value="#{layout.userid}"/>

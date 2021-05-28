@@ -15,6 +15,12 @@
 	<h:form id="menuFormId" prependId="false">
 		<p:growl id="messages" />
 		<p:menubar>
+			<p:submenu label="RollUP" icon="fa fa-refresh ">
+				<p:menuitem value="RollUp Process" icon="fa fa-circle-o-notch fa-spin fa-lg fa-fw" action="#{menuController.rollup}" rendered="#{menuController.rollUpRole}" ajax="false"/>
+				<p:menuitem value="RollUP History" icon="fa fa-history" action="#{menuController.rolluphist}" rendered="#{menuController.rolluphistRole}" ajax="false"/>
+				<p:menuitem value="Manual Entries" icon="fa fa-check-circle-o" action="#{menuController.manualentries}" rendered="#{menuController.policiesRole}" ajax="false"/> 
+				<p:menuitem value="Manual Entries History" icon="pi pi-bars" action="#{menuController.manualentrieshist}" rendered="#{menuController.manualentrieshistRole}" ajax="false"/>
+			</p:submenu>
 			<p:submenu label="Catalogs Sets" icon="pi pi-file">
 				<p:menuitem value="HFMCodes" icon="pi pi-table" action="#{menuController.hfmcodes}" rendered="#{menuController.hfmcodesRole}" ajax="false"/>
 				<p:menuitem value="HFMCodes-Oracle Accounts" icon="pi pi-id-card" action="#{menuController.hfmcodesOA}" rendered="#{menuController.hfmcodesOARole}" ajax="false"/>
@@ -30,14 +36,7 @@
 				<p:menuitem value="Match Accounts" icon="fa fa-clone" action="#{menuController.matchAccounts}" rendered="#{menuController.matchAccountsRole}" ajax="false" />
 				<p:separator/>
 				<p:menuitem value="HFM Data by Company" icon="pi pi-chart-line" action="#{menuController.dsvscompany}" rendered="#{menuController.dsvscompanyRole}" ajax="false"/>
-			</p:submenu>
-			<p:submenu label="RollUP" icon="fa fa-refresh ">
-				<p:menuitem value="RollUp Process" icon="fa fa-circle-o-notch fa-spin fa-lg fa-fw" action="#{menuController.rollup}" rendered="#{menuController.rollUpRole}" ajax="false"/>
-				<p:menuitem value="RollUP History" icon="fa fa-history" action="#{menuController.rolluphist}" rendered="#{menuController.rolluphistRole}" ajax="false"/>
-				<p:menuitem value="Manual Entries" icon="fa fa-check-circle-o" action="#{menuController.manualentries}" rendered="#{menuController.policiesRole}" ajax="false"/> 
-				<p:menuitem value="Manual Entries Hist" icon="pi pi-bars" action="#{menuController.manualentrieshist}" rendered="#{menuController.manualentrieshistRole}" ajax="false"/>
-			</p:submenu>
-			
+			</p:submenu>			
 			<p:menuitem value="Administration" icon="pi pi-cog" action="#{menuController.admin}" rendered="#{menuController.adminRole}" ajax="false" />
 
 			<f:facet name="options">

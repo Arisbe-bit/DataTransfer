@@ -27,8 +27,6 @@ public class HfmAccEntriesDet implements Serializable {
 
 	private Long itemid;
 	private String hfmcode;
-	private BigDecimal debits;
-	private BigDecimal credits;
 	private BigDecimal amount;
 	private String icpcode;
 	private String areaid;
@@ -45,14 +43,12 @@ public class HfmAccEntriesDet implements Serializable {
 
 
 
-	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal debits, BigDecimal credits,
+	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, 
 			BigDecimal amount, String icpcode, String areaid, String description, String currencyid, String tptype) {
 		
 		this.movid = movid;
 		this.itemid = itemid;
 		this.hfmcode = hfmcode;
-		this.debits = debits;
-		this.credits = credits;
 		this.amount = amount;
 		this.icpcode = icpcode;
 		this.areaid = areaid;
@@ -90,21 +86,7 @@ public class HfmAccEntriesDet implements Serializable {
 		this.hfmcode = hfmcode;
 	}
 
-	public BigDecimal getDebits() {
-		return debits;
-	}
-
-	public void setDebits(BigDecimal debits) {
-		this.debits = debits;
-	}
-
-	public BigDecimal getCredits() {
-		return credits;
-	}
-
-	public void setCredits(BigDecimal credits) {
-		this.credits = credits;
-	}
+	
 
 	public String getIcpcode() {
 		return icpcode;
@@ -180,8 +162,8 @@ public class HfmAccEntriesDet implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode + ", debits=" + debits
-				+ ", credits=" + credits + ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid
+		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode 
+				+", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid
 				+ ", description=" + description + ", currencyid=" + currencyid + ", tptype=" + tptype + "]";
 	}
 

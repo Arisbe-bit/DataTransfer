@@ -23,17 +23,17 @@ public class SetReceivablesIcp implements Serializable {
 	private SetReceivablesIcpPK id;
 	private String icpcode;
 	private String userid;
-	private String modified;
+	//private String modified;
 
 	public SetReceivablesIcp() {
 		this.id = new SetReceivablesIcpPK();
 	}
 
-	public SetReceivablesIcp(SetReceivablesIcpPK id, String icpcode, String userid, String modified) {
+	public SetReceivablesIcp(SetReceivablesIcpPK id, String icpcode, String userid) {
 		this.id = id;
 		this.icpcode = icpcode;
 		this.userid = userid;
-		this.modified = modified;
+		//this.modified = modified;
 	}
 
 	public SetReceivablesIcpPK getId() {
@@ -60,18 +60,10 @@ public class SetReceivablesIcp implements Serializable {
 		this.userid = userid;
 	}
 
-	public String getModified() {
-		return modified;
-	}
-
-	public void setModified(String modified) {
-		this.modified = modified;
-	}
 
 	@Override
 	public String toString() {
-		return String.format("SetReceivablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid,
-				modified);
+		return String.format("SetReceivablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid);
 	}
 
 }

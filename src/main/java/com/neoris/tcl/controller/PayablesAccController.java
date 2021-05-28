@@ -11,12 +11,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetPayablesIcp;
 import com.neoris.tcl.models.ViewPartnersICP;
 import com.neoris.tcl.models.ViewPayablesSupp;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.ISetPayablesIcpService;
 import com.neoris.tcl.services.IViewPartnersICPService;
 import com.neoris.tcl.services.IViewPayablesSuppService;
@@ -50,11 +53,19 @@ public class PayablesAccController {
   //Company
   	private List<HfmRollupEntries> lstcompany;
 
+  	private Authentication authentication;
+	private User user;
+	
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstPayablesicp...");
         this.lstpay = servicesupplierview.findAll();
         LOG.info("reg= {}", lstpay.size());
+        
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
     }
 
     public void openNew() {
@@ -62,7 +73,9 @@ public class PayablesAccController {
     }
 
     public void save() {
-        LOG.info("Entering to save Payables Acc  => {}", this.currentPaytab);
+    	this.currentPaytab.setUserid(user.getUsername());
+    	LOG.info("Entering to save Payables Acc  => {}", this.currentPaytab);
+        
         this.currentPaytab = service.save(currentPaytab);
         this.lstpay = servicesupplierview.findAll();
         Functions.addInfoMessage("Succes", " Payables Acc saved");
@@ -142,21 +155,22 @@ public class PayablesAccController {
         return lstSelectdPay;
     }
 
-		public void setLstSelectdPay(List<ViewPartnersICP> lstSelectdPay) {
-			this.lstSelectdPay = lstSelectdPay;
+	public void setLstSelectdPay(List<ViewPartnersICP> lstSelectdPay) {
+		this.lstSelectdPay = lstSelectdPay;
+		
+		this.lstSelectdPaytab = new ArrayList<SetPayablesIcp>();
+		
+		for (ViewPartnersICP viewPartnersICP : lstSelectdPay) {
+			SetPayablesIcp currentPaytabx = new SetPayablesIcp();
 			
-			this.lstSelectdPaytab = new ArrayList<SetPayablesIcp>();
 			
-			for (ViewPartnersICP viewPartnersICP : lstSelectdPay) {
-				SetPayablesIcp currentPaytabx = new SetPayablesIcp();
-				
-				
-				currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganizationid()));
-				currentPaytabx.getId().setSupplierno(viewPartnersICP.getSuppliernum());
-				currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
-				
-				lstSelectdPaytab.add(currentPaytabx);
-			}
+			currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganizationid()));
+			currentPaytabx.getId().setSupplierno(viewPartnersICP.getSuppliernum());
+			currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
+			//.setUserid(user.getUsername());
+			
+			lstSelectdPaytab.add(currentPaytabx);
+		}
 			
 		}
 
@@ -184,6 +198,7 @@ public class PayablesAccController {
 			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganizationid()));
 			this.currentPaytab.getId().setSupplierno(currentPay.getSuppliernum());
 			this.currentPaytab.setIcpcode(currentPay.getIcpcode());
+			//this.currentPaytab.setUserid(user.getUsername());
 	}
 
 	public void companyidChange() {

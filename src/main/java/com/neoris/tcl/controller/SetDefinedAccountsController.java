@@ -203,7 +203,7 @@ public class SetDefinedAccountsController {
 	 try {	
 		this.lstCC = servcc.findAll();
 		
-		LOG.info("setCurtpAccs company  => {},costcenter  => {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter());
+		LOG.info("**setCurtpAccs company  => {},costcenter  => {}, source {}", this.curtpAccs.getId().getCompanyid(),this.curtpAccs.getId().getCostcenter(),this.curtpAccs.getId().getSource());
 		
 		
 		//LOG.info("current lstCC "+this.lstCC.size());

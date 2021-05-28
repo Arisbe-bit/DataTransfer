@@ -148,6 +148,7 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -368,6 +369,7 @@ public class User implements UserDetails {
 		return manualentrieshist;
 	}
 
+	
 	public void setManualentrieshist(boolean manualentrieshist) {
 		this.manualentrieshist = manualentrieshist;
 	}
@@ -418,7 +420,7 @@ public class User implements UserDetails {
 			}
 			
 			if (Rol.MANUALENTRIESHIST.equals(rol)) {
-				this.setDefinedaccounts(true);
+				this.setManualentrieshist(true);
 			}
 		}
 	}

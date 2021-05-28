@@ -32,7 +32,7 @@ public class HfmRollupEntries implements Serializable {
 	private final static String PENDING_ICON = "fa fa-spinner fa-pulse fa-2x fa-fw";
 
 	public final static String STATUS_PROCESSING = "PROCESSING";
-	public final static String STATUS_PENDING = "PENDING";
+	public final static String STATUS_PENDING = "PROCESSING";
 	public final static String STATUS_OK = "OK";
 	public final static String STATUS_ERROR = "ERROR";
 
@@ -298,11 +298,11 @@ public class HfmRollupEntries implements Serializable {
 	}
 
 	public String getBalanceValidationIcon() {
-		return getProcessIcon(this.attribute4);
+		return getProcessIcon(this.attribute4); //ICP
 	}
 
 	public String getCostCenterValidationIcon() {
-		return getProcessIcon(this.attribute5);
+		return getProcessIcon(this.attribute5);  //cost center //opex area
 	}
 	
 	public String getFinishedProcessIcon() {
@@ -310,8 +310,8 @@ public class HfmRollupEntries implements Serializable {
 	}
 	
 	public String getValidationsIcon() {
-		return getProcessIcon(this.validations);
-	}
+		return getProcessIcon(this.validations);// accounts
+	}	
 
 	private String getProcessIcon(String status) {
 		if(status == null) {
