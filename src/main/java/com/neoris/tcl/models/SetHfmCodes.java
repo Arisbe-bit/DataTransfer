@@ -44,7 +44,7 @@ public class SetHfmCodes implements Serializable {
 
 	private String description;
 	private String userid;
-	private String intercom;
+	
 
 	public SetHfmCodes() {
 	}
@@ -54,7 +54,7 @@ public class SetHfmCodes implements Serializable {
 	
 
 	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String globalval,
-			int ordernum, int naturalsign, String description, String userid, String intercom) {
+			int ordernum, int naturalsign, String description, String userid) {
 		super();
 		this.hfmcode = hfmcode;
 		this.tptype = tptype;
@@ -65,28 +65,14 @@ public class SetHfmCodes implements Serializable {
 		this.naturalsign = naturalsign;
 		this.description = description;
 		this.userid = userid;
-		this.intercom = intercom;
+		
 	}
 
 
 
 
 
-	public String getIntercom() {
-		return intercom;
-	}
-
-
-
-
-
-	public void setIntercom(String intercom) {
-		this.intercom = intercom;
-	}
-
-
-
-
+	
 
 	public String getGlobalval() {
 		return globalval;
@@ -184,7 +170,7 @@ public class SetHfmCodes implements Serializable {
 	public String toString() {
 		return "SetHfmCodes [hfmcode=" + hfmcode + ", tptype=" + tptype + ", classification=" + classification
 				+ ", naturalb=" + naturalb + ", globalval=" + globalval + ", ordernum=" + ordernum + ", naturalsign="
-				+ naturalsign + ", description=" + description + ", userid=" + userid + ", intercom=" + intercom + "]";
+				+ naturalsign + ", description=" + description + ", userid=" + userid +  "]";
 	}
 
 

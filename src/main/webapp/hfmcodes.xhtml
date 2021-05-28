@@ -81,9 +81,6 @@
                     <p:column headerText="Ordering." sortBy="#{hfmcodes.ordernuml}" filterBy="#{hfmcodes.ordernum}">
                         <h:outputText value="#{hfmcodes.ordernum}" />
                     </p:column>
-					<p:column headerText="Trading Partner movements" sortBy="#{hfmcodes.intercom}" filterBy="#{hfmcodes.intercom}">
-                        <h:outputText value="#{hfmcodes.intercom}" />
-                    </p:column>
                     <p:column headerText="Actions" exportable="false" width="10%">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('#{hfmControllerBean.dialogName}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
                             <f:setPropertyActionListener value="#{hfmcodes}" target="#{hfmControllerBean.hfmcode}" />
@@ -142,13 +139,7 @@
                                 <p:outputLabel for="ordernum" value="Ordering" maxlength="3" />
                                 <p:inputText id="ordernum" value="#{hfmControllerBean.hfmcode.ordernum}" />
                             </div>
-                            <div class="p-field p-col-12 p-md-4">
-                                <p:outputLabel for="Trading partner Movements" value="tpmov" maxlength="1" />
-                                <p:selectOneMenu id="tpmov" value="#{hfmControllerBean.hfmcode.intercom}">
-                                    <f:selectItem itemLabel="YES" itemValue="Y" />
-                                    <f:selectItem itemLabel="NO" itemValue="N" />
-                                </p:selectOneMenu>
-                            </div>
+                            
                         </p:outputPanel>
                     </p:outputPanel>
                     <f:facet name="footer">
