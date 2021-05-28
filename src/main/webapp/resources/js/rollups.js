@@ -48,6 +48,14 @@ function updateProcessStatus(id, iclass, status) {
 	$span.get(0).innerText = status;
 }
 
+function disableCheckBoxes(rollup) {
+	var $checkbox = $(`#rollupForm\\:dt-rollup_${rollup.companyid}_checkbox`);
+	$checkbox.removeClass('ui-chkbox-box');
+}
+function enableCheckBoxes(rollup) {
+	var $checkbox = $(`#rollupForm\\:dt-rollup_${rollup.companyid}_checkbox`);
+	$checkbox.addClass('ui-chkbox-box');
+}
 function year_onblur(e) {
     var message = '';
     if (isNaN(e.value)) {

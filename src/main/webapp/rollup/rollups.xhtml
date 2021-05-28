@@ -13,8 +13,6 @@
                     <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="@this">
                         <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
                     </p:commandButton>
-                    <p:outputLabel for="@next" value="Type Message:"/>
-                    <p:inputText id="txtMessage" onblur="pingStatus(this.value);" widgetVar="txtMessageWV" />
 				</p:toolbarGroup>
             </p:toolbar>
 
@@ -64,7 +62,7 @@
                 <p:ajax event="rowUnselectCheckbox" update=":rollupForm:start-rollup-process-button" />
                 <p:ajax event="toggleSelect" update=":rollupForm:start-rollup-process-button" />
 
-                <p:column selectionMode="multiple" exportable="false" width="5%" id="select-#{rollup.companyid}"></p:column>
+                <p:column selectionMode="multiple" exportable="false" width="5%" id="select-#{rollup.companyid}" ></p:column>
                 <p:column headerText="Entity" styleClass="rollup-text-align-left" sortBy="#{rollup.entity}" filterBy="#{rollup.entity}">
                     <h:outputText value="#{rollup.entity}" />
                 </p:column>
