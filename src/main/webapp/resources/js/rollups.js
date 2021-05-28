@@ -28,12 +28,25 @@ function showStatus(message) {
 	// refresh every status from rollUp
 	if(message.rollup){
 		var rollup = message.rollup;
+		var $checkbox = $(`#rollupForm\\:dt-rollup_${rollup.companyid}_checkbox`);
+		var isProcessing = ( rollup.attribute1 === 'Processing' || 
+						 rollup.attribute4 === 'Processing' ||
+					     rollup.attribute5 === 'Processing' ||
+						 rollup.attribute6 === 'Processing' ||
+						 rollup.validations === 'Processing');
 		updateProcessStatus(rollup.balanceValidationID, rollup.trialBalanceIcon, rollup.attribute1);
 		updateProcessStatus(rollup.tradingPartnerValidationID, rollup.balanceValidationIcon, rollup.attribute4);
 		updateProcessStatus(rollup.costCenterValidationID, rollup.costCenterValidationIcon, rollup.attribute5);
 		updateProcessStatus(rollup.accountBalanceValidationID, rollup.validationsIcon, rollup.validations);
 		updateProcessStatus(rollup.finishProcessID, rollup.finishedProcessIcon, rollup.attribute6);
+		// Hide or show checkbox for prevent re-process.
+		if(isProcessing) {
+			$checkbox.removeClass('ui-chkbox-box');
+		} else {
+			$checkbox.addClass('ui-chkbox-box');
+		}
 	}
+
     console.log(message);
 }
 
@@ -46,16 +59,9 @@ function updateProcessStatus(id, iclass, status) {
 	$id.removeClass().addClass(iclass);	
 	$span.removeClass().addClass(spanclass);
 	$span.get(0).innerText = status;
+
 }
 
-function disableCheckBoxes(rollup) {
-	var $checkbox = $(`#rollupForm\\:dt-rollup_${rollup.companyid}_checkbox`);
-	$checkbox.removeClass('ui-chkbox-box');
-}
-function enableCheckBoxes(rollup) {
-	var $checkbox = $(`#rollupForm\\:dt-rollup_${rollup.companyid}_checkbox`);
-	$checkbox.addClass('ui-chkbox-box');
-}
 function year_onblur(e) {
     var message = '';
     if (isNaN(e.value)) {
