@@ -66,22 +66,23 @@ public class ProcessRollUps implements Runnable {
 		String mensaje = String.format("Processing Match Account for company:%s, period: %s, year: %s",
 				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		webSocketService.sendPushNotification(mensaje, "Match Accounts", "info");
+		webSocketService.sendPushNotification(rollUp);
+		//webSocketService.sendPushNotification(mensaje, "Match Accounts", "info");
 		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				user.getUsername());
-		webSocketService.sendPushNotification("Match Account Processed", "Match Accounts", "info", rollUp);
+		//webSocketService.sendPushNotification("Match Account Processed", "Match Accounts", "info", rollUp);
 	}
 
 	private void processRollUps() {
 		String mensaje = String.format("Processing RollUp process [%s] for company:%s, period: %s, year: %s", process,
 				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		webSocketService.sendPushNotification(mensaje, "Processing " + process, "info");
+		//webSocketService.sendPushNotification(mensaje, "Processing " + process, "info");
 		if (process.equalsIgnoreCase(IHfmRollupEntriesService.P_COSTMANAGER)) {
 			LOG.info("VALOR DE PROCESS para costmanager " + process);
 			service.rollUpDrillCostMngDetGetHeaders(rollUp.getCompanyid().intValue(), rollUp.getSegment1(),
 					rollUp.getRperiod(), rollUp.getRyear(), process);
-			webSocketService.sendPushNotification(rollUp);
+			//webSocketService.sendPushNotification(rollUp);
 		} else {
 			LOG.info("VALOR DE PROCESS " + process);
 			service.getHeaders(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
@@ -94,10 +95,10 @@ public class ProcessRollUps implements Runnable {
 		String mensaje = String.format("Processing Validations for company:%s, period: %s, year: %s",
 				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		webSocketService.sendPushNotification(mensaje, "Validations", "info");
+		//webSocketService.sendPushNotification(mensaje, "Validations", "info");
 		service.rollUpValidations(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				rollUp.getSegment1(), user.getUsername());
-		webSocketService.sendPushNotification(rollUp);
+		//webSocketService.sendPushNotification(rollUp);
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class ProcessRollUps implements Runnable {
 		String mensaje = String.format("Processing Drills %s for company:%s, period: %s, year: %s", num,
 				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		webSocketService.sendPushNotification(mensaje, String.format("Drilss[%s]", num), "info");
+		//webSocketService.sendPushNotification(mensaje, String.format("Drilss[%s]", num), "info");
 		switch (num) {
 		case 1:
 			service.costManager1Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
@@ -150,7 +151,7 @@ public class ProcessRollUps implements Runnable {
 			LOG.warn("The Drill Number: {} doesn´t exists!!!", num);
 			break;
 		}
-		webSocketService.sendPushNotification(rollUp);
+		//webSocketService.sendPushNotification(rollUp);
 	}
 
 	public HfmRollupEntries getRollUp() {

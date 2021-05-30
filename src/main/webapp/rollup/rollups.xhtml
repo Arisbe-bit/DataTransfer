@@ -10,7 +10,7 @@
 
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="@this">
+                    <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="rollupForm:start-rollup-process-button">
                         <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
                     </p:commandButton>
 				</p:toolbarGroup>
