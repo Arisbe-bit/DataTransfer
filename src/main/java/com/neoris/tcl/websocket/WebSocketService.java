@@ -31,6 +31,9 @@ public class WebSocketService {
 	 * @param message
 	 */
 	public void notyfyRollUpProcess(RollUpMessage message) {
+		if(message == null) {
+			return;
+		}
 		LOG.info("About to send message: {}", message);
 		try {
 			messageTemplate.convertAndSend(destination, message);

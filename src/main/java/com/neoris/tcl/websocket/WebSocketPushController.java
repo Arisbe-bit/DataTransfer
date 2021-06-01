@@ -8,10 +8,9 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.beans.RollUpMessage;
 
-
 @Controller
 public class WebSocketPushController {
-	
+
 	private final static Logger LOG = LoggerFactory.getLogger(WebSocketPushController.class);
 
 	@MessageMapping(WebSocketConfig.WS_ROLLUPS_MAPPING)

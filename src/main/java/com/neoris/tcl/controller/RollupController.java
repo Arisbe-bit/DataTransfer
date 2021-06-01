@@ -212,15 +212,15 @@ public class RollupController {
 			// find rollup and its processing from original list
 			// if not, the messages dont refreshing
 			int idx = this.lstRollUps.indexOf(rollup);
-			processRollUp(this.lstRollUps.get(idx));
-			//PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
+			processRollUp(this.lstRollUps.get(idx));			
 		}
 
 		// clean the selected rollups list...
 		lstSelectedRollups = null;
-		Functions.addInfoMessage("Succes", "RollUps Proceced!!");
 		PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
-		PrimeFaces.current().ajax().update(getFormNameId() + ":messages", DT_ROLLUP);
+		setLstRollUps(service.findAll());
+		PrimeFaces.current().ajax().update(DT_ROLLUP);
+		
 	}
 
 	/**
@@ -295,7 +295,6 @@ public class RollupController {
 
 	private void processMatchAccount(HfmRollupEntries rollUp) {
 		rollUp.setAttribute6(HfmRollupEntries.STATUS_PROCESSING);
-		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 		webSocketService.sendPushNotification(rollUp);
 
 		ProcessRollUps rollUpMatchAccount = getProcessRollUpsInstance(rollUp, "", 0, false, true);
@@ -303,7 +302,6 @@ public class RollupController {
 		matchAccountThread.run();
 		try {
 			matchAccountThread.join();
-			//rollUp.setAttribute6(HfmRollupEntries.STATUS_OK);
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Match Account rollup: {}", e.getMessage(), e);
@@ -316,7 +314,6 @@ public class RollupController {
 	private void processValidations(HfmRollupEntries rollUp) {
 		rollUp.setAttribute5(HfmRollupEntries.STATUS_PROCESSING);
 		webSocketService.sendPushNotification(rollUp);
-		//PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		ProcessRollUps rollUpValidations = getProcessRollUpsInstance(rollUp, "", 0, true, false);
 		Thread validationsThread = createRollUpTread(rollUpValidations);

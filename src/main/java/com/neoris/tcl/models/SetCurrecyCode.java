@@ -20,37 +20,29 @@ public class SetCurrecyCode implements Serializable{
 		
 	}
 	
-	public SetCurrecyCode(String currencycode, String description) {
-		
+	public SetCurrecyCode(String currencycode, String description) {		
 		this.currencycode = currencycode;
 		this.description = description;
 	}
-
 	
 	public String getcurrencycode() {
 		return currencycode;
 	}
 
-
 	public void setcurrencycode(String currencycode) {
 		this.currencycode = currencycode;
 	}
-
-
 	public String getDescription() {
 		return description;
 	}
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
 	@Override
 	public String toString() {
 		return "SetCurrecyCode [currencycode=" + currencycode + ", description=" + description + "]";
-	}
-	
+	}	
 	
 }

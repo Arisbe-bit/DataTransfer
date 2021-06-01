@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Subselect;
 
@@ -38,8 +37,6 @@ public class HfmOracleAcc implements Serializable {
 
 	}
 
-	
-
 	public HfmOracleAcc(Long num, int orgid, String companyid,  String hfmcode, String costcenternm,
 			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
 			String accounttype, String enabled, LocalDate enddateactive) {
@@ -59,8 +56,6 @@ public class HfmOracleAcc implements Serializable {
 		this.enddateactive = enddateactive;
 	}
 
-
-
 	public String getCompanyid() {
 		return companyid;
 	}
@@ -68,7 +63,6 @@ public class HfmOracleAcc implements Serializable {
 	public void setCompanyid(String companyid) {
 		this.companyid = companyid;
 	}
-
 	
 	public String getHfmcode() {
 		return hfmcode;
@@ -158,19 +152,13 @@ public class HfmOracleAcc implements Serializable {
 		this.num = num;
 	}
 
-
-
 	public int getOrgid() {
 		return orgid;
 	}
 
-
-
 	public void setOrgid(int orgid) {
 		this.orgid = orgid;
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -180,6 +168,5 @@ public class HfmOracleAcc implements Serializable {
 				+ ", futureuse2nm=" + futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled
 				+ ", enddateactive=" + enddateactive + "]";
 	}
-
 
 }
