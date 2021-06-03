@@ -233,9 +233,10 @@ public class RollupController {
 	 */
 	private void processRollUp(HfmRollupEntries rollUp) {
 
-		LOG.info("Now processing rollup = {}", rollUp);
-		// 1.- Start RollUp Service.
-
+		LOG.info("store list rollup = {}", rollUp);
+		
+		service.saveAll(this.lstRollUps);
+		
 		LOG.info("Processing Rollup Del Data by company ");
 		service.rollDelData(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
 				rollUp.getRyear(), user.getUsername());

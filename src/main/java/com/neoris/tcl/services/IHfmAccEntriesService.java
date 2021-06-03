@@ -21,7 +21,7 @@ public interface IHfmAccEntriesService {
 
 	void deleteAll(List<HfmAccEntries> entityList);
 	
-	void rollUpApplyEntries(int p_orgid, String p_periodnm, String p_userid, int p_itemid,int p_applied);
+	void rollUpApplyEntries(int p_orgid, String p_userid, int p_itemid,int p_applied);
 	
 	
 }

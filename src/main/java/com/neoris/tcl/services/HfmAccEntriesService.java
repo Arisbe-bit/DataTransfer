@@ -59,12 +59,12 @@ public class HfmAccEntriesService implements IHfmAccEntriesService {
 	}
 
 	@Override
-	public void rollUpApplyEntries(int p_orgid, String p_periodnm, String p_userid, int p_itemid, int p_applied) {
+	public void rollUpApplyEntries(int p_orgid,  String p_userid, int p_itemid, int p_applied) {
 		LOG.info(
-				"Entering to  run apply entries: p_orgid = {}, p_periodnm = {},p_userid {}, p_itemid = {}, p_applied {} ",
-				p_orgid, p_periodnm, p_userid, p_itemid, p_applied);
+				"Entering to  run apply entries: p_orgid = {}, p_userid {}, p_itemid = {}, p_applied {} ",
+				p_orgid,  p_userid, p_itemid, p_applied);
 		try {
-			data.rollUpApplyEntries(p_orgid, p_periodnm, p_userid, p_itemid, p_applied);
+			data.rollUpApplyEntries(p_orgid, p_userid, p_itemid, p_applied);
 
 			LOG.info("********************rollUpApplyEntries Finished:***************************");
 

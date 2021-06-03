@@ -98,6 +98,7 @@ public class SetDefinedAccountsController {
 		this.curtpAccs.getId().setCompanyid(this.lcompanyid);
 		this.curtpAccs.setUserid(this.user.getUsername());
 		LOG.info("[openNew] => curtpAccs = {}", curtpAccs);
+		
 	}
 
 	public void save() {
@@ -111,6 +112,9 @@ public class SetDefinedAccountsController {
 		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
+		//PrimeFaces.current().ajax().update("form:dt-codes");
+		
+		
 	}
 
 	public void delete() {
@@ -235,6 +239,7 @@ public class SetDefinedAccountsController {
 
 	public void companyidChange() {
 		//this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+		//lstcompany.get(0).getCompanyid().intValue()
 
 		try {
 			LOG.info("companyidChange company  => {},costcenter  => {}", this.lcompanyid,
@@ -244,13 +249,17 @@ public class SetDefinedAccountsController {
 		} catch (Exception e) {
 			LOG.error("[companyidChange] Exception -> {}", e.getMessage());
 		}
+		
+		//PrimeFaces.current().ajax().update("form:dt-codes");
+		
 	}
 
 	public void companyidChangeorcl() {
-		//this.lcompanyid = this.curtpAccs.getId().getCompanyid();
-
+		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
+		
+		
 		try {
-			LOG.info("[companyidChangeorcl] company  => {},costcenter  => {}", this.lcompanyid);
+			LOG.info("[companyidChangeorcl] company  => {}", this.lcompanyid);
 			this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
 			LOG.info("[companyidChangeorcl] lsttpAccs " + this.lsttpAccs.size());
 		} catch (Exception e) {
@@ -262,6 +271,9 @@ public class SetDefinedAccountsController {
 
 	public void costcenterChange() {
 		try {
+			
+			
+						
 			LOG.info("costcenterChange companyid  => {},costcenter  => {}", this.lcompanyid,
 					this.curtpAccs.getId().getCostcenter());
 			lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.lcompanyid, this.curtpAccs.getId().getCostcenter());

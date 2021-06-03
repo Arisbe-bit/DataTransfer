@@ -27,40 +27,40 @@
 	                </p:toolbarGroup>
             </p:toolbar>
                 </f:facet>
-                <p:column headerText="HFM Code" sortBy="#{layout.id.account}" filterBy="#{layout.id.account}">
-                    <h:outputText value="#{layout.id.account}"/>
+                <p:column headerText="Scenario" sortBy="#{layout.id.scenario}" filterBy="#{layout.id.scenario}">
+                    <h:outputText value="#{layout.id.scenario}"/>
+                </p:column>                
+                <p:column headerText="Year" sortBy="#{layout.id.zyear}" filterBy="#{layout.id.zyear}">
+                    <h:outputText value="#{layout.id.zyear}"/>
                 </p:column>
                 <p:column headerText="Period" sortBy="#{layout.id.period}" filterBy="#{layout.id.period}">
                     <h:outputText value="#{layout.id.period}"/>
                 </p:column>
-                <p:column headerText="Entity" sortBy="#{layout.entity}" filterBy="#{layout.entity}">
-                    <h:outputText value="#{layout.entity}"/>
-                </p:column>
-                <p:column headerText="Scenario" sortBy="#{layout.id.scenario}" filterBy="#{layout.id.scenario}">
-                    <h:outputText value="#{layout.id.scenario}"/>
+                <p:column headerText="View" sortBy="#{layout.id.zview}" filterBy="#{layout.id.zview}">
+                    <h:outputText value="#{layout.id.zview}"/>
                 </p:column>
                 <p:column headerText="Value" sortBy="#{layout.id.value}" filterBy="#{layout.id.value}">
                     <h:outputText value="#{layout.id.value}"/>
                 </p:column>
-                <p:column headerText="View" sortBy="#{layout.id.zview}" filterBy="#{layout.id.zview}">
-                    <h:outputText value="#{layout.id.zview}"/>
+                <p:column headerText="Entity" sortBy="#{layout.entity}" filterBy="#{layout.entity}">
+                    <h:outputText value="#{layout.entity}"/>
                 </p:column>
-                <p:column headerText="Year" sortBy="#{layout.id.zyear}" filterBy="#{layout.id.zyear}">
-                    <h:outputText value="#{layout.id.zyear}"/>
+                <p:column headerText="Account" sortBy="#{layout.id.account}" filterBy="#{layout.id.account}">
+                    <h:outputText value="#{layout.id.account}"/>
                 </p:column>
-                <p:column headerText="ICP Code" sortBy="#{layout.id.icp}" filterBy="#{layout.id.icp}">
+                <p:column headerText="ICP" sortBy="#{layout.id.icp}" filterBy="#{layout.id.icp}">
                     <h:outputText value="#{layout.id.icp}"/>
                 </p:column>
-                <p:column headerText="Cust1" sortBy="#{layout.id.cust1}" filterBy="#{layout.id.cust1}">
+                <p:column headerText="Custom1" sortBy="#{layout.id.cust1}" filterBy="#{layout.id.cust1}">
                     <h:outputText value="#{layout.id.cust1}"/>
                 </p:column>
-                <p:column headerText="Cust2" sortBy="#{layout.id.cust2}" filterBy="#{layout.id.cust2}">
+                <p:column headerText="Custom2" sortBy="#{layout.id.cust2}" filterBy="#{layout.id.cust2}">
                     <h:outputText value="#{layout.id.cust2}"/>
                 </p:column>
-                <p:column headerText="Cust3" sortBy="#{layout.id.cust3}" filterBy="#{layout.id.cust3}">
+                <p:column headerText="Custom3" sortBy="#{layout.id.cust3}" filterBy="#{layout.id.cust3}">
                     <h:outputText value="#{layout.id.cust3}"/>
                 </p:column>
-                <p:column headerText="Cust4" sortBy="#{layout.id.cust4}" filterBy="#{layout.id.cust4}">
+                <p:column headerText="Custom4" sortBy="#{layout.id.cust4}" filterBy="#{layout.id.cust4}">
                     <h:outputText value="#{layout.id.cust4}"/>
                 </p:column>
                 <p:column headerText="Data" sortBy="#{layout.data}" filterBy="#{layout.data}" styleClass="rollup-text-align-right">
@@ -68,10 +68,10 @@
                     	<f:convertNumber pattern="###,###,###,###.##"/>
                      </h:outputText>
                 </p:column>
-                <p:column headerText="User Id" sortBy="#{layout.userid}" filterBy="#{layout.userid}">
+                <p:column headerText="User Id" sortBy="#{layout.userid}" filterBy="#{layout.userid}" exportable="false">
                     <h:outputText value="#{layout.userid}"/>
                 </p:column>
-                <p:column headerText="Updated" sortBy="#{layout.updated}" filterBy="#{layout.updated}">
+                <p:column headerText="Updated" sortBy="#{layout.updated}" filterBy="#{layout.updated}" exportable="false">
                     <h:outputText value="#{layout.updated}"/>
                 </p:column>
 

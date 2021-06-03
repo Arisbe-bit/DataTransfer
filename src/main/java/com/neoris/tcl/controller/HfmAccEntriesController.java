@@ -261,7 +261,7 @@ public class HfmAccEntriesController {
 	}
 
 	public void setCurrentries(HfmAccEntries currentries) {
-		LOG.info("[setCurrentries] Recibo currentries companyId = {}, ItemID = {}", 
+		LOG.info("[setCurrentries] gets currentries companyId = {}, ItemID = {}", 
 				currentries.getCompanyid(), currentries.getItemid());
 		this.currentries = currentries;
 	}
@@ -382,16 +382,7 @@ public class HfmAccEntriesController {
 		String tptype = "";
 		String desc = "";
 
-		/*
-		 * try { LOG.info("[tptypeChange] Getting lsthfmcodes..."); this.lstHfmcodes =
-		 * serviceHfmcodes.findByTptype(this.currentdet.getTptype());
-		 * LOG.info("[tptypeChange]init lsthfmcodes with {} elements.",
-		 * this.lstHfmcodes.size());
-		 * 
-		 * } catch (Exception e) {
-		 * LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage(), e);
-		 * }
-		 */
+		
 
 		try {
 			LOG.info("[tptypeChange]...");
@@ -410,7 +401,7 @@ public class HfmAccEntriesController {
 			LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage());
 		}
 
-		if (tptype.equals("GOP")) {
+		if (tptype.contains("GOP")) {
 			this.lstIcpcodes = null;
 			this.lstcurrencies = null;
 			try {
@@ -431,19 +422,21 @@ public class HfmAccEntriesController {
 			} catch (Exception e) {
 				LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
 			}
-		} else {
+		} 
+		
+		if  (tptype.contains("INTERCIAS")) { 
 			try {
 				this.lstCC = null;
 				this.lstcurrencies = null;
 				LOG.info("[tptypeChange] Getting lsticpcodes...");
-				this.lstIcpcodes = serviceIcpCodes.findByTptype(this.currentdet.getTptype());
+				this.lstIcpcodes = serviceIcpCodes.findByTptype("INTERCIAS");
 				LOG.info("[tptypeChange]init lstIcpcodes with {} elements.", this.lstIcpcodes.size());
 
 			} catch (Exception e) {
 				LOG.error("[tptypeChange] init lstIcpcodes ERROR -> {}", e.getMessage(), e);
 			}
+		
 		}
-
 		// Refresh in xhtml
 		// PrimeFaces.current().ajax().update("form:opexarea", "form:icpcode", "form:Currencyc");
 
@@ -458,7 +451,7 @@ public class HfmAccEntriesController {
 	 */
 	public void openNewDet() {
 		int vapplied = this.currentries.getApplied();
-		LOG.info("[openNewDet] click para crear un nuevo HfmAccEntriesDet {}", vapplied);
+		LOG.info("[openNewDet] click to create a new item HfmAccEntriesDet {}", vapplied);
 		LOG.info("[openNewDet] currentries = {}", currentries);
 		this.currentdet = new HfmAccEntriesDet();
 		this.currentdet.setItemid(this.currentries.getItemid());
@@ -596,15 +589,16 @@ public class HfmAccEntriesController {
 		LOG.info("***********Running apply entries*********** ");
 		try {
 
-			LOG.info("[applyprocess] company id ={} ,perdiodnm ={}, item ={}", this.currentries.getCompanyid(),
-					this.currentries.getPeriodnm(), this.currentries.getItemid());
+			LOG.info("[applyprocess] company id ={} , item ={}", this.currentries.getCompanyid(),
+					 this.currentries.getItemid());
 			LOG.info("[applyprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
-
-			if (this.vcompanyid > 0 && !this.vperiodnm.isEmpty()) {
-				service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
+			
+			if (this.vcompanyid > 0 ) {
+				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
 						this.currentries.getItemid().intValue(), 1);
 				this.currentries.setApplied(1);
 				this.currentries.setStatus("Posting");
+				this.currentries.setPeriodnm(this.vperiodnm);
 			} else
 				LOG.warn("[applyprocess] Need select the company and period  ");
 
@@ -624,11 +618,12 @@ public class HfmAccEntriesController {
 					this.currentries.getPeriodnm(), this.currentries.getItemid());
 			LOG.info("[unposting process] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			if (this.vcompanyid > 0 && !this.vperiodnm.isEmpty()) {
-				service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
+			if (this.vcompanyid > 0 ) {
+				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
 						this.currentries.getItemid().intValue(), 0);
 				this.currentries.setApplied(0);
 				this.currentries.setStatus("UnPosting");
+				this.currentries.setPeriodnm(this.vperiodnm);
 			} else
 				LOG.warn("[unposting process] Need select the company and period  ");
 		} catch (Exception e) {
@@ -764,7 +759,7 @@ public class HfmAccEntriesController {
 //		LOG.info("[refreshUI] ajax update=> form:messages");
 //		PrimeFaces.current().ajax().update("form:messages");
 //
-//		LOG.info("[refreshUI] Terminé");
+//		LOG.info("[refreshUI] Finished");
 //
 //	}
 
