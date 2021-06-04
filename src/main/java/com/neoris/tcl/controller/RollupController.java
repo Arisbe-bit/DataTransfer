@@ -222,6 +222,19 @@ public class RollupController {
 		//Functions.addInfoMessage("Succes", "RollUps Proceced!!");
 		PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
 		setLstRollUps(service.findAll());
+
+		String zID = "rollupForm:dt-rollup:%s:year";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRyear(String.valueOf(zyear));
+			PrimeFaces.current().ajax().update(String.format(zID, i));
+		}
+		
+		String mID = "rollupForm:dt-rollup:%s:month";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRperiod(zmonth);
+			PrimeFaces.current().ajax().update(String.format(mID, i));
+		}
+		
 		this.curRollUp = null;
 		PrimeFaces.current().ajax().update(DT_ROLLUP);
 		
@@ -235,7 +248,7 @@ public class RollupController {
 
 		LOG.info("store list rollup = {}", rollUp);
 		
-		service.saveAll(this.lstRollUps);
+		//service.saveAll(this.lstRollUps);
 		
 		LOG.info("Processing Rollup Del Data by company ");
 		service.rollDelData(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
