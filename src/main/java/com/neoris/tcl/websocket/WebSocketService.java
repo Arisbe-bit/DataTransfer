@@ -13,7 +13,7 @@ import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 
 @Service
-public class WebSocketService {
+public class WebSocketService implements IWebSocketService {
 
 	private final static Logger LOG = LoggerFactory.getLogger(WebSocketService.class);
 	private final String destination = WebSocketConfig.WS_ROLLUPS_TOPIC + WebSocketConfig.WS_ROLLUPS_MAPPING;
@@ -30,6 +30,7 @@ public class WebSocketService {
 	 * 
 	 * @param message
 	 */
+	@Override
 	public void notyfyRollUpProcess(RollUpMessage message) {
 		if(message == null) {
 			return;
@@ -49,6 +50,7 @@ public class WebSocketService {
 	 * 
 	 * @param rollup
 	 */
+	@Override
 	public void sendPushNotification(HfmRollupEntries rollup) {
 		sendPushNotification("", "", "", rollup);
 	}
@@ -60,6 +62,7 @@ public class WebSocketService {
 	 * @param title
 	 * @param severity
 	 */
+	@Override
 	public void sendPushNotification(String message, String title, String severity) {
 		sendPushNotification(message, title, severity, null);
 	}
@@ -73,6 +76,7 @@ public class WebSocketService {
 	 * @param severity . Severity of message (info, warn, error)
 	 * @param rollup   .- Current rollup been processed.
 	 */
+	@Override
 	public void sendPushNotification(String message, String title, String severity, HfmRollupEntries rollup) {
 		RollUpMessage rum = new RollUpMessage(message, title, severity, rollup);
 		this.notyfyRollUpProcess(rum);
@@ -86,6 +90,7 @@ public class WebSocketService {
 	 * @param title     .- Title of the optional message
 	 * @param severity  . Severity of message (info, warn, error)
 	 */
+	@Override
 	public void sendPushNotification(Long companyId, String message, String title, String severity) {
 		Optional<HfmRollupEntries> ru = rollUpService.findById(companyId);
 		RollUpMessage rum = new RollUpMessage(message, title, severity, ru.orElse(null));
@@ -97,10 +102,12 @@ public class WebSocketService {
 	 * 
 	 * @param companyId .- Company ID to search.
 	 */
+	@Override
 	public void sendPushNotification(Long companyId) {
 		sendPushNotification(companyId, "", "", "");
 	}
 
+	@Override
 	public void setRollUpService(IHfmRollupEntriesService rollUpService) {
 		this.rollUpService = rollUpService;
 	}

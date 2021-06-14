@@ -3,7 +3,6 @@ package com.neoris.tcl;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.myfaces.spi.WebConfigProvider;
 import org.apache.myfaces.spi.impl.DefaultWebConfigProvider;
 import org.apache.myfaces.webapp.StartupServletContextListener;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.neoris.tcl.utils.ViewScope;
 
 @Configuration
+@EnableAsync
 public class AppConfig implements WebMvcConfigurer {
 
 	private final static Logger LOG = LoggerFactory.getLogger(AppConfig.class);

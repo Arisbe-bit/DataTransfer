@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
-import com.neoris.tcl.websocket.WebSocketService;
+import com.neoris.tcl.websocket.IWebSocketService;
 
 public class ProcessRollUps implements Runnable {
 
@@ -29,7 +29,7 @@ public class ProcessRollUps implements Runnable {
 	private FacesContext facesContext;
 	private PrimeFaces primefaces;
 	private User user;
-	private WebSocketService webSocketService;
+	private IWebSocketService webSocketService;
 
 	public ProcessRollUps(HfmRollupEntries rollUp, IHfmRollupEntriesService service, String process, int numDrill,
 			boolean processValidations, boolean matchAccounts, User user) {
@@ -245,11 +245,11 @@ public class ProcessRollUps implements Runnable {
 		this.user = user;
 	}
 
-	public WebSocketService getWebSocketService() {
+	public IWebSocketService getWebSocketService() {
 		return webSocketService;
 	}
 
-	public void setWebSocketService(WebSocketService webSocketService) {
+	public void setWebSocketService(IWebSocketService webSocketService) {
 		this.webSocketService = webSocketService;
 	}
 
