@@ -1,6 +1,8 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -71,10 +73,33 @@ public class SetDefinedAccounts implements Serializable {
 		this.cperiod = cperiod;
 	}
 
+	public String getUUID() {
+		return UUID.randomUUID().toString();
+	}
+
 	@Override
 	public String toString() {
 		return "SetDefinedAccounts [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", modified=" + modified
 				+ ", cperiod=" + cperiod + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cperiod, icpcode, id, modified, userid);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SetDefinedAccounts other = (SetDefinedAccounts) obj;
+		return Objects.equals(cperiod, other.cperiod) && Objects.equals(icpcode, other.icpcode)
+				&& Objects.equals(id, other.id) && Objects.equals(modified, other.modified)
+				&& Objects.equals(userid, other.userid);
 	}
 
 }

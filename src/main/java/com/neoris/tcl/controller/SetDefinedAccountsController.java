@@ -7,6 +7,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +68,10 @@ public class SetDefinedAccountsController {
 		LOG.info("Initializing lstcompany ...");
 		this.lstcompany = servcomp.findAll();
 		if (lstcompany != null && lstcompany.size() > 0) {
-			lcompanyid = lstcompany.get(0).getCompanyid().intValue();
+			this.lcompanyid = lstcompany.get(0).getCompanyid().intValue();
 		}
 		curtpAccs.getId().setCompanyid(lcompanyid);
-		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		this.lsttpAccs = service.findByIdCompanyid(lcompanyid);
 
 		try {
 			LOG.info("Initializing Cost Centers...");
@@ -81,15 +82,11 @@ public class SetDefinedAccountsController {
 			LOG.error("init lstCC ERRor -> {}", e.getMessage(), e);
 		}
 
-//		this.authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (this.authentication.getPrincipal() instanceof User) {
-//			this.user = (User) this.authentication.getPrincipal();
-//		}
 		this.user = Functions.getUser();
 	}
 
 	public void openNew(AjaxBehaviorEvent ev) {
-		LOG.info("[openNew] => ev = {}", ev);
+		LOG.info("[openNew] ev => {}", ev);
 		openNew();
 	}
 
@@ -98,7 +95,13 @@ public class SetDefinedAccountsController {
 		this.curtpAccs.getId().setCompanyid(this.lcompanyid);
 		this.curtpAccs.setUserid(this.user.getUsername());
 		LOG.info("[openNew] => curtpAccs = {}", curtpAccs);
-		
+
+	}
+
+	public void save(SetDefinedAccounts curtpAccs) {
+		LOG.info("save form curtpAccs...");
+		this.curtpAccs = curtpAccs;
+		save();
 	}
 
 	public void save() {
@@ -106,24 +109,32 @@ public class SetDefinedAccountsController {
 		this.curtpAccs.setUserid(user.getUsername());
 		this.curtpAccs = service.save(curtpAccs);
 
-		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
 
 		Functions.addInfoMessage("Succes", "Accounting Accounts saved");
-		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
-		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+		PrimeFaces.current().executeScript("PF('manageCodeDialog').hide()");
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
-		//PrimeFaces.current().ajax().update("form:dt-codes");
-		
-		
+		PrimeFaces.current().ajax().update("form:messages");
+	}
+
+	public void delete(ActionEvent ev) {
+		LOG.info("[delete] ev => {}", ev);
+		delete();
+	}
+
+	public void delete(SetDefinedAccounts curtpAccs) {
+		LOG.info("[delete] curtpAccs");
+		this.curtpAccs = curtpAccs;
+		delete();
 	}
 
 	public void delete() {
-		LOG.info("Entering to delete Accounting Accounts => {}", this.curtpAccs);
+		LOG.info("[delete] Entering to delete Accounting Accounts => {}", this.curtpAccs);
 		service.delete(this.curtpAccs);
 		this.curtpAccs = null;
-		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
 		Functions.addInfoMessage("Succes", "Code Removed");
-		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+		PrimeFaces.current().ajax().update("form:messages");
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
 
@@ -131,9 +142,9 @@ public class SetDefinedAccountsController {
 		LOG.info("[deleteSelected] = > Entering to delete Accounting Account: {}", this.lstSelectdAccs);
 		service.deleteAll(this.lstSelectdAccs);
 		this.lstSelectdAccs = null;
-		this.lsttpAccs = service.findByIdCompanyid(this.curtpAccs.getId().getCompanyid());
+		this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
 		Functions.addInfoMessage("Succes", "Accounting Account Removed");
-		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
+		PrimeFaces.current().ajax().update("form:messages");
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
 
@@ -159,13 +170,13 @@ public class SetDefinedAccountsController {
 		return "Source Accounts Setting";
 	}
 
-	public String getDialogName() {
-		return "manageCodeDialog";
-	}
+//	public String getDialogName() {
+//		return "manageCodeDialog";
+//	}
 
-	public String getDataTableName() {
-		return "dt-codes";
-	}
+//	public String getDataTableName() {
+//		return "dt-codes";
+//	}
 
 	public String getDeleteCodesButton() {
 		return "delete-codes-button-id";
@@ -237,27 +248,49 @@ public class SetDefinedAccountsController {
 		this.lstCC = lstCC;
 	}
 
-	public void companyidChange() {
-		//this.lcompanyid = this.curtpAccs.getId().getCompanyid();
-		//lstcompany.get(0).getCompanyid().intValue()
+	/**
+	 * Rised when company selectbox is changed in form
+	 * 
+	 * @param ev
+	 */
+	public void companyidChange(AjaxBehaviorEvent ev) {
+		LOG.info("[companyidChange] ev = {}", ev);
+		companyidChange();
+	}
 
+	/**
+	 * Rised when company selectbox is changed in form
+	 */
+	public void companyidChange() {
 		try {
-			LOG.info("companyidChange company  => {},costcenter  => {}", this.lcompanyid,
-					this.curtpAccs.getId().getCostcenter());
+			int companyId = curtpAccs.getId().getCompanyid();
+			String costCenter = this.curtpAccs.getId().getCostcenter();
+
+			LOG.info("companyidChange company  => {},costcenter  => {}", companyId, costCenter);
+			this.lstOrcl = serviceOAS.findByOrgidAndCostcenter(companyId, costCenter);
 			// this.lstCC = servcc.findAll();
 			// LOG.info("change lstCC "+this.lstCC.size());
 		} catch (Exception e) {
 			LOG.error("[companyidChange] Exception -> {}", e.getMessage());
 		}
-		
-		//PrimeFaces.current().ajax().update("form:dt-codes");
-		
 	}
 
+	/**
+	 * 
+	 * @param ev
+	 */
+	public void companyidChangeorcl(AjaxBehaviorEvent ev) {
+		LOG.info("[companyidChangeorcl] ev  => {}", ev);
+		SelectOneMenu selectOne = (SelectOneMenu) ev.getSource();
+		LOG.info("[companyidChangeorcl] value  => {}", selectOne.getValue());
+		companyidChangeorcl();
+	}
+
+	/**
+	 * 
+	 */
 	public void companyidChangeorcl() {
-		this.lcompanyid = this.curtpAccs.getId().getCompanyid();
-		
-		
+		// this.lcompanyid = this.curtpAccs.getId().getCompanyid();
 		try {
 			LOG.info("[companyidChangeorcl] company  => {}", this.lcompanyid);
 			this.lsttpAccs = service.findByIdCompanyid(this.lcompanyid);
@@ -265,20 +298,32 @@ public class SetDefinedAccountsController {
 		} catch (Exception e) {
 			LOG.error("[companyidChangeorcl] Exception: -> {}", e.getMessage());
 		}
-		PrimeFaces.current().ajax().update("form:dt-codes");
-
+		this.lstSelectdAccs = null;
+		PrimeFaces.current().ajax().update(":form:dt-defined-account", ":form:messages");
+		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
 
+	/**
+	 * Event triguered when selectbox cost center is changed
+	 * 
+	 * @param ev
+	 */
+	public void costcenterChange(AjaxBehaviorEvent ev) {
+		LOG.info("[costcenterChange] ev  => {}", ev);
+		costcenterChange();
+	}
+
+	/**
+	 * Event triguered when selectbox cost center is changed
+	 */
 	public void costcenterChange() {
 		try {
-			
-			
-						
-			LOG.info("costcenterChange companyid  => {},costcenter  => {}", this.lcompanyid,
-					this.curtpAccs.getId().getCostcenter());
-			lstOrcl = serviceOAS.findByOrgidAndCostcenter(this.lcompanyid, this.curtpAccs.getId().getCostcenter());
+			int companyId = curtpAccs.getId().getCompanyid();
+			String costCenter = this.curtpAccs.getId().getCostcenter();
+			LOG.info("[costcenterChange] companyid  => {},costcenter  => {}", companyId, costCenter);
+			lstOrcl = serviceOAS.findByOrgidAndCostcenter(companyId, costCenter);
 
-			LOG.info("costcenterChange return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+			LOG.info("[costcenterChange] return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
 		} catch (Exception e) {
 			LOG.error("costcenterChange ERRor -> {}", e.getMessage());
 		}

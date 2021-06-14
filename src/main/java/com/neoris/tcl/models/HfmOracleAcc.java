@@ -20,7 +20,7 @@ public class HfmOracleAcc implements Serializable {
 	@Id
 	private Long num;
 	private int orgid;
-	private String companyid; 
+	private String companyid;
 	private String hfmcode;
 	private String costcenternm;
 	private String costcenter;
@@ -30,17 +30,18 @@ public class HfmOracleAcc implements Serializable {
 	private String futureuse2nm;
 	private String accounttype;
 	private String enabled;
+
 	@Column(name = "enddateactive", columnDefinition = "DATE")
-	private LocalDate  enddateactive;
+	private LocalDate enddateactive;
 
 	public HfmOracleAcc() {
 
 	}
 
-	public HfmOracleAcc(Long num, int orgid, String companyid,  String hfmcode, String costcenternm,
-			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
-			String accounttype, String enabled, LocalDate enddateactive) {
-		
+	public HfmOracleAcc(Long num, int orgid, String companyid, String hfmcode, String costcenternm, String costcenter,
+			String oracleacct, String accountnm, String futureuse2, String futureuse2nm, String accounttype,
+			String enabled, LocalDate enddateactive) {
+
 		this.num = num;
 		this.orgid = orgid;
 		this.companyid = companyid;
@@ -63,7 +64,7 @@ public class HfmOracleAcc implements Serializable {
 	public void setCompanyid(String companyid) {
 		this.companyid = companyid;
 	}
-	
+
 	public String getHfmcode() {
 		return hfmcode;
 	}
@@ -162,11 +163,10 @@ public class HfmOracleAcc implements Serializable {
 
 	@Override
 	public String toString() {
-		return "HfmOracleAcc [num=" + num + ", orgid=" + orgid + ", companyid=" + companyid 
-				+ ", hfmcode=" + hfmcode + ", costcenternm=" + costcenternm + ", costcenter=" + costcenter
-				+ ", oracleacct=" + oracleacct + ", accountnm=" + accountnm + ", futureuse2=" + futureuse2
-				+ ", futureuse2nm=" + futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled
-				+ ", enddateactive=" + enddateactive + "]";
+		return "HfmOracleAcc [num=" + num + ", orgid=" + orgid + ", companyid=" + companyid + ", hfmcode=" + hfmcode
+				+ ", costcenternm=" + costcenternm + ", costcenter=" + costcenter + ", oracleacct=" + oracleacct
+				+ ", accountnm=" + accountnm + ", futureuse2=" + futureuse2 + ", futureuse2nm=" + futureuse2nm
+				+ ", accounttype=" + accounttype + ", enabled=" + enabled + ", enddateactive=" + enddateactive + "]";
 	}
 
 }
