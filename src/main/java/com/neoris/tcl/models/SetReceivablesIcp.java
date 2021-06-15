@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "set_receivables_icp")
+@Table(name = "SET_RECEIVABLES_ICP")
 public class SetReceivablesIcp implements Serializable {
 
 	/**
@@ -21,42 +21,49 @@ public class SetReceivablesIcp implements Serializable {
 
 	@EmbeddedId
 	private SetReceivablesIcpPK id;
-
-	private String hfmcode;
-
-	private String tpartnertype;
+	private String icpcode;
+	private String userid;
+	//private String modified;
 
 	public SetReceivablesIcp() {
-	    this.setId(new SetReceivablesIcpPK());
+		this.id = new SetReceivablesIcpPK();
+	}
+
+	public SetReceivablesIcp(SetReceivablesIcpPK id, String icpcode, String userid) {
+		this.id = id;
+		this.icpcode = icpcode;
+		this.userid = userid;
+		//this.modified = modified;
 	}
 
 	public SetReceivablesIcpPK getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(SetReceivablesIcpPK id) {
 		this.id = id;
 	}
 
-	public String getHfmcode() {
-		return this.hfmcode;
+	public String getIcpcode() {
+		return icpcode;
 	}
 
-	public void setHfmcode(String hfmcode) {
-		this.hfmcode = hfmcode;
+	public void setIcpcode(String icpcode) {
+		this.icpcode = icpcode;
 	}
 
-	public String getTpartnertype() {
-		return this.tpartnertype;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setTpartnertype(String tpartnertype) {
-		this.tpartnertype = tpartnertype;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
+
 
 	@Override
 	public String toString() {
-		return "SetReceivablesIcp [id=" + id + ", hfmcode=" + hfmcode + ", tpartnertype=" + tpartnertype + "]";
+		return String.format("SetReceivablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid);
 	}
 
 }

@@ -1,21 +1,204 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Payables Accounts</title>
-</h:head>
-<h:body>
-	<ui:composition template="/template/layout.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
 
-		<ui:define name="content">
-			<h2>This is Payables Accounts content</h2>
-		</ui:define>
+	<ui:define name="Accounts Payable Trading Partner">
+		<title>${payablesaccControllerBean.title}</title>
+	</ui:define>
 
-	</ui:composition>
-</h:body>
-</html>
+	<ui:define name="header">
+		<h1>${payablesaccControllerBean.title}</h1>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+
+				<div class="products-buttonbar">
+					<div>
+						<p:toolbar>
+							<p:toolbarGroup>
+								<p:commandButton value="New" icon="pi pi-plus"
+									actionListener="#{payablesaccControllerBean.openNew}"
+									update=":form:manage-code-content"
+									oncomplete="PF('#{payablesaccControllerBean.dialogName}').show()"
+									styleClass="ui-button-success" style="margin-right: 0.3em">
+									<p:resetInput target=":form:manage-code-content" />
+								</p:commandButton>
+								<p:commandButton
+									value="#{payablesaccControllerBean.deleteButtonMessage}"
+									id="#{payablesaccControllerBean.deleteCodesButton}"
+									icon="pi pi-trash"
+									actionListener="#{payablesaccControllerBean.deleteSelected}"
+									styleClass="ui-button-danger" style="margin-left: 0.3em"
+									disabled="#{!payablesaccControllerBean.hasSelectedCodes()}"
+									update="@this">
+									<p:confirm header="Confirmation"
+										message="Delete the selected suppliers?"
+										icon="pi pi-exclamation-triangle" />
+								</p:commandButton>
+							</p:toolbarGroup>
+							<p:toolbarGroup align="right">
+								<p:commandButton value="Export" icon="pi pi-upload"
+									styleClass="ui-button-help" ajax="false">
+									<p:dataExporter type="xls"
+										target="#{payablesaccControllerBean.dataTableName}"
+										fileName="${payablesaccControllerBean.title}" />
+								</p:commandButton>
+							</p:toolbarGroup>
+						</p:toolbar>
+					</div>
+				</div>
+
+				<p:dataTable id="#{payablesaccControllerBean.dataTableName}"
+					widgetVar="dtCodes" var="currentId"
+					value="#{payablesaccControllerBean.lstpay}" reflow="true"
+					styleClass="products-table"
+					selection="#{payablesaccControllerBean.lstSelectdPay}"
+					rowKey="#{currentId.suppliernum}" paginator="true" rows="15" stickyHeader="true" stripedRows="true" 
+					rowSelectMode="add" size="small" paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${payablesaccControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect"
+						update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect"
+						update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox"
+						update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox"
+						update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect"
+						update=":form:#{payablesaccControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple"
+						exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Company" sortBy="#{currentId.companynm}"
+						filterBy="#{currentId.companynm}">
+						<h:outputText value="#{currentId.companynm}" />
+					</p:column>
+
+					<p:column headerText="Supplier No."
+						sortBy="#{currentId.suppliernum}"
+						filterBy="#{currentId.suppliernum}">
+						<h:outputText value="#{currentId.suppliernum}" />
+					</p:column>
+					<p:column headerText="Supplier Name"
+						sortBy="#{currentId.vendorname}"
+						filterBy="#{currentId.vendorname}">
+						<h:outputText value="#{currentId.vendorname}" />
+					</p:column>
+					<p:column headerText="ICP Code" sortBy="#{currentId.icpcode}"
+						filterBy="#{currentId.icpcode}">
+						<h:outputText value="#{currentId.icpcode}" />
+					</p:column>
+
+
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{payablesaccControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" process="@this">
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" process="@this" style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+				<!-- This form is for add new o modify a trading partner type -->
+				<p:dialog header="Trading Partner  Details" 
+					width="600" resizable="true" minWidth="550"
+					showEffect="fade" modal="true"
+					widgetVar="#{payablesaccControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty payablesaccControllerBean.currentPaytab}">
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="companyid" value="Company" />
+								<p:selectOneMenu id="companyid"
+									value="#{payablesaccControllerBean.currentPaytab.id.companyid}"  
+									filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{rollupentriesControllerBean.lstEntries}"
+									var="itemp" 
+										itemLabel="#{itemp.entity}"
+										itemValue="#{itemp.companyid}" />
+									<p:ajax event="change" 
+										listener="#{payablesaccControllerBean.companyidChange}"
+										process="@this"
+										update=":form:suppno"/>
+								</p:selectOneMenu>
+							</div>							
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="suppno" value="Supplier No." />
+								<p:selectOneMenu id="suppno"
+									value="#{payablesaccControllerBean.currentPaytab.id.supplierno}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{payablesaccControllerBean.lstSuppno}"
+										var="itemc" 
+										itemLabel="#{itemc.vendorname}"
+										itemValue="#{itemc.suppliernum}" />										
+								</p:selectOneMenu>
+							</div>	
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="icpcode" value="ICP Code" />
+								<p:selectOneMenu id="icpcode"
+									value="#{payablesaccControllerBean.currentPaytab.icpcode}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{tradingpartnerControllerBean.lstTP}"
+										var="item" 
+										itemLabel="#{item.icpcode}"
+										itemValue="#{item.icpcode}" />
+								</p:selectOneMenu>
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" icon="pi pi-check"
+							actionListener="#{payablesaccControllerBean.save}"
+							update="manage-code-content" process="manage-code-content @this" />
+						<p:commandButton value="Cancel" icon="pi pi-times"
+							onclick="PF('#{payablesaccControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" showEffect="fade"
+					width="300" message="Delete the Tradign Type?" header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" icon="pi pi-check"
+						actionListener="#{payablesaccControllerBean.delete}"
+						process="@this" oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					responsive="true" width="350">
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-flat" />
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" />
+				</p:confirmDialog>
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

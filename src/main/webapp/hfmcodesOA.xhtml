@@ -5,23 +5,194 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
-	
-	<ui:define name="header">
-		<h1><h:outputText value="${menuController.hfmCodesOAText}"/></h1>
+
+	<ui:define name="title">
+		<title>${setacchfmcodesControllerBean.title}</title>
 	</ui:define>
+
+	<ui:define name="header">
+		<h1>${setacchfmcodesControllerBean.title}</h1>
+	</ui:define>a
+
 	<ui:define name="content">
-		<h1>${menuController.hfmCodesOAText}</h1>
-		<p:card>
-			<h2>${menuController.hfmCodesOAText}</h2>
-			<div class="content">
-				<h:outputText value="${menuController.hfmCodesOAText}"/>
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{setacchfmcodesControllerBean.openNew}"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{setacchfmcodesControllerBean.dialogName}').show()"
+							styleClass="ui-button-success" style="margin-right: 0.3em">
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+						<p:commandButton
+							value="#{setacchfmcodesControllerBean.deleteButtonMessage}"
+							id="#{setacchfmcodesControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{setacchfmcodesControllerBean.deleteSelected}"
+							styleClass="ui-button-danger" style="margin-left: 0.3em"
+							disabled="#{!setacchfmcodesControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{setacchfmcodesControllerBean.dataTableName}"
+								fileName="${setacchfmcodesControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="#{setacchfmcodesControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentid"
+					value="#{setacchfmcodesControllerBean.lstAcc}" reflow="true"
+					styleClass="products-table"
+					selection="#{setacchfmcodesControllerBean.lstSelectdAcc}"
+					rowKey="#{currentid.id.accountid}" 
+					paginator="true" 
+					rows="15"
+					rowSelectMode="add" 
+					size="small"  stickyHeader="true" stripedRows="true" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${setacchfmcodesControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":form:#{setacchfmcodesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{setacchfmcodesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{setacchfmcodesControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{setacchfmcodesControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{setacchfmcodesControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Cost Center" sortBy="#{currentid.id.costcenter}" filterBy="#{currentid.id.costcenter}">
+						<h:outputText value="#{currentid.id.costcenter}" />
+					</p:column>
+
+					<p:column headerText="Account Id"  sortBy="#{currentid.id.accountid}" filterBy="#{currentid.id.accountid}">
+						<h:outputText value="#{currentid.id.accountid}" />
+					</p:column>
+
+					<p:column headerText="HFM Code"  sortBy="#{currentid.hfmcode}" filterBy="#{currentid.id.hfmcode}">
+						<h:outputText value="#{currentid.id.hfmcode}" />
+					</p:column>
+
+					<p:column headerText="ICP Code"  sortBy="#{currentid.accountid}" filterBy="#{currentid.icpcode}">
+						<h:outputText value="#{currentid.icpcode}" />
+					</p:column>
+					
+					
+					
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{setacchfmcodesControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" 
+							process="@this">
+							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.currentAcc}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" 
+							process="@this" 
+							style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentid}" target="#{setacchfmcodesControllerBean.currentAcc}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Accounts Details" showEffect="fade" modal="true"
+					widgetVar="#{setacchfmcodesControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty setacchfmcodesControllerBean.currentAcc}">
+							<div class="p-field">
+								<p:outputLabel for="maccount">Cost Center</p:outputLabel>
+								<p:inputText id="maccount" value="#{setacchfmcodesControllerBean.currentAcc.id.costcenter}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="chaccount">Account Id</p:outputLabel>
+								<p:inputText id="chaccount" value="#{setacchfmcodesControllerBean.currentAcc.id.accountid}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="hfmcode">HFM Code</p:outputLabel>
+								<p:inputText id="hfmcode"
+									value="#{setacchfmcodesControllerBean.currentAcc.id.hfmcode}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="icpcode">ICP Code</p:outputLabel>
+								<p:inputText id="icpcode"
+									value="#{setacchfmcodesControllerBean.currentAcc.icpcode}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="areaid">Area Code</p:outputLabel>
+								<p:inputText id="areaid"
+									value="#{setacchfmcodesControllerBean.currentAcc.areaid}"
+									required="true" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" 
+							id="btnSave"
+							icon="pi pi-check"
+							actionListener="#{setacchfmcodesControllerBean.save}"
+							update="manage-code-content" 
+							process="manage-code-content @this" />
+						<p:commandButton value="Cancel" 
+							id="btnCancel"
+							icon="pi pi-times"
+							onclick="PF('#{setacchfmcodesControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{setacchfmcodesControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
 			</div>
-		</p:card>
-		<p:separator/>
-		<p:card>			
-			<h2>${menuController.dataSourceVsCompany}</h2>
-			<div class="content">This is content one</div>
-		</p:card>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -1,22 +1,196 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>HFMCodes</title>
-</h:head>
-<h:body>
-	<ui:composition template="/template/layout.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/template/layout.xhtml">
 
-		<ui:define name="content">
-			<h2>This is Match Account content</h2>
-		</ui:define>
+	<ui:define name="title">
+		<title>${matchaccountsControllerBean.title}</title>
+	</ui:define>
 
+	<ui:define name="header">
+		<h1>${matchaccountsControllerBean.title}</h1>
+	</ui:define>
 
-	</ui:composition>
-</h:body>
-</html>
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{matchaccountsControllerBean.openNew}"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{matchaccountsControllerBean.dialogName}').show()"
+							styleClass="ui-button-success" style="margin-right: 0.3em">
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+						<p:commandButton
+							value="#{matchaccountsControllerBean.deleteButtonMessage}"
+							id="#{matchaccountsControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{matchaccountsControllerBean.deleteSelected}"
+							styleClass="ui-button-danger" style="margin-left: 0.3em"
+							disabled="#{!matchaccountsControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{matchaccountsControllerBean.dataTableName}"
+								fileName="${matchaccountsControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="#{matchaccountsControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentid"
+					value="#{matchaccountsControllerBean.lstMatchAcc}" reflow="true"
+					styleClass="products-table"
+					selection="#{matchaccountsControllerBean.lstSlctedMAccounts}"
+					rowKey="#{currentid.id.hfmparent}" 
+					paginator="true" 
+					rows="20" stickyHeader="true" stripedRows="true" 
+					rowSelectMode="add" 
+					size="small" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${matchaccountsControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":form:#{matchaccountsControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{matchaccountsControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{matchaccountsControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{matchaccountsControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{matchaccountsControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Master Account" sortBy="#{currentid.id.hfmparent}" filterBy="#{currentid.id.hfmparent}">
+						<h:outputText value="#{currentid.id.hfmparent}" />
+					</p:column>
+
+					<p:column headerText="Child Account"  sortBy="#{currentid.id.hfmchild}" filterBy="#{currentid.id.hfmchild}">
+						<h:outputText value="#{currentid.id.hfmchild}" />
+					</p:column>
+
+					<p:column headerText="Sign"  sortBy="#{currentid.sign}" filterBy="#{currentid.sign}">
+						<h:outputText value="#{currentid.sign}" />
+					</p:column>
+
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{matchaccountsControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" 
+							process="@this">
+							<f:setPropertyActionListener value="#{currentid}" target="#{matchaccountsControllerBean.currmatch}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" 
+							process="@this" 
+							style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentid}" target="#{matchaccountsControllerBean.currmatch}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Accounts Details" showEffect="fade" modal="true"
+					widgetVar="#{matchaccountsControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty matchaccountsControllerBean.currmatch}">
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="maccount" value="Master Account" />
+								<p:selectOneMenu id="maccount"
+									value="#{matchaccountsControllerBean.currmatch.id.hfmparent}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
+										var="itemm" 
+										itemLabel="#{itemm.hfmcode}"
+										itemValue="#{itemm.hfmcode}" />										
+								</p:selectOneMenu>
+							</div>	
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="chaccount" value="Child Account" />
+								<p:selectOneMenu id="chaccount"
+									value="#{matchaccountsControllerBean.currmatch.id.hfmchild}"  filter="true" filterMatchMode="startsWith">
+									<f:selectItem itemLabel="Select One" itemValue="" />
+									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
+										var="itemc" 
+										itemLabel="#{itemc.hfmcode}"
+										itemValue="#{itemc.hfmcode}" />										
+								</p:selectOneMenu>
+							</div>
+							<div class="p-field p-col-12 p-md-4">
+								<p:outputLabel for="sign" value="Sign" />
+								<p:selectOneMenu id="sign"
+									value="#{matchaccountsControllerBean.currmatch.sign}">
+									<f:selectItem itemLabel="+" itemValue="+" />
+									<f:selectItem itemLabel="-" itemValue="-" />
+								</p:selectOneMenu>
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" 
+							id="btnSave"
+							icon="pi pi-check"
+							actionListener="#{matchaccountsControllerBean.save}"
+							update="manage-code-content" 
+							process="manage-code-content @this" />
+						<p:commandButton value="Cancel" 
+							id="btnCancel"
+							icon="pi pi-times"
+							onclick="PF('#{matchaccountsControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{matchaccountsControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

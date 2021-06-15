@@ -19,13 +19,13 @@ public class HfmLayoutPK implements Serializable {
 
 	private String account;
 
-	private Long companyid;
+	private int companyid;
 
 	private String icp;
 
 	private String period;
 
-	private String secenary;
+	private String scenario;
 
 	private String value;
 
@@ -44,8 +44,8 @@ public class HfmLayoutPK implements Serializable {
 	public HfmLayoutPK() {
 	}
 
-	public HfmLayoutPK(String account, Long companyid, String cust1, String cust2, String cust3, String cust4,
-			String icp, String period, String secenary, String value, String zview, String zyear) {
+	public HfmLayoutPK(String account, int companyid, String cust1, String cust2, String cust3, String cust4,
+			String icp, String period, String scenario, String value, String zview, String zyear) {
 		this.account = account;
 		this.companyid = companyid;
 		this.cust1 = cust1;
@@ -54,7 +54,7 @@ public class HfmLayoutPK implements Serializable {
 		this.cust4 = cust4;
 		this.icp = icp;
 		this.period = period;
-		this.secenary = secenary;
+		this.scenario = scenario;
 		this.value = value;
 		this.zview = zview;
 		this.zyear = zyear;
@@ -68,11 +68,11 @@ public class HfmLayoutPK implements Serializable {
 		this.account = account;
 	}
 
-	public Long getCompanyid() {
+	public int getCompanyid() {
 		return this.companyid;
 	}
 
-	public void setCompanyid(Long companyid) {
+	public void setCompanyid(int companyid) {
 		this.companyid = companyid;
 	}
 
@@ -124,12 +124,12 @@ public class HfmLayoutPK implements Serializable {
 		this.period = period;
 	}
 
-	public String getSecenary() {
-		return this.secenary;
+	public String getscenario() {
+		return this.scenario;
 	}
 
-	public void setSecenary(String secenary) {
-		this.secenary = secenary;
+	public void setscenario(String scenario) {
+		this.scenario = scenario;
 	}
 
 	public String getValue() {
@@ -158,7 +158,7 @@ public class HfmLayoutPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(account, companyid, cust1, cust2, cust3, cust4, icp, period, secenary, value, zview, zyear);
+		return Objects.hash(account, companyid, cust1, cust2, cust3, cust4, icp, period, scenario, value, zview, zyear);
 	}
 
 	@Override
@@ -174,15 +174,15 @@ public class HfmLayoutPK implements Serializable {
 				&& Objects.equals(cust1, other.cust1) && Objects.equals(cust2, other.cust2)
 				&& Objects.equals(cust3, other.cust3) && Objects.equals(cust4, other.cust4)
 				&& Objects.equals(icp, other.icp) && Objects.equals(period, other.period)
-				&& Objects.equals(secenary, other.secenary) && Objects.equals(value, other.value)
+				&& Objects.equals(scenario, other.scenario) && Objects.equals(value, other.value)
 				&& Objects.equals(zview, other.zview) && Objects.equals(zyear, other.zyear);
 	}
 
 	@Override
 	public String toString() {
 		return "HfmLayoutPK [account=" + account + ", companyid=" + companyid + ", cust1=" + cust1 + ", cust2=" + cust2
-				+ ", cust3=" + cust3 + ", cust4=" + cust4 + ", icp=" + icp + ", period=" + period + ", secenary="
-				+ secenary + ", value=" + value + ", zview=" + zview + ", zyear=" + zyear + "]";
+				+ ", cust3=" + cust3 + ", cust4=" + cust4 + ", icp=" + icp + ", period=" + period + ", scenario="
+				+ scenario + ", value=" + value + ", zview=" + zview + ", zyear=" + zyear + "]";
 	}
 
 }

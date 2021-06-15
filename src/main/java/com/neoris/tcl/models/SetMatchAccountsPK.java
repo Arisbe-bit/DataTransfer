@@ -17,37 +17,37 @@ public class SetMatchAccountsPK implements Serializable {
 	 */
 	private static final long serialVersionUID = -5157908045428807574L;
 
-	private String hmfchild;
+	private String hfmchild;
 
-	private String hmfparent;
+	private String hfmparent;
 
 	public SetMatchAccountsPK() {
 	}
 
-	public SetMatchAccountsPK(String hmfchild, String hmfparent) {
-		this.hmfchild = hmfchild;
-		this.hmfparent = hmfparent;
+	public SetMatchAccountsPK(String hfmchild, String hfmparent) {
+		this.hfmchild = hfmchild;
+		this.hfmparent = hfmparent;
 	}
 
-	public String getHmfchild() {
-		return this.hmfchild;
+	public String gethfmchild() {
+		return this.hfmchild;
 	}
 
-	public void setHmfchild(String hmfchild) {
-		this.hmfchild = hmfchild;
+	public void sethfmchild(String hfmchild) {
+		this.hfmchild = hfmchild;
 	}
 
-	public String getHmfparent() {
-		return this.hmfparent;
+	public String gethfmparent() {
+		return this.hfmparent;
 	}
 
-	public void setHmfparent(String hmfparent) {
-		this.hmfparent = hmfparent;
+	public void sethfmparent(String hfmparent) {
+		this.hfmparent = hfmparent;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(hmfchild, hmfparent);
+		return Objects.hash(hfmchild, hfmparent);
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public class SetMatchAccountsPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetMatchAccountsPK other = (SetMatchAccountsPK) obj;
-		return Objects.equals(hmfchild, other.hmfchild) && Objects.equals(hmfparent, other.hmfparent);
+		return Objects.equals(hfmchild, other.hfmchild) && Objects.equals(hfmparent, other.hfmparent);
 	}
 
 	@Override
 	public String toString() {
-		return "SetMatchAccountsPK [hmfchild=" + hmfchild + ", hmfparent=" + hmfparent + "]";
+		return "SetMatchAccountsPK [hfmchild=" + hfmchild + ", hfmparent=" + hfmparent + "]";
 	}
 
 }

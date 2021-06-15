@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.neoris.tcl.dao.ISetHfmCodesDao;
 import com.neoris.tcl.models.SetHfmCodes;
 
+
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetHfmCodesService implements ISetHfmCodesService {
@@ -47,5 +48,13 @@ public class SetHfmCodesService implements ISetHfmCodesService {
 	public void deleteAll(List<SetHfmCodes> entityList) {
 		data.deleteAll(entityList);		
 	}
+
+	@Override
+	public List<SetHfmCodes> findByTptype(String tptype) {
+		return (List<SetHfmCodes>) data.findByTptype(tptype);
+	}
+
+	
+	
 
 }

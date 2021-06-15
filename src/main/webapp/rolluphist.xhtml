@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    template="/template/layout.xhtml">
+    <ui:define name="css">
+<style type="text/css">
+.ui-datatable-tablewrapper {
+	font-size: small;
+	font-family: system-ui;
+}
+
+.rollup-text-align-center {
+	text-align: center;
+}
+
+.ui-panelgrid-content {
+	align-items: center;
+}
+
+.rollup-text-align-left {
+	text-align: left;
+}
+
+.rollup-text-align-right {
+	text-align: right;
+}
+
+.rollups-table-header {
+	font-weight: bold;
+	align-items: center;
+}
+
+.negative {
+	color: red;
+}
+
+.div-75 {
+	float: left;
+	width: 70%;
+	padding: 3px;
+}
+.div-25 {
+	float: left;
+	width: 30%;
+	padding: 3px;
+}
+.colorrownm{
+	 background-color: #C0C0C0 !important;
+        background-image: none !important;
+        color: #ffffff !important;
+        font-weight: bold;
+}
+.ui-datatable-even{
+	background: #6ab2eo;
+	color: #FFFFFF
+}
+.ui-datatable-odd{
+	background-color: #6ab2eo;
+}
+
+#rollupForm\:tabViewRollUps\:tabHHFF {
+	overflow: hidden;
+}
+
+.hfmffss-table-main {
+	width: 75%;
+}
+.hfmffss-table-details {
+	width: 25%;
+	vertical-align: top;	
+}
+.rollup-process-status {
+	background-color: #D3D3D3; 
+	white-space: normal !important; 
+	width: 100px;
+}
+ </style>
+    </ui:define>
+    <ui:define name="js">
+        <script>
+		function year_onblur(e) {
+		    var message = '';
+		    if (isNaN(e.value)) {
+		        message = 'The year must be a number';
+		    } else {
+		        if (!(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950)) {
+		            message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
+		        }
+		    }
+		    if (message !== '') {
+		        $("#dialogMsgId").get(0).innerText = message;
+		        PF('dlgMessage').show();
+		        e.focus();
+		    }
+		}
+        </script>
+    </ui:define>
+    <ui:define name="title">
+        <title>${rollupControllerBean.title}</title>
+    </ui:define>
+    <ui:define name="header">
+        <h1>
+            <i class="fa fa-cogs fa-lg"></i>
+            <h:outputText value="${rollupControllerBean.title}" />
+        </h1>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="rollupForm">
+        	<p:log id="log" rendered="false"/>
+        	<p:growl id="messages" showDetail="true" />
+        	<h:messages globalOnly="true" id="globalMsgId" />
+   
+        	<div class="card" id="breadcrumMenuID">
+        		<p:breadCrumb id="beadcrumbID">
+        			<p:menuitem value="Home" action="/index"/>
+		            <p:menuitem value="RollUps" action="/rolluphist/rollupshist"/>
+		            <p:menuitem value="FFSS" action="/rolluphist/ffsshist"/>
+		            <p:menuitem value="Sumary" action="/rolluphist/sumaryhist"/>
+		            <p:menuitem value="Movements" action="/rolluphist/movementshist"/>
+		            <p:menuitem value="Layouts" action="/rolluphist/layouthist"/>
+        		</p:breadCrumb>
+        	</div>
+            <div class="card" style="overflow: hidden" id="rollupcardId">
+
+				<ui:insert name="rollupContent">
+					<h:outputText value=" RollUp Content!" />
+				</ui:insert>		
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                </p:confirmDialog>
+            </div>
+            <p:dialog header="Information" widgetVar="dlgMessage" id="dlgMessageId" minHeight="40" minWidth="350" showEffect="fade" modal="true" closable="true">
+                <p class="p-m-0" id="dialogMsgId"></p>
+                <f:facet name="footer">
+                    <p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

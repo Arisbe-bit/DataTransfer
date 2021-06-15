@@ -12,6 +12,7 @@ import com.neoris.tcl.dao.ISetAccHfmPartnersCodesDao;
 import com.neoris.tcl.models.SetAccHfmPartnersCodes;
 import com.neoris.tcl.models.SetAccHfmPartnersCodesPK;
 
+
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
 public class SetAccHfmPartnersCodesService implements ISetAccHfmPartnersCodesService {
@@ -43,5 +44,11 @@ public class SetAccHfmPartnersCodesService implements ISetAccHfmPartnersCodesSer
 	public void delete(SetAccHfmPartnersCodes entity) {
 		data.delete(entity);
 	}
+	
+	@Override
+	public void deleteAll(List<SetAccHfmPartnersCodes> entityList) {
+		data.deleteAll(entityList);		
+	}
+
 
 }

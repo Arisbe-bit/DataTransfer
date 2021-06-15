@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+
+    <ui:define name="title">
+        <title>
+            <h:outputText value="#{setdefaccountsControllerBean.title}" />
+        </title>
+    </ui:define>
+
+    <ui:define name="header">
+        <h1>
+            <h:outputText value="#{setdefaccountsControllerBean.title}" />
+        </h1>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+                <p:growl id="messages" showDetail="true" />
+
+                <div class="products-buttonbar">
+                    <div>
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton value="New" icon="pi pi-plus" oncomplete="PF('manageCodeDialog').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+                                    <f:ajax event="click" execute="@this" listener="#{setdefaccountsControllerBean.openNew}" render=":form:manage-code-content"/>
+                                    <p:resetInput target=":form:manage-code-content" />
+                                </p:commandButton>
+                                <p:commandButton value="#{setdefaccountsControllerBean.deleteButtonMessage}" id="#{setdefaccountsControllerBean.deleteCodesButton}" icon="pi pi-trash" actionListener="#{setdefaccountsControllerBean.deleteSelected}" styleClass="ui-button-danger" disabled="#{!setdefaccountsControllerBean.hasSelectedCodes()}" update="@this :form:dt-defined-account" style="margin-right: 0.3em">
+                                    <p:confirm header="Confirmation" message="Delete the selected codes Types?" icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                                <p:outputLabel value="&#160;&#160;Company:&#160;" for="@next"/>
+                                <p:selectOneMenu id="cbxEntity" value="#{setdefaccountsControllerBean.lcompanyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstcompany}" var="itemco" itemLabel="#{itemco.entity}" itemValue="#{itemco.companyid}" />
+                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChangeorcl}" render=":form:dt-defined-account" execute="@this"/>
+                                </p:selectOneMenu>
+                            </p:toolbarGroup>
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                                    <p:dataExporter type="xls" target="dt-defined-account" fileName="${setdefaccountsControllerBean.title}" />
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </div>
+                </div>
+
+                <p:dataTable id="dt-defined-account" widgetVar="dtCodes" var="current" value="#{setdefaccountsControllerBean.lsttpAccs}" reflow="true" styleClass="products-table" selection="#{setdefaccountsControllerBean.lstSelectdAccs}" rowKey="#{current.hashCode()}" paginator="true" rows="10" stripedRows="true" rowSelectMode="add" size="small" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <h:outputText value="${setdefaccountsControllerBean.title}" style="font-weight: bold"/>
+                    </f:facet>
+                    <p:ajax event="rowSelect" update=":form:#{setdefaccountsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselect" update=":form:#{setdefaccountsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:#{setdefaccountsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:#{setdefaccountsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="toggleSelect" update=":form:#{setdefaccountsControllerBean.deleteCodesButton}" />
+
+                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="5%">
+                    </p:column>
+
+                    <p:column headerText="Cost Center" sortBy="#{current.id.costcenter}" filterBy="#{current.id.costcenter}">
+                        <h:outputText value="#{current.id.costcenter}" />
+                    </p:column>
+
+                    <p:column headerText="Initial Orcl Account" sortBy="#{current.id.accountid}" filterBy="#{current.id.accountid}">
+                        <h:outputText value="#{current.id.accountid}" />
+                    </p:column>
+                    <p:column headerText="Final Orcl Account" sortBy="#{current.id.accountidfin}" filterBy="#{current.id.accountidfin}">
+                        <h:outputText value="#{current.id.accountidfin}" />
+                    </p:column>
+                    <p:column headerText="ICP Code" sortBy="#{current.icpcode}" filterBy="#{current.icpcode}">
+                        <h:outputText value="#{current.icpcode}" />
+                    </p:column>
+
+                    <p:column headerText="Source" sortBy="#{current.id.source}" filterBy="#{current.id.source}">
+                        <h:outputText value="#{current.id.source}" />
+                    </p:column>
+                    <p:column headerText="Period (A=All period C=Current Year)" sortBy="#{current.cperiod}" filterBy="#{current.cperiod}">
+                        <h:outputText value="#{current.cperiod}" />
+                    </p:column>
+                    <p:column headerText="Actions" exportable="false" width="10%">
+                        <p:commandButton styleClass="edit-button rounded-button ui-button-success" icon="pi pi-pencil" oncomplete="PF('manageCodeDialog').show()" update=":form:manage-code-content :form:messages" style="margin-right: 0.2em" process="@this">
+                            <f:setPropertyActionListener value="#{current}" target="#{setdefaccountsControllerBean.curtpAccs}" />
+                            <p:resetInput target=":form:manage-code-content"/>
+                        </p:commandButton>
+                        <p:commandButton styleClass="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" actionListener="#{setdefaccountsControllerBean.delete(current)}" update=":form:dt-defined-account :form:messages" style="margin-right: 0.2em">
+                            <p:confirm header="Confirmation" message="Do you want to delete this record?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+                <!-- This form is for add new o modify a trading partner type -->
+
+                <p:dialog header="Accounting Accounts Details" width="450" showEffect="fade" modal="true" widgetVar="manageCodeDialog" responsive="true">
+                    <p:outputPanel id="manage-code-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty setdefaccountsControllerBean.curtpAccs}">
+                            <div class="p-field">
+                                <p:outputLabel for="companyid" value="Company" />
+                                <p:selectOneMenu id="companyid" value="#{setdefaccountsControllerBean.curtpAccs.id.companyid}" filter="true" filterMatchMode="startsWith" disabled="true">
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
+                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChange}" execute="@this" render=":form:accountid"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="cperiod" value="Period" />
+                                <p:selectOneMenu id="cperiod" value="#{setdefaccountsControllerBean.curtpAccs.cperiod}">
+                                    <f:selectItem itemLabel="All Periods" itemValue="A" />
+                                    <f:selectItem itemLabel="Current Year" itemValue="C" />
+                                </p:selectOneMenu>
+                            </div>
+
+                            <div class="p-field">
+                                <p:outputLabel for="source" value="Source"></p:outputLabel>
+                                <p:selectOneMenu id="source" value="#{setdefaccountsControllerBean.curtpAccs.id.source}">
+                                    <f:selectItem itemLabel="Trial Balance" itemValue="Trial Balance" />
+                                    <f:selectItem itemLabel="Payables" itemValue="Payables" />
+                                    <f:selectItem itemLabel="Receivables" itemValue="Receivables" />
+                                    <f:selectItem itemLabel="Payroll" itemValue="Payroll" />
+                                    <f:selectItem itemLabel="Assets" itemValue="Assets" />
+                                    <f:selectItem itemLabel="Cost Manager" itemValue="COSTMANAGER" />
+                                    <f:selectItem itemLabel="Others" itemValue="Others" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="@next" value="Cost Center" />
+                                <p:selectOneMenu id="costcenter" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.costcenter}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstCC}" var="costc" itemLabel="#{costc.costcenter}" itemValue="#{costc.costcenter}" />
+                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.costcenterChange}" execute="@this" render=":form:accountid form:accountidf"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="@next" value="Initial Account ID" />
+                                <p:selectOneMenu id="accountid" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.accountid}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Initial Account is requiered">
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
+                                </p:selectOneMenu>
+                                <p:message for="@previous"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="accountidf" value="Final Account ID" />
+                                <p:selectOneMenu id="accountidf" editable="true" value="#{setdefaccountsControllerBean.curtpAccs.id.accountidfin}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Final Account is requiered">
+                                    <f:selectItems value="#{setdefaccountsControllerBean.lstOrcl}" var="accidf" itemLabel="#{accidf.oracleacct}" itemValue="#{accidf.oracleacct}" />
+                                </p:selectOneMenu>
+                                <p:message for="@previous"/>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="icp" value="ICP Code" />
+                                <p:selectOneMenu id="icp" value="#{setdefaccountsControllerBean.curtpAccs.icpcode}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{tradingpartnerControllerBean.lstTP}" var="code" itemLabel="#{code.icpcode}" itemValue="#{code.icpcode}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{setdefaccountsControllerBean.save}" update=":form:dt-defined-account" process=":form:manage-code-content" validateClient="true"/>
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageCodeDialog').hide()" class="ui-button-secondary" />
+                    </f:facet>
+                </p:dialog>
+
+                <!-- Global confirmation dialog -->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350" id="globalDlgConfirmID" widgetVar="wvConfirmDialog">
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

@@ -6,4 +6,176 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	template="/template/layout.xhtml">
 
+	<ui:define name="title">
+		<title>${setreclassifaccControllerBean.title}</title>
+	</ui:define>
+
+	<ui:define name="header">
+		<h1>${setreclassifaccControllerBean.title}</h1>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="form">
+			<div class="card">
+				<p:growl id="messages" showDetail="true" />
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{setreclassifaccControllerBean.openNew}"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{setreclassifaccControllerBean.dialogName}').show()"
+							styleClass="ui-button-success" style="margin-right: 0.3em">
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+						<p:commandButton
+							value="#{setreclassifaccControllerBean.deleteButtonMessage}"
+							id="#{setreclassifaccControllerBean.deleteCodesButton}"
+							icon="pi pi-trash"
+							actionListener="#{setreclassifaccControllerBean.deleteSelected}"
+							styleClass="ui-button-danger" style="margin-left: 0.3em"
+							disabled="#{!setreclassifaccControllerBean.hasSelectedCodes()}"
+							update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected codes?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+					<p:toolbarGroup align="right">
+						<p:commandButton value="Export" icon="pi pi-upload"
+							styleClass="ui-button-help" ajax="false">
+							<p:dataExporter type="xls"
+								target="#{setreclassifaccControllerBean.dataTableName}"
+								fileName="${setreclassifaccControllerBean.title}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="#{setreclassifaccControllerBean.dataTableName}"
+					widgetVar="dtCodes" 
+					var="currentid"
+					value="#{setreclassifaccControllerBean.lstref}" reflow="true"
+					styleClass="products-table"
+					selection="#{setreclassifaccControllerBean.lstSlctdref}"
+					rowKey="#{currentid.id.originaccount}" 
+					paginator="true" 
+					rows="10"
+					rowSelectMode="add" 
+					size="small" 
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<span style="font-weight: bold">${setreclassifaccControllerBean.title}</span>
+					</f:facet>
+					<p:ajax event="rowSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowSelectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="rowUnselectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+					<p:ajax event="toggleSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+
+					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+					</p:column>
+
+					<p:column headerText="Origin Cost Center"  sortBy="#{currentid.origincc}" filterBy="#{currentid.origincc}">
+						<h:outputText value="#{currentid.origincc}" />
+					</p:column>
+					<p:column headerText="Origin Account" sortBy="#{currentid.id.originaccount}" filterBy="#{currentid.id.originaccount}">
+						<h:outputText value="#{currentid.id.originaccount}" />
+					</p:column>
+
+					<p:column headerText="Destination Account"  sortBy="#{currentid.id.destaccount}" filterBy="#{currentid.id.destaccount}">
+						<h:outputText value="#{currentid.id.destaccount}" />
+					</p:column>
+
+					
+					<p:column headerText="Actions" exportable="false" width="10%">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-code-content"
+							oncomplete="PF('#{setreclassifaccControllerBean.dialogName}').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							style="margin-right: 0.3em" 
+							process="@this">
+							<f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
+							<p:resetInput target=":form:manage-code-content" />
+						</p:commandButton>
+
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" 
+							process="@this" 
+							style="margin-left: 0.3em"
+							oncomplete="PF('deleteCodeDialog').show()">
+							<f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<!-- This form is for add new o modify a code -->
+
+				<p:dialog header="Product Details" showEffect="fade" modal="true"
+					widgetVar="#{setreclassifaccControllerBean.dialogName}"
+					responsive="true">
+					<p:outputPanel id="manage-code-content" class="ui-fluid">
+						<p:outputPanel
+							rendered="#{not empty setreclassifaccControllerBean.curracc}">
+							<div class="p-field">
+								<p:outputLabel for="origincc">origincc</p:outputLabel>
+								<p:inputText id="origincc"
+									value="#{setreclassifaccControllerBean.curracc.origincc}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="maccount">Origin Account</p:outputLabel>
+								<p:inputText id="maccount" value="#{setreclassifaccControllerBean.curracc.id.originaccount}" required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="chaccount">Destination Account</p:outputLabel>
+								<p:inputText id="chaccount" value="#{setreclassifaccControllerBean.curracc.id.destaccount}" required="true" />
+							</div>
+							
+						</p:outputPanel>
+					</p:outputPanel>
+					<f:facet name="footer">
+						<p:commandButton value="Save" 
+							id="btnSave"
+							icon="pi pi-check"
+							actionListener="#{setreclassifaccControllerBean.save}"
+							update="manage-code-content" 
+							process="manage-code-content @this" />
+						<p:commandButton value="Cancel" 
+							id="btnCancel"
+							icon="pi pi-times"
+							onclick="PF('#{setreclassifaccControllerBean.dialogName}').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<!-- end form -->
+
+				<p:confirmDialog widgetVar="deleteCodeDialog" 
+					showEffect="fade"
+					width="300" 
+					message="Delete the code?" 
+					header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" 
+						id="btnDeleteYes"
+						icon="pi pi-check"
+						actionListener="#{setreclassifaccControllerBean.delete}"
+						process="@this" 
+						oncomplete="PF('deleteCodeDialog').hide()" />
+					<p:commandButton value="No" 
+						id="btnDeleteNo"
+						type="button"
+						styleClass="ui-button-secondary" 
+						icon="pi pi-times"
+						onclick="PF('deleteCodeDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
+	</ui:define>
+
 </ui:composition>

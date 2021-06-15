@@ -20,13 +20,16 @@ public class SetAccHfmPartnersCodesPK implements Serializable {
 	private String accountid;
 
 	private String hfmcode;
+	
+	private String costcenter;
 
 	public SetAccHfmPartnersCodesPK() {
 	}
 
-	public SetAccHfmPartnersCodesPK(String accountid, String hfmcode) {
+	public SetAccHfmPartnersCodesPK(String accountid, String hfmcode, String costcenter) {
 		this.accountid = accountid;
 		this.hfmcode = hfmcode;
+		this.costcenter = costcenter;
 	}
 
 	public String getAccountid() {
@@ -47,7 +50,15 @@ public class SetAccHfmPartnersCodesPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountid, hfmcode);
+		return Objects.hash(accountid, hfmcode, costcenter);
+	}
+
+	public String getCostcenter() {
+		return costcenter;
+	}
+
+	public void setCostcenter(String costcenter) {
+		this.costcenter = costcenter;
 	}
 
 	@Override
@@ -59,12 +70,17 @@ public class SetAccHfmPartnersCodesPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetAccHfmPartnersCodesPK other = (SetAccHfmPartnersCodesPK) obj;
-		return Objects.equals(accountid, other.accountid) && Objects.equals(hfmcode, other.hfmcode);
+		return Objects.equals(accountid, other.accountid) && Objects.equals(hfmcode, other.hfmcode)  
+				&& Objects.equals(costcenter, other.costcenter);
 	}
 
 	@Override
 	public String toString() {
-		return "SetAccHfmPartnersCodesPK [accountid=" + accountid + ", hfmcode=" + hfmcode + "]";
+		return "SetAccHfmPartnersCodesPK [accountid=" + accountid + ", hfmcode=" + hfmcode + ", costcenter="
+				+ costcenter + "]";
 	}
+
+	
+	
 
 }

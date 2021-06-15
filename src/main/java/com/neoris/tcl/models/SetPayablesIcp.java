@@ -14,55 +14,56 @@ import javax.persistence.Table;
 @Table(name = "set_payables_icp")
 public class SetPayablesIcp implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1316855062351354754L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1316855062351354754L;
 
-	@EmbeddedId
-	private SetPayablesIcpPK id;
+    @EmbeddedId
+    private SetPayablesIcpPK id;
+    private String icpcode;
+    private String userid;
+   // private String modified;
 
-	private String hfmcode;
+    public SetPayablesIcp() {
+        this.setId(new SetPayablesIcpPK());
+    }
 
-	private String tpartnertype;
+    public SetPayablesIcp(SetPayablesIcpPK id, String userid) {
+        this.id = id;
+        this.userid = userid;
+        //this.modified = modified;
 
-	public SetPayablesIcp() {
-	    this.setId(new SetPayablesIcpPK());
-	}
+    }
 
-	public SetPayablesIcp(SetPayablesIcpPK id, String hfmcode, String tpartnertype) {
-		this.id = id;
-		this.hfmcode = hfmcode;
-		this.tpartnertype = tpartnertype;
-	}
+    public String getIcpcode() {
+        return icpcode;
+    }
 
-	public SetPayablesIcpPK getId() {
-		return this.id;
-	}
+    public void setIcpcode(String icpcode) {
+        this.icpcode = icpcode;
+    }
+    public SetPayablesIcpPK getId() {
+        return this.id;
+    }
 
-	public void setId(SetPayablesIcpPK id) {
-		this.id = id;
-	}
+    public void setId(SetPayablesIcpPK id) {
+        this.id = id;
+    }
 
-	public String getHfmcode() {
-		return this.hfmcode;
-	}
+    public String getUserid() {
+        return userid;
+    }
 
-	public void setHfmcode(String hfmcode) {
-		this.hfmcode = hfmcode;
-	}
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
-	public String getTpartnertype() {
-		return this.tpartnertype;
-	}
-
-	public void setTpartnertype(String tpartnertype) {
-		this.tpartnertype = tpartnertype;
-	}
-
-	@Override
-	public String toString() {
-		return "SetPayablesIcp [id=" + id + ", hfmcode=" + hfmcode + ", tpartnertype=" + tpartnertype + "]";
-	}
+   
+    @Override
+    public String toString() {
+        return String.format("SetPayablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid
+                );
+    }
 
 }

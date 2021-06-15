@@ -44,4 +44,20 @@ public class HfmFfssDetailsService implements IHfmFfssDetailsService {
 		data.delete(entity);
 	}
 
+    @Override
+    public void deleteAll(List<HfmFfssDetails> entityList) {
+        data.deleteAll(entityList);        
+    }
+
+	@Override
+	public List<HfmFfssDetails> findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(int companyId,
+			String Hfmcode, String costcenter, String accountid, String partnerid) {
+		
+		return data.findByIdCompanyidAndIdHfmcodeAndIdCostcenterAndIdAccountidAndIdPartnerid(companyId, Hfmcode, costcenter, accountid, partnerid);
+	}
+
+	
+
+	
+
 }

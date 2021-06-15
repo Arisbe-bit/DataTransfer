@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/rollup.xhtml">
+        <ui:define name="rollupContent">
+ 			
+            <p:dataTable id="dthfmlayout" widgetVar="dthfmlayoutWV" var="layout" value="#{rollupControllerBean.lstlayout}" 
+            rowKey="#{layout.companyid}" reflow="true" resizableColumns="true" 
+            tableStyle="width:auto" paginator="true" rows="20" stickyHeader="true" stripedRows="true" 
+            resizeMode="expand" paginatorPosition="bottom" >
+                <f:facet name="header">
+                 <p:toolbar id="toolbar-hfmlayput">
+	                <p:toolbarGroup>
+	                    <div class="layout-table-header">
+	                        <strong><h:outputText value="HFM Layout"/></strong>
+	                    </div>
+	                 </p:toolbarGroup>
+	                  
+	                <p:toolbarGroup>
+	                    <p:commandButton value="Export" id="btnExport" icon="fa fa-file-excel-o" styleClass="ui-button-help" title="Export to excel" disabled="#{empty rollupControllerBean.lstlayout}">
+	                        <p:dataExporter type="xls" target="rollupForm:dthfmlayout" fileName="LayputHFM"/>
+	                    </p:commandButton>
+	                </p:toolbarGroup>
+            </p:toolbar>
+                </f:facet>
+                <p:column headerText="Scenario" sortBy="#{layout.id.scenario}" filterBy="#{layout.id.scenario}">
+                    <h:outputText value="#{layout.id.scenario}"/>
+                </p:column>                
+                <p:column headerText="Year" sortBy="#{layout.id.zyear}" filterBy="#{layout.id.zyear}">
+                    <h:outputText value="#{layout.id.zyear}"/>
+                </p:column>
+                <p:column headerText="Period" sortBy="#{layout.id.period}" filterBy="#{layout.id.period}">
+                    <h:outputText value="#{layout.id.period}"/>
+                </p:column>
+                <p:column headerText="View" sortBy="#{layout.id.zview}" filterBy="#{layout.id.zview}">
+                    <h:outputText value="#{layout.id.zview}"/>
+                </p:column>
+                <p:column headerText="Value" sortBy="#{layout.id.value}" filterBy="#{layout.id.value}">
+                    <h:outputText value="#{layout.id.value}"/>
+                </p:column>
+                <p:column headerText="Entity" sortBy="#{layout.entity}" filterBy="#{layout.entity}">
+                    <h:outputText value="#{layout.entity}"/>
+                </p:column>
+                <p:column headerText="Account" sortBy="#{layout.id.account}" filterBy="#{layout.id.account}">
+                    <h:outputText value="#{layout.id.account}"/>
+                </p:column>
+                <p:column headerText="ICP" sortBy="#{layout.id.icp}" filterBy="#{layout.id.icp}">
+                    <h:outputText value="#{layout.id.icp}"/>
+                </p:column>
+                <p:column headerText="Custom1" sortBy="#{layout.id.cust1}" filterBy="#{layout.id.cust1}">
+                    <h:outputText value="#{layout.id.cust1}"/>
+                </p:column>
+                <p:column headerText="Custom2" sortBy="#{layout.id.cust2}" filterBy="#{layout.id.cust2}">
+                    <h:outputText value="#{layout.id.cust2}"/>
+                </p:column>
+                <p:column headerText="Custom3" sortBy="#{layout.id.cust3}" filterBy="#{layout.id.cust3}">
+                    <h:outputText value="#{layout.id.cust3}"/>
+                </p:column>
+                <p:column headerText="Custom4" sortBy="#{layout.id.cust4}" filterBy="#{layout.id.cust4}">
+                    <h:outputText value="#{layout.id.cust4}"/>
+                </p:column>
+                <p:column headerText="Data" sortBy="#{layout.data}" filterBy="#{layout.data}" styleClass="rollup-text-align-right">
+                    <h:outputText value="#{layout.data}">
+                    	<f:convertNumber pattern="###,###,###,###.##"/>
+                     </h:outputText>
+                </p:column>
+                <p:column headerText="User Id" sortBy="#{layout.userid}" filterBy="#{layout.userid}" exportable="false">
+                    <h:outputText value="#{layout.userid}"/>
+                </p:column>
+                <p:column headerText="Updated" sortBy="#{layout.updated}" filterBy="#{layout.updated}" exportable="false">
+                    <h:outputText value="#{layout.updated}"/>
+                </p:column>
+
+            </p:dataTable>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

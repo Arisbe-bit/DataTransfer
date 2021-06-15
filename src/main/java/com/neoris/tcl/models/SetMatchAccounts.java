@@ -23,15 +23,22 @@ public class SetMatchAccounts implements Serializable {
 	private SetMatchAccountsPK id;
 
 	private String sign;
+	private String userid;
 
 	public SetMatchAccounts() {
 	    this.setId(new SetMatchAccountsPK());
 	}
 
-	public SetMatchAccounts(SetMatchAccountsPK id, String sign) {
+	
+
+	public SetMatchAccounts(SetMatchAccountsPK id, String sign, String userid) {
+		
 		this.id = id;
 		this.sign = sign;
+		this.userid = userid;
 	}
+
+
 
 	public SetMatchAccountsPK getId() {
 		return this.id;
@@ -49,9 +56,23 @@ public class SetMatchAccounts implements Serializable {
 		this.sign = sign;
 	}
 
+	public String getUserid() {
+		return userid;
+	}
+
+
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "SetMatchAccounts [id=" + id + ", sign=" + sign + "]";
+		return "SetMatchAccounts [id=" + id + ", sign=" + sign + ", userid=" + userid + "]";
 	}
+
+
 
 }

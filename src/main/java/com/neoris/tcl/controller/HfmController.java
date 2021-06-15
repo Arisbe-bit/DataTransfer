@@ -11,9 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.SetHfmCodes;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.ISetHfmCodesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -30,11 +33,17 @@ public class HfmController {
     private List<SetHfmCodes> lstSelectdHfmcodes; 
     private SetHfmCodes hfmcode;
     private boolean isNewHfmcode;
-    
+    private Authentication authentication;
+	private User user;
+        
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstHfmcodes...");
         this.lstHfmcodes = service.findAll();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
     }
     
     public void openNew() {
@@ -43,6 +52,7 @@ public class HfmController {
     }
       
     public void save() {
+    	this.hfmcode.setUserid(user.getUsername());
         LOG.info("Entering to save hfmcode => {}", hfmcode);
         
         if(this.isNewHfmcode) {
@@ -132,13 +142,13 @@ public class HfmController {
     }
 
     public void setHfmcode(SetHfmCodes hfmcode) {
-        LOG.info("Recibo SetHfmCodes => {}", hfmcode);
+        LOG.info("Receive SetHfmCodes => {}", hfmcode);
         this.isNewHfmcode = false;
         this.hfmcode = hfmcode;
     }
 
     public String getTitle() {
-        return "HFM Codes Mantaince";
+        return "HFM Codes Maintenance";
     }
     
     public String getDialogName() {

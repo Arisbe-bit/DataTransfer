@@ -18,18 +18,14 @@ public class SetReceivablesIcpPK implements Serializable {
 	private static final long serialVersionUID = 6093789913297889768L;
 
 	private Long companyid;
-
 	private String custno;
-
-	private String icpcode;
 
 	public SetReceivablesIcpPK() {
 	}
 
-	public SetReceivablesIcpPK(Long companyid, String custno, String icpcode) {
+	public SetReceivablesIcpPK(Long companyid, String custno) {
 		this.companyid = companyid;
 		this.custno = custno;
-		this.icpcode = icpcode;
 	}
 
 	public Long getCompanyid() {
@@ -48,17 +44,9 @@ public class SetReceivablesIcpPK implements Serializable {
 		this.custno = custno;
 	}
 
-	public String getIcpcode() {
-		return this.icpcode;
-	}
-
-	public void setIcpcode(String icpcode) {
-		this.icpcode = icpcode;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyid, custno, icpcode);
+		return Objects.hash(companyid, custno);
 	}
 
 	@Override
@@ -70,13 +58,12 @@ public class SetReceivablesIcpPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetReceivablesIcpPK other = (SetReceivablesIcpPK) obj;
-		return Objects.equals(companyid, other.companyid) && Objects.equals(custno, other.custno)
-				&& Objects.equals(icpcode, other.icpcode);
+		return Objects.equals(companyid, other.companyid) && Objects.equals(custno, other.custno);
 	}
 
 	@Override
 	public String toString() {
-		return "SetReceivablesIcpPK [companyid=" + companyid + ", custno=" + custno + ", icpcode=" + icpcode + "]";
+		return "SetReceivablesIcpPK [companyid=" + companyid + ", custno=" + custno + "]";
 	}
 
 }

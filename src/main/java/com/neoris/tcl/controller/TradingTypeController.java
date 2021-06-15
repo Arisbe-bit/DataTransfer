@@ -11,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 
 import com.neoris.tcl.models.SetTradingPartnersTypes;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.ISetTradingPartnersTypesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -31,11 +34,17 @@ public class TradingTypeController {
 	private List<SetTradingPartnersTypes> lsttpType;
     private List<SetTradingPartnersTypes> lstSelectdtpType; 
     private SetTradingPartnersTypes curtptypes; // actual iterator
+    private Authentication authentication;
+	private User user;
     
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstTradingPartnerTypes...");
         this.lsttpType = service.findAll();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
     }
     
     public void openNew() {
@@ -43,6 +52,7 @@ public class TradingTypeController {
     }
       
     public void save() {
+    	 this.curtptypes.setUserid(user.getUsername());
         LOG.info("Entering to save Trading Partner Type => {}", this.curtptypes);
         this.curtptypes = service.save(curtptypes);
         this.lsttpType = service.findAll();
