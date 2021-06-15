@@ -1,6 +1,5 @@
 package com.neoris.tcl.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,6 @@ import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
-
 @Controller(value = "hfmaccentriesControllerBean")
 @Scope(ViewScope.VIEW)
 public class HfmAccEntriesController {
@@ -58,7 +56,7 @@ public class HfmAccEntriesController {
 	private ISetHfmCodesService serviceHfmcodes;
 	@Autowired
 	private ISetIcpcodesService serviceIcpCodes;
-	
+
 	private Optional<SetHfmCodes> lstHfmdesc;
 	private List<SetHfmCodes> lstHfmcodes;
 	private List<SetIcpcodes> lstIcpcodes;
@@ -66,7 +64,7 @@ public class HfmAccEntriesController {
 	private List<HfmRollupEntries> lstEntries;
 
 	private List<HfmAccEntries> lstaccent;
-	
+
 	private HfmAccEntries currentries;
 
 	private List<HfmFfss> lstHfmFfss;
@@ -75,19 +73,17 @@ public class HfmAccEntriesController {
 	private List<HfmPeriodFfss> lstperiod;
 	private HfmPeriodFfss curperiod;
 
-	// 
+	//
 	private HfmAccEntriesDet currentdet;
-	
 
 	private List<ViewCostCenter> lstCC;
 	@Autowired
 	private IViewCostCenterService servcc;
 	@Autowired
 	private ISetCurrecyCodeService servcur;
-	
+
 	private List<SetCurrecyCode> lstcurrencies;
-	
-	
+
 	private User user;
 
 	private int vcompanyid;
@@ -107,7 +103,7 @@ public class HfmAccEntriesController {
 			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
 			this.lstHfmcodes = serviceHfmcodes.findAll();
-			//this.lstIcpcodes = serviceIcpCodes.findAll();
+			this.lstIcpcodes = serviceIcpCodes.findAll();
 			// find the list of accent for first company...
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 
@@ -127,12 +123,15 @@ public class HfmAccEntriesController {
 		 * ));
 		 * 
 		 * LOG.info("Gettin lstaccent with company id = {}",
-		 * this.currentries.getCompanyid()); this.lstaccent =
-		 * service.findByCompanyid(this.currentries.getCompanyid()); }
+		 * this.currentries.getCompanyid()); }
 		 */
 
-		
 		LOG.info("[init] Initializing finish!");
+	}
+	
+	public void openNew(AjaxBehaviorEvent ev) {
+		LOG.info("[openNew] AjaxBehaviorEven  => {}", ev);
+		openNew();		
 	}
 
 	/**
@@ -140,13 +139,11 @@ public class HfmAccEntriesController {
 	 */
 	public void openNew() {
 		this.currentries = new HfmAccEntries();
-		this.currentries.setCompanyid(this.currentries.getCompanyid());
+		this.currentries.setCompanyid(this.vcompanyid);
 		this.currentries.setUserid(this.user.getUsername());
 		this.currentries.setApplied(0);
 		this.currentries.setStatus("UnPosting");
-
 		LOG.info("[openNew] manual currentries company  => {}", this.currentries.getCompanyid());
-
 	}
 
 	/**
@@ -164,7 +161,8 @@ public class HfmAccEntriesController {
 			Functions.addErrorMessage("[save] Error", "Error saving:" + e.getMessage());
 		}
 		PrimeFaces.current().executeScript("PF('entryDialogWV').hide()");
-		refreshUI();
+		PrimeFaces.current().ajax().update("form:messages");
+		//refreshUI();
 	}
 
 	/**
@@ -187,8 +185,8 @@ public class HfmAccEntriesController {
 			Functions.addErrorMessage("Error", "Error deleting:" + e.getMessage());
 			LOG.error("[delete] Exception deleting -> {}", e.getMessage());
 		}
-
-		refreshUI();
+		PrimeFaces.current().ajax().update("form:messages");
+		//refreshUI();
 	}
 
 	/**
@@ -263,8 +261,8 @@ public class HfmAccEntriesController {
 	}
 
 	public void setCurrentries(HfmAccEntries currentries) {
-		LOG.info("[setCurrentries] Recibo currentries companyId = {}, ItemID = {}", currentries.getCompanyid(),
-				currentries.getItemid());
+		LOG.info("[setCurrentries] gets currentries companyId = {}, ItemID = {}", 
+				currentries.getCompanyid(), currentries.getItemid());
 		this.currentries = currentries;
 	}
 
@@ -308,25 +306,15 @@ public class HfmAccEntriesController {
 		this.curperiod = curperiod;
 	}
 
-//	public List<HfmAccEntriesDet> getLstaccentdet() {
-//		return lstaccentdet;
-//	}
-//
-//	public void setLstaccentdet(List<HfmAccEntriesDet> lstaccentdet) {
-//		this.lstaccentdet = lstaccentdet;
-//	}
-
 	public HfmAccEntriesDet getCurrentdet() {
 		return currentdet;
 	}
 
 	public void setCurrentdet(HfmAccEntriesDet currentdet) {
-		LOG.info("[setCurrentdet]  currentdet id= {}, Mov Id = {}", currentdet.getItemid(),
-				currentdet.getMovid());
+		LOG.info("[setCurrentdet]  currentdet id= {}, Mov Id = {}", currentdet.getItemid(), currentdet.getMovid());
 		this.currentdet = currentdet;
 	}
 
-	
 	/**
 	 * Fire event for company ID Change
 	 */
@@ -351,8 +339,7 @@ public class HfmAccEntriesController {
 		try {
 			LOG.info("[companyidChange] change lstaccentdet with ItemID ={} ", this.currentries.getItemid().intValue());
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ",
-					currentries.getLstEntriesDet().size());
+			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ", currentries.getLstEntriesDet().size());
 
 		} catch (Exception e) {
 			LOG.error("[companyidChange] Exception in lservicedet.findByItemid -> {}", e.getMessage());
@@ -362,7 +349,7 @@ public class HfmAccEntriesController {
 //			this.lstSelectedEntries.clear();
 //		}
 		LOG.info("[companyidChange] companyidChange Finish!!");
-		refreshUI();
+		//refreshUI();
 	}
 
 	/**
@@ -381,49 +368,40 @@ public class HfmAccEntriesController {
 			LOG.error("[companyidChangeSel] init lstperiod ERROR -> {}", e.getMessage(), e);
 		}
 
-		this.refreshUI();
+		// this.refreshUI();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param ev
 	 */
 	public void tptypeChange(AjaxBehaviorEvent ev) {
-		
+
 		LOG.info("[tptypeChange] hfmcode  => {}", this.currentdet.getHfmcode());
 
-		String tptype="";
-		String desc="";
-		
-		/*try {
-			LOG.info("[tptypeChange] Getting lsthfmcodes...");
-			this.lstHfmcodes = serviceHfmcodes.findByTptype(this.currentdet.getTptype());
-			LOG.info("[tptypeChange]init lsthfmcodes with {} elements.", this.lstHfmcodes.size());
+		String tptype = "";
+		String desc = "";
 
-		} catch (Exception e) {
-			LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage(), e);
-		}
-		*/
 		
+
 		try {
 			LOG.info("[tptypeChange]...");
-			//this.lstHfmcodes = serviceHfmcodes.findByTptype(this.currentdet.getTptype());
-			
+			// this.lstHfmcodes = serviceHfmcodes.findByTptype(this.currentdet.getTptype());
+
 			this.lstHfmdesc = serviceHfmcodes.findById(this.currentdet.getHfmcode());
-					
+
 			desc = this.lstHfmdesc.get().getDescription();
 			tptype = this.lstHfmdesc.get().getTptype();
-			
+
 			this.currentdet.setDescription(desc);
 			this.currentdet.setTptype(tptype);
-			LOG.info("Description {}, tptype {} ", desc,tptype);
+			LOG.info("Description {}, tptype {} ", desc, tptype);
 
 		} catch (Exception e) {
 			LOG.error("[tptypeChange] init lsthfmcodes ERROR -> {}", e.getMessage());
 		}
-		
-		if ( tptype.equals("GOP") ) {
+
+		if (tptype.contains("GOP")) {
 			this.lstIcpcodes = null;
 			this.lstcurrencies = null;
 			try {
@@ -433,11 +411,10 @@ public class HfmAccEntriesController {
 			} catch (Exception e) {
 				LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
 			}
-			
-		}
-		else if (tptype.equals("CURRENCIES")) {
+
+		} else if (tptype.equals("CURRENCIES")) {
 			this.lstIcpcodes = null;
-			this.lstCC =null;
+			this.lstCC = null;
 			try {
 				LOG.info("[init] Initializing Currencies...");
 				this.lstcurrencies = servcur.findAll();
@@ -445,52 +422,41 @@ public class HfmAccEntriesController {
 			} catch (Exception e) {
 				LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
 			}
-		}
-		else
-		{
+		} 
+		
+		if  (tptype.contains("INTERCIAS")) { 
 			try {
-				this.lstCC =null;
+				this.lstCC = null;
 				this.lstcurrencies = null;
 				LOG.info("[tptypeChange] Getting lsticpcodes...");
-				this.lstIcpcodes = serviceIcpCodes.findByTptype(this.currentdet.getTptype());
+				this.lstIcpcodes = serviceIcpCodes.findByTptype("INTERCIAS");
 				LOG.info("[tptypeChange]init lstIcpcodes with {} elements.", this.lstIcpcodes.size());
 
 			} catch (Exception e) {
 				LOG.error("[tptypeChange] init lstIcpcodes ERROR -> {}", e.getMessage(), e);
 			}
+		
 		}
+		// Refresh in xhtml
+		// PrimeFaces.current().ajax().update("form:opexarea", "form:icpcode", "form:Currencyc");
 
-			
-		PrimeFaces.current().ajax().update("form:opexarea","form:icpcode","form:Currencyc");
-
-
-			
-	
 	}
 
+	public void openNewDet(AjaxBehaviorEvent ev) {
+		LOG.info("[openNewDet] click event: {}", ev);
+		openNewDet();
+	}
 	/**
 	 * 
 	 */
 	public void openNewDet() {
-
 		int vapplied = this.currentries.getApplied();
-		
-		LOG.info("[openNewDet] click para crear un nuevo HfmAccEntriesDet " +vapplied);
-		
-				
-			LOG.info("[openNewDet] currentries = {}", currentries);
-			double num = 0;
-	
-			this.currentdet = new HfmAccEntriesDet();
-			
-		
-			this.currentdet.setItemid(this.currentries.getItemid());
-			this.currentdet.setDebits(new BigDecimal(num));
-			this.currentdet.setCredits(new BigDecimal(num));
-			
-			LOG.info("[openNewDet] currentdet = {}", this.currentdet);
-		
-		
+		LOG.info("[openNewDet] click to create a new item HfmAccEntriesDet {}", vapplied);
+		LOG.info("[openNewDet] currentries = {}", currentries);
+		this.currentdet = new HfmAccEntriesDet();
+		this.currentdet.setItemid(this.currentries.getItemid());
+		LOG.info("[openNewDet] currentdet = {}", this.currentdet);
+		//PrimeFaces.current().ajax().update(":form:manage-code-contentDet");
 	}
 
 	/**
@@ -498,7 +464,7 @@ public class HfmAccEntriesController {
 	 */
 	public void saveDet() {
 		double num = 0;
-		
+
 		LOG.info("[saveDet] itemdId " + this.currentries.getItemid().intValue());
 		LOG.info("[saveDet] Entering to save item  => {}", this.currentdet);
 
@@ -508,34 +474,31 @@ public class HfmAccEntriesController {
 			Functions.addInfoMessage("Succes", "Record saved");
 			LOG.info("[saveDet] getting  currentries.lstEntriesDet...");
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			
-		
+
 			LOG.info("***********Running item validation*********** ");
-			
-				
-			for  (HfmAccEntriesDet det : this.currentries.getLstEntriesDet()) {
-				LOG.info("detamount: "+det.getAmount().toString());
-				//vamount.add(det.getAmount());
-				num = num +det.getAmount().doubleValue();			
+
+			for (HfmAccEntriesDet det : this.currentries.getLstEntriesDet()) {
+				LOG.info("detamount: " + det.getAmount().toString());
+				// vamount.add(det.getAmount());
+				num = num + det.getAmount().doubleValue();
 			}
-					
-			
-				 //LOG.info("[saveDet]amount: "+ vamount.toString());
-				 LOG.info("[saveDet]num: "+ num);
-				 
-				 if ( num !=0  ) {
-					 Functions.addWarnMessage("Warning", "The total amount != 0");
-						LOG.info("[saveDet] Warning", "The total amount != 0");
-				 }
-					
-			
+
+			// LOG.info("[saveDet]amount: "+ vamount.toString());
+			LOG.info("[saveDet]num: " + num);
+
+			if (num != 0) {
+				Functions.addWarnMessage("Warning", "The total amount != 0");
+				LOG.info("[saveDet] Warning", "The total amount != 0");
+			}
+
 		} catch (Exception e) {
 			Functions.addErrorMessage("Error", "Error saving record: " + e.getMessage());
 			LOG.error("[saveDet] save lstaccentdet ERROR -> {}", e.getMessage());
 		}
 
 		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').hide()");
-		this.refreshUI();
+		PrimeFaces.current().ajax().update("form:messages");
+		// this.refreshUI();
 	}
 
 	public void deleteDet() {
@@ -544,13 +507,14 @@ public class HfmAccEntriesController {
 		this.currentdet = null;
 
 		try {
-			LOG.info("[deleteDet] updating currentries.lstEntriesDet...");
+			LOG.info("[deleteDet] updating currentries.lstEntriesDet with id={}", this.currentries.getItemid());
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
 		} catch (Exception e) {
 			LOG.error("[deleteDet] delete lstaccentdet Error -> {}", e.getMessage());
 		}
 		Functions.addInfoMessage("Succes", "Entity detail Removed");
-		this.refreshUI();
+		// PrimeFaces.current().ajax().update("form:messages");
+		//this.refreshUI();
 	}
 
 	/**
@@ -624,43 +588,51 @@ public class HfmAccEntriesController {
 
 		LOG.info("***********Running apply entries*********** ");
 		try {
-			LOG.info("[applyprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			LOG.info("[applyprocess] start apply ");
-			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
-					this.currentries.getItemid().intValue(), 1);
-			this.currentries.setApplied(1);
-			this.currentries.setStatus("Posting");
+			LOG.info("[applyprocess] company id ={} , item ={}", this.currentries.getCompanyid(),
+					 this.currentries.getItemid());
+			LOG.info("[applyprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
+			
+			if (this.vcompanyid > 0 ) {
+				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
+						this.currentries.getItemid().intValue(), 1);
+				this.currentries.setApplied(1);
+				this.currentries.setStatus("Posting");
+				this.currentries.setPeriodnm(this.vperiodnm);
+			} else
+				LOG.warn("[applyprocess] Need select the company and period  ");
+
 		} catch (Exception e) {
 			LOG.error("[applyprocess] Exception in applyprocess -> {}", e.getMessage());
 		}
-		
-		PrimeFaces.current().ajax().update("form:dtParent","form:dtDetails");
-		//this.refreshUI();
+
+		PrimeFaces.current().ajax().update("form:dtParent", "form:dtDetails");
+		// this.refreshUI();
 	}
-	
+
 	public void unpostingprocess() {
 
-		LOG.info("***********Running apply entries*********** ");
+		LOG.info("***********Running unapply entries*********** ");
 		try {
-			LOG.info("[unpostingprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
+			LOG.info("[unposting process] company id ={} ,perdiodnm ={}, item ={}", this.currentries.getCompanyid(),
+					this.currentries.getPeriodnm(), this.currentries.getItemid());
+			LOG.info("[unposting process] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			LOG.info("[unpostingprocess] start apply ");
-			service.rollUpApplyEntries(this.vcompanyid, this.vperiodnm, this.user.getUsername(),
-					this.currentries.getItemid().intValue(), 0);
-			this.currentries.setApplied(0);
-			this.currentries.setStatus("UnPosting");
+			if (this.vcompanyid > 0 ) {
+				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
+						this.currentries.getItemid().intValue(), 0);
+				this.currentries.setApplied(0);
+				this.currentries.setStatus("UnPosting");
+				this.currentries.setPeriodnm(this.vperiodnm);
+			} else
+				LOG.warn("[unposting process] Need select the company and period  ");
 		} catch (Exception e) {
 			LOG.error("[unpostingprocess] Exception in unpostingprocess -> {}", e.getMessage());
 		}
-		
-		PrimeFaces.current().ajax().update("form:dtParent","form:dtDetails");
-	//	this.refreshUI();
+
+		PrimeFaces.current().ajax().update("form:dtParent", "form:dtDetails");
+		// this.refreshUI();
 	}
-	
-	
-	
-	
 
 	public List<HfmRollupEntries> getLstEntries() {
 		return lstEntries;
@@ -686,9 +658,9 @@ public class HfmAccEntriesController {
 		this.vcompanyid = this.currentries.getCompanyid();
 		this.vperiodnm = this.currentries.getPeriodnm();
 
-		this.refreshUI();
+		// this.refreshUI();
 		LOG.info("[dtParent_rowSelect] Company id = {}, period = {}", this.vcompanyid, this.vperiodnm);
-
+		PrimeFaces.current().ajax().update("form:dtDetails");
 	}
 
 	/**
@@ -708,14 +680,13 @@ public class HfmAccEntriesController {
 		LOG.info("[btnEditOnClick] Event = {}", ev);
 		if (ev.getSource() instanceof CommandButton) {
 			CommandButton button = (CommandButton) ev.getSource();
-			LOG.info("[btnEditOnClick] value = {}, title = {}, id=", button.getValue(), button.getTitle(),
-					button.getId());
-
+			LOG.info("[btnEditOnClick] value = {}, title = {}, id=", button.getValue(), button.getTitle(), button.getId());
 		}
 		if (ev.getSource() instanceof HtmlCommandButton) {
 			HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
 			LOG.info("[btnEditOnClick] value = {}, title = {}", button.getValue(), button.getTitle());
 		}
+		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').show()");		
 	}
 
 	public List<SetHfmCodes> getLstHfmcodes() {
@@ -747,10 +718,9 @@ public class HfmAccEntriesController {
 	}
 
 	public void setVcompanyid(int vcompanyid) {
-		LOG.info("Recibo companyId = {}", vcompanyid);
+		LOG.info("[setVcompanyid] Recibo companyId = {}", vcompanyid);
 		this.vcompanyid = vcompanyid;
 	}
-	
 
 	public List<SetCurrecyCode> getLstcurrencies() {
 		return lstcurrencies;
@@ -761,34 +731,36 @@ public class HfmAccEntriesController {
 	}
 
 	public boolean hasEntryData() {
-		boolean retval = ( this.currentries != null && this.currentries.getItemid() != null
-				&& this.currentries.getItemid() > 0 && this.currentries.getApplied() == 0) ;
+		boolean retval = (this.currentries != null && this.currentries.getItemid() != null
+				&& this.currentries.getItemid() > 0 && this.currentries.getApplied() == 0);
 		return retval;
 	}
 
 	/**
 	 * Clear filters and selection in details table.
 	 */
-	private void refreshUI() {
-		LOG.info("[refreshUI]  refresh in UI...");
-		PrimeFaces.current().executeScript("PF('dtParentWV').clearFilters()");
-		PrimeFaces.current().executeScript("PF('dtParentWV').clearSelection()");
-		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearFilters()");
-		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
-
-		LOG.info("[refreshUI] ajax update=> form:panelGridRollUpFFSS");
-		PrimeFaces.current().ajax().update("form:panelGridRollUpFFSS");
-
-		LOG.info("[refreshUI] ajax update=> form:dtParent");
-		PrimeFaces.current().ajax().update("form:dtParent");
-
-		LOG.info("[refreshUI] ajax update=> form:dtDetails");
-		PrimeFaces.current().ajax().update("form:dtDetails");
-
-		LOG.info("[refreshUI] ajax update=> form:messages");
-		PrimeFaces.current().ajax().update("form:messages");
-
-		LOG.info("[refreshUI] Terminé");
-	}
+//	private void refreshUI() {
+//
+//		LOG.info("[refreshUI]  refresh in UI...");
+//		PrimeFaces.current().executeScript("PF('dtParentWV').clearFilters()");
+//		PrimeFaces.current().executeScript("PF('dtParentWV').clearSelection()");
+//		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearFilters()");
+//		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
+//
+//		LOG.info("[refreshUI] ajax update=> form:panelGridRollUpFFSS");
+//		PrimeFaces.current().ajax().update("form:panelGridRollUpFFSS");
+//
+//		LOG.info("[refreshUI] ajax update=> form:dtParent");
+//		PrimeFaces.current().ajax().update("form:dtParent");
+//
+//		LOG.info("[refreshUI] ajax update=> form:dtDetails");
+//		PrimeFaces.current().ajax().update("form:dtDetails");
+//
+//		LOG.info("[refreshUI] ajax update=> form:messages");
+//		PrimeFaces.current().ajax().update("form:messages");
+//
+//		LOG.info("[refreshUI] Finished");
+//
+//	}
 
 }

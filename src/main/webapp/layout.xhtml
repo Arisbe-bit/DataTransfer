@@ -39,47 +39,49 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 					<f:facet name="header">
 						<span style="font-weight: bold">${hfmlayoutControllerBean.title}</span>
 					</f:facet>
-
-					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
-						<h:outputText value="#{curtps.entity}" />
-					</p:column>					
-					<p:column headerText="Period"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.period}">
-						<h:outputText value="#{curtps.id.period}" />
-					</p:column>					
+					<p:column headerText="Scenario"  sortBy="#{curtps.id.scenario}" filterBy="#{curtps.id.scenario}">
+						<h:outputText value="#{curtps.id.scenario}" />
+					</p:column>								
 					<p:column headerText="Year"  sortBy="#{curtps.id.zyear}" filterBy="#{curtps.id.zyear}">
 						<h:outputText value="#{curtps.id.zyear}" />
+					</p:column>			
+					<p:column headerText="Period"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.period}">
+						<h:outputText value="#{curtps.id.period}" />
+					</p:column>							
+					<p:column headerText="View"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.zview}">
+						<h:outputText value="#{curtps.id.zview}" />
+					</p:column>					
+					<p:column headerText="Value"  sortBy="#{curtps.id.value}" filterBy="#{curtps.id.value}">
+						<h:outputText value="#{curtps.id.value}" />
 					</p:column>
-					<p:column headerText="HFM Code" sortBy="#{curtps.id.account}" filterBy="#{curtps.id.account}">
+					<p:column headerText="Entity"  sortBy="#{curtps.entity}" filterBy="#{curtps.entity}">
+						<h:outputText value="#{curtps.entity}" />
+					</p:column>		
+					<p:column headerText="Account" sortBy="#{curtps.id.account}" filterBy="#{curtps.id.account}">
 						<h:outputText value="#{curtps.id.account}" />
 					</p:column>					
-					<p:column headerText="ICP Code" sortBy="#{curtps.id.icp}" filterBy="#{curtps.id.icp}">
+					<p:column headerText="ICP" sortBy="#{curtps.id.icp}" filterBy="#{curtps.id.icp}">
 						<h:outputText value="#{curtps.id.icp}" />
 					</p:column>
+					<p:column headerText="Custom1"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust1}">
+						<h:outputText value="#{curtps.id.cust1}" />
+					</p:column>
+					<p:column headerText="Custom2"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust2}">
+						<h:outputText value="#{curtps.id.cust2}" />
+					</p:column>
+					<p:column headerText="Custom3"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust3}">
+						<h:outputText value="#{curtps.id.cust3}" />
+					</p:column>
+					<p:column headerText="Custom4"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust4}">
+						<h:outputText value="#{curtps.id.cust4}" />
+					</p:column>					
 					<p:column headerText="Balance" sortBy="#{curtps.data}" filterBy="#{curtps.data}">
 						<h:outputText value="#{curtps.data}" />
 					</p:column>
-					<p:column headerText="Scenario"  sortBy="#{curtps.id.scenario}" filterBy="#{curtps.id.scenario}">
-						<h:outputText value="#{curtps.id.scenario}" />
-					</p:column>
-					<p:column headerText="View"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.zview}">
-						<h:outputText value="#{curtps.id.zview}" />
-					</p:column>
-					<p:column headerText="Cust1"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust1}">
-						<h:outputText value="#{curtps.id.cust1}" />
-					</p:column>
-					<p:column headerText="Cust2"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust2}">
-						<h:outputText value="#{curtps.id.cust2}" />
-					</p:column>
-					<p:column headerText="Cust3"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust3}">
-						<h:outputText value="#{curtps.id.cust3}" />
-					</p:column>
-					<p:column headerText="Cust4"  sortBy="#{curtps.id.period}" filterBy="#{curtps.id.cust4}">
-						<h:outputText value="#{curtps.id.cust4}" />
-					</p:column>
-					<p:column headerText="User Id"  sortBy="#{curtps.userid}" filterBy="#{curtps.userid}">
+					<p:column headerText="User Id"  sortBy="#{curtps.userid}" filterBy="#{curtps.userid}" exportable="false">
 						<h:outputText value="#{curtps.userid}" />
 					</p:column>
-					<p:column headerText="Updated"  sortBy="#{curtps.updated}" filterBy="#{curtps.updated}">
+					<p:column headerText="Updated"  sortBy="#{curtps.updated}" filterBy="#{curtps.updated}" exportable="false">
 						<h:outputText value="#{curtps.updated}" />
 					</p:column>
 

@@ -11,9 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.SetIcpcodes;
+import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -32,10 +35,17 @@ public class TradingPartnerController {
     private SetIcpcodes curtp; // actual iterator
     private boolean newCode;
 
+    private Authentication authentication;
+	private User user;
+	
     @PostConstruct
     public void init() {
         LOG.info("Initializing lstTradingPartner...");
         this.lstTP = service.findAll();
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getPrincipal() instanceof User) {
+			user = (User) authentication.getPrincipal();
+		}
     }
 
     public void openNew() {
@@ -48,6 +58,7 @@ public class TradingPartnerController {
      * @param event
      */
     public void save(ActionEvent event) {
+    	
         LOG.info("Entering to save Trading Partner Type => {}, event ={}", this.curtp, event);
         
         if(newCode) {
@@ -59,7 +70,7 @@ public class TradingPartnerController {
                 return;
             }
         }
-        
+        this.curtp.setUserid(user.getUsername());
         this.curtp = service.save(curtp);
         Functions.addInfoMessage("Succes", "Trading Partner Type saved");
 
@@ -117,6 +128,7 @@ public class TradingPartnerController {
     public void setCurtp(SetIcpcodes curtp) {
         this.newCode = false;
         this.curtp = curtp;
+        
         LOG.info("Recibo curtp = {}", curtp);
     }
 

@@ -15,8 +15,9 @@ public enum Rol {
     DSVSCOMPANY("HFM Data by Company"),
     ROLLUP("RollUp Process"),
     ROLLUPHIST("RollUp History"),
-    POLICIES("Accounting policies"),
-    DEFINEDACCOUNT("Defined Accounts");
+    POLICIES("Manual Entries"),
+    DEFINEDACCOUNT("Defined Accounts"),
+	MANUALENTRIESHIST("Manuel Entries History");
 
     public final String label;
     private static final Map<String, Rol> BY_LABEL = new HashMap<>();

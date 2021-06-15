@@ -27,12 +27,12 @@ public class HfmRollupEntries implements Serializable {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HfmRollupEntries.class);
 	private final static String PROCESS_ICON = "fa fa-refresh fa-spin fa-2x";
-	private static final String PROCESS_ICON_OK = "fa fa-check-square-o fa-2x";
-	private static final String PROCESS_ICON_ERROR = "fa fa-window-close-o fa-2x";
+	private static final String PROCESS_ICON_OK = "fa fa-check-square-o fa-2x icon-green";
+	private static final String PROCESS_ICON_ERROR = "fa fa-window-close-o fa-2x icon-red";
 	private final static String PENDING_ICON = "fa fa-spinner fa-pulse fa-2x fa-fw";
 
 	public final static String STATUS_PROCESSING = "PROCESSING";
-	public final static String STATUS_PENDING = "PENDING";
+	public final static String STATUS_PENDING = "PROCESSING";
 	public final static String STATUS_OK = "OK";
 	public final static String STATUS_ERROR = "ERROR";
 
@@ -298,11 +298,11 @@ public class HfmRollupEntries implements Serializable {
 	}
 
 	public String getBalanceValidationIcon() {
-		return getProcessIcon(this.attribute4);
+		return getProcessIcon(this.attribute4); //ICP
 	}
 
 	public String getCostCenterValidationIcon() {
-		return getProcessIcon(this.attribute5);
+		return getProcessIcon(this.attribute5);  //cost center //opex area
 	}
 	
 	public String getFinishedProcessIcon() {
@@ -310,7 +310,7 @@ public class HfmRollupEntries implements Serializable {
 	}
 	
 	public String getValidationsIcon() {
-		return getProcessIcon(this.validations);
+		return getProcessIcon(this.validations);// accounts
 	}	
 
 	private String getProcessIcon(String status) {
@@ -333,7 +333,27 @@ public class HfmRollupEntries implements Serializable {
 		
 		return icon;
 	}
+	
+	public String getBalanceValidationID() {
+		return "i-ba-va-" + this.companyid;
+	}
+	
+	public String getTradingPartnerValidationID() {
+		return "i-tra-pa-va-" + this.companyid;
+	}
+	
+	public String getCostCenterValidationID() {
+		return "i-cos-ce-va-" + this.companyid;
+	}
+	
+	public String getAccountBalanceValidationID() {
+		return "i-acc-bal-va-" + this.companyid;
+	}
 
+	public String getFinishProcessID() {
+		return "i-finish-process-" + this.companyid;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format(

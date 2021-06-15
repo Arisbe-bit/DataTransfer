@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+
+    <ui:define name="Manual Entries History">
+        <title><h:outputText value="${viewentriesControllerBean.title}" /></title>
+    </ui:define>
+
+    <ui:define name="header">
+        <h1><h:outputText value="${viewentriesControllerBean.title}" /></h1>
+    </ui:define>
+    <ui:define name="css">
+        <style type="text/css">
+        .ui-datatable thead th, .ui-datatable tfoot td {
+        	font-size: small;
+        }
+        .rollup-text-align-center {
+				text-align: center;
+			}
+		.rollup-text-align-right {
+				text-align: right;
+			}			
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+                <p:growl id="messages" showDetail="true" />
+
+                <div class="products-buttonbar">
+                    <div>
+                        <p:toolbar>                             
+                              
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                                    <p:dataExporter type="xls" target="#{viewentriesControllerBean.dataTableName}" fileName="${viewentriesControllerBean.title}" />
+                                </p:commandButton>
+                             </p:toolbarGroup>  
+                        </p:toolbar>
+                    </div>
+                </div>
+
+				<p:dataTable id="#{viewentriesControllerBean.dataTableName}"
+					widgetVar="dtCodes" var="currentid" rowKey="#{currentid.num}"
+					value="#{viewentriesControllerBean.lstentries}" reflow="true"
+					styleClass="products-table" paginator="true" rows="20"
+					 size="small" paginatorPosition="bottom"
+					 resizableColumns="true"
+            		resizeMode="expand" 
+					scrollable="true">
+					<f:facet name="header">
+						 <p:toolbar>  
+						  <p:toolbarGroup align="left">
+						 	<p:outputLabel for="periodini" value="Select Initial Period :  " />
+                            <p:selectOneMenu id="periodini" editable="true" value="#{viewentriesControllerBean.zperiodini}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
+                                var="itemf" itemLabel="#{itemf.periodnm}" 
+                                itemValue="#{itemf.periodid}" />
+                            </p:selectOneMenu>
+                           
+						 	<p:outputLabel for="periodfin" value="Select Final Period :  " />
+                            <p:selectOneMenu id="periodfin" editable="true" value="#{viewentriesControllerBean.zperiodfin}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
+                                var="itemf" itemLabel="#{itemf.periodnm}" 
+                                itemValue="#{itemf.periodid}" />
+                            </p:selectOneMenu>                          
+                         
+                             <p:commandButton id="btnViewL" icon="fa fa-search-plus" styleClass="edit-button rounded-button ui-button-success" 
+                              alt="view" actionListener="#{viewentriesControllerBean.periodChange}" ajax="true" update="@form" >
+
+                   			 </p:commandButton>
+						  </p:toolbarGroup>
+                         </p:toolbar>
+					</f:facet>
+					
+					<p:column headerText="Company." sortBy="#{currentid.entity}" filterBy="#{currentid.entity}" >
+                            <h:outputText value="#{currentid.entity}" />
+                        </p:column>
+					 <p:column headerText="Docto.No." sortBy="#{currentid.itemid}" filterBy="#{currentid.itemid}" >
+                            <h:outputText value="#{currentid.itemid}" />
+                        </p:column>
+                        <p:column headerText="Period Name" sortBy="#{currentid.periodnm}" filterBy="#{currentid.periodnm}" >
+                            <h:outputText value="#{currentid.periodnm}" />
+                        </p:column>
+                        <p:column headerText="User Id" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}" >
+                            <h:outputText value="#{currentid.userid}" />
+                        </p:column>
+                         <p:column headerText="Observations" width="20%" sortBy="#{currentid.description}" filterBy="#{currentid.description}" >
+                            <h:outputText value="#{currentid.description}" />
+                        </p:column>                        
+                         <p:column headerText="Status" sortBy="#{currentid.status}" filterBy="#{currentid.status}" >
+                            <h:outputText value="#{currentid.status}" />
+                        </p:column>
+                         <p:column headerText="HfmCode" sortBy="#{currentid.hfmcode}" filterBy="#{currentid.hfmcode}">
+                            <h:outputText value="#{currentid.hfmcode}" />
+                        </p:column>
+                       <p:column headerText="Description" width="20%" sortBy="#{currentid.description}" filterBy="#{currentid.description}">
+                            <h:outputText value="#{currentid.description}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="ICP Code" sortBy="#{currentid.icpcode}" filterBy="#{currentid.icpcode}">
+                            <h:outputText value="#{currentid.icpcode}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Area Code" sortBy="#{currentid.areaid}" filterBy="#{currentid.areaid}">
+                            <h:outputText value="#{currentid.areaid}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Currency Code" sortBy="#{currentid.currencyid}" filterBy="#{currentid.currencyid}">
+                            <h:outputText value="#{currentid.currencyid}">
+                            </h:outputText>
+                        </p:column>
+                         <p:column headerText="Trading Partner Type" sortBy="#{currentid.tptype}" filterBy="#{currentid.tptype}">
+                            <h:outputText value="#{currentid.tptype}">
+                            </h:outputText>
+                        </p:column>
+                       
+                         <p:column headerText="Amount" sortBy="#{currentid.amount}" filterBy="#{currentid.amount}" styleClass="rollup-text-align-right">
+                            <h:outputText value="#{currentid.amount}">
+                                <f:convertNumber pattern="###,###,###,###.##"/>
+                            </h:outputText>
+                        </p:column>
+				</p:dataTable>
+
+				
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

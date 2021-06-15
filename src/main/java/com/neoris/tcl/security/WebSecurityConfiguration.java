@@ -16,7 +16,7 @@ import com.neoris.tcl.security.models.Rol;
 import com.neoris.tcl.security.service.UserDetailsServiceImpl;
 
 /**
- * @author marco.vargas
+ * @author arisbe.morales
  *
  */
 @Configuration

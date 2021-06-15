@@ -163,19 +163,20 @@
 									</h5>
 									<p:panelGrid columns="4" layout="grid" styleClass="text-align-left">
 
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodes}" itemLabel="hfmcodes"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodesoa}" itemLabel="hfmcodesoa"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodestypes}" itemLabel="hfmcodestypes"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.partners}" itemLabel="partners" id="partners"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodes}" itemLabel="Hfmcodes"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodesoa}" itemLabel="Oracle Accounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.hfmcodestypes}" itemLabel="Trading partners types"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.partners}" itemLabel="Trading partners" id="partners"/>
 
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.payablesaccounts}" itemLabel="payablesaccounts" id="payablesaccounts"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.receivablesaccounts}" itemLabel="receivablesaccounts" id="receivablesaccounts"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.matchaccounts}" itemLabel="matchaccounts" id="matchaccounts"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.dsvscompany}" itemLabel="dsvscompany" id="dsvscompany"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.payablesaccounts}" itemLabel="Payables accounts" id="payablesaccounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.receivablesaccounts}" itemLabel="Receivables accounts" id="receivablesaccounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.matchaccounts}" itemLabel="Match accounts" id="matchaccounts"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.dsvscompany}" itemLabel="Data by company" id="dsvscompany"/>
 
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rollup}" itemLabel="rollup" id="rollup"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rolluphist}" itemLabel="rolluphist" id="rolluphist"/>
-										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.policies}" itemLabel="Policies" id="policies"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rollup}" itemLabel="Rollup Process" id="rollup"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.rolluphist}" itemLabel="Rollup history" id="rolluphist"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.policies}" itemLabel="Manual entries" id="policies"/>
+										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.policies}" itemLabel="Manual entries History" id="manualentrieshist"/>
 										<p:selectBooleanCheckbox value="#{hfmUsersBean.curUser.definedaccounts}" itemLabel="Defined Account" id="definedaccounts"/>
 
 									</p:panelGrid>

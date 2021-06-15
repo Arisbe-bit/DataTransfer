@@ -37,6 +37,14 @@
 	color: red;
 }
 
+.icon-red {
+	color: red;
+}
+
+.icon-green {
+	color: green;
+}
+
 .div-75 {
 	float: left;
 	width: 70%;
@@ -61,10 +69,6 @@
 	background-color: #6ab2eo;
 }
 
-#rollupForm\:tabViewRollUps\:tabHHFF {
-	overflow: hidden;
-}
-
 .hfmffss-table-main {
 	width: 75%;
 }
@@ -81,22 +85,15 @@
     </ui:define>
     <ui:define name="js">
         <script>
-		function year_onblur(e) {
-		    var message = '';
-		    if (isNaN(e.value)) {
-		        message = 'The year must be a number';
-		    } else {
-		        if (!(#{rollupControllerBean.currYear} >= parseInt(e.value) &amp;&amp; parseInt(e.value) >= 1950)) {
-		            message = 'The year must be between 1950 and #{rollupControllerBean.currYear}';
-		        }
-		    }
-		    if (message !== '') {
-		        $("#dialogMsgId").get(0).innerText = message;
-		        PF('dlgMessage').show();
-		        e.focus();
-		    }
-		}
+    	// var endpoint = '#{rollupControllerBean.contextPath.concat(rollupControllerBean.webSocketEndPoint)}';
+    	// var subscribeTopic = '#{rollupControllerBean.contextPath.concat(rollupControllerBean.webSocketTopic).concat(rollupControllerBean.webSocketMapping)}';
+    	// var endpoint = '#{rollupControllerBean.contextPath.concat(rollupControllerBean.webSocketApp).concat(rollupControllerBean.webSocketMapping)}';
         </script>
+    </ui:define>
+    <ui:define name="jsfiles">
+    <h:outputScript name="rollups.js" library="js" />
+    <h:outputScript name="sockjs-client/1.5.1/sockjs.min.js" library="webjars" />
+    <h:outputScript name="stomp-websocket/2.3.4/stomp.min.js" library="webjars"/>  
     </ui:define>
     <ui:define name="title">
         <title>${rollupControllerBean.title}</title>
@@ -111,7 +108,7 @@
     <ui:define name="content">
         <h:form id="rollupForm">
         	<p:log id="log" rendered="false"/>
-        	<p:growl id="messages" showDetail="true" />
+        	<p:growl id="messages" showDetail="true" widgetVar="wvMessage"/>
         	<h:messages globalOnly="true" id="globalMsgId" />
    
         	<div class="card" id="breadcrumMenuID">
@@ -136,7 +133,7 @@
                 </p:confirmDialog>
             </div>
             <p:dialog header="Information" widgetVar="dlgMessage" id="dlgMessageId" minHeight="40" minWidth="350" showEffect="fade" modal="true" closable="true">
-                <p class="p-m-0" id="dialogMsgId"></p>
+                <p id="dialogMsgId"></p>
                 <f:facet name="footer">
                     <p:commandButton type="button" value="Ok" style="width: 5rem" onclick="PF('dlgMessage').hide()" />
                 </f:facet>

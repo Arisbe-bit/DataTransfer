@@ -15,7 +15,6 @@ import org.springframework.beans.factory.config.Scope;
 /**
  * Add a Custom "view" scope for JSF in Spring Framework.
  * 
- * @author Marco Vargas
  *
  */
 public class ViewScope implements Scope {

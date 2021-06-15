@@ -10,14 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Entity
 @Table(name = "hfm_manual_entries_det")
 public class HfmAccEntriesDet implements Serializable {
 
-	private final static Logger LOG = LoggerFactory.getLogger(HfmAccEntriesDet.class);
+	//private final static Logger LOG = LoggerFactory.getLogger(HfmAccEntriesDet.class);
 	private static final long serialVersionUID = 1710075553545677091L;
 
 	@Id
@@ -27,8 +24,6 @@ public class HfmAccEntriesDet implements Serializable {
 
 	private Long itemid;
 	private String hfmcode;
-	private BigDecimal debits;
-	private BigDecimal credits;
 	private BigDecimal amount;
 	private String icpcode;
 	private String areaid;
@@ -40,19 +35,12 @@ public class HfmAccEntriesDet implements Serializable {
 
 	}
 
-	
+	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal amount, String icpcode, String areaid,
+			String description, String currencyid, String tptype) {
 
-
-
-
-	public HfmAccEntriesDet(Long movid, Long itemid, String hfmcode, BigDecimal debits, BigDecimal credits,
-			BigDecimal amount, String icpcode, String areaid, String description, String currencyid, String tptype) {
-		
 		this.movid = movid;
 		this.itemid = itemid;
 		this.hfmcode = hfmcode;
-		this.debits = debits;
-		this.credits = credits;
 		this.amount = amount;
 		this.icpcode = icpcode;
 		this.areaid = areaid;
@@ -60,11 +48,6 @@ public class HfmAccEntriesDet implements Serializable {
 		this.currencyid = currencyid;
 		this.tptype = tptype;
 	}
-
-
-
-
-
 
 	public Long getItemid() {
 		return itemid;
@@ -88,22 +71,6 @@ public class HfmAccEntriesDet implements Serializable {
 
 	public void setHfmcode(String hfmcode) {
 		this.hfmcode = hfmcode;
-	}
-
-	public BigDecimal getDebits() {
-		return debits;
-	}
-
-	public void setDebits(BigDecimal debits) {
-		this.debits = debits;
-	}
-
-	public BigDecimal getCredits() {
-		return credits;
-	}
-
-	public void setCredits(BigDecimal credits) {
-		this.credits = credits;
 	}
 
 	public String getIcpcode() {
@@ -137,58 +104,36 @@ public class HfmAccEntriesDet implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public String getTrimedDescription() {
-		return description.substring(0, Math.min(description.length(), 20));
+		if(description != null) {
+			return description.substring(0, Math.min(description.length(), 20));
+		} else {
+			return "** no description **";
+		}
 	}
-
-	
-
 
 	public String getCurrencyid() {
 		return currencyid;
 	}
 
-
-
 	public void setCurrencyid(String currencyid) {
 		this.currencyid = currencyid;
 	}
-
-
-
-
-
 
 	public String getTptype() {
 		return tptype;
 	}
 
-
-
-
-
-
 	public void setTptype(String tptype) {
 		this.tptype = tptype;
 	}
 
-
-
-
-
-
 	@Override
 	public String toString() {
-		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode + ", debits=" + debits
-				+ ", credits=" + credits + ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid
-				+ ", description=" + description + ", currencyid=" + currencyid + ", tptype=" + tptype + "]";
+		return "HfmAccEntriesDet [movid=" + movid + ", itemid=" + itemid + ", hfmcode=" + hfmcode + ", amount=" + amount
+				+ ", icpcode=" + icpcode + ", areaid=" + areaid + ", description=" + description + ", currencyid="
+				+ currencyid + ", tptype=" + tptype + "]";
 	}
-
-
-
-
-
-
 
 }

@@ -4,7 +4,6 @@
  */
 package com.neoris.tcl.utils;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
@@ -14,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
-
+import com.neoris.tcl.websocket.IWebSocketService;
 
 public class ProcessRollUps implements Runnable {
 
@@ -30,8 +29,10 @@ public class ProcessRollUps implements Runnable {
 	private FacesContext facesContext;
 	private PrimeFaces primefaces;
 	private User user;
+	private IWebSocketService webSocketService;
 
-	public ProcessRollUps(HfmRollupEntries rollUp, IHfmRollupEntriesService service, String process, int numDrill, boolean processValidations, boolean matchAccounts, User user) {
+	public ProcessRollUps(HfmRollupEntries rollUp, IHfmRollupEntriesService service, String process, int numDrill,
+			boolean processValidations, boolean matchAccounts, User user) {
 		this.rollUp = rollUp;
 		this.service = service;
 		this.process = process;
@@ -62,32 +63,42 @@ public class ProcessRollUps implements Runnable {
 	}
 
 	private void matchAccounts() {
-		String mensaje = String.format("Processing Match Account for company:%s, period: %s, year: %s", rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		String mensaje = String.format("Processing Match Account for company:%s, period: %s, year: %s",
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		addMessage("Match Accounts", mensaje);
-		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+		webSocketService.sendPushNotification(rollUp);
+		//webSocketService.sendPushNotification(mensaje, "Match Accounts", "info");
+		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+				user.getUsername());
+		//webSocketService.sendPushNotification("Match Account Processed", "Match Accounts", "info", rollUp);
 	}
 
 	private void processRollUps() {
-		String mensaje = String.format("Processing RollUp process [%s] for company:%s, period: %s, year: %s", process, rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		String mensaje = String.format("Processing RollUp process [%s] for company:%s, period: %s, year: %s", process,
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		addMessage(">======== Processing " + process, mensaje);
+		//webSocketService.sendPushNotification(mensaje, "Processing " + process, "info");
 		if (process.equalsIgnoreCase(IHfmRollupEntriesService.P_COSTMANAGER)) {
-			LOG.info("VALOR DE PROCESS para costmanager "+process);
+			LOG.info("VALOR DE PROCESS para costmanager " + process);
 			service.rollUpDrillCostMngDetGetHeaders(rollUp.getCompanyid().intValue(), rollUp.getSegment1(),
 					rollUp.getRperiod(), rollUp.getRyear(), process);
+			//webSocketService.sendPushNotification(rollUp);
 		} else {
-			LOG.info("VALOR DE PROCESS "+process);
+			LOG.info("VALOR DE PROCESS " + process);
 			service.getHeaders(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
-					rollUp.getRyear(), process, "adminXX");
+					rollUp.getRyear(), process, user.getUsername());
+			webSocketService.sendPushNotification(rollUp);
 		}
 	}
 
 	private void processValidations() {
-		String mensaje = String.format("Processing Validations for company:%s, period: %s, year: %s", rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		String mensaje = String.format("Processing Validations for company:%s, period: %s, year: %s",
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		addMessage("Validations", mensaje);
-		service.rollUpValidations(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(), rollUp.getSegment1(), user.getUsername());
+		//webSocketService.sendPushNotification(mensaje, "Validations", "info");
+		service.rollUpValidations(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+				rollUp.getSegment1(), user.getUsername());
+		//webSocketService.sendPushNotification(rollUp);
 	}
 
 	/**
@@ -95,41 +106,52 @@ public class ProcessRollUps implements Runnable {
 	 * @param num
 	 */
 	private void processDrill(int num) {
-		String mensaje = String.format("Processing Drills %s for company:%s, period: %s, year: %s", num, rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		String mensaje = String.format("Processing Drills %s for company:%s, period: %s, year: %s", num,
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
 		LOG.info(mensaje);
-		addMessage(String.format("Drilss[%s]", num), mensaje);		
+		//webSocketService.sendPushNotification(mensaje, String.format("Drilss[%s]", num), "info");
 		switch (num) {
 		case 1:
-			service.costManager1Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager1Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 2:
-			service.costManager2Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager2Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 3:
-			service.costManager3Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager3Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 4:
-			service.costManager4Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager4Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 5:
-			service.costManager5Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager5Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 6:
-			service.costManager6Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager6Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 7:
-			service.costManager7Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager7Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 8:
-			service.costManager8Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager8Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		case 9:
-			service.costManager9Drills(rollUp.getCompanyid().intValue(),rollUp.getRperiod(), rollUp.getRyear(), user.getUsername());
+			service.costManager9Drills(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+					user.getUsername());
 			break;
 		default:
 			LOG.warn("The Drill Number: {} doesn´t exists!!!", num);
 			break;
 		}
+		//webSocketService.sendPushNotification(rollUp);
 	}
 
 	public HfmRollupEntries getRollUp() {
@@ -201,8 +223,8 @@ public class ProcessRollUps implements Runnable {
 	public void setFacesContext(FacesContext facesContext) {
 		this.facesContext = facesContext;
 	}
-	
-    public PrimeFaces getPrimefaces() {
+
+	public PrimeFaces getPrimefaces() {
 		return primefaces;
 	}
 
@@ -210,17 +232,10 @@ public class ProcessRollUps implements Runnable {
 		this.primefaces = primefaces;
 	}
 
-	private void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        this.facesContext.addMessage(null, message);
-    }    
-
-	@Override
-	public String toString() {
-		return String.format(
-				"ProcessRollUps [rollUp=%s, service=%s, process=%s, numDrill=%s, processValidations=%s, matchAccounts=%s, processId=%s]",
-				rollUp, service, process, numDrill, processValidations, matchAccounts, processId);
-	}
+//	private void addMessage(String summary, String detail) {
+//        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+//        this.facesContext.addMessage(null, message);
+//    }    
 
 	public User getUser() {
 		return user;
@@ -230,4 +245,18 @@ public class ProcessRollUps implements Runnable {
 		this.user = user;
 	}
 
+	public IWebSocketService getWebSocketService() {
+		return webSocketService;
+	}
+
+	public void setWebSocketService(IWebSocketService webSocketService) {
+		this.webSocketService = webSocketService;
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"ProcessRollUps [rollUp=%s, service=%s, process=%s, numDrill=%s, processValidations=%s, matchAccounts=%s, processId=%s]",
+				rollUp, service, process, numDrill, processValidations, matchAccounts, processId);
+	}
 }

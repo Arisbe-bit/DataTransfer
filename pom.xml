@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.neoris.tcl</groupId>
 	<artifactId>DataTransfer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>DataTransfer</name>
 	<packaging>war</packaging>
 	<description>Data Transfer Project to HFM</description>
@@ -68,28 +68,25 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<dependencies>
-				<dependency>
-					<groupId>com.oracle</groupId>
-					<artifactId>ojdbc7</artifactId>
-					<version>12.1.0.1</version>
-					<scope>runtime</scope>
-				</dependency>
+<!-- 				<dependency> -->
+<!-- 					<groupId>com.oracle</groupId> -->
+<!-- 					<artifactId>ojdbc7</artifactId> -->
+<!-- 					<version>12.1.0.1</version> -->
+<!-- 					<scope>runtime</scope> -->
+<!-- 				</dependency> -->
 <!-- 				https://mvnrepository.com/artifact/com.oracle.ojdbc/ojdbc8 -->
-<!-- 				<dependency> -->
-<!-- 					<groupId>com.oracle.ojdbc</groupId> -->
-<!-- 					<artifactId>ojdbc8</artifactId> -->
-<!-- 					<version>19.3.0.0</version> -->
-<!-- 				</dependency> -->
-<!-- 				<dependency> -->
-<!-- 					<groupId>com.oracle.ojdbc</groupId> -->
-<!-- 					<artifactId>osdt_cert</artifactId> -->
-<!-- 					<version>19.3.0.0</version> -->
-<!-- 				</dependency> -->
-<!-- 				<dependency> -->
-<!-- 					<groupId>com.oracle.ojdbc</groupId> -->
-<!-- 					<artifactId>osdt_core</artifactId> -->
-<!-- 					<version>19.3.0.0</version> -->
-<!-- 				</dependency> -->
+				<dependency>
+					<groupId>com.oracle.ojdbc</groupId>
+					<artifactId>ojdbc8</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.oracle.ojdbc</groupId>
+					<artifactId>osdt_cert</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.oracle.ojdbc</groupId>
+					<artifactId>osdt_core</artifactId>
+				</dependency>
 			</dependencies>
 		</profile>
 	</profiles>
@@ -162,6 +159,33 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+    	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator-core</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>sockjs-client</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/stomp-websocket -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>stomp-websocket</artifactId>
+		    <version>2.3.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt -->
+		<dependency>
+		    <groupId>com.github.ulisesbocchio</groupId>
+		    <artifactId>jasypt-spring-boot-starter</artifactId>
+		    <version>3.0.3</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -179,6 +203,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-maven-plugin</artifactId>
+				<version>3.0.3</version>
 			</plugin>
 		</plugins>
 		<finalName>datatransfer</finalName>

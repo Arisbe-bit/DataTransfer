@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Subselect;
 
@@ -21,7 +20,7 @@ public class HfmOracleAcc implements Serializable {
 	@Id
 	private Long num;
 	private int orgid;
-	private String companyid; 
+	private String companyid;
 	private String hfmcode;
 	private String costcenternm;
 	private String costcenter;
@@ -31,19 +30,18 @@ public class HfmOracleAcc implements Serializable {
 	private String futureuse2nm;
 	private String accounttype;
 	private String enabled;
+
 	@Column(name = "enddateactive", columnDefinition = "DATE")
-	private LocalDate  enddateactive;
+	private LocalDate enddateactive;
 
 	public HfmOracleAcc() {
 
 	}
 
-	
+	public HfmOracleAcc(Long num, int orgid, String companyid, String hfmcode, String costcenternm, String costcenter,
+			String oracleacct, String accountnm, String futureuse2, String futureuse2nm, String accounttype,
+			String enabled, LocalDate enddateactive) {
 
-	public HfmOracleAcc(Long num, int orgid, String companyid,  String hfmcode, String costcenternm,
-			String costcenter, String oracleacct, String accountnm, String futureuse2, String futureuse2nm,
-			String accounttype, String enabled, LocalDate enddateactive) {
-		
 		this.num = num;
 		this.orgid = orgid;
 		this.companyid = companyid;
@@ -59,8 +57,6 @@ public class HfmOracleAcc implements Serializable {
 		this.enddateactive = enddateactive;
 	}
 
-
-
 	public String getCompanyid() {
 		return companyid;
 	}
@@ -69,7 +65,6 @@ public class HfmOracleAcc implements Serializable {
 		this.companyid = companyid;
 	}
 
-	
 	public String getHfmcode() {
 		return hfmcode;
 	}
@@ -158,28 +153,20 @@ public class HfmOracleAcc implements Serializable {
 		this.num = num;
 	}
 
-
-
 	public int getOrgid() {
 		return orgid;
 	}
-
-
 
 	public void setOrgid(int orgid) {
 		this.orgid = orgid;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "HfmOracleAcc [num=" + num + ", orgid=" + orgid + ", companyid=" + companyid 
-				+ ", hfmcode=" + hfmcode + ", costcenternm=" + costcenternm + ", costcenter=" + costcenter
-				+ ", oracleacct=" + oracleacct + ", accountnm=" + accountnm + ", futureuse2=" + futureuse2
-				+ ", futureuse2nm=" + futureuse2nm + ", accounttype=" + accounttype + ", enabled=" + enabled
-				+ ", enddateactive=" + enddateactive + "]";
+		return "HfmOracleAcc [num=" + num + ", orgid=" + orgid + ", companyid=" + companyid + ", hfmcode=" + hfmcode
+				+ ", costcenternm=" + costcenternm + ", costcenter=" + costcenter + ", oracleacct=" + oracleacct
+				+ ", accountnm=" + accountnm + ", futureuse2=" + futureuse2 + ", futureuse2nm=" + futureuse2nm
+				+ ", accounttype=" + accounttype + ", enabled=" + enabled + ", enddateactive=" + enddateactive + "]";
 	}
-
 
 }

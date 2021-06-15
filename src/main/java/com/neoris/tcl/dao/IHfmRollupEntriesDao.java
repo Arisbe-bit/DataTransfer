@@ -31,7 +31,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param p_userid.-  User ID
 	 */
 	@Procedure("rollup_deldata")
-	void rollDelData(int p_orgid, String p_segment, String p_period, String p_year, String P_USERID);
+	void rollDelData(int p_orgid, String p_segment, String p_period, String p_year, String p_userid);
 
 	/**
 	 * Stored Procedure for getting Header
@@ -44,7 +44,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param p_userid
 	 */
 	@Procedure("ROLLUP_DRILL_DETAIL.get_headers")
-	void getHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept, String P_USERID);
+	void getHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
 	 * 
