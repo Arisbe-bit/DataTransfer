@@ -183,40 +183,39 @@ public class RollupController {
 	 * @param event
 	 */
 	public void processSelectedRollUps(ActionEvent event) {
-		LOG.info("[processSelectedRollUps] Running process with rollUpBean = {}, event = {}", lstSelectedRollups, event);		
-		rollUpProcessService.processRollUps(lstRollUps, lstSelectedRollups);
+		LOG.info("[processSelectedRollUps] Running process with rollUpBean = {}, event = {}", lstSelectedRollups, event);
+		// rollUpProcessService.processRollUps(lstRollUps, lstSelectedRollups);
 		LOG.info("[processSelectedRollUps] executing in ASYNC mode. Returning while rollUps are processing...");
 
-//		// Initilize status of each rollup pending for processing...
-//		lstSelectedRollups.stream().forEach(roll -> roll.pending());
-//
-//		for (HfmRollupEntries rollup : lstSelectedRollups) {
-//			// find rollup and its processing from original list
-//			// if not, the messages dont refreshing
-//			int idx = this.lstRollUps.indexOf(rollup);
-//			processRollUp(this.lstRollUps.get(idx));
-//			webSocketService.sendPushNotification( "Finished company "+rollup.getEntity(),"Sucess", "info");
-//		}
-//		
+		// Initilize status of each rollup pending for processing...
+		lstSelectedRollups.stream().forEach(roll -> roll.pending());
+
+		for (HfmRollupEntries rollup : lstSelectedRollups) {
+			// find rollup and its processing from original list
+			// if not, the messages dont refreshing
+			int idx = this.lstRollUps.indexOf(rollup);
+			rollUpProcessService.processRollUp(this.lstRollUps.get(idx));
+			webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
+		}
+
 		// clean the selected rollups list...
 		lstSelectedRollups = null;
-//		
-//		//Functions.addInfoMessage("Succes", "RollUps Proceced!!");
+
 		PrimeFaces.current().executeScript("PF('dtRollUps').unselectAllRows()");
-//		setLstRollUps(service.findAll());
-//
-//		String zID = "rollupForm:dt-rollup:%s:year";
-//		for (int i = 0; i < this.lstRollUps.size(); i++) {
-//			this.lstRollUps.get(i).setRyear(String.valueOf(zyear));
-//			PrimeFaces.current().ajax().update(String.format(zID, i));
-//		}
-//		
-//		String mID = "rollupForm:dt-rollup:%s:month";
-//		for (int i = 0; i < this.lstRollUps.size(); i++) {
-//			this.lstRollUps.get(i).setRperiod(zmonth);
-//			PrimeFaces.current().ajax().update(String.format(mID, i));
-//		}
-//		
+		setLstRollUps(service.findAll());
+
+		String zID = "rollupForm:dt-rollup:%s:year";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRyear(String.valueOf(zyear));
+			PrimeFaces.current().ajax().update(String.format(zID, i));
+		}
+
+		String mID = "rollupForm:dt-rollup:%s:month";
+		for (int i = 0; i < this.lstRollUps.size(); i++) {
+			this.lstRollUps.get(i).setRperiod(zmonth);
+			PrimeFaces.current().ajax().update(String.format(mID, i));
+		}
+
 		this.curRollUp = null;
 
 	}

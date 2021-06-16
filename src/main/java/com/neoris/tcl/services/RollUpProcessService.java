@@ -16,8 +16,6 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVA
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES4;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
 
-import java.util.List;
-
 import javax.faces.context.FacesContext;
 
 import org.primefaces.PrimeFaces;
@@ -39,40 +37,39 @@ public class RollUpProcessService implements IRollUpProcessService {
 	private IHfmRollupEntriesService service;
 	private User user;
 
-	@Override
-	@Async
-	public void processRollUps(List<HfmRollupEntries> lstRollUps, List<HfmRollupEntries> lstSelectedRollups) {
-		// Initilize status of each rollup pending for processing...
-		lstSelectedRollups.stream().forEach(roll -> roll.pending());
-
-		for (HfmRollupEntries rollup : lstSelectedRollups) {
-			// find rollup and its processing from original list
-			// if not, the messages don't refreshing
-			int idx = lstRollUps.indexOf(rollup);
-			processRollUp(lstRollUps.get(idx));
-			webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
-		}
-
-		// clean the selected rollups list...
-		lstSelectedRollups = null;
-	}
+//	@Override
+//	@Async()
+//	public void processRollUps(List<HfmRollupEntries> lstRollUps, List<HfmRollupEntries> lstSelectedRollups) {
+//		// Initilize status of each rollup pending for processing...
+//		lstSelectedRollups.stream().forEach(roll -> roll.pending());
+//
+//		for (HfmRollupEntries rollup : lstSelectedRollups) {
+//			// find rollup and its processing from original list
+//			// if not, the messages don't refreshing
+//			int idx = lstRollUps.indexOf(rollup);
+//			processRollUp(lstRollUps.get(idx));
+//			webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
+//		}
+//
+//		// clean the selected rollups list...
+//		lstSelectedRollups = null;
+//	}
 
 	/**
 	 * 
 	 * @param rollUp
 	 */
-	private void processRollUp(HfmRollupEntries rollUp) {
-		LOG.info("store list rollup = {}", rollUp);
-
+	@Async("threadPoolRollUpExecutor")
+	public void processRollUp(HfmRollupEntries rollUp) {
+		// LOG.info("store list rollup = {}", rollUp);
 		// service.saveAll(this.lstRollUps);
 
-		LOG.info("Processing Rollup Del Data by company ");
+		LOG.info("Processing Rollup Delete Data by company ");
 		service.rollDelData(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
 				rollUp.getRyear(), user.getUsername());
 
 		rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
 		rollUp.setValidations(HfmRollupEntries.STATUS_PROCESSING);
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 		webSocketService.sendPushNotification(rollUp);
 
 		LOG.info("Processing Rollup Start ");
@@ -105,6 +102,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 		LOG.info("**********************Finish processing rollups!!********************************");
 
 		webSocketService.sendPushNotification(rollUp.getCompanyid());
+		webSocketService.sendPushNotification("Finished company " + rollUp.getEntity(), "Sucess", "info");
 
 	}
 
