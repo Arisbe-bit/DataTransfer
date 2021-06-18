@@ -210,5 +210,8 @@ public class MenuController {
 		return user.isManualentrieshist() || user.isAdmin();
 	}
 	
+	public boolean isReclassificationRole() {
+		return user.isReclassification() || user.isAdmin();
+	}
 
 }

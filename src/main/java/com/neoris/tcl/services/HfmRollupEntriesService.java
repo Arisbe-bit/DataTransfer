@@ -61,7 +61,7 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		LOG.info("Entering to run rollUpDelData: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);
 		try {
 			data.rollDelData(P_ORGID, P_SEGMENT, P_PERIOD, P_YEAR, P_USERID);
-			LOG.error("********************IHfmRollupEntriesDao.rollDelData  Finished:***************************");
+			LOG.info("********************IHfmRollupEntriesDao.rollDelData  Finished:***************************");
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollDelData: => {}", e.getMessage());
 		}
@@ -72,7 +72,7 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		LOG.info("Entering to  run rollUpStart: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);
 		try {
 			data.rollUpStart(P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT, P_USERID);
-			LOG.error("********************IHfmRollupEntriesDao.rollUpStart  Finished:***************************");
+			LOG.info("********************IHfmRollupEntriesDao.rollUpStart  Finished:***************************");
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollUpStart: => {}", e.getMessage());
 		}
@@ -97,9 +97,9 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 	public void rollUpDrillCostMngDetGetHeaders(int P_ORGID, String P_SEGMENT, String P_PERIOD, String P_YEAR, String P_CONCEP) {
 		LOG.info("Entering to  run rollUpDrillCostMngDetGetHeaders: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);
 		try {
-			LOG.error("*****************rollUpDrillCostMngDetGetHeaders  Starts:************");
+			LOG.info("*****************rollUpDrillCostMngDetGetHeaders  Starts:************");
 			data.rollUpDrillCostMngGetHeaders(P_ORGID, P_SEGMENT, P_PERIOD, P_YEAR, P_CONCEP);
-			LOG.error("*****************rollUpDrillCostMngDetGetHeaders  Finisehd:************");
+			LOG.info("*****************rollUpDrillCostMngDetGetHeaders  Finisehd:************");
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollUpDrillCostMngDetGetHeaders: => {}", e.getMessage());
 		}
@@ -220,4 +220,14 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
         data.deleteAll(entityList);        
     }
 
+    
+    @Override
+	public void rollupreclassification(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID) {
+		LOG.info("Entering to  run rollupreclassification: P_PERIOD = {}, P_YEAR = {}, P_USERID = {}", P_PERIOD, P_YEAR, P_USERID);
+		try {
+			data.rollupreclassification(P_ORGID, P_PERIOD, P_YEAR, P_USERID);
+		} catch (Exception e) {
+			LOG.error("Error al correr IHfmRollupEntriesDao.rollupreclassification: => {}", e.getMessage());
+		}
+	}
 }

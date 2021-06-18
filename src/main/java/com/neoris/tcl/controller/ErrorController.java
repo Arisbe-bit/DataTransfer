@@ -41,7 +41,7 @@ public class ErrorController  {
 			Integer statusCode = Integer.valueOf(status.toString());
 
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				LOG.info("Recibí no encontrado. uri = {}", uri);
+				LOG.info("Gets not found. uri = {}", uri);
 				return "/404.xhtml";
 			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				LOG.info("Recibí un error. uri = {}", uri);

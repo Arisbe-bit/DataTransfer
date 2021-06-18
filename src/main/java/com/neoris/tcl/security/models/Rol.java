@@ -17,7 +17,8 @@ public enum Rol {
     ROLLUPHIST("RollUp History"),
     POLICIES("Manual Entries"),
     DEFINEDACCOUNT("Defined Accounts"),
-	MANUALENTRIESHIST("Manuel Entries History");
+	MANUALENTRIESHIST("Manuel Entries History"),
+	RECLASSIFICATION("Reclassifications");
 
     public final String label;
     private static final Map<String, Rol> BY_LABEL = new HashMap<>();

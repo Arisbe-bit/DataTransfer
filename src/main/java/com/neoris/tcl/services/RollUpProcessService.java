@@ -90,6 +90,10 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		// 4.- Run the Drills...
 		processDrils(rollUp);
+		
+		LOG.info("*********************Processing Reclassifications*********************");
+		//4.1
+		processReclassification(rollUp);
 
 		LOG.info("*********************Processing Validations*********************");
 		// 5.- Run the validations..
@@ -414,6 +418,25 @@ public class RollUpProcessService implements IRollUpProcessService {
 			LOG.error("Error running Match Account rollup: {}", e.getMessage(), e);
 			rollUp.setAttribute6(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running MatchAccount", "error", rollUp);
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @param rollUp
+	 */
+	private void processReclassification(HfmRollupEntries rollUp) {
+		ProcessRollUps rollUpReclassification = getProcessRollUpsInstance(rollUp, "", -1, false, false);
+		Thread reclassificationThread = createRollUpTread(rollUpReclassification);
+		reclassificationThread.run();
+		try {
+			reclassificationThread.join();
+			webSocketService.sendPushNotification(rollUp.getCompanyid());
+		} catch (InterruptedException e) {
+			LOG.error("Error running reclassification rollup: {}", e.getMessage(), e);
+			rollUp.setReclassifications(HfmRollupEntries.STATUS_ERROR);
+			webSocketService.sendPushNotification(e.getMessage(), "Error running reclassification", "error", rollUp);
 		}
 
 	}

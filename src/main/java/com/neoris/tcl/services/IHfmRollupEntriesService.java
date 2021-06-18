@@ -64,4 +64,6 @@ public interface IHfmRollupEntriesService {
     void rollUpValidations(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
     void rollUpMatchAccounts(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
+    
+    void rollupreclassification(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
 }

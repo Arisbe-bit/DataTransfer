@@ -62,6 +62,18 @@ function updateProcessStatus(id, iclass, status) {
 
 }
 
+function updateDates(id, vdateini, vdatefin) {
+	
+	var $id = $('#' + id);
+	
+	var $span = $id.find("span");
+	var spanclass = (iclass.trim() === '' ? '': 'sr-only');
+	$id.removeClass().addClass(iclass);	
+	$span.removeClass().addClass(spanclass);
+	$span.get(0).innerText = status;
+
+}
+
 function year_onblur(e) {
     var message = '';
     if (isNaN(e.value)) {

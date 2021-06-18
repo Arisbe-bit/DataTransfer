@@ -195,7 +195,7 @@ public class RollupController {
 			// if not, the messages dont refreshing
 			int idx = this.lstRollUps.indexOf(rollup);
 			rollUpProcessService.processRollUp(this.lstRollUps.get(idx));
-			webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
+			//webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
 		}
 
 		// clean the selected rollups list...

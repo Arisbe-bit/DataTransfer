@@ -91,6 +91,9 @@ public class User implements UserDetails {
 	
 	@ColumnDefault(value = "0")
 	private boolean manualentrieshist;
+	
+	@ColumnDefault(value = "0")
+	private boolean reclassification;
 
 	@Transient
 	private List<Rol> selectdRoles;
@@ -109,7 +112,7 @@ public class User implements UserDetails {
 			String username, String password, String name, boolean enabled, boolean admin,
 			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean policies, boolean definedaccounts, boolean manualentrieshist) {
+			boolean policies, boolean definedaccounts, boolean manualentrieshist, boolean reclassification) {
 		this.selectdRoles = new ArrayList<>();
 		this.username = username;
 		this.password = password;
@@ -129,6 +132,7 @@ public class User implements UserDetails {
 		this.policies = policies;
 		this.definedaccounts = definedaccounts; 
 		this.manualentrieshist = manualentrieshist;
+		this.reclassification = reclassification;
 		this.passwordBackUp ="";
 		this.populateList();
 	}
@@ -373,6 +377,15 @@ public class User implements UserDetails {
 	public void setManualentrieshist(boolean manualentrieshist) {
 		this.manualentrieshist = manualentrieshist;
 	}
+	
+	public boolean isReclassification() {
+		return reclassification;
+	}
+
+	
+	public void setReclassification(boolean Reclassification) {
+		this.reclassification = Reclassification;
+	}
 
 	public void setSelectdRoles(List<Rol> selectdRoles) {
 		LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
@@ -422,6 +435,9 @@ public class User implements UserDetails {
 			if (Rol.MANUALENTRIESHIST.equals(rol)) {
 				this.setManualentrieshist(true);
 			}
+			if (Rol.RECLASSIFICATION.equals(rol)) {
+				this.setReclassification(true);
+			}
 		}
 	}
 
@@ -440,6 +456,7 @@ public class User implements UserDetails {
 		this.policies = false;
 		this.definedaccounts = false;
 		this.manualentrieshist = false;
+		this.reclassification = false;
 	}
 	
 	private void populateList() {
@@ -486,6 +503,10 @@ public class User implements UserDetails {
 		
 		if (manualentrieshist) {
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
+		}
+		
+		if (reclassification) {
+			selectdRoles.add(Rol.RECLASSIFICATION);
 		}
 	}
 

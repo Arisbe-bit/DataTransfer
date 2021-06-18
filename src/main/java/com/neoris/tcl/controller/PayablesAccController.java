@@ -205,7 +205,7 @@ public class PayablesAccController {
 		try {
 			LOG.info("Payables- company  => {}", this.currentPaytab.getId().getCompanyid());
 			lstSuppno = servicessupp.findByOrganizationid(this.currentPaytab.getId().getCompanyid().intValue());
-			LOG.info("return lstSuppno con items => {}", lstSuppno != null ? lstSuppno.size() : "es nulo");
+			LOG.info("return lstSuppno con items => {}", lstSuppno != null ? lstSuppno.size() : "is null");
 		} catch (Exception e) {
 			LOG.error("ERRor -> {}", e.getMessage());
 		}

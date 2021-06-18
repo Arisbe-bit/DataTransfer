@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmOracleAcc;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetDefinedAccounts;
+import com.neoris.tcl.models.SetMatchAccounts;
 import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmOracleAccService;
@@ -56,6 +57,7 @@ public class SetDefinedAccountsController {
 
 	private List<HfmOracleAcc> lstOrcl;
 	private List<ViewCostCenter> lstCC;
+	private List<SetMatchAccounts> lstMatchAcc;
 
 	private int lcompanyid;
 
@@ -246,6 +248,15 @@ public class SetDefinedAccountsController {
 
 	public void setLstCC(List<ViewCostCenter> lstCC) {
 		this.lstCC = lstCC;
+	}
+	
+
+	public List<SetMatchAccounts> getLstMatchAcc() {
+		return lstMatchAcc;
+	}
+
+	public void setLstMatchAcc(List<SetMatchAccounts> lstMatchAcc) {
+		this.lstMatchAcc = lstMatchAcc;
 	}
 
 	/**

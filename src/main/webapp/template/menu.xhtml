@@ -34,6 +34,7 @@
 			
 			<p:submenu label="Validations Set" icon="pi pi-check-circle">
 				<p:menuitem value="Match Accounts" icon="fa fa-clone" action="#{menuController.matchAccounts}" rendered="#{menuController.matchAccountsRole}" ajax="false" />
+				<p:menuitem value="Reclassifications" icon="pi pi-sliders-h" action="#{menuController.reclassification}" rendered="#{menuController.reclassificationRole}" ajax="false"/>
 				<p:separator/>
 				<p:menuitem value="HFM Data by Company" icon="pi pi-chart-line" action="#{menuController.dsvscompany}" rendered="#{menuController.dsvscompanyRole}" ajax="false"/>
 			</p:submenu>			

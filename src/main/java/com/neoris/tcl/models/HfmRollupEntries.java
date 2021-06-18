@@ -72,23 +72,30 @@ public class HfmRollupEntries implements Serializable {
 	private String segment1;
 
 	private String validations;
+	
+	private String initdate;
+	
+	private String findate;
 
 	public HfmRollupEntries() {
 
 	}
 
-	public HfmRollupEntries(Long companyid, String attribute1, String attribute2, String attribute3, String attribute4,
-			String attribute5, String attribute6, String entity, String rapplication, String reclassifications,
-			String rperiod, String rvalue, String rview, String ryear, String scenario, String segment,
-			String validations, String segment1) {
+	
+
+	public HfmRollupEntries(Long companyid, String entity, String attribute1, String attribute2, String attribute3,
+			String attribute4, String attribute5, String attribute6, String rapplication, String reclassifications,
+			String rperiod, String rvalue, String rview, String ryear, String scenario, String segment, String segment1,
+			String validations, String initdate, String findate) {
+		
 		this.companyid = companyid;
+		this.entity = entity;
 		this.attribute1 = attribute1;
 		this.attribute2 = attribute2;
 		this.attribute3 = attribute3;
 		this.attribute4 = attribute4;
 		this.attribute5 = attribute5;
 		this.attribute6 = attribute6;
-		this.entity = entity;
 		this.rapplication = rapplication;
 		this.reclassifications = reclassifications;
 		this.rperiod = rperiod;
@@ -97,9 +104,37 @@ public class HfmRollupEntries implements Serializable {
 		this.ryear = ryear;
 		this.scenario = scenario;
 		this.segment = segment;
-		this.validations = validations;
 		this.segment1 = segment1;
+		this.validations = validations;
+		this.initdate = initdate;
+		this.findate = findate;
 	}
+
+
+
+	public String getInitdate() {
+		return initdate;
+	}
+
+
+
+	public void setInitdate(String initdate) {
+		this.initdate = initdate;
+	}
+
+
+
+	public String getFindate() {
+		return findate;
+	}
+
+
+
+	public void setFindate(String findate) {
+		this.findate = findate;
+	}
+
+
 
 	public Long getCompanyid() {
 		return this.companyid;
@@ -353,13 +388,20 @@ public class HfmRollupEntries implements Serializable {
 	public String getFinishProcessID() {
 		return "i-finish-process-" + this.companyid;
 	}
-	
+
+
+
 	@Override
 	public String toString() {
-		return String.format(
-				"HfmRollupEntries [companyid=%s, entity=%s, attribute1=%s, attribute2=%s, attribute3=%s, attribute4=%s, attribute5=%s, attribute6=%s, rapplication=%s, reclassifications=%s, rperiod=%s, rvalue=%s, rview=%s, ryear=%s, scenario=%s, segment=%s, validations=%s, segment1=%s]",
-				companyid, entity, attribute1, attribute2, attribute3, attribute4, attribute5, attribute6, rapplication,
-				reclassifications, rperiod, rvalue, rview, ryear, scenario, segment, validations, segment1);
+		return "HfmRollupEntries [companyid=" + companyid + ", entity=" + entity + ", attribute1=" + attribute1
+				+ ", attribute2=" + attribute2 + ", attribute3=" + attribute3 + ", attribute4=" + attribute4
+				+ ", attribute5=" + attribute5 + ", attribute6=" + attribute6 + ", rapplication=" + rapplication
+				+ ", reclassifications=" + reclassifications + ", rperiod=" + rperiod + ", rvalue=" + rvalue
+				+ ", rview=" + rview + ", ryear=" + ryear + ", scenario=" + scenario + ", segment=" + segment
+				+ ", segment1=" + segment1 + ", validations=" + validations + ", initdate=" + initdate + ", findate="
+				+ findate + "]";
 	}
+	
+	
 
 }

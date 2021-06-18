@@ -98,7 +98,7 @@ public class AppConfig implements WebMvcConfigurer {
 	public TaskExecutor getAsyncExecutor() {
 		LOG.info("Configuring threadPoolRollUpExecutor...");
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(5);
+		executor.setCorePoolSize(15);
 		executor.setMaxPoolSize(20);
 		executor.setWaitForTasksToCompleteOnShutdown(true);
 		executor.setThreadNamePrefix("AsyncRU-");

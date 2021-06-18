@@ -1,6 +1,7 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -23,7 +24,7 @@ public class ViewRollupMatchFFSS implements Serializable {
 
 	private String hfmcode;
 
-	private int balance;
+	private BigDecimal balance;
 
 	private String classification;
 
@@ -39,7 +40,7 @@ public class ViewRollupMatchFFSS implements Serializable {
 
 	}
 
-	public ViewRollupMatchFFSS(Long num, Long companyid, String hfmcode, int balance, String classification,
+	public ViewRollupMatchFFSS(Long num, Long companyid, String hfmcode, BigDecimal balance, String classification,
 			String naturalb, String period, String errortext, String description) {
 
 		this.num = num;
@@ -77,11 +78,11 @@ public class ViewRollupMatchFFSS implements Serializable {
 		this.hfmcode = hfmcode;
 	}
 
-	public int getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 

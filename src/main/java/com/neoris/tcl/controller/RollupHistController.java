@@ -26,7 +26,7 @@ import com.neoris.tcl.services.IHfmFfssHistService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.IViewRollupFFSSGconsHistService;
 import com.neoris.tcl.services.IViewRollupMatchFFSSHistService;
-import com.neoris.tcl.utils.ViewScope;
+
 
 @Controller(value = "rolluphistControllerBean")
 @Scope("session")
