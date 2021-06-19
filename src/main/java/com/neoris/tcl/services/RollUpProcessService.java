@@ -36,6 +36,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 	private IWebSocketService webSocketService;
 	private IHfmRollupEntriesService service;
 	private User user;
+	private boolean lastProcess;
 
 //	@Override
 //	@Async()
@@ -108,6 +109,10 @@ public class RollUpProcessService implements IRollUpProcessService {
 		webSocketService.sendPushNotification(rollUp.getCompanyid());
 		webSocketService.sendPushNotification("Finished company " + rollUp.getEntity(), "Sucess", "info");
 
+		if(this.lastProcess) {
+			webSocketService.sendProcessFinished();
+		}
+
 	}
 
 	/**
@@ -168,8 +173,6 @@ public class RollUpProcessService implements IRollUpProcessService {
 		LOG.info("Preparing concept rollups...");
 		rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
 		webSocketService.sendPushNotification(rollUp);
-		// this.pushStatus("Preparing concept rollups...");
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		Thread payablesThread1 = null;
 		Thread payablesThread2 = null;
@@ -257,7 +260,6 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		// 3.- wait for finish these process and start Costmanager
 		try {
-			// otherThread.sleep(5000);
 			payablesThread1.join();
 			payablesThread2.join();
 			payablesThread3.join();
@@ -270,14 +272,12 @@ public class RollUpProcessService implements IRollUpProcessService {
 			payrollThread.join();
 			assetsThread.join();
 			otherThread.join();
-			// rollUp.setAttribute2(HfmRollupEntries.STATUS_OK);
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running process: {}", e.getMessage(), e);
 			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running process", "error", rollUp);
 		}
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 		LOG.info("Thread for rollUp Finish!");
 	}
 
@@ -290,28 +290,25 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		ProcessRollUps rollUpCostManager = getProcessRollUpsInstance(rollUp, P_COSTMANAGER, 0, false, false);
 		rollUp.setAttribute3(HfmRollupEntries.STATUS_PROCESSING);
+		webSocketService.sendPushNotification(rollUp);
 
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 		Thread costmanagerThread = createRollUpTread(rollUpCostManager);
 		costmanagerThread.run();
 
 		// Wait for process to finish....
 		try {
 			costmanagerThread.join();
-			// rollUp.setAttribute3(HfmRollupEntries.STATUS_OK);
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running costmanager: {}", e.getMessage(), e);
 			rollUp.setAttribute3(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running Cost manager", "error", rollUp);
 		}
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 	}
 
 	private void processDrils(HfmRollupEntries rollUp) {
 		rollUp.setAttribute4(HfmRollupEntries.STATUS_PROCESSING);
 		webSocketService.sendPushNotification(rollUp);
-		// PrimeFaces.current().ajax().update(DT_ROLLUP);
 
 		ProcessRollUps drillRollUp1 = getProcessRollUpsInstance(rollUp, "", 1, false, false);
 		ProcessRollUps drillRollUp2 = getProcessRollUpsInstance(rollUp, "", 2, false, false);
@@ -362,7 +359,6 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		// wait for finish
 		try {
-			// drillRollUp9Tread.sleep(5000);
 			drillRollUp1Tread.join();
 			drillRollUp2Tread.join();
 			drillRollUp3Tread.join();
@@ -372,7 +368,6 @@ public class RollUpProcessService implements IRollUpProcessService {
 			drillRollUp7Tread.join();
 			drillRollUp8Tread.join();
 			drillRollUp9Tread.join();
-			// rollUp.setAttribute4(HfmRollupEntries.STATUS_OK);
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Drills rollup: {}", e.getMessage(), e);
@@ -486,6 +481,11 @@ public class RollUpProcessService implements IRollUpProcessService {
 	@Override
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public void setLastProcess(boolean isLast) {
+		this.lastProcess = isLast;		
 	}
 
 }

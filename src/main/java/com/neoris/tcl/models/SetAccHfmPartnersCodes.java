@@ -22,24 +22,21 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	@EmbeddedId
 	private SetAccHfmPartnersCodesPK id;
 
-	
-
 	private int companyid;
 
 	private String icpcode;
 
-
 	public SetAccHfmPartnersCodes() {
-	    this.setId(new SetAccHfmPartnersCodesPK());
+		this.setId(new SetAccHfmPartnersCodesPK());
 	}
 
-	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id,  int companyid, String icpcode,
-			String partnerid, String tpartnertype) {
+	public SetAccHfmPartnersCodes(SetAccHfmPartnersCodesPK id, int companyid, String icpcode, String partnerid,
+			String tpartnertype) {
 		this.id = id;
-		
+
 		this.companyid = companyid;
 		this.icpcode = icpcode;
-		
+
 	}
 
 	public SetAccHfmPartnersCodesPK getId() {
@@ -49,8 +46,6 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	public void setId(SetAccHfmPartnersCodesPK id) {
 		this.id = id;
 	}
-
-	
 
 	public int getCompanyid() {
 		return this.companyid;
@@ -72,8 +67,5 @@ public class SetAccHfmPartnersCodes implements Serializable {
 	public String toString() {
 		return "SetAccHfmPartnersCodes [id=" + id + ", companyid=" + companyid + ", icpcode=" + icpcode + "]";
 	}
-
-	
-	
 
 }

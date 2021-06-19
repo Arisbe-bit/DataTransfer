@@ -189,15 +189,20 @@ public class RollupController {
 
 		// Initilize status of each rollup pending for processing...
 		lstSelectedRollups.stream().forEach(roll -> roll.pending());
+		int current = 1;
 
 		for (HfmRollupEntries rollup : lstSelectedRollups) {
+			// Review if this is the last rollup to process...
+			if(current++ == lstSelectedRollups.size()) {
+				rollUpProcessService.setLastProcess(true);
+			}
 			// find rollup and its processing from original list
-			// if not, the messages dont refreshing
+			// if not, the messages don't refresh
 			int idx = this.lstRollUps.indexOf(rollup);
 			rollUpProcessService.processRollUp(this.lstRollUps.get(idx));
 			//webSocketService.sendPushNotification("Finished company " + rollup.getEntity(), "Sucess", "info");
 		}
-
+		
 		// clean the selected rollups list...
 		lstSelectedRollups = null;
 
@@ -217,7 +222,6 @@ public class RollupController {
 		}
 
 		this.curRollUp = null;
-
 	}
 
 	/**

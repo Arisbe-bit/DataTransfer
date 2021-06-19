@@ -10,14 +10,22 @@
 
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" 
-                    disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="rollupForm:start-rollup-process-button"
-                    oncomplete="media">
+                    <p:commandButton id="start-rollup-process-button"
+                    	value="#{rollupControllerBean.processButtonMessage}"
+                    	icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}"
+                    	styleClass="#{rollupControllerBean.processButtonStyleClass}"
+                    	disabled="#{!rollupControllerBean.hasSelectedRollUps()}"
+                    	update="rollupForm:start-rollup-process-button">
                         <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
-                    <p:media id="media" value="/resources/SD_ALERT_44.mp3" player="quicktime" style="visibility: hidden;">
-					        <f:param name="autoPlay" value="true" />
-					        <f:param name="enablejavascript" value="true"/>
-					</p:media>
+						<p:audio value="/resources/mp3/SD_ALERT_44.mp3"
+							id="alertMP3"							
+							player="mp3"
+							controls="true"
+							onplay="console.log('MP3 Started Playing')"
+							onpause="console.log('MP3 Stopped Playing')"
+							style="display: none;">
+							Your browser does not support the audio element.See: <h:outputLink value="https://www.w3schools.com/html/html5_audio.asp">HTML5 Audio</h:outputLink>
+						</p:audio>
                     </p:commandButton>
 				</p:toolbarGroup>
             </p:toolbar>
@@ -101,10 +109,14 @@
                     </h:selectOneMenu>
                 </p:column>
                 <p:column headerText="Start Date">
-                    <h:outputText value="#{rollup.initdate}" />
+                    <div id="#{rollup.iniDateId}">
+                        <h:outputText value="#{rollup.initdate}"/>
+                    </div>
                 </p:column>
                 <p:column headerText="End Date">
-                    <h:outputText id ="findate#{rollup.companyid}" value="#{rollup.findate}" />
+                    <div id="#{rollup.finDateId}">
+                        <h:outputText value="#{rollup.findate}" />
+                    </div>
                 </p:column>
                 <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-bal-va">
                     <i class="#{rollup.trialBalanceIcon}" id="#{rollup.balanceValidationID}">

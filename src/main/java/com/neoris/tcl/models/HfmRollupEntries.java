@@ -72,22 +72,20 @@ public class HfmRollupEntries implements Serializable {
 	private String segment1;
 
 	private String validations;
-	
+
 	private String initdate;
-	
+
 	private String findate;
 
 	public HfmRollupEntries() {
 
 	}
 
-	
-
 	public HfmRollupEntries(Long companyid, String entity, String attribute1, String attribute2, String attribute3,
 			String attribute4, String attribute5, String attribute6, String rapplication, String reclassifications,
 			String rperiod, String rvalue, String rview, String ryear, String scenario, String segment, String segment1,
 			String validations, String initdate, String findate) {
-		
+
 		this.companyid = companyid;
 		this.entity = entity;
 		this.attribute1 = attribute1;
@@ -110,31 +108,21 @@ public class HfmRollupEntries implements Serializable {
 		this.findate = findate;
 	}
 
-
-
 	public String getInitdate() {
 		return initdate;
 	}
-
-
 
 	public void setInitdate(String initdate) {
 		this.initdate = initdate;
 	}
 
-
-
 	public String getFindate() {
 		return findate;
 	}
 
-
-
 	public void setFindate(String findate) {
 		this.findate = findate;
 	}
-
-
 
 	public Long getCompanyid() {
 		return this.companyid;
@@ -333,23 +321,23 @@ public class HfmRollupEntries implements Serializable {
 	}
 
 	public String getBalanceValidationIcon() {
-		return getProcessIcon(this.attribute4); //ICP
+		return getProcessIcon(this.attribute4); // ICP
 	}
 
 	public String getCostCenterValidationIcon() {
-		return getProcessIcon(this.attribute5);  //cost center //opex area
+		return getProcessIcon(this.attribute5); // cost center //opex area
 	}
-	
+
 	public String getFinishedProcessIcon() {
 		return getProcessIcon(this.attribute6);
 	}
-	
+
 	public String getValidationsIcon() {
 		return getProcessIcon(this.validations);// accounts
-	}	
+	}
 
 	private String getProcessIcon(String status) {
-		if(status == null) {
+		if (status == null) {
 			status = "";
 		}
 		String icon = "";
@@ -365,22 +353,22 @@ public class HfmRollupEntries implements Serializable {
 		if (status.equalsIgnoreCase(STATUS_PENDING)) {
 			icon = PENDING_ICON;
 		}
-		
+
 		return icon;
 	}
-	
+
 	public String getBalanceValidationID() {
 		return "i-ba-va-" + this.companyid;
 	}
-	
+
 	public String getTradingPartnerValidationID() {
 		return "i-tra-pa-va-" + this.companyid;
 	}
-	
+
 	public String getCostCenterValidationID() {
 		return "i-cos-ce-va-" + this.companyid;
 	}
-	
+
 	public String getAccountBalanceValidationID() {
 		return "i-acc-bal-va-" + this.companyid;
 	}
@@ -389,7 +377,13 @@ public class HfmRollupEntries implements Serializable {
 		return "i-finish-process-" + this.companyid;
 	}
 
+	public String getFinDateId() {
+		return "fin-date-" + this.companyid;
+	}
 
+	public String getIniDateId() {
+		return "ini-date-" + this.companyid;
+	}
 
 	@Override
 	public String toString() {
@@ -401,7 +395,5 @@ public class HfmRollupEntries implements Serializable {
 				+ ", segment1=" + segment1 + ", validations=" + validations + ", initdate=" + initdate + ", findate="
 				+ findate + "]";
 	}
-	
-	
 
 }
