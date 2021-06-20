@@ -1,246 +1,178 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core"
-	template="/template/layout.xhtml">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
 
-	<ui:define name="title">
-		<title>${setreclassifaccControllerBean.title}</title>
-	</ui:define>
+    <ui:define name="title">
+        <title>
+            <h:outputText value="#{setreclassifaccControllerBean.title}" />
+        </title>
+    </ui:define>
 
-	<ui:define name="header">
-		<h1>${setreclassifaccControllerBean.title}</h1>
-	</ui:define>
+    <ui:define name="header">
+        <h1>
+            <h:outputText value="#{setreclassifaccControllerBean.title}" />
+        </h1>
+    </ui:define>
 
-	<ui:define name="content">
-		<h:form id="form">
-			<div class="card">
-				<p:growl id="messages" showDetail="true" />
-				<p:toolbar>
-					<p:toolbarGroup>
-						<p:commandButton value="New" icon="pi pi-plus" oncomplete="PF('manageCodeDialog').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
-                                    <f:ajax event="click" execute="@this" listener="#{setreclassifaccControllerBean.openNew}" render=":form:manage-code-content"/>
-                                    <p:resetInput target=":form:manage-code-content" />
-                                </p:commandButton>
-						<p:commandButton
-							value="#{setreclassifaccControllerBean.deleteButtonMessage}"
-							id="#{setreclassifaccControllerBean.deleteCodesButton}"
-							icon="pi pi-trash"
-							actionListener="#{setreclassifaccControllerBean.deleteSelected}"
-							styleClass="ui-button-danger" style="margin-left: 0.3em"
-							disabled="#{!setreclassifaccControllerBean.hasSelectedCodes()}"
-							update="@this">
-							<p:confirm header="Confirmation"
-								message="Delete the selected codes?"
-								icon="pi pi-exclamation-triangle" />
-						</p:commandButton>
-					</p:toolbarGroup>
-					<p:toolbarGroup align="right">
-						<p:commandButton value="Export" icon="pi pi-upload"
-							styleClass="ui-button-help" ajax="false">
-							<p:dataExporter type="xls"
-								target="#{setreclassifaccControllerBean.dataTableName}"
-								fileName="${setreclassifaccControllerBean.title}" />
-						</p:commandButton>
-					</p:toolbarGroup>
-				</p:toolbar>
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+                <p:growl id="messages" showDetail="true" />
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="New" icon="pi pi-plus" oncomplete="PF('manageCodeDialog').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+                            <f:ajax event="click" execute="@this" listener="#{setreclassifaccControllerBean.openNew}" render=":form:manage-code-content"/>
+                            <p:resetInput target=":form:manage-code-content" />
+                        </p:commandButton>
+                        <p:commandButton value="#{setreclassifaccControllerBean.deleteButtonMessage}" id="#{setreclassifaccControllerBean.deleteCodesButton}" icon="pi pi-trash" actionListener="#{setreclassifaccControllerBean.deleteSelected}" styleClass="ui-button-danger" style="margin-left: 0.3em" disabled="#{!setreclassifaccControllerBean.hasSelectedCodes()}" update="@this">
+                            <p:confirm header="Confirmation" message="Delete the selected codes?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="xls" target="#{setreclassifaccControllerBean.dataTableName}" fileName="${setreclassifaccControllerBean.title}" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
 
-				<p:dataTable id="#{setreclassifaccControllerBean.dataTableName}"
-					widgetVar="dtCodes" 
-					var="currentid"
-					value="#{setreclassifaccControllerBean.lstref}" reflow="true"
-					styleClass="products-table"
-					selection="#{setreclassifaccControllerBean.lstSlctdref}"
-					rowKey="#{currentid.id.partnerid}" 
-					paginator="true" 
-					rows="10"
-					rowSelectMode="add" 
-					size="small" 
-					paginatorPosition="bottom">
-					<f:facet name="header">
-						<span style="font-weight: bold">${setreclassifaccControllerBean.title}</span>
-					</f:facet>
-					<p:ajax event="rowSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowUnselect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowSelectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
-					<p:ajax event="rowUnselectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
-					<p:ajax event="toggleSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+                <p:dataTable id="#{setreclassifaccControllerBean.dataTableName}" widgetVar="dtCodes"
+                	var="currentid" value="#{setreclassifaccControllerBean.lstref}"
+                	reflow="true" styleClass="products-table"
+                	selection="#{setreclassifaccControllerBean.lstSlctdref}"
+                	rowKey="#{currentid.id.partnerid}" paginator="true"
+                	rows="10" rowSelectMode="add" size="small" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <h:outputText value="#{setreclassifaccControllerBean.title}" style="font-weight: bold" />
+                    </f:facet>
+                    <p:ajax event="rowSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
+                    <p:ajax event="toggleSelect" update=":form:#{setreclassifaccControllerBean.deleteCodesButton}" />
 
-					<p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
-					</p:column>	
-					<p:column headerText="Company"  sortBy="#{currentid.segment1}" filterBy="#{currentid.segment1}">
-						<h:outputText value="#{currentid.segment1}" />
-					</p:column>				
-					<p:column headerText="Partner Id"  sortBy="#{currentid.id.partnerid}" filterBy="#{currentid.id.partnerid}">
-						<h:outputText value="#{currentid.id.partnerid}" />
-					</p:column>
-					<p:column headerText="Cost Center"  sortBy="#{currentid.id.costcenter}" filterBy="#{currentid.id.costcenter}">
-						<h:outputText value="#{currentid.id.costcenter}" />
-					</p:column>
-					<p:column headerText="Initial Account" sortBy="#{currentid.id.accountidini}" filterBy="#{currentid.id.accountidini}">
-						<h:outputText value="#{currentid.id.accountidini}" />
-					</p:column>
-					<p:column headerText="Final Account"  sortBy="#{currentid.id.accountidfin}" filterBy="#{currentid.id.accountidfin}">
-						<h:outputText value="#{currentid.id.accountidfin}" />
-					</p:column>
-					<p:column headerText="Original HFM Account"  sortBy="#{currentid.id.hfmcodeorig}" filterBy="#{currentid.id.hfmcodeorig}">
-						<h:outputText value="#{currentid.id.hfmcodeorig}" />
-					</p:column>
-					<p:column headerText="Destination HFM Account"  sortBy="#{currentid.id.hfmcodedest}" filterBy="#{currentid.id.hfmcodedest}">
-						<h:outputText value="#{currentid.id.hfmcodedest}" />
-					</p:column>
-					
-					<p:column headerText="Actions" exportable="false" width="10%">
-						<p:commandButton icon="pi pi-pencil"
-							update=":form:manage-code-content"
-							oncomplete="PF('#{setreclassifaccControllerBean.dialogName}').show()"
-							styleClass="edit-button rounded-button ui-button-success"
-							style="margin-right: 0.3em" 
-							process="@this">
-							<f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
-							<p:resetInput target=":form:manage-code-content" />
-						</p:commandButton>
+                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="5%">
+                    </p:column>
+                    <p:column headerText="Company" sortBy="#{currentid.segment1}" filterBy="#{currentid.segment1}">
+                        <h:outputText value="#{currentid.segment1}" />
+                    </p:column>
+                    <p:column headerText="Partner Id" sortBy="#{currentid.id.partnerid}" filterBy="#{currentid.id.partnerid}">
+                        <h:outputText value="#{currentid.id.partnerid}" />
+                    </p:column>
+                    <p:column headerText="Cost Center" sortBy="#{currentid.id.costcenter}" filterBy="#{currentid.id.costcenter}">
+                        <h:outputText value="#{currentid.id.costcenter}" />
+                    </p:column>
+                    <p:column headerText="Initial Account" sortBy="#{currentid.id.accountidini}" filterBy="#{currentid.id.accountidini}">
+                        <h:outputText value="#{currentid.id.accountidini}" />
+                    </p:column>
+                    <p:column headerText="Final Account" sortBy="#{currentid.id.accountidfin}" filterBy="#{currentid.id.accountidfin}">
+                        <h:outputText value="#{currentid.id.accountidfin}" />
+                    </p:column>
+                    <p:column headerText="Original HFM Account" sortBy="#{currentid.id.hfmcodeorig}" filterBy="#{currentid.id.hfmcodeorig}">
+                        <h:outputText value="#{currentid.id.hfmcodeorig}" />
+                    </p:column>
+                    <p:column headerText="Destination HFM Account" sortBy="#{currentid.id.hfmcodedest}" filterBy="#{currentid.id.hfmcodedest}">
+                        <h:outputText value="#{currentid.id.hfmcodedest}" />
+                    </p:column>
 
-						<p:commandButton class="ui-button-warning rounded-button"
-							icon="pi pi-trash" 
-							process="@this" 
-							style="margin-left: 0.3em"
-							oncomplete="PF('deleteCodeDialog').show()">
-							<f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
-						</p:commandButton>
-					</p:column>
-				</p:dataTable>
+                    <p:column headerText="Actions" exportable="false" width="10%">
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('#{setreclassifaccControllerBean.dialogName}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
+                            <f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
+                            <p:resetInput target=":form:manage-code-content" />
+                        </p:commandButton>
 
-				<!-- This form is for add new o modify a code -->
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" oncomplete="PF('deleteCodeDialog').show()">
+                            <f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
 
-				<p:dialog header="Details" showEffect="fade" modal="true"
-					widgetVar="#{setreclassifaccControllerBean.dialogName}"
-					responsive="true">
-					<p:outputPanel id="manage-code-content" class="ui-fluid">
-						<p:outputPanel
-							rendered="#{not empty setreclassifaccControllerBean.curracc}">
-							<div class="p-field">
-								<p:outputLabel for="companyid">Company Id</p:outputLabel>
-								<p:selectOneMenu id="companyid" 
-								value="setreclassifaccControllerBean.curracc.id.companyid}" 
-								filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{setreclassifaccControllerBean.lstcompany}" 
-                                    var="itemp" itemLabel="#{itemp.segment1}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this"  render=":form:accountidini :form:accountidfin" 
-                               			/>	
+                <!-- This form is for add new o modify an account -->
+
+                <p:dialog header="Details" showEffect="fade" modal="true" widgetVar="#{setreclassifaccControllerBean.dialogName}" responsive="true">
+                    <p:outputPanel id="manage-code-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty setreclassifaccControllerBean.curracc}">
+                            <div class="p-field">
+                                <p:outputLabel for="companyid">Company Id</p:outputLabel>
+                                <p:selectOneMenu id="companyid" value="#{setreclassifaccControllerBean.curracc.id.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:accountidini :form:accountidfin :form:suppno"/>
                                 </p:selectOneMenu>
-											
-							</div>
-							<div class="p-field">
-								<p:outputLabel for="@next">Cost Center</p:outputLabel>
-								<p:selectOneMenu id="costcenter" editable="true" value="#{setreclassifaccControllerBean.curracc.id.costcenter}" filter="true" filterMatchMode="startsWith">
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="@next">Cost Center</p:outputLabel>
+                                <p:selectOneMenu id="costcenter" editable="true" value="#{setreclassifaccControllerBean.curracc.id.costcenter}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstCC}" var="costc" itemLabel="#{costc.costcenter}" itemValue="#{costc.costcenter}" />
                                     <f:ajax event="change" listener="#{setreclassifaccControllerBean.costcenterChange}" execute="@this" render=":form:accountidini form:accountidfin form:suppno"/>
                                 </p:selectOneMenu>
-							</div>
-							<div class="p-field">
+                            </div>
+                            <div class="p-field">
                                 <p:outputLabel for="@next" value="Initial Account ID" />
                                 <p:selectOneMenu id="accountidini" editable="true" value="#{setreclassifaccControllerBean.curracc.id.accountidini}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Initial Account is requiered">
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
                             </div>
-							<div class="p-field">
+                            <div class="p-field">
                                 <p:outputLabel for="@next" value="Final Account ID" />
                                 <p:selectOneMenu id="accountidfin" editable="true" value="#{setreclassifaccControllerBean.curracc.id.accountidfin}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Final Account is requiered">
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
                             </div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="hfmcodeorig" value="Actual HFM Code" />
-								<p:selectOneMenu id="hfmcodeorig"
-									value="#{setreclassifaccControllerBean.curracc.id.hfmcodeorig}"  filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
-										var="itemm" 
-										itemLabel="#{itemm.hfmcode}"
-										itemValue="#{itemm.hfmcode}" />										
-								</p:selectOneMenu>
-							</div>	
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="hfmcodedest" value="Destination HFM Code" />
-								<p:selectOneMenu id="hfmcodedest"
-									value="#{setreclassifaccControllerBean.curracc.id.hfmcodedest}"  filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{hfmControllerBean.lstHfmcodes}"
-										var="itemm" 
-										itemLabel="#{itemm.hfmcode}"
-										itemValue="#{itemm.hfmcode}" />										
-								</p:selectOneMenu>
-							</div>	
-							<div class="p-field p-col-12 p-md-4">
+                            <div class="p-field">
+                                <p:outputLabel for="hfmcodeorig" value="Actual HFM Code" />
+                                <p:selectOneMenu id="hfmcodeorig" value="#{setreclassifaccControllerBean.curracc.id.hfmcodeorig}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstHfmcodes}" var="itemm" itemLabel="#{itemm.hfmcode}" itemValue="#{itemm.hfmcode}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
+                                <p:outputLabel for="hfmcodedest" value="Destination HFM Code" />
+                                <p:selectOneMenu id="hfmcodedest" value="#{setreclassifaccControllerBean.curracc.id.hfmcodedest}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstHfmcodes}" var="itemm" itemLabel="#{itemm.hfmcode}" itemValue="#{itemm.hfmcode}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field">
                                 <p:outputLabel for="source" value="Source Type" />
                                 <p:selectOneMenu id="source" value="#{setreclassifaccControllerBean.vsource}">
                                     <f:selectItem itemLabel="Receivables" itemValue="Receivables" />
                                     <f:selectItem itemLabel="Payables" itemValue="Payables" />
                                 </p:selectOneMenu>
                             </div>
-							<div class="p-field p-col-12 p-md-4">
-								<p:outputLabel for="suppno" value="Supplier No." />
-								<p:selectOneMenu id="suppno"
-									value="#{setreclassifaccControllerBean.curracc.id.partnerid}"  filter="true" filterMatchMode="startsWith">
-									<f:selectItem itemLabel="Select One" itemValue="" />
-									<f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}"
-										var="itemc" 
-										itemLabel="#{itemc.vendorname}"
-										itemValue="#{itemc.suppliernum}" />										
-								</p:selectOneMenu>
-							</div>	
-						</p:outputPanel>
-					</p:outputPanel>
-					<f:facet name="footer">
-						<p:commandButton value="Save" 
-							id="btnSave"
-							icon="pi pi-check"
-							actionListener="#{setreclassifaccControllerBean.save}"
-							update="manage-code-content" 
-							process="manage-code-content @this" />
-						<p:commandButton value="Cancel" 
-							id="btnCancel"
-							icon="pi pi-times"
-							onclick="PF('#{setreclassifaccControllerBean.dialogName}').hide()"
-							class="ui-button-secondary" />
-					</f:facet>
-				</p:dialog>
+                            <div class="p-field">
+                                <p:outputLabel for="suppno" value="Supplier No." />
+                                <p:selectOneMenu id="suppno" value="#{setreclassifaccControllerBean.curracc.id.partnerid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}" var="itemc" itemLabel="#{itemc.vendorname}" itemValue="#{itemc.suppliernum}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" id="btnSave" icon="pi pi-check" actionListener="#{setreclassifaccControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
+                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="PF('#{setreclassifaccControllerBean.dialogName}').hide()" class="ui-button-secondary" />
+                    </f:facet>
+                </p:dialog>
 
-				<!-- end form -->
+                <!-- end form -->
 
-				<p:confirmDialog widgetVar="deleteCodeDialog" 
-					showEffect="fade"
-					width="300" 
-					message="Delete the code?" 
-					header="Confirm"
-					severity="warn">
-					<p:commandButton value="Yes" 
-						id="btnDeleteYes"
-						icon="pi pi-check"
-						actionListener="#{setreclassifaccControllerBean.delete}"
-						process="@this" 
-						oncomplete="PF('deleteCodeDialog').hide()" />
-					<p:commandButton value="No" 
-						id="btnDeleteNo"
-						type="button"
-						styleClass="ui-button-secondary" 
-						icon="pi pi-times"
-						onclick="PF('deleteCodeDialog').hide()" />
-				</p:confirmDialog>
+                <p:confirmDialog widgetVar="deleteCodeDialog" showEffect="fade" width="300" message="Delete the account?" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" id="btnDeleteYes" icon="pi pi-check" actionListener="#{setreclassifaccControllerBean.delete}" process="@this" oncomplete="PF('deleteCodeDialog').hide()" />
+                    <p:commandButton value="No" id="btnDeleteNo" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCodeDialog').hide()" />
+                </p:confirmDialog>
 
-				<p:confirmDialog global="true" showEffect="fade" width="300">
-					<p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-					<p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
-				</p:confirmDialog>
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                </p:confirmDialog>
 
-			</div>
-		</h:form>
-	</ui:define>
+            </div>
+        </h:form>
+    </ui:define>
 
 </ui:composition>

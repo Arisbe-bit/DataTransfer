@@ -12,7 +12,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class SetReclassifAccountsPK implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -29,10 +28,9 @@ public class SetReclassifAccountsPK implements Serializable {
 	public SetReclassifAccountsPK() {
 	}
 
-	
 	public SetReclassifAccountsPK(String hfmcodeorig, String hfmcodedest, String costcenter, String accountidini,
 			String accountidfin, String partnerid, int companyid) {
-		
+
 		this.hfmcodeorig = hfmcodeorig;
 		this.hfmcodedest = hfmcodedest;
 		this.costcenter = costcenter;
@@ -42,10 +40,9 @@ public class SetReclassifAccountsPK implements Serializable {
 		this.companyid = companyid;
 	}
 
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountidini, accountidfin,hfmcodeorig,hfmcodedest,costcenter,partnerid,companyid);
+		return Objects.hash(accountidini, accountidfin, hfmcodeorig, hfmcodedest, costcenter, partnerid, companyid);
 	}
 
 	@Override
@@ -60,79 +57,64 @@ public class SetReclassifAccountsPK implements Serializable {
 		return Objects.equals(accountidini, other.accountidini) && Objects.equals(accountidfin, other.accountidfin)
 				&& Objects.equals(companyid, other.companyid) && Objects.equals(costcenter, other.costcenter)
 				&& Objects.equals(partnerid, other.partnerid) && Objects.equals(hfmcodeorig, other.hfmcodeorig)
-				&& Objects.equals(hfmcodedest, other.hfmcodedest) ;
+				&& Objects.equals(hfmcodedest, other.hfmcodedest);
 	}
-
 
 	public String getHfmcodeorig() {
 		return hfmcodeorig;
 	}
 
-
 	public void setHfmcodeorig(String hfmcodeorig) {
 		this.hfmcodeorig = hfmcodeorig;
 	}
-
 
 	public String getHfmcodedest() {
 		return hfmcodedest;
 	}
 
-
 	public void setHfmcodedest(String hfmcodedest) {
 		this.hfmcodedest = hfmcodedest;
 	}
-
 
 	public String getCostcenter() {
 		return costcenter;
 	}
 
-
 	public void setCostcenter(String costcenter) {
 		this.costcenter = costcenter;
 	}
-
 
 	public String getAccountidini() {
 		return accountidini;
 	}
 
-
 	public void setAccountidini(String accountidini) {
 		this.accountidini = accountidini;
 	}
-
 
 	public String getAccountidfin() {
 		return accountidfin;
 	}
 
-
 	public void setAccountidfin(String accountidfin) {
 		this.accountidfin = accountidfin;
 	}
-
 
 	public String getPartnerid() {
 		return partnerid;
 	}
 
-
 	public void setPartnerid(String partnerid) {
 		this.partnerid = partnerid;
 	}
-
 
 	public int getCompanyid() {
 		return companyid;
 	}
 
-
 	public void setCompanyid(int companyid) {
 		this.companyid = companyid;
 	}
-
 
 	@Override
 	public String toString() {
@@ -141,5 +123,4 @@ public class SetReclassifAccountsPK implements Serializable {
 				+ partnerid + ", companyid=" + companyid + "]";
 	}
 
-	
 }

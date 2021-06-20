@@ -21,7 +21,6 @@ public class SetReclassifAccounts implements Serializable {
 
 	@EmbeddedId
 	private SetReclassifAccountsPK id;
-
 	private String userid;
 	private String segment1;
 	
