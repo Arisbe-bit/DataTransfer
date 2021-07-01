@@ -98,7 +98,7 @@
                                 <p:outputLabel for="companyid">Company Id</p:outputLabel>
                                 <p:selectOneMenu id="companyid" value="#{setreclassifaccControllerBean.curracc.id.companyid}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:accountidini :form:accountidfin :form:suppno"/>
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:accountidini :form:accountidfin :form:suppno :form:custno"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">
@@ -106,7 +106,7 @@
                                 <p:selectOneMenu id="costcenter" editable="true" value="#{setreclassifaccControllerBean.curracc.id.costcenter}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstCC}" var="costc" itemLabel="#{costc.costcenter}" itemValue="#{costc.costcenter}" />
-                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.costcenterChange}" execute="@this" render=":form:accountidini form:accountidfin form:suppno"/>
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.costcenterChange}" execute="@this" render=":form:accountidini form:accountidfin"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">
@@ -142,14 +142,24 @@
                                 <p:selectOneMenu id="source" value="#{setreclassifaccControllerBean.vsource}">
                                     <f:selectItem itemLabel="Receivables" itemValue="Receivables" />
                                     <f:selectItem itemLabel="Payables" itemValue="Payables" />
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:suppno form:custno"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">
-                                <p:outputLabel for="suppno" value="Supplier No." />
-                                <p:selectOneMenu id="suppno" value="#{setreclassifaccControllerBean.curracc.id.partnerid}" filter="true" filterMatchMode="startsWith">
+                                <p:outputLabel for="custno" value="Customer No." />
+                                <p:selectOneMenu id="custno" value="#{setreclassifaccControllerBean.vpartnerid}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}" var="itemc" itemLabel="#{itemc.vendorname}" itemValue="#{itemc.suppliernum}" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstCustno}" var="itemc" itemLabel="#{itemc.custname}" itemValue="#{itemc.custno}" />
                                 </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="p-field">
+                                <p:outputLabel for="suppno" value="Supplier No." />
+                                <p:selectOneMenu id="suppno" value="#{setreclassifaccControllerBean.vpartnerids}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}" var="items" itemLabel="#{items.vendorname}" itemValue="#{items.suppliernum}" />
+                                </p:selectOneMenu>
+                               
                             </div>
                         </p:outputPanel>
                     </p:outputPanel>

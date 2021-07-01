@@ -138,6 +138,11 @@
                         <h:outputText value="#{rollup.validations}" class="#{empty rollup.validationsIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
+                <p:column headerText="Stock Variation" styleClass="rollup-text-align-center rollup-process-status" id="col-stock-va">
+                    <i class="#{rollup.stockvarIcon}" id="#{rollup.stockvarValidationID}">
+                        <h:outputText value="#{rollup.stockvar}" class="#{empty rollup.stockvarValidationID ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
                 <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status" id="col-finish-process">
                     <i class="#{rollup.finishedProcessIcon}" id="#{rollup.finishProcessID}">
                         <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.finishedProcessIcon ? '': 'sr-only'}"/>

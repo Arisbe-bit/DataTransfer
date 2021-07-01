@@ -71,17 +71,20 @@ public class HfmFfssDetails implements Serializable {
     @Column(name = "ICPID")
     private String icpid;
     private String posting;
+    private String linetype;
     
 	public HfmFfssDetails() {
 		this.setId(new HfmFfssDetailsPK());
 	}
 
 	
+	
+
 	public HfmFfssDetails(HfmFfssDetailsPK id, String tpname, String hfmcodeold, String batchname, String docnumber,
 			String upd, String hfmparent, String userid, String errortext, int headerid, int headeridrev,
 			BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit, String invoicedate,
-			String category, String omit, String areaid, int num, String icpid, String posting) {
-		
+			String category, String omit, String areaid, int num, String icpid, String posting, String linetype) {
+	
 		this.id = id;
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;
@@ -104,6 +107,29 @@ public class HfmFfssDetails implements Serializable {
 		this.num = num;
 		this.icpid = icpid;
 		this.posting = posting;
+		this.linetype = linetype;
+	}
+
+
+
+
+	public int getNum() {
+		return num;
+	}
+
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+
+	public String getLinetype() {
+		return linetype;
+	}
+
+
+	public void setLinetype(String linetype) {
+		this.linetype = linetype;
 	}
 
 
@@ -277,6 +303,9 @@ public class HfmFfssDetails implements Serializable {
 		this.posting = posting;
 	}
 
+
+
+
 	@Override
 	public String toString() {
 		return "HfmFfssDetails [id=" + id + ", tpname=" + tpname + ", hfmcodeold=" + hfmcodeold + ", batchname="
@@ -284,8 +313,11 @@ public class HfmFfssDetails implements Serializable {
 				+ userid + ", errortext=" + errortext + ", headerid=" + headerid + ", headeridrev=" + headeridrev
 				+ ", debit=" + debit + ", credit=" + credit + ", transdebit=" + transdebit + ", transcredit="
 				+ transcredit + ", invoicedate=" + invoicedate + ", category=" + category + ", omit=" + omit
-				+ ", areaid=" + areaid + ", num=" + num + ", icpid=" + icpid + ", posting=" + posting + "]";
+				+ ", areaid=" + areaid + ", num=" + num + ", icpid=" + icpid + ", posting=" + posting + ", linetype="
+				+ linetype + "]";
 	}
+
+	
 
 
 }

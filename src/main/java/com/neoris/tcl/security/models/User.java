@@ -214,6 +214,10 @@ public class User implements UserDetails {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.MANUALENTRIESHIST.name()));
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
 		}
+		if(reclassification) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.RECLASSIFICATION.name()));
+			selectdRoles.add(Rol.RECLASSIFICATION);
+		}
 		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
 

@@ -1,10 +1,13 @@
 package com.neoris.tcl.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.SetHfmCodes;
 
 @Repository
 public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Long> {
@@ -43,7 +46,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_CONCEP
 	 * @param p_userid
 	 */
-	@Procedure("ROLLUP_DRILL_DETAIL.get_headers")
+	@Procedure("ROLLUP_DRILL_DETAIL_OK.get_headers")
 	void getHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
@@ -161,4 +164,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	@Procedure("rollup_reclassification")
 	void rollupreclassification(int p_orgid, String p_period, String p_year, String p_userid);
 
+	
+	List<HfmRollupEntries> findByCompanyid(int companyid);
+	
 }

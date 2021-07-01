@@ -17,5 +17,7 @@ public interface IRollUpProcessService {
 	void processRollUp(HfmRollupEntries hfmRollupEntries);
 	
 	void setLastProcess(boolean isLast);
+	
+	void setNoproc(int num);
 
 }

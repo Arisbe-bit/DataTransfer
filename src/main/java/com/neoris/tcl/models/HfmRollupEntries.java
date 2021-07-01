@@ -76,16 +76,19 @@ public class HfmRollupEntries implements Serializable {
 	private String initdate;
 
 	private String findate;
+	
+	private String stockvar;
 
 	public HfmRollupEntries() {
 
 	}
 
+	
 	public HfmRollupEntries(Long companyid, String entity, String attribute1, String attribute2, String attribute3,
 			String attribute4, String attribute5, String attribute6, String rapplication, String reclassifications,
 			String rperiod, String rvalue, String rview, String ryear, String scenario, String segment, String segment1,
-			String validations, String initdate, String findate) {
-
+			String validations, String initdate, String findate, String stockvar) {
+		
 		this.companyid = companyid;
 		this.entity = entity;
 		this.attribute1 = attribute1;
@@ -106,7 +109,19 @@ public class HfmRollupEntries implements Serializable {
 		this.validations = validations;
 		this.initdate = initdate;
 		this.findate = findate;
+		this.stockvar = stockvar;
 	}
+
+
+	public String getStockvar() {
+		return stockvar;
+	}
+
+
+	public void setStockvar(String stockvar) {
+		this.stockvar = stockvar;
+	}
+
 
 	public String getInitdate() {
 		return initdate;
@@ -306,8 +321,13 @@ public class HfmRollupEntries implements Serializable {
 		this.attribute4 = status;
 		this.attribute5 = status;
 		this.attribute6 = status;
+		this.stockvar = status;
 	}
 
+	public String getStockvarIcon() {
+		return getProcessIcon(this.stockvar);
+	}
+	
 	public String getTrialBalanceIcon() {
 		return getProcessIcon(this.attribute1);
 	}
@@ -357,6 +377,10 @@ public class HfmRollupEntries implements Serializable {
 		return icon;
 	}
 
+	public String getStockvarValidationID() {
+		return "i-stock-va-" + this.companyid;
+	}
+	
 	public String getBalanceValidationID() {
 		return "i-ba-va-" + this.companyid;
 	}
@@ -385,6 +409,7 @@ public class HfmRollupEntries implements Serializable {
 		return "ini-date-" + this.companyid;
 	}
 
+
 	@Override
 	public String toString() {
 		return "HfmRollupEntries [companyid=" + companyid + ", entity=" + entity + ", attribute1=" + attribute1
@@ -393,7 +418,9 @@ public class HfmRollupEntries implements Serializable {
 				+ ", reclassifications=" + reclassifications + ", rperiod=" + rperiod + ", rvalue=" + rvalue
 				+ ", rview=" + rview + ", ryear=" + ryear + ", scenario=" + scenario + ", segment=" + segment
 				+ ", segment1=" + segment1 + ", validations=" + validations + ", initdate=" + initdate + ", findate="
-				+ findate + "]";
+				+ findate + ", stockvar=" + stockvar + "]";
 	}
+
+	
 
 }

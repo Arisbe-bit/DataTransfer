@@ -23,6 +23,8 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 	@Autowired
 	private IHfmRollupEntriesDao data;
 
+	
+	
 	@Override
 	public Optional<HfmRollupEntries> findById(Long id) {
 		return data.findById(id);
@@ -229,5 +231,11 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollupreclassification: => {}", e.getMessage());
 		}
+	}
+
+	@Override
+	public List<HfmRollupEntries> findByCompanyid(int companyid) {
+		
+		return (List<HfmRollupEntries>) data.findByCompanyid(companyid);
 	}
 }

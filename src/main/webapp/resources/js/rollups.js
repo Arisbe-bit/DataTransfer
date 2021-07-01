@@ -35,7 +35,8 @@ function showStatus(message) {
 						 rollup.attribute4 === 'Processing' ||
 					     rollup.attribute5 === 'Processing' ||
 						 rollup.attribute6 === 'Processing' ||
-						 rollup.validations === 'Processing');
+						 rollup.validations === 'Processing' ||
+						 rollup.stockvar === 'Processing');
 
 		// Update status for each process...
 		updateProcessStatus(rollup.balanceValidationID, rollup.trialBalanceIcon, rollup.attribute1);
@@ -43,6 +44,7 @@ function showStatus(message) {
 		updateProcessStatus(rollup.costCenterValidationID, rollup.costCenterValidationIcon, rollup.attribute5);
 		updateProcessStatus(rollup.accountBalanceValidationID, rollup.validationsIcon, rollup.validations);
 		updateProcessStatus(rollup.finishProcessID, rollup.finishedProcessIcon, rollup.attribute6);
+		updateProcessStatus(rollup.stockvarValidationID, rollup.stockvarIcon, rollup.stockvar);
 
 		// Update the process dates..
 		updateDate(rollup.iniDateId, rollup.initdate);

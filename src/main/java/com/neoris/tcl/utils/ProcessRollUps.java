@@ -57,6 +57,9 @@ public class ProcessRollUps implements Runnable {
 		if (numDrill ==-1) {
 			reclassifications();
 		} 
+		if (numDrill ==-2) {
+			rollUpStart();
+		} 
 		if (numDrill > 0) {
 			processDrill(numDrill);
 		} 		
@@ -88,6 +91,17 @@ public class ProcessRollUps implements Runnable {
 
 		service.rollupreclassification(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				user.getUsername());
+		
+	}
+	
+	private void rollUpStart() {
+		String mensaje = String.format("Processing Trial Balance for company:%s, period: %s, year: %s",
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		LOG.info(mensaje);
+		webSocketService.sendPushNotification(rollUp);
+
+		service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+				rollUp.getSegment1(), user.getUsername());
 		
 	}
 
