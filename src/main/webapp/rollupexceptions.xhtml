@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core" template="/template/layout.xhtml">
+
+    <ui:define name="title">
+        <title>
+            <h:outputText value="#{hfmexceptionsControllerBean.title}" />
+        </title>
+    </ui:define>
+
+    <ui:define name="header">
+        <h1>
+            <h:outputText value="#{hfmexceptionsControllerBean.title}" />
+        </h1>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="card">
+                <p:growl id="messages" showDetail="true" />
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="New" icon="pi pi-plus" oncomplete="PF('manageCodeDialog').show()" styleClass="ui-button-success" style="margin-right: 0.3em">
+                            <f:ajax event="click" execute="@this" listener="#{hfmexceptionsControllerBean.openNew}" render=":form:manage-code-content"/>
+                            <p:resetInput target=":form:manage-code-content" />
+                        </p:commandButton>
+                        <p:commandButton value="#{hfmexceptionsControllerBean.deleteButtonMessage}" id="#{hfmexceptionsControllerBean.deleteCodesButton}" icon="pi pi-trash" actionListener="#{hfmexceptionsControllerBean.deleteSelected}" styleClass="ui-button-danger" style="margin-left: 0.3em" disabled="#{!hfmexceptionsControllerBean.hasSelectedCodes()}" update="@this">
+                            <p:confirm header="Confirmation" message="Delete the selected codes?" icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="xls" target="#{hfmexceptionsControllerBean.dataTableName}" fileName="${hfmexceptionsControllerBean.title}" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="#{hfmexceptionsControllerBean.dataTableName}" widgetVar="dtCodes"
+                	var="currentid" value="#{hfmexceptionsControllerBean.lstexcep}"
+                	reflow="true" styleClass="products-table"
+                	selection="#{hfmexceptionsControllerBean.lstdelexcep}"
+                	rowKey="#{currentid.id.partnerid}" paginator="true"
+                	rows="10" rowSelectMode="add" size="small" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <h:outputText value="#{hfmexceptionsControllerBean.title}" style="font-weight: bold" />
+                    </f:facet>
+                    <p:ajax event="rowSelect" update=":form:#{hfmexceptionsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselect" update=":form:#{hfmexceptionsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowSelectCheckbox" update=":form:#{hfmexceptionsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="rowUnselectCheckbox" update=":form:#{hfmexceptionsControllerBean.deleteCodesButton}" />
+                    <p:ajax event="toggleSelect" update=":form:#{hfmexceptionsControllerBean.deleteCodesButton}" />
+
+                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="5%">
+                    </p:column>
+                    <p:column headerText="Company" sortBy="#{currentid.segment1}" filterBy="#{currentid.segment1}">
+                        <h:outputText value="#{currentid.segment1}" />
+                    </p:column>
+                    <p:column headerText="Partner Id" sortBy="#{currentid.id.partnerid}" filterBy="#{currentid.id.partnerid}">
+                        <h:outputText value="#{currentid.id.partnerid}" />
+                    </p:column>
+                    <p:column headerText="Cost Center" sortBy="#{currentid.id.costcenter}" filterBy="#{currentid.id.costcenter}">
+                        <h:outputText value="#{currentid.id.costcenter}" />
+                    </p:column>
+                    <p:column headerText="Oracle Account" sortBy="#{currentid.id.accountid}" filterBy="#{currentid.id.accountid}">
+                        <h:outputText value="#{currentid.id.accountid}" />
+                    </p:column>
+                    <p:column headerText="Actions" exportable="false" width="10%">
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('#{hfmexceptionsControllerBean.dialogName}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
+                            <f:setPropertyActionListener value="#{currentid}" target="#{hfmexceptionsControllerBean.curExcep}" />
+                            <p:resetInput target=":form:manage-code-content" />
+                        </p:commandButton>
+
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" oncomplete="PF('deleteCodeDialog').show()">
+                            <f:setPropertyActionListener value="#{currentid}" target="#{hfmexceptionsControllerBean.curExcep}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+                <!-- This form is for add new o modify an account -->
+
+                <p:dialog header="Details" showEffect="fade" modal="true" widgetVar="#{hfmexceptionsControllerBean.dialogName}" responsive="true">
+                    <p:outputPanel id="manage-code-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty hfmexceptionsControllerBean.curExcep}">
+                            <div class="p-field">
+                                <p:outputLabel for="companyid">Company Id</p:outputLabel>
+                                <p:selectOneMenu id="companyid" value="#{hfmexceptionsControllerBean.curExcep.id.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
+                                    <f:ajax event="change" listener="#{hfmexceptionsControllerBean.companyidChange}" execute="@this" render=":form:accountid :form:suppno :form:custno"/>
+                                </p:selectOneMenu>
+                            </div>
+                           
+                        </p:outputPanel>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" id="btnSave" icon="pi pi-check" actionListener="#{hfmexceptionsControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
+                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="PF('#{hfmexceptionsControllerBean.dialogName}').hide()" class="ui-button-secondary" />
+                    </f:facet>
+                </p:dialog>
+
+                <!-- end form -->
+
+                <p:confirmDialog widgetVar="deleteCodeDialog" showEffect="fade" width="300" message="Delete the account?" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" id="btnDeleteYes" icon="pi pi-check" actionListener="#{hfmexceptionsControllerBean.delete}" process="@this" oncomplete="PF('deleteCodeDialog').hide()" />
+                    <p:commandButton value="No" id="btnDeleteNo" type="button" styleClass="ui-button-secondary" icon="pi pi-times" onclick="PF('deleteCodeDialog').hide()" />
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" id="btnYes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" id="btnNo" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+                </p:confirmDialog>
+
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

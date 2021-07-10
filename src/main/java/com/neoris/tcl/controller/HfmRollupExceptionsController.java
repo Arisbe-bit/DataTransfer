@@ -16,53 +16,44 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmOracleAcc;
 import com.neoris.tcl.models.HfmRollupEntries;
-import com.neoris.tcl.models.SetHfmCodes;
-import com.neoris.tcl.models.SetReclassifAccounts;
+import com.neoris.tcl.models.HfmRollupExceptions;
 import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.models.ViewCustReceivables;
 import com.neoris.tcl.models.ViewPayablesSupp;
 import com.neoris.tcl.security.models.User;
 import com.neoris.tcl.services.IHfmOracleAccService;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
-import com.neoris.tcl.services.ISetHfmCodesService;
-import com.neoris.tcl.services.ISetReclassifAccountsService;
+import com.neoris.tcl.services.IHfmRollupExceptionsService;
 import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.services.IViewCustReceivablesService;
 import com.neoris.tcl.services.IViewPayablesSuppService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
-@Controller(value = "setreclassifaccControllerBean")
+@Controller(value = "hfmexceptionsControllerBean")
 @Scope(ViewScope.VIEW)
-public class SetReclassifAccountsController {
-
-	private final static Logger LOG = LoggerFactory.getLogger(SetReclassifAccountsController.class);
-
+public class HfmRollupExceptionsController {
+	private final static Logger LOG = LoggerFactory.getLogger(HfmRollupExceptionsController.class);
+	
 	@Autowired
-	private ISetReclassifAccountsService service;
-
-	private List<SetReclassifAccounts> lstref;
-	private List<SetReclassifAccounts> lstSlctdref;
-	private SetReclassifAccounts curracc;
-
+	private IHfmRollupExceptionsService service;
+	private List<HfmRollupExceptions> lstexcep;
+	private List<HfmRollupExceptions> lstdelexcep;
+	private HfmRollupExceptions curExcep;
+	
 	private List<HfmOracleAcc> lstOrcl;
 	private List<ViewCostCenter> lstCC;
 	private List<HfmRollupEntries> lstcompany;
-	private List<SetHfmCodes> lstHfmcodes;
+	
 	private User user;
-
+	
 	@Autowired
 	private IHfmOracleAccService serviceOAS;
 	@Autowired
 	private IViewCostCenterService servcc;
 	@Autowired
 	private IHfmRollupEntriesService servcomp;
-	@Autowired
-	ISetHfmCodesService servhfm;
-	@Autowired
-	private ISetHfmCodesService serviceHfmcodes;
-
-	// private int lcompanyid;
+	
 	private String vsource;
 
 	// customer view by company
@@ -77,13 +68,13 @@ public class SetReclassifAccountsController {
 	String vsegment1;
 	private Optional<HfmRollupEntries> lstentries;
 	
-	private String vpartnerid;
-	private String vpartnerids;
-
+	private int vpartnerid;
+	private int vpartnerids;
+	
 	@PostConstruct
 	public void init() {
-		LOG.info("Initializing lstReclasssifAccounts...");
-		this.lstref = service.findAll();
+		LOG.info("Initializing lstPArtners Exceptions...");
+		this.lstexcep = service.findAll();
 		this.vsource = "Receivables";
 		try {
 			LOG.info("Initializing Cost Centers...");
@@ -94,10 +85,7 @@ public class SetReclassifAccountsController {
 			this.lstcompany = servcomp.findAll();
 			LOG.info(" lstcompany " + this.lstcompany.size());
 
-			LOG.info("Initializing HFM Codes...");
-			this.lstHfmcodes = serviceHfmcodes.findAll();
-			LOG.info(" lstHfmcodes " + this.lstHfmcodes.size());
-
+			
 		} catch (Exception e) {
 			LOG.error("init lstCC ERRor -> {}", e.getMessage(), e);
 		}
@@ -113,26 +101,32 @@ public class SetReclassifAccountsController {
 
 	public void openNew() {
 		LOG.info("new");
-		this.curracc = new SetReclassifAccounts();
-		if (lstcompany.size() > 0) {
-			curracc.getId().setCompanyid(lstcompany.get(0).getCompanyid().intValue());
-		}
-		if (lstCC.size() > 0) {
-			curracc.getId().setCostcenter(lstCC.get(0).getCostcenter());
-		}
-
-		// force lo load "lstOrcl" list
-		this.costcenterChange();
-
-		if (lstOrcl.size() > 0) {
-			curracc.getId().setAccountidini(lstOrcl.get(0).getOracleacct());
-			curracc.getId().setAccountidfin(lstOrcl.get(0).getOracleacct());
-		}
-
-		this.curracc.setUserid(this.user.getUsername());
-		LOG.info("[openNew] => curracc = {}", curracc);
-
-		lstSuppno = servicessupp.findByOrganizationid(curracc.getId().getCompanyid());
+		this.curExcep = new HfmRollupExceptions();
+		
+		/*try {
+			if (lstcompany.size() > 0) {
+				curExcep.getId().setCompanyid(lstcompany.get(0).getCompanyid().intValue());
+			}
+			if (lstCC.size() > 0) {
+				curExcep.getId().setCostcenter(lstCC.get(0).getCostcenter());
+			}
+	
+			// force lo load "lstOrcl" list
+			this.costcenterChange();
+	
+			if (lstOrcl.size() > 0) {
+				curExcep.getId().setAccountid(lstOrcl.get(0).getOracleacct());
+				
+			}
+	
+			this.curExcep.setUserid(this.user.getUsername());
+			LOG.info("[openNew] => curExcep = {}", curExcep);
+	
+			//lstSuppno = servicessupp.findByOrganizationid(curExcep.getId().getCompanyid());
+		
+	} catch (Exception e) {
+		LOG.error("openNew ERRor -> {}", e.getMessage(), e);
+	}*/
 	}
 
 	/**
@@ -140,21 +134,21 @@ public class SetReclassifAccountsController {
 	 */
 	public void save() {
 		if (this.vsource.equals("Receivables")) {
-			this.curracc.getId().setPartnerid(this.vpartnerid);
+			this.curExcep.getId().setPartnerid(this.vpartnerid);
 			}else {
-				this.curracc.getId().setPartnerid(this.vpartnerids);
+				this.curExcep.getId().setPartnerid(this.vpartnerids);
 			}
-		LOG.info("Entering to save Account => {}", this.curracc);
+		LOG.info("Entering to save Account => {}", this.curExcep);
 		
-		Long companyId = new Long(this.curracc.getId().getCompanyid());
-		this.curracc.setUserid(user.getUsername());
-		this.curracc.setSegment1(getSegment1FromList(companyId));
-		this.curracc.setUserid(user.getUsername());
+		Long companyId = new Long(this.curExcep.getId().getCompanyid());
+		this.curExcep.setUserid(user.getUsername());
+		this.curExcep.setSegment1(getSegment1FromList(companyId));
+		this.curExcep.setUserid(user.getUsername());
 		
 		
 		
-		this.curracc = service.save(curracc);
-		this.lstref = service.findAll();
+		this.curExcep = service.save(curExcep);
+		this.lstexcep = service.findAll();
 		Functions.addInfoMessage("Succes", "Accounts saved");
 		PrimeFaces.current().executeScript("PF('" + getDialogName() + "').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
@@ -180,39 +174,39 @@ public class SetReclassifAccountsController {
 	}
 
 	public void delete() {
-		LOG.info("Entering to delete Account => {}", this.curracc);
-		service.delete(this.curracc);
-		this.curracc = null;
-		this.lstref = service.findAll();
+		LOG.info("Entering to delete Account => {}", this.curExcep);
+		service.delete(this.curExcep);
+		this.curExcep = null;
+		this.lstexcep = service.findAll();
 		Functions.addInfoMessage("Succes", "Code Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
 
 	public void deleteSelected(ActionEvent event) {
-		LOG.info("[deleteSelected] = > Entering to delete Accounts: {}", this.lstSlctdref);
-		service.deleteAll(this.lstSlctdref);
-		this.lstSlctdref = null;
-		this.lstref = service.findAll();
+		LOG.info("[deleteSelected] = > Entering to delete Accounts: {}", this.lstdelexcep);
+		service.deleteAll(this.lstdelexcep);
+		this.lstdelexcep = null;
+		this.lstexcep = service.findAll();
 		Functions.addInfoMessage("Succes", "Accounts Removed");
 		PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
 		PrimeFaces.current().executeScript("PF('dtCodes').clearFilters()");
 	}
 
 	public void update() {
-		LOG.info("Entering to update Account => {}", curracc);
+		LOG.info("Entering to update Account => {}", curExcep);
 		save();
 	}
 
 	public boolean hasSelectedCodes() {
-		return this.lstSlctdref != null && !this.lstSlctdref.isEmpty();
+		return this.lstdelexcep != null && !this.lstdelexcep.isEmpty();
 	}
 
 	public String getDeleteButtonMessage() {
 		String message = "Delete %s code%s selected";
 		String retval = "Delete";
 		if (hasSelectedCodes()) {
-			int size = this.lstSlctdref.size();
+			int size = this.lstdelexcep.size();
 			if (size > 1) {
 				retval = String.format(message, size, "s");
 			} else {
@@ -223,7 +217,7 @@ public class SetReclassifAccountsController {
 	}
 
 	public String getTitle() {
-		return "Reclassification Accounts Setting";
+		return "Trading partners Exceptions";
 	}
 
 	public String getDialogName() {
@@ -238,29 +232,20 @@ public class SetReclassifAccountsController {
 		return "delete-codes-button-id";
 	}
 
-	public List<SetReclassifAccounts> getLstref() {
-		return lstref;
+	public List<HfmRollupExceptions> getLstexcep() {
+		return lstexcep;
 	}
 
-	public void setLstref(List<SetReclassifAccounts> lstref) {
-		this.lstref = lstref;
+	public void setLstexcep(List<HfmRollupExceptions> lstexcep) {
+		this.lstexcep = lstexcep;
 	}
 
-	public List<SetReclassifAccounts> getLstSlctdref() {
-		return lstSlctdref;
+	public HfmRollupExceptions getCurExcep() {
+		return curExcep;
 	}
 
-	public void setLstSlctdref(List<SetReclassifAccounts> lstSlctdref) {
-		this.lstSlctdref = lstSlctdref;
-	}
-
-	public SetReclassifAccounts getCurracc() {
-		return curracc;
-	}
-
-	public void setCurracc(SetReclassifAccounts curracc) {
-		this.curracc = curracc;
-		LOG.info("[setCurracc] => curracc = {}", curracc);
+	public void setCurExcep(HfmRollupExceptions curExcep) {
+		this.curExcep = curExcep;
 	}
 
 	public List<HfmOracleAcc> getLstOrcl() {
@@ -295,15 +280,6 @@ public class SetReclassifAccountsController {
 		this.user = user;
 	}
 
-//	public int getLcompanyid() {
-//		return lcompanyid;
-//	}
-//
-//	public void setLcompanyid(int lcompanyid) {
-//		this.lcompanyid = lcompanyid;
-//		LOG.info("[setLcompanyid] Receive companyid = {}", lcompanyid);
-//	}
-
 	public String getVsource() {
 		return vsource;
 	}
@@ -320,13 +296,54 @@ public class SetReclassifAccountsController {
 		this.lstSuppno = lstSuppno;
 	}
 
-	
 	public List<ViewCustReceivables> getLstCustno() {
 		return lstCustno;
 	}
 
 	public void setLstCustno(List<ViewCustReceivables> lstCustno) {
 		this.lstCustno = lstCustno;
+	}
+
+	public String getVsegment1() {
+		return vsegment1;
+	}
+
+	public void setVsegment1(String vsegment1) {
+		this.vsegment1 = vsegment1;
+	}
+
+	public Optional<HfmRollupEntries> getLstentries() {
+		return lstentries;
+	}
+
+	public void setLstentries(Optional<HfmRollupEntries> lstentries) {
+		this.lstentries = lstentries;
+	}
+
+	public int getVpartnerid() {
+		return vpartnerid;
+	}
+
+	public void setVpartnerid(int vpartnerid) {
+		this.vpartnerid = vpartnerid;
+	}
+
+	public int getVpartnerids() {
+		return vpartnerids;
+	}
+
+	public void setVpartnerids(int vpartnerids) {
+		this.vpartnerids = vpartnerids;
+	}
+	
+	
+	
+	public List<HfmRollupExceptions> getLstdelexcep() {
+		return lstdelexcep;
+	}
+
+	public void setLstdelexcep(List<HfmRollupExceptions> lstdelexcep) {
+		this.lstdelexcep = lstdelexcep;
 	}
 
 	/**
@@ -338,27 +355,19 @@ public class SetReclassifAccountsController {
 		LOG.info("[companyidChange] ev = {}", ev);
 		companyidChange();
 	}
-
 	
-	public Optional<HfmRollupEntries> getLstentries() {
-		return lstentries;
-	}
-
-	public void setLstentries(Optional<HfmRollupEntries> lstentries) {
-		this.lstentries = lstentries;
-	}
-
+	
 	/**
 	 * 
 	 */
 	public void companyidChange() {
 		try {
-			LOG.info("[companyidChange] => curracc = {}", curracc);
+			LOG.info("[companyidChange] => curExcep = {}", curExcep);
 
-			int lcompanyid = this.curracc.getId().getCompanyid();
+			int lcompanyid = this.curExcep.getId().getCompanyid();
 			Long compid = Long.valueOf(Integer.toString(lcompanyid));
 			
-			String costCenter = this.curracc.getId().getCostcenter();
+			String costCenter = this.curExcep.getId().getCostcenter();
 			LOG.info("[companyidChange] companyid  => {},costcenter  => {}", lcompanyid, costCenter);
 
 			lstOrcl = serviceOAS.findByOrgidAndCostcenter(lcompanyid, costCenter);
@@ -395,8 +404,8 @@ public class SetReclassifAccountsController {
 
 	public void costcenterChange() {
 		try {
-			int companyId = this.curracc.getId().getCompanyid();
-			String costCenter = this.curracc.getId().getCostcenter();
+			int companyId = this.curExcep.getId().getCompanyid();
+			String costCenter = this.curExcep.getId().getCostcenter();
 			LOG.info("[costcenterChange] companyid  => {},costcenter  => {}", companyId, costCenter);
 			lstOrcl = serviceOAS.findByOrgidAndCostcenter(companyId, costCenter);
 
@@ -406,37 +415,4 @@ public class SetReclassifAccountsController {
 		}
 	}
 
-	public List<SetHfmCodes> getLstHfmcodes() {
-		return lstHfmcodes;
-	}
-
-	public void setLstHfmcodes(List<SetHfmCodes> lstHfmcodes) {
-		this.lstHfmcodes = lstHfmcodes;
-	}
-
-	public String getVsegment1() {
-		return vsegment1;
-	}
-
-	public void setVsegment1(String vsegment1) {
-		this.vsegment1 = vsegment1;
-	}
-
-	public String getVpartnerid() {
-		return vpartnerid;
-	}
-
-	public void setVpartnerid(String vpartnerid) {
-		this.vpartnerid = vpartnerid;
-	}
-
-	public String getVpartnerids() {
-		return vpartnerids;
-	}
-
-	public void setVpartnerids(String vpartnerids) {
-		this.vpartnerids = vpartnerids;
-	}
-
-	
 }

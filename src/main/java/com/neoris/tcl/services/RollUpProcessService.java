@@ -1,5 +1,6 @@
 package com.neoris.tcl.services;
 
+/*
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_ASSET;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_ASSETA;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_ASSETB;
@@ -11,7 +12,6 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLE
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES2;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES3;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES4;
-import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYABLES5;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYROLL;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYROLLA;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_PAYROLLB;
@@ -22,7 +22,8 @@ import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVA
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES2;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES3;
 import static com.neoris.tcl.services.IHfmRollupEntriesService.P_CONCEPT_RECEIVABLES4;
-import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;
+import static com.neoris.tcl.services.IHfmRollupEntriesService.P_COSTMANAGER;*/
+import static com.neoris.tcl.services.IHfmRollupEntriesService.*;
 
 import javax.faces.context.FacesContext;
 
@@ -188,13 +189,13 @@ public class RollUpProcessService implements IRollUpProcessService {
 		try {
 
 			payablesThreadA.join();
-			payablesThreadB.join();
 			receivablesThreadA.join();
-			receivablesThreadB.join();
 			costmanagerThread.join();
 			payrollThreadA.join();
-			payrollThreadB.join();
 			assetsThreadA.join();
+			receivablesThreadB.join();
+			payablesThreadB.join();
+			payrollThreadB.join();
 			assetsThreadB.join();
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 
@@ -248,10 +249,23 @@ public class RollUpProcessService implements IRollUpProcessService {
 		Thread payablesThread3 = null;
 		Thread payablesThread4 = null;
 		Thread payablesThread5 = null;
+		Thread payablesThread6 = null;
+		Thread payablesThread7 = null;
+		Thread payablesThread8 = null;
+		Thread payablesThread9 = null;
+		Thread payablesThread10 = null;
+		Thread payablesThread11 = null;
+		Thread payablesThread12 = null;
+		Thread payablesThread13 = null;
+		Thread payablesThread14 = null;
 		Thread receivablesThread1 = null;
 		Thread receivablesThread2 = null;
 		Thread receivablesThread3 = null;
 		Thread receivablesThread4 = null;
+		Thread receivablesThread5 = null;
+		Thread receivablesThread6 = null;
+		Thread receivablesThread7 = null;
+		Thread receivablesThread8 = null;
 		Thread payrollThread = null;
 		Thread assetsThread = null;
 		Thread otherThread = null;
@@ -277,10 +291,23 @@ public class RollUpProcessService implements IRollUpProcessService {
 		ProcessRollUps rollUpPayables3 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES3, 0, false, false);
 		ProcessRollUps rollUpPayables4 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES4, 0, false, false);
 		ProcessRollUps rollUpPayables5 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES5, 0, false, false);
+		ProcessRollUps rollUpPayables6 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES6, 0, false, false);
+		ProcessRollUps rollUpPayables7 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES7, 0, false, false);
+		ProcessRollUps rollUpPayables8 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES8, 0, false, false);
+		ProcessRollUps rollUpPayables9 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES9, 0, false, false);
+		ProcessRollUps rollUpPayables10 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES10, 0, false, false);
+		ProcessRollUps rollUpPayables11 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES11, 0, false, false);
+		ProcessRollUps rollUpPayables12 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES12, 0, false, false);
+		ProcessRollUps rollUpPayables13 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES13, 0, false, false);
+		ProcessRollUps rollUpPayables14 = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES14, 0, false, false);
 		ProcessRollUps rollUpReceivables1 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES1, 0, false, false);
 		ProcessRollUps rollUpReceivables2 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES2, 0, false, false);
 		ProcessRollUps rollUpReceivables3 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES3, 0, false, false);
 		ProcessRollUps rollUpReceivables4 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES4, 0, false, false);
+		ProcessRollUps rollUpReceivables5 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES5, 0, false, false);
+		ProcessRollUps rollUpReceivables6 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES6, 0, false, false);
+		ProcessRollUps rollUpReceivables7 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES7, 0, false, false);
+		ProcessRollUps rollUpReceivables8 = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES8, 0, false, false);
 		ProcessRollUps rollUpPayroll = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLL, 0, false, false);
 		ProcessRollUps rollUpAssets = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSET, 0, false, false);
 		ProcessRollUps rollUpOther = getProcessRollUpsInstance(rollUp, P_CONCEPT_OTHER, 0, false, false);
@@ -306,10 +333,24 @@ public class RollUpProcessService implements IRollUpProcessService {
 			payablesThread3 = createRollUpTread(rollUpPayables3);
 			payablesThread4 = createRollUpTread(rollUpPayables4);
 			payablesThread5 = createRollUpTread(rollUpPayables5);
+			payablesThread6 = createRollUpTread(rollUpPayables6);
+			payablesThread7 = createRollUpTread(rollUpPayables7);
+			payablesThread8 = createRollUpTread(rollUpPayables8);
+			payablesThread9 = createRollUpTread(rollUpPayables9);
+			payablesThread10 = createRollUpTread(rollUpPayables10);
+			payablesThread11 = createRollUpTread(rollUpPayables11);
+			payablesThread12 = createRollUpTread(rollUpPayables12);
+			payablesThread13 = createRollUpTread(rollUpPayables13);
+			payablesThread14 = createRollUpTread(rollUpPayables14);
 			receivablesThread1 = createRollUpTread(rollUpReceivables1);
 			receivablesThread2 = createRollUpTread(rollUpReceivables2);
 			receivablesThread3 = createRollUpTread(rollUpReceivables3);
 			receivablesThread4 = createRollUpTread(rollUpReceivables4);
+			receivablesThread5 = createRollUpTread(rollUpReceivables5);
+			receivablesThread6 = createRollUpTread(rollUpReceivables6);
+			receivablesThread7 = createRollUpTread(rollUpReceivables7);
+			receivablesThread8 = createRollUpTread(rollUpReceivables8);
+			
 			payrollThread = createRollUpTread(rollUpPayroll);
 			assetsThread = createRollUpTread(rollUpAssets);
 			otherThread = createRollUpTread(rollUpOther);
@@ -348,6 +389,33 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES5, rollUp.getCompanyid());
 		payablesThread5.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES6, rollUp.getCompanyid());
+		payablesThread6.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES7, rollUp.getCompanyid());
+		payablesThread7.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES8, rollUp.getCompanyid());
+		payablesThread8.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES9, rollUp.getCompanyid());
+		payablesThread9.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES10, rollUp.getCompanyid());
+		payablesThread10.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES11, rollUp.getCompanyid());
+		payablesThread11.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES12, rollUp.getCompanyid());
+		payablesThread12.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES13, rollUp.getCompanyid());
+		payablesThread13.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES14, rollUp.getCompanyid());
+		payablesThread14.start();
 
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES1, rollUp.getCompanyid());
 		receivablesThread1.start();
@@ -360,6 +428,18 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES4, rollUp.getCompanyid());
 		receivablesThread4.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES5, rollUp.getCompanyid());
+		receivablesThread5.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES6, rollUp.getCompanyid());
+		receivablesThread6.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES7, rollUp.getCompanyid());
+		receivablesThread7.start();
+		
+		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES8, rollUp.getCompanyid());
+		receivablesThread8.start();
 
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLL, rollUp.getCompanyid());
 		payrollThread.start();

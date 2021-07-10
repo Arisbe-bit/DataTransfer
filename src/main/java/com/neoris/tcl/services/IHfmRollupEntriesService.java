@@ -15,6 +15,15 @@ public interface IHfmRollupEntriesService {
     public final static String P_CONCEPT_PAYABLES3 = "Payables3";
     public final static String P_CONCEPT_PAYABLES4 = "Payables4";
     public final static String P_CONCEPT_PAYABLES5 = "Payables5";
+    public final static String P_CONCEPT_PAYABLES6 = "Payables6";
+    public final static String P_CONCEPT_PAYABLES7 = "Payables7";
+    public final static String P_CONCEPT_PAYABLES8 = "Payables8";
+    public final static String P_CONCEPT_PAYABLES9 = "Payables9";
+    public final static String P_CONCEPT_PAYABLES10 = "Payables10";
+    public final static String P_CONCEPT_PAYABLES11 = "Payables11";
+    public final static String P_CONCEPT_PAYABLES12 = "Payables12";
+    public final static String P_CONCEPT_PAYABLES13 = "Payables13";
+    public final static String P_CONCEPT_PAYABLES14 = "Payables14";
     public final static String P_CONCEPT_RECEIVABLES = "Receivables";
     public final static String P_CONCEPT_RECEIVABLESA = "ReceivablesA";
     public final static String P_CONCEPT_RECEIVABLESB = "ReceivablesB";
@@ -22,6 +31,10 @@ public interface IHfmRollupEntriesService {
     public final static String P_CONCEPT_RECEIVABLES2 = "Receivables2";
     public final static String P_CONCEPT_RECEIVABLES3 = "Receivables3";
     public final static String P_CONCEPT_RECEIVABLES4 = "Receivables4";
+    public final static String P_CONCEPT_RECEIVABLES5 = "Receivables5";
+    public final static String P_CONCEPT_RECEIVABLES6 = "Receivables6";
+    public final static String P_CONCEPT_RECEIVABLES7 = "Receivables7";
+    public final static String P_CONCEPT_RECEIVABLES8 = "Receivables8";
     public final static String P_CONCEPT_PAYROLL = "Payroll";
     public final static String P_CONCEPT_PAYROLLA = "PayrollA";
     public final static String P_CONCEPT_PAYROLLB = "PayrollB";

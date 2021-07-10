@@ -18,18 +18,17 @@ public class SetDefinedAccounts implements Serializable {
 
 	private String icpcode;
 	private String userid;
-	private String modified;
+	//private String modified;
 	private String cperiod;
 
 	public SetDefinedAccounts() {
 		this.setId(new SetDefinedAccountsPK());
 	}
 
-	public SetDefinedAccounts(SetDefinedAccountsPK id, String icpcode, String userid, String modified, String cperiod) {
+	public SetDefinedAccounts(SetDefinedAccountsPK id, String icpcode, String userid,  String cperiod) {
 		this.id = id;
 		this.icpcode = icpcode;
 		this.userid = userid;
-		this.modified = modified;
 		this.cperiod = cperiod;
 	}
 
@@ -57,14 +56,7 @@ public class SetDefinedAccounts implements Serializable {
 		this.userid = userid;
 	}
 
-	public String getModified() {
-		return modified;
-	}
-
-	public void setModified(String modified) {
-		this.modified = modified;
-	}
-
+	
 	public String getCperiod() {
 		return cperiod;
 	}
@@ -77,15 +69,17 @@ public class SetDefinedAccounts implements Serializable {
 		return UUID.randomUUID().toString();
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "SetDefinedAccounts [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", modified=" + modified
-				+ ", cperiod=" + cperiod + "]";
+		return "SetDefinedAccounts [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", cperiod=" + cperiod
+				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cperiod, icpcode, id, modified, userid);
+		return Objects.hash(cperiod, icpcode, id, userid);
 	}
 
 	@Override
@@ -98,7 +92,7 @@ public class SetDefinedAccounts implements Serializable {
 			return false;
 		SetDefinedAccounts other = (SetDefinedAccounts) obj;
 		return Objects.equals(cperiod, other.cperiod) && Objects.equals(icpcode, other.icpcode)
-				&& Objects.equals(id, other.id) && Objects.equals(modified, other.modified)
+				&& Objects.equals(id, other.id) 
 				&& Objects.equals(userid, other.userid);
 	}
 
