@@ -103,7 +103,7 @@ public class HfmRollupExceptionsController {
 		LOG.info("new");
 		this.curExcep = new HfmRollupExceptions();
 		
-		/*try {
+		try {
 			if (lstcompany.size() > 0) {
 				curExcep.getId().setCompanyid(lstcompany.get(0).getCompanyid().intValue());
 			}
@@ -126,7 +126,7 @@ public class HfmRollupExceptionsController {
 		
 	} catch (Exception e) {
 		LOG.error("openNew ERRor -> {}", e.getMessage(), e);
-	}*/
+	}
 	}
 
 	/**

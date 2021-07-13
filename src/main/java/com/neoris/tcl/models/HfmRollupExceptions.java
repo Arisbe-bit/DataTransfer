@@ -29,7 +29,7 @@ public class HfmRollupExceptions implements Serializable {
 		this.userid = userid;
 	}
 	public HfmRollupExceptions() {
-		
+		this.id = new HfmRollupExceptionsPK();
 	}
 	public String getSegment1() {
 		return segment1;

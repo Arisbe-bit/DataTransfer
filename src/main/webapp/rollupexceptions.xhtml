@@ -93,64 +93,45 @@
                             </div>
                           <div class="p-field">
                                 <p:outputLabel for="@next">Cost Center</p:outputLabel>
-                                <p:selectOneMenu id="costcenter" editable="true" value="#{hfmexceptionsControllerBean.curracc.id.costcenter}" filter="true" filterMatchMode="startsWith">
+                                <p:selectOneMenu id="costcenter" editable="true" value="#{hfmexceptionsControllerBean.curExcep.id.costcenter}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{hfmexceptionsControllerBean.lstCC}" var="costc" itemLabel="#{costc.costcenter}" itemValue="#{costc.costcenter}" />
                                     <f:ajax event="change" listener="#{hfmexceptionsControllerBean.costcenterChange}" execute="@this" render=":form:accountidini form:accountidfin"/>
                                 </p:selectOneMenu>
                             </div>
-                            <div class="p-field">
-                                <p:outputLabel for="@next" value="Initial Account ID" />
-                                <p:selectOneMenu id="accountidini" editable="true" value="#{hfmexceptionsControllerBean.curracc.id.accountidini}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Initial Account is requiered">
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
-                                </p:selectOneMenu>
-                                <p:message for="@previous"/>
-                            </div>
-                            <div class="p-field">
-                                <p:outputLabel for="@next" value="Final Account ID" />
-                                <p:selectOneMenu id="accountidfin" editable="true" value="#{hfmexceptionsControllerBean.curracc.id.accountidfin}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle Final Account is requiered">
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
-                                </p:selectOneMenu>
-                                <p:message for="@previous"/>
-                            </div>
-                            <div class="p-field">
-                                <p:outputLabel for="hfmcodeorig" value="Actual HFM Code" />
-                                <p:selectOneMenu id="hfmcodeorig" value="#{hfmexceptionsControllerBean.curracc.id.hfmcodeorig}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstHfmcodes}" var="itemm" itemLabel="#{itemm.hfmcode}" itemValue="#{itemm.hfmcode}" />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="p-field">
-                                <p:outputLabel for="hfmcodedest" value="Destination HFM Code" />
-                                <p:selectOneMenu id="hfmcodedest" value="#{hfmexceptionsControllerBean.curracc.id.hfmcodedest}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstHfmcodes}" var="itemm" itemLabel="#{itemm.hfmcode}" itemValue="#{itemm.hfmcode}" />
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="p-field">
-                                <p:outputLabel for="source" value="Source Type" />
-                                <p:selectOneMenu id="source" value="#{hfmexceptionsControllerBean.vsource}">
-                                    <f:selectItem itemLabel="Receivables" itemValue="Receivables" />
-                                    <f:selectItem itemLabel="Payables" itemValue="Payables" />
-                                    <f:ajax event="change" listener="#{hfmexceptionsControllerBean.companyidChange}" execute="@this" render=":form:suppno form:custno"/>
-                                </p:selectOneMenu>
-                            </div>
-                            <div class="p-field">
-                                <p:outputLabel for="custno" value="Customer No." />
-                                <p:selectOneMenu id="custno" value="#{hfmexceptionsControllerBean.vpartnerid}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstCustno}" var="itemc" itemLabel="#{itemc.custname}" itemValue="#{itemc.custno}" />
-                                </p:selectOneMenu>
-                            </div>
-                            
-                            <div class="p-field">
-                                <p:outputLabel for="suppno" value="Supplier No." />
-                                <p:selectOneMenu id="suppno" value="#{hfmexceptionsControllerBean.vpartnerids}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstSuppno}" var="items" itemLabel="#{items.vendorname}" itemValue="#{items.suppliernum}" />
-                                </p:selectOneMenu>
-                               
-                            </div> 
+	                            <div class="p-field">
+	                                <p:outputLabel for="@next" value="Oracle Account" />
+	                                <p:selectOneMenu id="accountid" editable="true" value="#{hfmexceptionsControllerBean.curExcep.id.accountid}" filter="true" filterMatchMode="startsWith" required="true" requiredMessage="Oracle  Account is requiered">
+	                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstOrcl}" var="accid" itemLabel="#{accid.oracleacct}" itemValue="#{accid.oracleacct}" />
+	                                </p:selectOneMenu>
+	                                <p:message for="@previous"/>
+	                            </div>
+	                           
+	                           
+	                            <div class="p-field">
+	                                <p:outputLabel for="source" value="Source Type" />
+	                                <p:selectOneMenu id="source" value="#{hfmexceptionsControllerBean.vsource}">
+	                                    <f:selectItem itemLabel="Receivables" itemValue="Receivables" />
+	                                    <f:selectItem itemLabel="Payables" itemValue="Payables" />
+	                                    <f:ajax event="change" listener="#{hfmexceptionsControllerBean.companyidChange}" execute="@this" render=":form:suppno form:custno"/>
+	                                </p:selectOneMenu>
+	                            </div>
+	                            <div class="p-field">
+	                                <p:outputLabel for="custno" value="Customer No." />
+	                                <p:selectOneMenu id="custno" value="#{hfmexceptionsControllerBean.vpartnerid}" filter="true" filterMatchMode="startsWith">
+	                                    <f:selectItem itemLabel="Select One" itemValue="" />
+	                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstCustno}" var="itemc" itemLabel="#{itemc.custname}" itemValue="#{itemc.custno}" />
+	                                </p:selectOneMenu>
+	                            </div>
+	                            
+	                            <div class="p-field">
+	                                <p:outputLabel for="suppno" value="Supplier No." />
+	                                <p:selectOneMenu id="suppno" value="#{hfmexceptionsControllerBean.vpartnerids}" filter="true" filterMatchMode="startsWith">
+	                                    <f:selectItem itemLabel="Select One" itemValue="" />
+	                                    <f:selectItems value="#{hfmexceptionsControllerBean.lstSuppno}" var="items" itemLabel="#{items.vendorname}" itemValue="#{items.suppliernum}" />
+	                                </p:selectOneMenu>
+	                               
+	                            </div> 
                         </p:outputPanel>
                     </p:outputPanel>
                     <f:facet name="footer">

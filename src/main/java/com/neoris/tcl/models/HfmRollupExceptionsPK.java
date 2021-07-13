@@ -48,6 +48,8 @@ public class HfmRollupExceptionsPK implements Serializable{
 	
 	public HfmRollupExceptionsPK() {
 		
+		
+		
 	}
 	
 	public HfmRollupExceptionsPK(int partnerid, String costcenter, String accountid,
