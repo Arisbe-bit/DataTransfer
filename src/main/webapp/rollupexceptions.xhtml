@@ -96,7 +96,7 @@
                                 <p:selectOneMenu id="costcenter" editable="true" value="#{hfmexceptionsControllerBean.curExcep.id.costcenter}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{hfmexceptionsControllerBean.lstCC}" var="costc" itemLabel="#{costc.costcenter}" itemValue="#{costc.costcenter}" />
-                                    <f:ajax event="change" listener="#{hfmexceptionsControllerBean.costcenterChange}" execute="@this" render=":form:accountidini form:accountidfin"/>
+                                    <f:ajax event="change" listener="#{hfmexceptionsControllerBean.costcenterChange}" execute="@this" render=":form:accountid"/>
                                 </p:selectOneMenu>
                             </div>
 	                            <div class="p-field">
