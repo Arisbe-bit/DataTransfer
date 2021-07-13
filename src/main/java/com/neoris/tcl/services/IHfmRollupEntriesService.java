@@ -9,7 +9,7 @@ public interface IHfmRollupEntriesService {
 
     public final static String P_CONCEPT_PAYABLES = "Payables";
     public final static String P_CONCEPT_PAYABLESA = "PayablesA";
-    public final static String P_CONCEPT_PAYABLESB = "PayablesB";
+    public final static String P_CONCEPT_PAYABLESB = "PayablesC";
     public final static String P_CONCEPT_PAYABLES1 = "Payables1";
     public final static String P_CONCEPT_PAYABLES2 = "Payables2";
     public final static String P_CONCEPT_PAYABLES3 = "Payables3";
@@ -26,7 +26,7 @@ public interface IHfmRollupEntriesService {
     public final static String P_CONCEPT_PAYABLES14 = "Payables14";
     public final static String P_CONCEPT_RECEIVABLES = "Receivables";
     public final static String P_CONCEPT_RECEIVABLESA = "ReceivablesA";
-    public final static String P_CONCEPT_RECEIVABLESB = "ReceivablesB";
+    public final static String P_CONCEPT_RECEIVABLESB = "ReceivablesC";
     public final static String P_CONCEPT_RECEIVABLES1 = "Receivables1";
     public final static String P_CONCEPT_RECEIVABLES2 = "Receivables2";
     public final static String P_CONCEPT_RECEIVABLES3 = "Receivables3";
@@ -37,10 +37,10 @@ public interface IHfmRollupEntriesService {
     public final static String P_CONCEPT_RECEIVABLES8 = "Receivables8";
     public final static String P_CONCEPT_PAYROLL = "Payroll";
     public final static String P_CONCEPT_PAYROLLA = "PayrollA";
-    public final static String P_CONCEPT_PAYROLLB = "PayrollB";
+    public final static String P_CONCEPT_PAYROLLB = "PayrollC";
     public final static String P_CONCEPT_ASSET = "Assets";
     public final static String P_CONCEPT_ASSETA = "AssetsA";
-    public final static String P_CONCEPT_ASSETB = "AssetsB";
+    public final static String P_CONCEPT_ASSETB = "AssetsC";
     public final static String P_CONCEPT_OTHER = "Others";
     public final static String P_COSTMANAGER = "COSTMANAGER";
 
@@ -89,4 +89,6 @@ public interface IHfmRollupEntriesService {
     void rollUpMatchAccounts(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
     
     void rollupreclassification(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
+    
+    void rollupreversals(int p_orgid, String p_period, String p_source);
 }

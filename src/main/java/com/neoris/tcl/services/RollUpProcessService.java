@@ -62,9 +62,10 @@ public class RollUpProcessService implements IRollUpProcessService {
 		service.rollDelData(rollUp.getCompanyid().intValue(), rollUp.getSegment1(), rollUp.getRperiod(),
 				rollUp.getRyear(), user.getUsername());
 
-		rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
-		rollUp.setValidations(HfmRollupEntries.STATUS_PROCESSING);
-		webSocketService.sendPushNotification(rollUp);
+		//rollUp.setAttribute1(HfmRollupEntries.STATUS_PROCESSING);
+		//rollUp.setValidations(HfmRollupEntries.STATUS_PROCESSING);
+		//webSocketService.sendPushNotification(rollUp);
+		webSocketService.sendPushNotification(rollUp.getCompanyid());
 
 		// 1.- Process Drill Details
 		//LOG.info("Processing Rollup Start ");
@@ -111,37 +112,25 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		Thread payablesThreadA = null;
 		Thread receivablesThreadA = null;
-		Thread payablesThreadB = null;
-		Thread receivablesThreadB = null;
 		Thread costmanagerThread =null;
 		Thread payrollThreadA =null;
-		Thread payrollThreadB =null;
 		Thread assetsThreadA =null;
-		Thread assetsThreadB =null;
 
-		ProcessRollUps rollUpPayablesA = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLESA, 0, false, false);
-		ProcessRollUps rollUpPayablesB = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLESB, 0, false, false);
-		ProcessRollUps rollUpReceivablesA = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLESA, 0, false, false);
-		ProcessRollUps rollUpReceivablesB = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLESB, 0, false, false);
+		ProcessRollUps rollUpPayablesA = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYABLES, 0, false, false);
+		ProcessRollUps rollUpReceivablesA = getProcessRollUpsInstance(rollUp, P_CONCEPT_RECEIVABLES, 0, false, false);
 		ProcessRollUps rollUpCostManager = getProcessRollUpsInstance(rollUp, P_COSTMANAGER, 0, false, false);
-		ProcessRollUps rollUpPayrollA = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLLA, 0, false, false);
-		ProcessRollUps rollUpPayrollB = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLLB, 0, false, false);
-		ProcessRollUps rollUpAssetsA = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSETA, 0, false, false);
-		ProcessRollUps rollUpAssetsB = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSETB, 0, false, false);
+		ProcessRollUps rollUpPayrollA = getProcessRollUpsInstance(rollUp, P_CONCEPT_PAYROLL, 0, false, false);
+		ProcessRollUps rollUpAssetsA = getProcessRollUpsInstance(rollUp, P_CONCEPT_ASSET, 0, false, false);
 		
 			
 		// 2.- Process the drills details...
 		LOG.info("Preparing threads for header-rollUp process...");
 		try {
 			payablesThreadA = createRollUpTread(rollUpPayablesA);
-			payablesThreadB = createRollUpTread(rollUpPayablesB);
 			receivablesThreadA = createRollUpTread(rollUpReceivablesA);
-			receivablesThreadB = createRollUpTread(rollUpReceivablesB);
 			costmanagerThread = createRollUpTread(rollUpCostManager);
 			payrollThreadA = createRollUpTread(rollUpPayrollA);
-			payrollThreadB = createRollUpTread(rollUpPayrollB);
 			assetsThreadA = createRollUpTread(rollUpAssetsA);
-			assetsThreadB = createRollUpTread(rollUpAssetsB);
 			
 
 		} catch (Exception e) {
@@ -150,37 +139,20 @@ public class RollUpProcessService implements IRollUpProcessService {
 			return;
 		}
 
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLESA,
+		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLES,
 				rollUp.getCompanyid());
 		payablesThreadA.start();
 		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYABLESB,
-				rollUp.getCompanyid());
-		payablesThreadB.start();
-
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLESA,
+		
+		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES,
 				rollUp.getCompanyid());
 		receivablesThreadA.start();
-		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLESB,
-				rollUp.getCompanyid());
-		receivablesThreadB.start();
-		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLLA,
+		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLL,
 				rollUp.getCompanyid());
 		payrollThreadA.start();
-		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLLB,
-				rollUp.getCompanyid());
-		payrollThreadB.start();
-		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_ASSETA,
+		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_ASSET,
 				rollUp.getCompanyid());
 		assetsThreadA.start();
-		
-		LOG.info("Starting Thread for header-rollUp process: {}, companyId:{}", P_CONCEPT_ASSETB,
-				rollUp.getCompanyid());
-		assetsThreadB.start();
 		
 		LOG.info("** Starting  CostMngr for headers **");
 		costmanagerThread.run();
@@ -193,10 +165,6 @@ public class RollUpProcessService implements IRollUpProcessService {
 			costmanagerThread.join();
 			payrollThreadA.join();
 			assetsThreadA.join();
-			receivablesThreadB.join();
-			payablesThreadB.join();
-			payrollThreadB.join();
-			assetsThreadB.join();
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 
 			// rollUp.setAttribute2(HfmRollupEntries.STATUS_OK);
@@ -241,7 +209,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 	 */
 	private void processDrillDetails(HfmRollupEntries rollUp) {
 		LOG.info("Preparing concept rollups...");
-		rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
+		//rollUp.setAttribute2(HfmRollupEntries.STATUS_PROCESSING);
 		webSocketService.sendPushNotification(rollUp);
 
 		Thread payablesThread1 = null;
@@ -367,7 +335,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 		} catch (Exception e) {
 			LOG.error("Error creating threads: {}", e.getMessage(), e);
-			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+			//rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error Creating threads", "error", rollUp);
 			return;
 		}
@@ -440,6 +408,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 		
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_RECEIVABLES8, rollUp.getCompanyid());
 		receivablesThread8.start();
+		
 
 		LOG.info("Starting Thread for rollUp process: {}, companyId:{}", P_CONCEPT_PAYROLL, rollUp.getCompanyid());
 		payrollThread.start();
@@ -487,10 +456,23 @@ public class RollUpProcessService implements IRollUpProcessService {
 			payablesThread3.join();
 			payablesThread4.join();
 			payablesThread5.join();
+			payablesThread6.join();
+			payablesThread7.join();
+			payablesThread8.join();
+			payablesThread9.join();
+			payablesThread10.join();
+			payablesThread11.join();
+			payablesThread12.join();
+			payablesThread13.join();
+			payablesThread14.join();
 			receivablesThread1.join();
 			receivablesThread2.join();
 			receivablesThread3.join();
 			receivablesThread4.join();
+			receivablesThread5.join();
+			receivablesThread6.join();
+			receivablesThread7.join();
+			receivablesThread8.join();
 			payrollThread.join();
 			assetsThread.join();
 			otherThread.join();
@@ -510,7 +492,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running process: {}", e.getMessage(), e);
-			rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
+			//rollUp.setAttribute2(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running Drill process", "error", rollUp);
 		}
 		LOG.info("****Thread for rollUp Finish!*******");
@@ -594,7 +576,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 	 * @param rollUp
 	 */
 	private void processValidations(HfmRollupEntries rollUp) {
-		rollUp.setAttribute5(HfmRollupEntries.STATUS_PROCESSING);
+		//rollUp.setAttribute5(HfmRollupEntries.STATUS_PROCESSING);
 		webSocketService.sendPushNotification(rollUp);
 
 		ProcessRollUps rollUpValidations = getProcessRollUpsInstance(rollUp, "", 0, true, false);
@@ -606,7 +588,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Validations rollup: {}", e.getMessage(), e);
-			rollUp.setAttribute5(HfmRollupEntries.STATUS_ERROR);
+			//rollUp.setAttribute5(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running Validation", "error", rollUp);
 		}
 	}
@@ -624,7 +606,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 			webSocketService.sendPushNotification(rollUp.getCompanyid());
 		} catch (InterruptedException e) {
 			LOG.error("Error running Match Account rollup: {}", e.getMessage(), e);
-			rollUp.setAttribute6(HfmRollupEntries.STATUS_ERROR);
+			//rollUp.setAttribute6(HfmRollupEntries.STATUS_ERROR);
 			webSocketService.sendPushNotification(e.getMessage(), "Error running MatchAccount", "error", rollUp);
 		}
 
@@ -676,7 +658,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 		ProcessRollUps rollup = new ProcessRollUps(rollUp, this.service, process, numDrill, processValidations,
 				matchAccounts, this.user);
 		rollup.setFacesContext(FacesContext.getCurrentInstance());
-		rollup.setPrimefaces(PrimeFaces.current());
+		//rollup.setPrimefaces(PrimeFaces.current());
 		rollup.setWebSocketService(webSocketService);
 		return rollup;
 	}

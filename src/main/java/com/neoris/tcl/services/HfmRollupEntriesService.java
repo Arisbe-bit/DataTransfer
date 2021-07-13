@@ -74,7 +74,7 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		LOG.info("Entering to  run rollUpStart: P_ORGID = {}, P_PERIOD = {}, P_YEAR = {}, P_SEGMENT = {}", P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT);
 		try {
 			data.rollUpStart(P_ORGID, P_PERIOD, P_YEAR, P_SEGMENT, P_USERID);
-			LOG.info("********************IHfmRollupEntriesDao.rollUpStart  Finished:***************************");
+			LOG.info("********************IHfmRollupEntriesDao.rollUpStart  Finished: "+P_ORGID+"***************************");
 		} catch (Exception e) {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollUpStart: => {}", e.getMessage());
 		}
@@ -232,6 +232,17 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 			LOG.error("Error al correr IHfmRollupEntriesDao.rollupreclassification: => {}", e.getMessage());
 		}
 	}
+    
+    @Override
+	public void rollupreversals(int P_ORGID, String P_PERIOD, String P_SOURCE) {
+		LOG.info("Entering to  run rollupreversals: P_ORGID = {}, P_PERIOD = {}, P_SOURCE = {}", P_ORGID, P_PERIOD, P_SOURCE);
+		try {
+			data.rollupreversals(P_ORGID, P_PERIOD, P_SOURCE);
+		} catch (Exception e) {
+			LOG.error("Error al correr IHfmRollupEntriesDao.rollupreversals: => {}", e.getMessage());
+		}
+	}
+
 
 	@Override
 	public List<HfmRollupEntries> findByCompanyid(int companyid) {

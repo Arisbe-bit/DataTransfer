@@ -46,7 +46,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_CONCEP
 	 * @param p_userid
 	 */
-	@Procedure("ROLLUP_DRILL_DETAIL_OK.get_headers")
+	@Procedure("ROLLUP_DRILL_DETAIL.get_headers")
 	void getHeaders(int p_orgid, String P_segment, String p_period, String p_year, String p_concept, String p_userid);
 
 	/**
@@ -163,6 +163,15 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 */
 	@Procedure("rollup_reclassification")
 	void rollupreclassification(int p_orgid, String p_period, String p_year, String p_userid);
+
+	/**
+	 * 
+	 * @param P_ORGID
+	 * @param P_PERIOD
+	 * @param P_SOURCE
+	 */
+	@Procedure("rollup_reversals")
+	void rollupreversals(int p_orgid, String p_period_name, String p_source);
 
 	
 	List<HfmRollupEntries> findByCompanyid(int companyid);
