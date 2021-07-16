@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "set_defined_accounts")
@@ -18,14 +19,17 @@ public class SetDefinedAccounts implements Serializable {
 
 	private String icpcode;
 	private String userid;
-	//private String modified;
 	private String cperiod;
+
+	@Transient
+	private String uuid;
 
 	public SetDefinedAccounts() {
 		this.setId(new SetDefinedAccountsPK());
+		this.uuid = UUID.randomUUID().toString();
 	}
 
-	public SetDefinedAccounts(SetDefinedAccountsPK id, String icpcode, String userid,  String cperiod) {
+	public SetDefinedAccounts(SetDefinedAccountsPK id, String icpcode, String userid, String cperiod) {
 		this.id = id;
 		this.icpcode = icpcode;
 		this.userid = userid;
@@ -56,7 +60,6 @@ public class SetDefinedAccounts implements Serializable {
 		this.userid = userid;
 	}
 
-	
 	public String getCperiod() {
 		return cperiod;
 	}
@@ -65,21 +68,19 @@ public class SetDefinedAccounts implements Serializable {
 		this.cperiod = cperiod;
 	}
 
-	public String getUUID() {
-		return UUID.randomUUID().toString();
+	public String getUuid() {
+		return uuid;
 	}
-
-	
 
 	@Override
 	public String toString() {
-		return "SetDefinedAccounts [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", cperiod=" + cperiod
-				+ "]";
+		return String.format("SetDefinedAccounts [id=%s, icpcode=%s, userid=%s, cperiod=%s, uuid=%s]", id, icpcode,
+				userid, cperiod, uuid);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cperiod, icpcode, id, userid);
+		return Objects.hash(cperiod, icpcode, id, userid, uuid);
 	}
 
 	@Override
@@ -92,8 +93,8 @@ public class SetDefinedAccounts implements Serializable {
 			return false;
 		SetDefinedAccounts other = (SetDefinedAccounts) obj;
 		return Objects.equals(cperiod, other.cperiod) && Objects.equals(icpcode, other.icpcode)
-				&& Objects.equals(id, other.id) 
-				&& Objects.equals(userid, other.userid);
+				&& Objects.equals(id, other.id) && Objects.equals(userid, other.userid)
+				&& Objects.equals(uuid, other.uuid);
 	}
 
 }
