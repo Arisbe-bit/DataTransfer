@@ -15,7 +15,9 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -90,6 +92,17 @@ public class AppConfig implements WebMvcConfigurer {
 		LOG.info("Configuring addViewControllers...");
 		// registry.addViewController("/").setViewName("/faces/index.xhtml");
 		registry.addViewController("/").setViewName("/index.xhtml");
+	}
+
+	@Bean("threadPoolRollUpExecutor")
+	public TaskExecutor getAsyncExecutor() {
+		LOG.info("Configuring threadPoolRollUpExecutor...");
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(10);
+		executor.setMaxPoolSize(20);
+		executor.setWaitForTasksToCompleteOnShutdown(true);
+		executor.setThreadNamePrefix("AsyncRU-");
+		return executor;
 	}
 
 }

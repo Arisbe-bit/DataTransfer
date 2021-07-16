@@ -56,6 +56,7 @@
                 </p:column>
                 <p:column headerText="View Details" exportable="false">
                     <p:commandButton id="btnViewDetail" icon="pi pi-eye" update="rollupForm:messages" styleClass="edit-button rounded-button ui-button-success" process="@this" alt="view detail" value="Details" action="#{rollupControllerBean.submitToMovements}">
+                    <p:effect type="bounce" event="click"/>
                         <f:ajax execute="@this" listener="#{rollupControllerBean.curHfmffssClic}" event="click" />
                         <f:setPropertyActionListener value="#{accgroup}" target="#{rollupControllerBean.curFSgroup}" />
                     </p:commandButton>

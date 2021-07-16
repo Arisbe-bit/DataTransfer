@@ -8,6 +8,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 @Entity
 @Table(name = "HFM_FFSS_DETAILS_HIST")
 public class HfmFFSSDetailsHist implements Serializable {
@@ -56,16 +58,22 @@ public class HfmFFSSDetailsHist implements Serializable {
 	private int omit;
 	private String areaid;
 	private String periodid;
+	private String linetype;
+	@Column(name = "ICPID")
+    private String icpid;
+    private String posting;
 
 	public HfmFFSSDetailsHist() {
 		this.setId(new HfmFfssDetailsHistPK());
 	}
 
+
+
 	public HfmFFSSDetailsHist(HfmFfssDetailsHistPK id, String tpname, String hfmcodeold, String batchname,
 			String docnumber, String upd, String hfmparent, String userid, String errortext, int headerid,
 			int headeridrev, BigDecimal debit, BigDecimal credit, BigDecimal transdebit, BigDecimal transcredit,
-			String invoicedate, String category, int omit, String areaid, String periodid) {
-
+			String invoicedate, String category, int omit, String areaid, String periodid, String linetype,
+			String icpid, String posting) {
 		this.id = id;
 		this.tpname = tpname;
 		this.hfmcodeold = hfmcodeold;
@@ -86,7 +94,49 @@ public class HfmFFSSDetailsHist implements Serializable {
 		this.omit = omit;
 		this.areaid = areaid;
 		this.periodid = periodid;
+		this.linetype = linetype;
+		this.icpid = icpid;
+		this.posting = posting;
 	}
+
+
+
+	public String getLinetype() {
+		return linetype;
+	}
+
+
+
+	public void setLinetype(String linetype) {
+		this.linetype = linetype;
+	}
+
+
+
+
+	public String getIcpid() {
+		return icpid;
+	}
+
+
+
+	public void setIcpid(String icpid) {
+		this.icpid = icpid;
+	}
+
+
+
+	public String getPosting() {
+		return posting;
+	}
+
+
+
+	public void setPosting(String posting) {
+		this.posting = posting;
+	}
+
+
 
 	public HfmFfssDetailsHistPK getId() {
 		return id;
@@ -248,6 +298,8 @@ public class HfmFFSSDetailsHist implements Serializable {
 		this.periodid = periodid;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "HfmFFSSDetailsHist [id=" + id + ", tpname=" + tpname + ", hfmcodeold=" + hfmcodeold + ", batchname="
@@ -255,7 +307,12 @@ public class HfmFFSSDetailsHist implements Serializable {
 				+ userid + ", errortext=" + errortext + ", headerid=" + headerid + ", headeridrev=" + headeridrev
 				+ ", debit=" + debit + ", credit=" + credit + ", transdebit=" + transdebit + ", transcredit="
 				+ transcredit + ", invoicedate=" + invoicedate + ", category=" + category + ", omit=" + omit
-				+ ", areaid=" + areaid + ", periodid=" + periodid + "]";
+				+ ", areaid=" + areaid + ", periodid=" + periodid + ", linetype=" + linetype + ", icpid=" + icpid
+				+ ", posting=" + posting + "]";
 	}
 
+
+
+
+	
 }

@@ -12,8 +12,9 @@
         <ui:define name="rollupContent">
             <p:dataTable id="dt-hfm-tab-ffss-details" widgetVar="dtHfmFfssDetails" 
             var="hfmffssDetail" value="#{rolluphistControllerBean.lstHfmFfssDetails}"
-			rowKey="#{hfmffssDetail.companyid}" paginator="true" rows="10" reflow="true" stickyHeader="true" 
-			 scrollable="true" paginatorPosition="bottom">
+			rowKey="#{hfmffssDetail.companyid}" 
+			paginator="true" rows="10" reflow="true" resizeMode="expand"
+            scrollable="true" paginatorPosition="bottom">>
                 <f:facet name="header">
                     <p:toolbar id="toolbar-fsdetails">
                         <p:toolbarGroup>
@@ -84,6 +85,15 @@
                 </p:column>
                 <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">
                     <h:outputText value="#{hfmffssDetail.id.datasource}"/>
+                </p:column>             
+                <p:column headerText="Origin HFM Code" sortBy="#{hfmffssDetail.hfmcodeold}" filterBy="#{hfmffssDetail.hfmcodeold}">
+                    <h:outputText value="#{hfmffssDetail.hfmcodeold}"/>
+                </p:column> 
+                <p:column headerText="Posting" sortBy="#{hfmffssDetail.posting}" filterBy="#{hfmffssDetail.hfmcodeold}">
+                    <h:outputText value="#{hfmffssDetail.posting}"/>
+                </p:column> 
+                <p:column headerText="Line Type" sortBy="#{hfmffssDetail.linetype}" filterBy="#{hfmffssDetail.linetype}">
+                    <h:outputText value="#{hfmffssDetail.linetype}"/>
                 </p:column>
                 <p:column headerText="Error Text" width="20%" sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
                     <h:outputText value="#{hfmffssDetail.errortext}"/>

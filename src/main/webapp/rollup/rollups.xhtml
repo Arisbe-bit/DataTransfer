@@ -10,8 +10,22 @@
 
             <p:toolbar>
                 <p:toolbarGroup>
-                    <p:commandButton id="start-rollup-process-button" value="#{rollupControllerBean.processButtonMessage}" icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}" styleClass="#{rollupControllerBean.processButtonStyleClass}" disabled="#{!rollupControllerBean.hasSelectedRollUps()}" update="rollupForm:start-rollup-process-button">
+                    <p:commandButton id="start-rollup-process-button"
+                    	value="#{rollupControllerBean.processButtonMessage}"
+                    	icon="pi pi-cog" actionListener="#{rollupControllerBean.processSelectedRollUps}"
+                    	styleClass="#{rollupControllerBean.processButtonStyleClass}"
+                    	disabled="#{!rollupControllerBean.hasSelectedRollUps()}"
+                    	update="rollupForm:start-rollup-process-button">
                         <p:confirm header="Confirmation" message="Start Processing RollUps?" icon="pi pi-exclamation-triangle" />
+						<p:audio value="/resources/mp3/SD_ALERT_44.mp3"
+							id="alertMP3"							
+							player="mp3"
+							controls="true"
+							onplay="console.log('MP3 Started Playing')"
+							onpause="console.log('MP3 Stopped Playing')"
+							style="display: none;">
+							Your browser does not support the audio element.See: <h:outputLink value="https://www.w3schools.com/html/html5_audio.asp">HTML5 Audio</h:outputLink>
+						</p:audio>
                     </p:commandButton>
 				</p:toolbarGroup>
             </p:toolbar>
@@ -94,11 +108,15 @@
                         <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
                     </h:selectOneMenu>
                 </p:column>
-                <p:column headerText="view">
-                    <h:outputText value="#{rollup.rview}" />
+                <p:column headerText="Start Date">
+                    <div id="#{rollup.iniDateId}">
+                        <h:outputText value="#{rollup.initdate}"/>
+                    </div>
                 </p:column>
-                <p:column headerText="value">
-                    <h:outputText value="#{rollup.rvalue}" />
+                <p:column headerText="End Date">
+                    <div id="#{rollup.finDateId}">
+                        <h:outputText value="#{rollup.findate}" />
+                    </div>
                 </p:column>
                 <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-bal-va">
                     <i class="#{rollup.trialBalanceIcon}" id="#{rollup.balanceValidationID}">
@@ -120,6 +138,11 @@
                         <h:outputText value="#{rollup.validations}" class="#{empty rollup.validationsIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
+                <p:column headerText="Stock Variation" styleClass="rollup-text-align-center rollup-process-status" id="col-stock-va">
+                    <i class="#{rollup.stockvarIcon}" id="#{rollup.stockvarValidationID}">
+                        <h:outputText value="#{rollup.stockvar}" class="#{empty rollup.stockvarValidationID ? '': 'sr-only'}"/>
+                    </i>
+                </p:column>
                 <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status" id="col-finish-process">
                     <i class="#{rollup.finishedProcessIcon}" id="#{rollup.finishProcessID}">
                         <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.finishedProcessIcon ? '': 'sr-only'}"/>
@@ -133,6 +156,7 @@
                 <p:column headerText="Generate HFM Layout" exportable="false">
                     <p:commandButton id="btngL" icon="pi pi-cog" value="Layout" actionListener="#{rollupControllerBean.layoutprocess}" ajax="true" styleClass="edit-button rounded-button ui-button-success" update="@this btnViewL" process="@this">
                         <f:setPropertyActionListener value="#{rollup}" target="#{rollupControllerBean.curRollUp}" />
+                        <p:effect type="bounce" event="click"/>
                     </p:commandButton>
                 </p:column>
 

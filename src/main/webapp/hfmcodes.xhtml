@@ -77,8 +77,10 @@
                     <p:column headerText="Global Validation?" sortBy="#{hfmcodes.globalval}" filterBy="#{hfmcodes.globalval}">
                         <h:outputText value="#{hfmcodes.globalval}" />
                     </p:column>
-
-                    <p:column headerText="Ordering." sortBy="#{hfmcodes.ordernuml}" filterBy="#{hfmcodes.ordernum}">
+					<p:column headerText="Intercompany" sortBy="#{hfmcodes.intercom}" filterBy="#{hfmcodes.intercom}">
+                        <h:outputText value="#{hfmcodes.intercom}" styleClass="#{hfmcodes.intercom eq 0 ? 'Yes': 'No'}" />
+                    </p:column>
+                    <p:column headerText="Ordering" sortBy="#{hfmcodes.ordernuml}" filterBy="#{hfmcodes.ordernum}">
                         <h:outputText value="#{hfmcodes.ordernum}" />
                     </p:column>
                     <p:column headerText="Actions" exportable="false" width="10%">
@@ -139,7 +141,13 @@
                                 <p:outputLabel for="ordernum" value="Ordering" maxlength="3" />
                                 <p:inputText id="ordernum" value="#{hfmControllerBean.hfmcode.ordernum}" />
                             </div>
-                            
+                            <div class="p-field p-col-12 p-md-4">
+                                <p:outputLabel for="intercom" value="Intercompany" />
+                                <p:selectOneMenu id="intercom" value="#{hfmControllerBean.hfmcode.intercom}">
+                                    <f:selectItem itemLabel="YES" itemValue="1" />
+                                    <f:selectItem itemLabel="NO" itemValue="0" />
+                                </p:selectOneMenu>
+                            </div>
                         </p:outputPanel>
                     </p:outputPanel>
                     <f:facet name="footer">

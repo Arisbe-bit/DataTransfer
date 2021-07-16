@@ -33,10 +33,8 @@ public class SetIcpcodes implements Serializable {
 
 	}
 
-	
-
 	public SetIcpcodes(String icpcode, String icpdesc, String icpid, String tptype, String userid) {
-		
+
 		this.icpcode = icpcode;
 		this.icpdesc = icpdesc;
 		this.icpid = icpid;
@@ -44,19 +42,13 @@ public class SetIcpcodes implements Serializable {
 		this.userid = userid;
 	}
 
-
-
 	public String getUserid() {
 		return userid;
 	}
 
-
-
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-
-
 
 	public String getIcpdesc() {
 		return this.icpdesc;
@@ -94,8 +86,6 @@ public class SetIcpcodes implements Serializable {
 	public void setIcpcode(String icpcode) {
 		this.icpcode = icpcode;
 	}
-
-
 
 	@Override
 	public String toString() {

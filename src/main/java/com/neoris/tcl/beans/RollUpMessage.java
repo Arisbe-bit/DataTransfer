@@ -8,6 +8,7 @@ public class RollUpMessage {
 	private String title;
 	private String severity;
 	private HfmRollupEntries rollup;
+	private boolean processFinished;
 
 	public RollUpMessage() {
 		this.rollup = new HfmRollupEntries();
@@ -52,11 +53,18 @@ public class RollUpMessage {
 		this.severity = severity;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("RollUpMessage [message=%s, title=%s, severity=%s, rollup=%s]", message, title, severity,
-				rollup);
+	public boolean isProcessFinished() {
+		return processFinished;
 	}
 
+	public void setProcessFinished(boolean processFinished) {
+		this.processFinished = processFinished;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("RollUpMessage [message=%s, title=%s, severity=%s, rollup=%s, processFinished=%s]",
+				message, title, severity, rollup, processFinished);
+	}
 
 }
