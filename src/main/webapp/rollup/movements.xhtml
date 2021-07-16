@@ -84,6 +84,15 @@
                 </p:column>
                 <p:column headerText="Data Source" sortBy="#{hfmffssDetail.id.datasource}" filterBy="#{hfmffssDetail.id.datasource}">
                     <h:outputText value="#{hfmffssDetail.id.datasource}"/>
+                </p:column>                
+                <p:column headerText="Origin HFM Code" sortBy="#{hfmffssDetail.hfmcodeold}" filterBy="#{hfmffssDetail.hfmcodeold}">
+                    <h:outputText value="#{hfmffssDetail.hfmcodeold}"/>
+                </p:column> 
+                <p:column headerText="Posting" sortBy="#{hfmffssDetail.posting}" filterBy="#{hfmffssDetail.hfmcodeold}">
+                    <h:outputText value="#{hfmffssDetail.posting}"/>
+                </p:column> 
+                <p:column headerText="Line Type" sortBy="#{hfmffssDetail.linetype}" filterBy="#{hfmffssDetail.linetype}">
+                    <h:outputText value="#{hfmffssDetail.linetype}"/>
                 </p:column>
                 <p:column headerText="Error Text"  sortBy="#{hfmffssDetail.errortext}" filterBy="#{hfmffssDetail.errortext}">
                     <h:outputText value="#{hfmffssDetail.errortext}"/>

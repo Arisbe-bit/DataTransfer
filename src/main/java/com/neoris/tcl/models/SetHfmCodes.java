@@ -45,17 +45,16 @@ public class SetHfmCodes implements Serializable {
 	private String description;
 	private String userid;
 	
+	
+	private int intercom;
 
 	public SetHfmCodes() {
 	}
 
 	
-
-	
-
 	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String globalval,
-			int ordernum, int naturalsign, String description, String userid) {
-		super();
+			int ordernum, int naturalsign, String description, String userid, int intercom) {
+		
 		this.hfmcode = hfmcode;
 		this.tptype = tptype;
 		this.classification = classification;
@@ -65,38 +64,25 @@ public class SetHfmCodes implements Serializable {
 		this.naturalsign = naturalsign;
 		this.description = description;
 		this.userid = userid;
-		
+		this.intercom = intercom;
 	}
 
-
-
-
-
-	
 
 	public String getGlobalval() {
 		return globalval;
 	}
 
-
-
 	public void setGlobalval(String globalval) {
 		this.globalval = globalval;
 	}
-
-
 
 	public String getUserid() {
 		return userid;
 	}
 
-
-
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-
-
 
 	public String getHfmcode() {
 		return this.hfmcode;
@@ -162,19 +148,20 @@ public class SetHfmCodes implements Serializable {
 		this.description = description;
 	}
 
+	public int getIntercom() {
+		return intercom;
+	}
 
-
-
+	public void setIntercom(int intercom) {
+		this.intercom = intercom;
+	}
 
 	@Override
 	public String toString() {
 		return "SetHfmCodes [hfmcode=" + hfmcode + ", tptype=" + tptype + ", classification=" + classification
 				+ ", naturalb=" + naturalb + ", globalval=" + globalval + ", ordernum=" + ordernum + ", naturalsign="
-				+ naturalsign + ", description=" + description + ", userid=" + userid +  "]";
+				+ naturalsign + ", description=" + description + ", userid=" + userid + ", intercom=" + intercom + "]";
 	}
-
-
-
 
 	
 

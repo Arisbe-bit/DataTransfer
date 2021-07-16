@@ -16,7 +16,7 @@ public class WebSocketPushController {
 	@MessageMapping(WebSocketConfig.WS_ROLLUPS_MAPPING)
 	@SendTo(WebSocketConfig.WS_ROLLUPS_TOPIC + WebSocketConfig.WS_ROLLUPS_MAPPING)
 	public RollUpMessage pushStatus(RollUpMessage message) {
-		LOG.info("[pushStatus] recibo mensage = {}", message);
+		LOG.info("[pushStatus] message = {}", message);
 		return message;
 	}
 

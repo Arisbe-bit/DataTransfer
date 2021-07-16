@@ -21,11 +21,9 @@ public class SetReclassifAccounts implements Serializable {
 
 	@EmbeddedId
 	private SetReclassifAccountsPK id;
-
-	private String destcc;
-
-	private String origincc;
-
+	private String userid;
+	private String segment1;
+	
 	public SetReclassifAccounts() {
 	    this.setId(new SetReclassifAccountsPK());
 	}
@@ -38,25 +36,32 @@ public class SetReclassifAccounts implements Serializable {
 		this.id = id;
 	}
 
-	public String getDestcc() {
-		return this.destcc;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setDestcc(String destcc) {
-		this.destcc = destcc;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
-	public String getOrigincc() {
-		return this.origincc;
+	
+	public String getSegment1() {
+		return segment1;
 	}
 
-	public void setOrigincc(String origincc) {
-		this.origincc = origincc;
+	public void setSegment1(String segment1) {
+		this.segment1 = segment1;
 	}
 
 	@Override
 	public String toString() {
-		return "SetReclassifAccounts [id=" + id + ", destcc=" + destcc + ", origincc=" + origincc + "]";
+		return "SetReclassifAccounts [id=" + id + ", userid=" + userid + ", segment1=" + segment1 + "]";
 	}
+
+	
+
+	
+
+	
 
 }

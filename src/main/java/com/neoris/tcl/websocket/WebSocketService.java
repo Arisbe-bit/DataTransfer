@@ -16,7 +16,7 @@ import com.neoris.tcl.services.IHfmRollupEntriesService;
 public class WebSocketService implements IWebSocketService {
 
 	private final static Logger LOG = LoggerFactory.getLogger(WebSocketService.class);
-	private final String destination = WebSocketConfig.WS_ROLLUPS_TOPIC + WebSocketConfig.WS_ROLLUPS_MAPPING;
+	private final String DESTINATION = WebSocketConfig.WS_ROLLUPS_TOPIC + WebSocketConfig.WS_ROLLUPS_MAPPING;
 
 	@Autowired
 	private final SimpMessagingTemplate messageTemplate;
@@ -37,7 +37,7 @@ public class WebSocketService implements IWebSocketService {
 		}
 		LOG.info("About to send message: {}", message);
 		try {
-			messageTemplate.convertAndSend(destination, message);
+			messageTemplate.convertAndSend(DESTINATION, message);
 		} catch (Exception e) {
 			LOG.error("Exception sending message: {}", e.getMessage());
 		} finally {
@@ -110,6 +110,13 @@ public class WebSocketService implements IWebSocketService {
 	@Override
 	public void setRollUpService(IHfmRollupEntriesService rollUpService) {
 		this.rollUpService = rollUpService;
+	}
+
+	@Override
+	public void sendProcessFinished() {
+		RollUpMessage rum = new RollUpMessage("RollUp Process Finish", "Process", "info", null);
+		rum.setProcessFinished(true);
+		this.notyfyRollUpProcess(rum);		
 	}
 
 }

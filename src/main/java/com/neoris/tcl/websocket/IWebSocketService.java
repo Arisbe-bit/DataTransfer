@@ -36,6 +36,7 @@ public interface IWebSocketService {
 	 * @param title    .- Title of the optional message
 	 * @param severity . Severity of message (info, warn, error)
 	 * @param rollup   .- Current rollup been processed.
+	 * @param processFinished .- Flag to indicate process is running or finished
 	 */
 	void sendPushNotification(String message, String title, String severity, HfmRollupEntries rollup);
 
@@ -55,7 +56,16 @@ public interface IWebSocketService {
 	 * @param companyId .- Company ID to search.
 	 */
 	void sendPushNotification(Long companyId);
+	
+	/**
+	 * Send notification on process ending.
+	 */
+	void sendProcessFinished();
 
+	/**
+	 * Setter method for rollUp service.
+	 * @param rollUpService
+	 */
 	void setRollUpService(IHfmRollupEntriesService rollUpService);
 
 }

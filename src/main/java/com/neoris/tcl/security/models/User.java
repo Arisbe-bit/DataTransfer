@@ -91,6 +91,12 @@ public class User implements UserDetails {
 	
 	@ColumnDefault(value = "0")
 	private boolean manualentrieshist;
+	
+	@ColumnDefault(value = "0")
+	private boolean reclassification;
+	
+	@ColumnDefault(value = "0")
+	private boolean rollexceptions;
 
 	@Transient
 	private List<Rol> selectdRoles;
@@ -109,7 +115,7 @@ public class User implements UserDetails {
 			String username, String password, String name, boolean enabled, boolean admin,
 			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean policies, boolean definedaccounts, boolean manualentrieshist) {
+			boolean policies, boolean definedaccounts, boolean manualentrieshist, boolean reclassification, boolean rollexceptions) {
 		this.selectdRoles = new ArrayList<>();
 		this.username = username;
 		this.password = password;
@@ -129,6 +135,8 @@ public class User implements UserDetails {
 		this.policies = policies;
 		this.definedaccounts = definedaccounts; 
 		this.manualentrieshist = manualentrieshist;
+		this.reclassification = reclassification;
+		this.rollexceptions = rollexceptions;
 		this.passwordBackUp ="";
 		this.populateList();
 	}
@@ -209,6 +217,14 @@ public class User implements UserDetails {
 		if(manualentrieshist) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.MANUALENTRIESHIST.name()));
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
+		}
+		if(reclassification) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.RECLASSIFICATION.name()));
+			selectdRoles.add(Rol.RECLASSIFICATION);
+		}
+		if(rollexceptions) {
+			gaRoles.add(new SimpleGrantedAuthority(Rol.ROLLEXCEPTIONS.name()));
+			selectdRoles.add(Rol.ROLLEXCEPTIONS);
 		}
 		return new ArrayList<GrantedAuthority>(gaRoles);
 	}
@@ -373,7 +389,26 @@ public class User implements UserDetails {
 	public void setManualentrieshist(boolean manualentrieshist) {
 		this.manualentrieshist = manualentrieshist;
 	}
+	
+	public boolean isReclassification() {
+		return reclassification;
+	}
 
+	
+	public void setReclassification(boolean Reclassification) {
+		this.reclassification = Reclassification;
+	}
+
+	public boolean isRollexceptions() {
+		return rollexceptions;
+	}
+
+	
+	public void setRollexceptions(boolean rollexceptions) {
+		this.rollexceptions = rollexceptions;
+	}
+
+	
 	public void setSelectdRoles(List<Rol> selectdRoles) {
 		LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
 		this.selectdRoles = selectdRoles;
@@ -422,6 +457,12 @@ public class User implements UserDetails {
 			if (Rol.MANUALENTRIESHIST.equals(rol)) {
 				this.setManualentrieshist(true);
 			}
+			if (Rol.RECLASSIFICATION.equals(rol)) {
+				this.setReclassification(true);
+			}
+			if (Rol.ROLLEXCEPTIONS.equals(rol)) {
+				this.setRollexceptions(true);
+			}
 		}
 	}
 
@@ -440,6 +481,8 @@ public class User implements UserDetails {
 		this.policies = false;
 		this.definedaccounts = false;
 		this.manualentrieshist = false;
+		this.reclassification = false;
+		this.rollexceptions = false;
 	}
 	
 	private void populateList() {
@@ -486,6 +529,14 @@ public class User implements UserDetails {
 		
 		if (manualentrieshist) {
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
+		}
+		
+		if (reclassification) {
+			selectdRoles.add(Rol.RECLASSIFICATION);
+		}
+		
+		if (rollexceptions) {
+			selectdRoles.add(Rol.ROLLEXCEPTIONS);
 		}
 	}
 

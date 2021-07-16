@@ -103,6 +103,10 @@ public class MenuController {
 		return String.format(REDIRECT, "/manualentrieshist");
 	}
 
+	
+	public String rollupexceptions() {
+		return String.format(REDIRECT, "/rollupexceptions");
+	}
 	public String logout() {
 		LOG.info("Entering to logout...");
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -132,6 +136,10 @@ public class MenuController {
 
 	public String getReclasificationText() {
 		return "Reclasification";
+	}
+	
+	public String getRollupExceptionsText() {
+		return "Trading Partners Exceptions";
 	}
 
 	public String getHfmCodesOAText() {
@@ -210,5 +218,12 @@ public class MenuController {
 		return user.isManualentrieshist() || user.isAdmin();
 	}
 	
+	public boolean isReclassificationRole() {
+		return user.isReclassification() || user.isAdmin();
+	}
+	
+	public boolean isRollupexceptionsRole() {
+		return user.isRollexceptions() || user.isAdmin();
+	}
 
 }

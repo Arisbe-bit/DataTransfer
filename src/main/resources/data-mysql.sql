@@ -5401,4 +5401,10 @@ VALUES ('1', 'Centro de Costos Name 1', 'Centro 1', 'OPX area 1'),
        ('3', 'Centro de Costos Name 3', 'Centro 3', 'OPX area 3'),
        ('4', 'Centro de Costos Name 4', 'Centro 4', 'OPX area 4'),
        ('5', 'Centro de Costos Name 5', 'Centro 5', 'OPX area 5');
+       
+INSERT INTO `rollup_vebs_suppliers` (`suppliernum`, `organizationid`, `vendorname`) 
+VALUES ('01', '86', 'Vendedor 01 - 86'), 
+	   ('02', '86', 'Vendedor 02 - 86'),
+	   ('03', '88', 'Vendedor 03 - 88'),
+	   ('04', '88', 'Vendedor 04 - 88');
 

@@ -54,14 +54,24 @@ public class ProcessRollUps implements Runnable {
 		if (this.matchAccounts) {
 			matchAccounts();
 		}
+		if (numDrill ==-1) {
+			reclassifications();
+		} 
+		if (numDrill ==-2) {
+			rollUpStart();
+		} 
 		if (numDrill > 0) {
 			processDrill(numDrill);
-		} else {
+		} 		
+		else {
 			processRollUps();
 		}
 		LOG.info("Finish!!");
 	}
 
+	
+
+	
 	private void matchAccounts() {
 		String mensaje = String.format("Processing Match Account for company:%s, period: %s, year: %s",
 				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
@@ -71,6 +81,28 @@ public class ProcessRollUps implements Runnable {
 		service.rollUpMatchAccounts(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
 				user.getUsername());
 		//webSocketService.sendPushNotification("Match Account Processed", "Match Accounts", "info", rollUp);
+	}
+	
+	private void reclassifications() {
+		String mensaje = String.format("Processing reclassifications for company:%s, period: %s, year: %s",
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		LOG.info(mensaje);
+		webSocketService.sendPushNotification(rollUp);
+
+		service.rollupreclassification(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+				user.getUsername());
+		
+	}
+	
+	private void rollUpStart() {
+		String mensaje = String.format("Processing Trial Balance for company:%s, period: %s, year: %s",
+				rollUp.getCompanyid(), rollUp.getRperiod(), rollUp.getRyear());
+		LOG.info(mensaje);
+		webSocketService.sendPushNotification(rollUp);
+
+		service.rollUpStart(rollUp.getCompanyid().intValue(), rollUp.getRperiod(), rollUp.getRyear(),
+				rollUp.getSegment1(), user.getUsername());
+		
 	}
 
 	private void processRollUps() {
