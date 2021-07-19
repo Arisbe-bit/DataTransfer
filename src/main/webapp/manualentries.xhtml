@@ -75,7 +75,9 @@
                     </h:panelGroup>
                     <!--  Column 1 -->
 
-                    <p:dataTable id="dtParent" widgetVar="dtParentWV" var="accEntries" value="#{hfmaccentriesControllerBean.lstaccent}" selectionMode="single" selection="#{hfmaccentriesControllerBean.currentries}" rowKey="#{accEntries.itemid}" paginator="true" rows="10" stripedRows="true" reflow="true" size="small" tableStyle="width:auto" paginatorPosition="bottom">
+                    <p:dataTable id="dtParent" widgetVar="dtParentWV" var="accEntries" value="#{hfmaccentriesControllerBean.lstaccent}" selectionMode="single" 
+                    selection="#{hfmaccentriesControllerBean.currentries}" rowKey="#{accEntries.itemid}" paginator="true" 
+                    rows="10" stripedRows="true" reflow="true" size="small" tableStyle="width:auto" paginatorPosition="bottom">
                         <f:facet name="header">
                             <p:toolbar>
                                 <p:toolbarGroup >
@@ -137,7 +139,8 @@
                         <h:outputText value="#{hfmaccentriesControllerBean.titleDet} "/>
                     </h:panelGroup>
 
-                    <p:dataTable id="dtDetails" widgetVar="dtDetailsWV" var="entryDetail" reflow="true" value="#{hfmaccentriesControllerBean.currentries.lstEntriesDet}" selectionMode="single" selection="#{hfmaccentriesControllerBean.currentdet}" rowKey="#{entryDetail.movid}" rows="15" rowIndexVar="rowIndex" size="small" paginator="true" paginatorPosition="bottom">
+                    <p:dataTable id="dtDetails" widgetVar="dtDetailsWV" var="entryDetail" reflow="true" value="#{hfmaccentriesControllerBean.currentries.lstEntriesDet}" selectionMode="single" selection="#{hfmaccentriesControllerBean.currentdet}" 
+                    rowKey="#{entryDetail.movid}" rows="15" rowIndexVar="rowIndex" size="small" paginator="true" paginatorPosition="bottom">
                         <f:facet name="header">
                             <p:toolbar>
                                 <p:toolbarGroup >
@@ -244,18 +247,22 @@
                         <div class="p-field">
                             <p:outputLabel for="@next" value="ICP Code"/>
                             <p:selectOneMenu id="icpcode" value="#{hfmaccentriesControllerBean.currentdet.icpcode}" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" var="icpcode" itemLabel="#{icpcode.icpcode}" itemValue="#{icpcode.icpcode}" />
+                                 <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{hfmaccentriesControllerBean.lstIcpcodes}" 
+                                var="icpcode" itemLabel="#{icpcode.icpcode}" itemValue="#{icpcode.icpcode}" />
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="@next" value="Area Code" />
                             <p:selectOneMenu id="opexarea" editable="true" value="#{hfmaccentriesControllerBean.currentdet.areaid}" filter="true" filterMatchMode="startsWith">
+                                 <f:selectItem itemLabel="Select One" itemValue="" />
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstCC}" var="costc" itemLabel="#{costc.opexarea}" itemValue="#{costc.opexarea}" />
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field">
                             <p:outputLabel for="@next" value="Currency Code" />
                             <p:selectOneMenu id="currencyc" editable="true" value="#{hfmaccentriesControllerBean.currentdet.currencyid}" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstcurrencies}" var="curcode" itemLabel="#{curcode.currencycode}" itemValue="#{curcode.currencycode}" />
                             </p:selectOneMenu>
                         </div>

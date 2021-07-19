@@ -151,7 +151,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_YEAR
 	 * @param P_USERID
 	 */
-	@Procedure("rollup_match_accounts")
+	@Procedure("rollup_match_accounts2")
 	void rollUpMatchAccounts(int p_orgid, String p_period, String p_year, String p_userid);
 	
 	/**

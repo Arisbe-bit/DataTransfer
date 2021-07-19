@@ -234,6 +234,10 @@ public class RollupController {
 			String vyear = this.curRollUp.getRyear();
 
 			serviceLay.rollUpLayout(comapnyid, period, vyear, user.getUsername());
+		
+			
+			Functions.addInfoMessage("Layout Process", "Rollup Layout Finished!");
+			PrimeFaces.current().ajax().update(getFormNameId() + ":messages");
 			
 			webSocketService.sendPushNotification( "Finished Layout ","Sucess", "info");
 			
@@ -313,35 +317,7 @@ public class RollupController {
 		LOG.info("curHfmffssClic with event = {}", event.getComponent());
 	}
 
-	/**
-	 * This event is fired when user clicks on a row of main data table. It search
-	 * the company childs for "Global Validation" Data Table.
-	 * 
-	 * @param event
-	 */
-//    public void rowClick(AjaxBehaviorEvent event) {        
-//        HfmRollupEntries entry;
-//        // get the datatable object when click even was fired
-//        DataTable dt = (DataTable) event.getComponent();
-//        // Get the list of selected items. In this case will be only one item inside an ArrayList
-//        Object obj = dt.getSelection();
-//        if(obj instanceof ArrayList<?>) {
-//            List<HfmRollupEntries> items = (ArrayList<HfmRollupEntries>) obj;
-//            entry = items.get(0);
-//            LOG.info("Entry = {}", entry);
-//            LOG.info("Updating lstMatchAcc with company Id = {} ", entry.getCompanyid());
-//            this.lstMatchAcc = matchaccService.findByCompanyid(entry.getCompanyid());
-//            if (this.lstMatchAcc == null || this.lstMatchAcc.isEmpty()) {
-//                Functions.addWarnMessage("Attention",
-//                        String.format("No records found for companyId=%s", entry.getCompanyid()));
-//            }
-//            LOG.info("Update view...");
-//            PrimeFaces.current().ajax().update("rollupForm:messages", "rollupForm:dt-macthacc");
-//        } else {
-//            LOG.info("Item type is = {}", obj.getClass().getSimpleName());
-//        }
-//    }
-
+	
 	/**
 	 * 
 	 * @return
@@ -473,20 +449,7 @@ public class RollupController {
 
 	}
 
-	/**
-	 * 
-	 * @param process
-	 * @return
-	 */
-//	private ProcessRollUps getProcessRollUpsInstance(HfmRollupEntries rollUp, String process, int numDrill,
-//			boolean processValidations, boolean matchAccounts) {
-//		ProcessRollUps rollup = new ProcessRollUps(rollUp, this.service, process, numDrill, processValidations,
-//				matchAccounts, this.user);
-//		rollup.setFacesContext(FacesContext.getCurrentInstance());
-//		rollup.setPrimefaces(PrimeFaces.current());
-//		rollup.setWebSocketService(webSocketService);
-//		return rollup;
-//	}
+	
 
 	/**
 	 * 
@@ -515,18 +478,7 @@ public class RollupController {
 				LOG.info("Records for lstMatchAcc = {}", lstMatchAcc);
 			}
 
-			/*
-			 * LOG.info("Query lstlayout LIST with company = {}", companyId);
-			 * 
-			 * this.lstlayout = serviceLay.findByIdCompanyid(companyId.intValue());
-			 * LOG.info("return lstlayout with items => {}", lstlayout != null ?
-			 * lstlayout.size() : "is null");
-			 * 
-			 * if (this.lstlayout == null || this.lstlayout.isEmpty()) { String mensaje =
-			 * String.format("No records found for companyId: %s", companyId);
-			 * LOG.info(mensaje); // Functions.addWarnMessage("Attention", mensaje); } else
-			 * { LOG.info("Records for lstlayout = {}", lstlayout); }
-			 */
+			
 		} catch (Exception e) {
 			LOG.error("ERROR in setCurRollUp -> {}", e.getMessage());
 		}
@@ -549,8 +501,7 @@ public class RollupController {
 
 			this.lstSumFS = serviceFSG.findByCompanyidAndHfmcode(companyid.toString(), hfmcode);
 
-			// LOG.info("return lstFSgrouped with items => {}", lstFSgrouped != null ?
-			// lstFSgrouped.size() : "is null");
+		
 			LOG.info("return lstFSgrouped with items => {}", lstSumFS != null ? lstSumFS.size() : "is null");
 
 			if (this.lstSumFS == null || this.lstSumFS.isEmpty()) {

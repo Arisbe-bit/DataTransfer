@@ -113,18 +113,7 @@ public class HfmAccEntriesController {
 			}
 		}
 
-		/*
-		 * if(this.lstEntries != null && !this.lstEntries.isEmpty()) {
-		 * 
-		 * LOG.info("lstEntries filled! Initializing currentries. => {}",
-		 * this.lstEntries); this.currentries.setApplied(0);
-		 * this.currentries.setUserid(this.user.getUsername());
-		 * this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue(
-		 * ));
-		 * 
-		 * LOG.info("Gettin lstaccent with company id = {}",
-		 * this.currentries.getCompanyid()); }
-		 */
+		
 
 		LOG.info("[init] Initializing finish!");
 	}
@@ -455,6 +444,9 @@ public class HfmAccEntriesController {
 		LOG.info("[openNewDet] currentries = {}", currentries);
 		this.currentdet = new HfmAccEntriesDet();
 		this.currentdet.setItemid(this.currentries.getItemid());
+		this.currentdet.setIcpcode(null);
+		this.currentdet.setAreaid(null);
+		this.currentdet.setCurrencyid(null);
 		LOG.info("[openNewDet] currentdet = {}", this.currentdet);
 		//PrimeFaces.current().ajax().update(":form:manage-code-contentDet");
 	}
@@ -498,6 +490,10 @@ public class HfmAccEntriesController {
 
 		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').hide()");
 		PrimeFaces.current().ajax().update("form:messages");
+		LOG.info("[saveDet] ajax update=> form:dtDetails");
+		
+		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
+		PrimeFaces.current().ajax().update("form:dtDetails");
 		// this.refreshUI();
 	}
 
@@ -505,7 +501,9 @@ public class HfmAccEntriesController {
 		LOG.info("[deleteDet] Entering to delete row => {}", this.currentdet);
 		servicedet.delete(this.currentdet);
 		this.currentdet = null;
-
+		LOG.info("[saveDet] ajax update=> form:dtDetails");
+		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
+		PrimeFaces.current().ajax().update("form:dtDetails");
 		try {
 			LOG.info("[deleteDet] updating currentries.lstEntriesDet with id={}", this.currentries.getItemid());
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
@@ -517,60 +515,12 @@ public class HfmAccEntriesController {
 		//this.refreshUI();
 	}
 
-	/**
-	 * 
-	 * @param event
-	 */
-//	public void deleteSelectedDet(ActionEvent event) {
-//		LOG.info("[deleteSelected] = > Entering to delete items: {}", this.lstSelectedEntDet);
-//		servicedet.deleteAll(this.lstSelectedEntDet);
-//		this.lstSelectedEntDet = null;
-//
-//		try {
-//			LOG.info("[deleteSelectedDet] updating currentries.lstEntriesDet...");
-//			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-//			LOG.info("[deleteSelected] lstaccentdet = {}", currentries.getLstEntriesDet().size());
-//		} catch (Exception e) {
-//			LOG.error("[deleteSelectedDet] lstaccentdet ERRor -> {}", e.getMessage());
-//		}
-//		Functions.addInfoMessage("Succes", "Fields Removed");
-//		this.refreshUI();
-//	}
-
-//	public boolean hasSelectedCodesDet() {
-//		return this.lstSelectedEntDet != null && !this.lstSelectedEntDet.isEmpty();
-//	}
-
-//	public String getDeleteButtonMessageDet() {
-//		String message = "Delete %s item%s selected";
-//		String retval = "Delete";
-//		if (hasSelectedCodesDet()) {
-//			int size = this.lstSelectedEntDet.size();
-//			if (size > 1) {
-//				retval = String.format(message, size, "s");
-//			} else {
-//				retval = String.format(message, size, "");
-//			}
-//		}
-//		return retval;
-//	}
-
-//	public List<HfmAccEntriesDet> getLstSelectedEntDet() {
-//		return lstSelectedEntDet;
-//	}
-//
-//	public void setLstSelectedEntDet(List<HfmAccEntriesDet> lstSelectedEntDet) {
-//		LOG.info("[setLstSelectedEntDet] Recibo lstSelectedEntDet = {}", lstSelectedEntDet);
-//		this.lstSelectedEntDet = lstSelectedEntDet;
-//	}
-
+	
 	public String getTitleDet() {
 		return "Manual Entries Details Setting";
 	}
 
-//	public String getDialogNameDet() {
-//		return "entryDialogDetailWV";
-//	}
+
 
 	public String getDataTableNameDet() {
 		return "dtDetails";
