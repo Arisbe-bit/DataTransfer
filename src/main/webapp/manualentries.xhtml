@@ -152,7 +152,11 @@
                                     <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                         <p:dataExporter type="xls" target="dtDetails" fileName="EntryDetails" />
                                     </p:commandButton>
-                                </p:toolbarGroup>
+                                
+								         <p:fileUpload value="#{hfmaccentriesControllerBean.file}" mode="simple" skinSimple="true" auto="true"
+						                      process="@this" update="messages"
+						                      listener="#{hfmaccentriesControllerBean.handleFileUpload}"/>
+								   </p:toolbarGroup>
                             </p:toolbar>
                         </f:facet>
 
