@@ -169,6 +169,11 @@ public class HfmAccEntriesController {
 			LOG.info("[delete] Done! Refreshing Entries List for company = {}", this.vcompanyid);
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 			LOG.info("[delete] Done! lstaccent size = {} items!", this.lstaccent.size());
+			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
+			LOG.info("[delete]  servicedet.findByItemid item size ={} ", currentries.getLstEntriesDet().size());
+
+			PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
+			PrimeFaces.current().ajax().update("form:dtDetails");
 			Functions.addInfoMessage("Succes", "Entry and Entry Child Items Removed");
 		} catch (Exception e) {
 			Functions.addErrorMessage("Error", "Error deleting:" + e.getMessage());
