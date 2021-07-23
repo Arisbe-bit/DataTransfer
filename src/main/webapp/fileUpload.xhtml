@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<script type="text/javascript">
+$( document ).ready(function() {
+    var $form = $('#form');
+    var $file = $form.find('input[type=file]');
+    $form[0].action = "#{fileUpload.contextPath}/uploadHfmAccEntriesDet";
+    $file[0].name = 'filexls';    
+});
+function closeMySelf() {
+	var daddy = window.self;
+	daddy.opener = window.self;
+	daddy.close();
+}
+</script>
+</h:head>
+<h:body>
+	<h:form id="form" enctype="multipart/form-data" prependId="false">
+		<p:growl id="messages" showDetail="true" />
+		<p:fileUpload listener="#{fileUpload.handleFileUpload}" 
+			chooseIcon="fa fa-file-excel-o fa-fw" fileLimit="1"
+			fileLimitMessage="Only 1 file is allowed to upload at once"
+			label="#{fileUpload.button1}" mode="advanced" dragDropSupport="false"
+			update="messages" id="filexls" value="#{fileUpload.file}"
+			allowTypes="/(\.|\/)(xls|xlsx)$/" validateContentType="true"
+			accept=".xls,.xlsx" oncomplete="closeMySelf();"
+			invalidFileMessage="Only excel files (xls, xlsx) are allowed" />
+	</h:form>
+</h:body>
+</html>

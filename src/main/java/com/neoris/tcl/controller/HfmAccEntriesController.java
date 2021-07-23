@@ -1,29 +1,16 @@
 package com.neoris.tcl.controller;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +37,6 @@ import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
-
 
 @Controller(value = "hfmaccentriesControllerBean")
 @Scope(ViewScope.VIEW)
@@ -83,11 +69,8 @@ public class HfmAccEntriesController {
 
 	private List<HfmFfss> lstHfmFfss;
 	private HfmFfss curHfmFfss;
-
 	private List<HfmPeriodFfss> lstperiod;
 	private HfmPeriodFfss curperiod;
-
-	//
 	private HfmAccEntriesDet currentdet;
 
 	private List<ViewCostCenter> lstCC;
@@ -104,9 +87,6 @@ public class HfmAccEntriesController {
 	private String vperiodnm;
 	private int numColums = 1;
 
-	 private UploadedFile file;
-	 
-	    
 	@PostConstruct
 	public void init() {
 
@@ -120,7 +100,7 @@ public class HfmAccEntriesController {
 			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
 			this.lstHfmcodes = serviceHfmcodes.findAll();
-			//this.lstIcpcodes = serviceIcpCodes.findAll();
+			// this.lstIcpcodes = serviceIcpCodes.findAll();
 			// find the list of accent for first company...
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 
@@ -130,14 +110,12 @@ public class HfmAccEntriesController {
 			}
 		}
 
-		
-
 		LOG.info("[init] Initializing finish!");
 	}
-	
+
 	public void openNew(AjaxBehaviorEvent ev) {
 		LOG.info("[openNew] AjaxBehaviorEven  => {}", ev);
-		openNew();		
+		openNew();
 	}
 
 	/**
@@ -168,7 +146,7 @@ public class HfmAccEntriesController {
 		}
 		PrimeFaces.current().executeScript("PF('entryDialogWV').hide()");
 		PrimeFaces.current().ajax().update("form:messages");
-		//refreshUI();
+		// refreshUI();
 	}
 
 	/**
@@ -192,7 +170,7 @@ public class HfmAccEntriesController {
 			LOG.error("[delete] Exception deleting -> {}", e.getMessage());
 		}
 		PrimeFaces.current().ajax().update("form:messages");
-		//refreshUI();
+		// refreshUI();
 	}
 
 	/**
@@ -267,8 +245,8 @@ public class HfmAccEntriesController {
 	}
 
 	public void setCurrentries(HfmAccEntries currentries) {
-		LOG.info("[setCurrentries] gets currentries companyId = {}, ItemID = {}", 
-				currentries.getCompanyid(), currentries.getItemid());
+		LOG.info("[setCurrentries] gets currentries companyId = {}, ItemID = {}", currentries.getCompanyid(),
+				currentries.getItemid());
 		this.currentries = currentries;
 	}
 
@@ -345,7 +323,8 @@ public class HfmAccEntriesController {
 		try {
 			LOG.info("[companyidChange] change lstaccentdet with ItemID ={} ", this.currentries.getItemid().intValue());
 			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ", currentries.getLstEntriesDet().size());
+			LOG.info("[companyidChange]  servicedet.findByItemid item size ={} ",
+					currentries.getLstEntriesDet().size());
 
 		} catch (Exception e) {
 			LOG.error("[companyidChange] Exception in lservicedet.findByItemid -> {}", e.getMessage());
@@ -355,7 +334,7 @@ public class HfmAccEntriesController {
 //			this.lstSelectedEntries.clear();
 //		}
 		LOG.info("[companyidChange] companyidChange Finish!!");
-		//refreshUI();
+		// refreshUI();
 	}
 
 	/**
@@ -387,8 +366,6 @@ public class HfmAccEntriesController {
 
 		String tptype = "";
 		String desc = "";
-
-		
 
 		try {
 			LOG.info("[tptypeChange]...");
@@ -428,9 +405,9 @@ public class HfmAccEntriesController {
 			} catch (Exception e) {
 				LOG.error("[init] init lstCC ERRor -> {}", e.getMessage(), e);
 			}
-		} 
-		
-		if  (tptype.contains("INTERCIAS")) { 
+		}
+
+		if (tptype.contains("INTERCIAS")) {
 			try {
 				this.lstCC = null;
 				this.lstcurrencies = null;
@@ -441,10 +418,11 @@ public class HfmAccEntriesController {
 			} catch (Exception e) {
 				LOG.error("[tptypeChange] init lstIcpcodes ERROR -> {}", e.getMessage(), e);
 			}
-		
+
 		}
 		// Refresh in xhtml
-		// PrimeFaces.current().ajax().update("form:opexarea", "form:icpcode", "form:Currencyc");
+		// PrimeFaces.current().ajax().update("form:opexarea", "form:icpcode",
+		// "form:Currencyc");
 
 	}
 
@@ -452,6 +430,7 @@ public class HfmAccEntriesController {
 		LOG.info("[openNewDet] click event: {}", ev);
 		openNewDet();
 	}
+
 	/**
 	 * 
 	 */
@@ -465,7 +444,7 @@ public class HfmAccEntriesController {
 		this.currentdet.setAreaid(null);
 		this.currentdet.setCurrencyid(null);
 		LOG.info("[openNewDet] currentdet = {}", this.currentdet);
-		//PrimeFaces.current().ajax().update(":form:manage-code-contentDet");
+		// PrimeFaces.current().ajax().update(":form:manage-code-contentDet");
 	}
 
 	/**
@@ -508,7 +487,7 @@ public class HfmAccEntriesController {
 		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').hide()");
 		PrimeFaces.current().ajax().update("form:messages");
 		LOG.info("[saveDet] ajax update=> form:dtDetails");
-		
+
 		PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
 		PrimeFaces.current().ajax().update("form:dtDetails");
 		// this.refreshUI();
@@ -528,16 +507,12 @@ public class HfmAccEntriesController {
 			LOG.error("[deleteDet] delete lstaccentdet Error -> {}", e.getMessage());
 		}
 		Functions.addInfoMessage("Succes", "Entity detail Removed");
-		// PrimeFaces.current().ajax().update("form:messages");
-		//this.refreshUI();
+
 	}
 
-	
 	public String getTitleDet() {
 		return "Manual Entries Details Setting";
 	}
-
-
 
 	public String getDataTableNameDet() {
 		return "dtDetails";
@@ -557,10 +532,10 @@ public class HfmAccEntriesController {
 		try {
 
 			LOG.info("[applyprocess] company id ={} , item ={}", this.currentries.getCompanyid(),
-					 this.currentries.getItemid());
+					this.currentries.getItemid());
 			LOG.info("[applyprocess] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
-			
-			if (this.vcompanyid > 0 ) {
+
+			if (this.vcompanyid > 0) {
 				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
 						this.currentries.getItemid().intValue(), 1);
 				this.currentries.setApplied(1);
@@ -574,7 +549,6 @@ public class HfmAccEntriesController {
 		}
 
 		PrimeFaces.current().ajax().update("form:dtParent", "form:dtDetails");
-		// this.refreshUI();
 	}
 
 	public void unpostingprocess() {
@@ -585,7 +559,7 @@ public class HfmAccEntriesController {
 					this.currentries.getPeriodnm(), this.currentries.getItemid());
 			LOG.info("[unposting process] ItemID ={} ,perdiodnm ={}", this.vcompanyid, this.vperiodnm);
 
-			if (this.vcompanyid > 0 ) {
+			if (this.vcompanyid > 0) {
 				service.rollUpApplyEntries(this.vcompanyid, this.user.getUsername(),
 						this.currentries.getItemid().intValue(), 0);
 				this.currentries.setApplied(0);
@@ -647,13 +621,14 @@ public class HfmAccEntriesController {
 		LOG.info("[btnEditOnClick] Event = {}", ev);
 		if (ev.getSource() instanceof CommandButton) {
 			CommandButton button = (CommandButton) ev.getSource();
-			LOG.info("[btnEditOnClick] value = {}, title = {}, id=", button.getValue(), button.getTitle(), button.getId());
+			LOG.info("[btnEditOnClick] value = {}, title = {}, id=", button.getValue(), button.getTitle(),
+					button.getId());
 		}
 		if (ev.getSource() instanceof HtmlCommandButton) {
 			HtmlCommandButton button = (HtmlCommandButton) ev.getSource();
 			LOG.info("[btnEditOnClick] value = {}, title = {}", button.getValue(), button.getTitle());
 		}
-		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').show()");		
+		PrimeFaces.current().executeScript("PF('entryDialogDetailWV').show()");
 	}
 
 	public List<SetHfmCodes> getLstHfmcodes() {
@@ -702,86 +677,12 @@ public class HfmAccEntriesController {
 				&& this.currentries.getItemid() > 0 && this.currentries.getApplied() == 0);
 		return retval;
 	}
-
 	
-	public UploadedFile getFile() {
-		return file;
+	public void rcRefresh() {
+		LOG.info("Refreshing after upload file...");
+		currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
 	}
 
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
-
-	public void upload() {
-		if (file != null) {
-            FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-	
-
-    public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-       
-        
-        UploadedFile uploadedFile = event.getFile();
-   
-        try 
-        {
-        //FileInputStream file = new FileInputStream(new File(""));
-        //HSSFWorkbook workbook = new HSSFWorkbook(file);
-        	InputStream input = uploadedFile.getInputStream();
-        	HSSFWorkbook workbook = new HSSFWorkbook(input);
-        	
-                // Get the workbook instance for XLS file
-
-                // Get first sheet from the workbook
-                HSSFSheet sheet = workbook.getSheetAt(0);
-                // Iterate through each rows from first sheet
-                Iterator<Row> rowIterator = sheet.rowIterator();
-                
-                while (rowIterator.hasNext()) {
-                    Row row = rowIterator.next();
-                    // For each row, iterate through each columns
-                    Iterator<Cell> cellIterator = row.cellIterator();
-                    
-                    while (cellIterator.hasNext()) {
-                        Cell cell = cellIterator.next();
-                        
-                        switch (cell.getCellType()) {
-                        case Cell.CELL_TYPE_BOOLEAN:
-                            cell.getBooleanCellValue();
-                            break;
-                        case Cell.CELL_TYPE_NUMERIC:
-                            cell.getNumericCellValue();
-                            break;
-                        case Cell.CELL_TYPE_STRING:
-                            cell.getStringCellValue();
-                            break;
-                        }
-                    }
-                    System.out.println("");
-                }
-                
-                input.close();
-                //((FileInputStream) file).close();
-               // FileOutputStream out = new FileOutputStream(new File(""));
-               //  workbook.write(out);
-               // out.close();
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                System.out.println("error");
-            }
-        
-        
-        }
-    
-	/**
-	 * Clear filters and selection in details table.
-	 */
 //	private void refreshUI() {
 //
 //		LOG.info("[refreshUI]  refresh in UI...");
