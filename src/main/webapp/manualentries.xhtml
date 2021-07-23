@@ -42,10 +42,10 @@
             }
         }
         function openPopUp() {
-        	var uploadWindow = window.open('fileUpload.xhtml', 'Upload File', 'location=no,width=650,height=200,scrollbars=yes,resizable = no');
-        	$(uploadWindow).on('unload', function() {
-        		rcRefresh();
-      		});        	
+            var uploadWindow = window.open('fileUpload.xhtml?id=uploadHfmAccEntriesDet', 'Upload File', 'location=no,width=650,height=200,scrollbars=yes,resizable = no');
+            $(uploadWindow).on('unload', function() {
+                rcRefresh();
+            });
         }    	
         </script>
     </ui:define>

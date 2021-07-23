@@ -10,7 +10,7 @@
 $( document ).ready(function() {
     var $form = $('#form');
     var $file = $form.find('input[type=file]');
-    $form[0].action = "#{fileUpload.contextPath}/uploadHfmAccEntriesDet";
+    $form[0].action = "#{fileUpload.contextPath}/#{request.getParameter('id')}";
     $file[0].name = 'filexls';    
 });
 function closeMySelf() {
