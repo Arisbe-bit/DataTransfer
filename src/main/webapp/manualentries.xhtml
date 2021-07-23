@@ -95,7 +95,7 @@
                                     <p:selectOneMenu id="entity" value="#{hfmaccentriesControllerBean.vcompanyid}" filter="true" filterMatchMode="startsWith">
                                         <f:selectItem itemLabel="Select One" itemValue="" />
                                         <f:selectItems value="#{hfmaccentriesControllerBean.lstEntries}" var="entry" itemLabel="#{entry.entity}" itemValue="#{entry.companyid}" />
-                                        <p:ajax event="change" listener="#{hfmaccentriesControllerBean.companyidChange}" process="@this" update=":form:panelGridRollUpFFSS" />
+                                        <f:ajax event="change" listener="#{hfmaccentriesControllerBean.companyidChange}" execute="@this" render=":form:panelGridRollUpFFSS" />
                                     </p:selectOneMenu>
                                 </p:toolbarGroup>
                             </p:toolbar>
