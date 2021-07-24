@@ -98,7 +98,7 @@ public class HfmAccEntriesController {
 		this.lstEntries = serviceEntries.findAll(); // this is for combobox
 
 		if (this.lstEntries != null && !this.lstEntries.isEmpty()) {
-			// Get the first company ID from list and set to curent entry
+			// Get the first company ID from list and set to current entry
 			// this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
 			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
@@ -689,6 +689,11 @@ public class HfmAccEntriesController {
 		boolean retval = (this.currentries != null && this.currentries.getItemid() != null
 				&& this.currentries.getItemid() > 0 && this.currentries.getApplied() == 0);
 		return retval;
+	}
+
+	public void rcRefresh() {
+		LOG.info("Refreshing after upload file...");
+		currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
 	}
 
 	/**

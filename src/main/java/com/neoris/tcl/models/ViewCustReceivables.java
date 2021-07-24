@@ -15,7 +15,7 @@ public class ViewCustReceivables implements Serializable{
 private static final long serialVersionUID = -732130139597244868L;
 	
 	@Id
-	private String custno;
+	private Long custno;
 	@Column(name = "CUSTNAME")
 	private String custname;
 	private int organizationid;
@@ -25,18 +25,22 @@ private static final long serialVersionUID = -732130139597244868L;
 		
 	}
 
-	public ViewCustReceivables(String custno, String custname, int organizationid) {
+	
+
+	public ViewCustReceivables(Long custno, String custname, int organizationid) {
 		
 		this.custno = custno;
 		this.custname = custname;
 		this.organizationid = organizationid;
 	}
 
-	public String getCustno() {
+
+
+	public Long getCustno() {
 		return custno;
 	}
 
-	public void setCustno(String custno) {
+	public void setCustno(Long custno) {
 		this.custno = custno;
 	}
 
@@ -48,19 +52,25 @@ private static final long serialVersionUID = -732130139597244868L;
 		this.custname = custname;
 	}
 
-	public int getorganizationid() {
+
+	
+	
+	public int getOrganizationid() {
 		return organizationid;
 	}
 
-	public void setorganizationid(int organizationid) {
+	public void setOrganizationid(int organizationid) {
 		this.organizationid = organizationid;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "ViewCustReceivables [custno=" + custno + ", custname=" + custname + ", organizationid="
-				+ organizationid + "]";
+		return "ViewCustReceivables [custno=" + custno + ", custname=" + custname + ", organizationid=" + organizationid
+				+ "]";
 	}
+
 	
 
 }

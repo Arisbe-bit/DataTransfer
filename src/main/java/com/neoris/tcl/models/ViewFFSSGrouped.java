@@ -31,6 +31,7 @@ public class ViewFFSSGrouped implements Serializable {
 	private String omit;
 	private BigDecimal amount;
 	private String areaid;
+	private String hfmcodeold;
 
 	public ViewFFSSGrouped() {
 
@@ -38,10 +39,14 @@ public class ViewFFSSGrouped implements Serializable {
 
 	
 
+	
+	
+
+
 	public ViewFFSSGrouped(String num, String companyid, String periodname, String costcenter, String hfmcode,
 			String accountid, String icp, String partnerid, String tpname, String omit, BigDecimal amount,
-			String areaid) {
-		
+			String areaid, String hfmcodeold) {
+	
 		this.num = num;
 		this.companyid = companyid;
 		this.periodname = periodname;
@@ -54,6 +59,23 @@ public class ViewFFSSGrouped implements Serializable {
 		this.omit = omit;
 		this.amount = amount;
 		this.areaid = areaid;
+		this.hfmcodeold = hfmcodeold;
+	}
+
+
+
+
+
+
+
+	public String getHfmcodeold() {
+		return hfmcodeold;
+	}
+
+
+
+	public void setHfmcodeold(String hfmcodeold) {
+		this.hfmcodeold = hfmcodeold;
 	}
 
 
@@ -160,15 +182,20 @@ public class ViewFFSSGrouped implements Serializable {
 
 
 
+
+
+
+
 	@Override
 	public String toString() {
 		return "ViewFFSSGrouped [num=" + num + ", companyid=" + companyid + ", periodname=" + periodname
 				+ ", costcenter=" + costcenter + ", hfmcode=" + hfmcode + ", accountid=" + accountid + ", icp=" + icp
 				+ ", partnerid=" + partnerid + ", tpname=" + tpname + ", omit=" + omit + ", amount=" + amount
-				+ ", areaid=" + areaid + "]";
+				+ ", areaid=" + areaid + ", hfmcodeold=" + hfmcodeold + "]";
 	}
 
-	
+
+
 	
 
 }

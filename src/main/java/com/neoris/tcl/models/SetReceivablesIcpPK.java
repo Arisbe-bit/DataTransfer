@@ -18,12 +18,12 @@ public class SetReceivablesIcpPK implements Serializable {
 	private static final long serialVersionUID = 6093789913297889768L;
 
 	private Long companyid;
-	private String custno;
+	private int custno;
 
 	public SetReceivablesIcpPK() {
 	}
 
-	public SetReceivablesIcpPK(Long companyid, String custno) {
+	public SetReceivablesIcpPK(Long companyid, int custno) {
 		this.companyid = companyid;
 		this.custno = custno;
 	}
@@ -36,11 +36,11 @@ public class SetReceivablesIcpPK implements Serializable {
 		this.companyid = companyid;
 	}
 
-	public String getCustno() {
+	public int getCustno() {
 		return this.custno;
 	}
 
-	public void setCustno(String custno) {
+	public void setCustno(int custno) {
 		this.custno = custno;
 	}
 

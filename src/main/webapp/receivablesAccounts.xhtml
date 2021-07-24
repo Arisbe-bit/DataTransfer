@@ -92,8 +92,8 @@
                             </div>
                             <div class="p-field">
                                 <p:outputLabel for="@next" value="Customer" />
-                                <p:selectOneMenu id="custno" value="#{receivablesaccControllerBean.currentRecTab.id.custno}" filter="true" filterMatchMode="startsWith" dynamic="true" required="true" requiredMessage="Customer is requiered">
-                                    <f:selectItems value="#{receivablesaccControllerBean.lstCustno}" var="custom" itemLabel="#{custom.custname}" itemValue="#{custom.custno}" />
+                                <p:selectOneMenu id="custno" value="#{receivablesaccControllerBean.currentRecTab.id.custno}" filter="true" filterMatchMode="startsWith"  required="true" requiredMessage="Customer is requiered">
+                                    <f:selectItems value="#{receivablesaccControllerBean.lstCustno}" var="custom" itemLabel=" #{custom.custno}" itemValue="#{custom.custno}" />
                                 </p:selectOneMenu>
                                 <p:message for="@previous"/>
                             </div>

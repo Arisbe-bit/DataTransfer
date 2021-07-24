@@ -41,13 +41,19 @@
                 return false;
             }
         }
+   	  function openPopUp() {
+             var uploadWindow = window.open('fileUpload.xhtml?id=uploadHfmAccEntriesDet', 'Upload File', 'location=no,width=650,height=200,scrollbars=yes,resizable = no');
+             $(uploadWindow).on('unload', function() {
+                 rcRefresh();
+             });
+   	  }
         </script>
     </ui:define>
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="messages" showDetail="true" />
             <p:remoteCommand name="rcDeleteDet" update=":form:manage-code-contentDet :form:messages" actionListener="#{hfmaccentriesControllerBean.deleteDet}"/>
-
+            <p:remoteCommand name="rcRefresh" update=":form:dtDetails :form:messages" actionListener="#{hfmaccentriesControllerBean.rcRefresh}" />
             <div class="card" id="cardMainID">
 
                 <p:panelGrid columns="#{hfmaccentriesControllerBean.numColums}" id="panelGridRollUpFFSS" columnClasses="table-main, table-details">
@@ -152,6 +158,8 @@
                                     <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                         <p:dataExporter type="xls" target="dtDetails" fileName="EntryDetails" />
                                     </p:commandButton>
+                                     <p:button value="Import" icon="pi pi-download" onclick="openPopUp();" />
+								
                                 </p:toolbarGroup>
                             </p:toolbar>
                         </f:facet>
