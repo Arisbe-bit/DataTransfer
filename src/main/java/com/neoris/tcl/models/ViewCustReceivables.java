@@ -15,7 +15,7 @@ public class ViewCustReceivables implements Serializable{
 private static final long serialVersionUID = -732130139597244868L;
 	
 	@Id
-	private Long custno;
+	private String custno;
 	@Column(name = "CUSTNAME")
 	private String custname;
 	private int organizationid;
@@ -25,9 +25,8 @@ private static final long serialVersionUID = -732130139597244868L;
 		
 	}
 
-	
 
-	public ViewCustReceivables(Long custno, String custname, int organizationid) {
+	public ViewCustReceivables(String custno, String custname, int organizationid) {
 		
 		this.custno = custno;
 		this.custname = custname;
@@ -36,11 +35,11 @@ private static final long serialVersionUID = -732130139597244868L;
 
 
 
-	public Long getCustno() {
+	public String getCustno() {
 		return custno;
 	}
 
-	public void setCustno(Long custno) {
+	public void setCustno(String custno) {
 		this.custno = custno;
 	}
 

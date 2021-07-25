@@ -199,7 +199,7 @@ public class ReceivablesAccController {
 			SetReceivablesIcp currentRectabx = new SetReceivablesIcp();
 
 			currentRectabx.getId().setCompanyid(new Long(viewPartnersRecICP.getOrganization_id()));
-			currentRectabx.getId().setCustno(Integer.parseInt(viewPartnersRecICP.getCustno()));
+			currentRectabx.getId().setCustno(viewPartnersRecICP.getCustno());
 			currentRectabx.setIcpcode(viewPartnersRecICP.getIcpcode());
 			currentRectabx.setUserid(user.getUsername());
 			//currentRectabx.setModified(LocalDate.now().toString());
@@ -221,7 +221,7 @@ public class ReceivablesAccController {
 
 		this.currentRecTab = new SetReceivablesIcp();
 		this.currentRecTab.getId().setCompanyid(new Long(currentVRec.getOrganization_id()));
-		this.currentRecTab.getId().setCustno(Integer.parseInt(currentVRec.getCustno()));
+		this.currentRecTab.getId().setCustno(currentVRec.getCustno());
 		this.currentRecTab.setIcpcode(currentVRec.getIcpcode());
 		this.currentRecTab.setUserid(user.getUsername());
 		//this.currentRecTab.setModified(LocalDate.now().toString());

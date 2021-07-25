@@ -42,7 +42,7 @@
                 	var="currentid" value="#{setreclassifaccControllerBean.lstref}"
                 	reflow="true" styleClass="products-table"
                 	selection="#{setreclassifaccControllerBean.lstSlctdref}"
-                	rowKey="#{currentid.id.partnerid}" paginator="true"
+                	rowKey="#{currentid.hashCode()}" paginator="true"
                 	rows="10" rowSelectMode="add" size="small" paginatorPosition="bottom">
                     <f:facet name="header">
                         <h:outputText value="#{setreclassifaccControllerBean.title}" style="font-weight: bold" />
