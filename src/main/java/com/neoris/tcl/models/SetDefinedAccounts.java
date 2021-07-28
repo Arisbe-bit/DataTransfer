@@ -80,7 +80,7 @@ public class SetDefinedAccounts implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash( id,  uuid);
+		return Objects.hash( uuid);
 	}
 
 	@Override
@@ -92,7 +92,11 @@ public class SetDefinedAccounts implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetDefinedAccounts other = (SetDefinedAccounts) obj;
-		return Objects.equals(id, other.id) && Objects.equals(uuid, other.uuid)				;
+		return Objects.equals(uuid, other.uuid);
 	}
+
+	
+
+	
 
 }
