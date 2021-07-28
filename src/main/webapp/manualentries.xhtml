@@ -110,11 +110,14 @@
                         <p:column headerText="User Id" sortBy="#{accEntries.userid}" filterBy="#{accEntries.userid}">
                             <h:outputText value="#{accEntries.userid}" />
                         </p:column>
-                        <p:column headerText="Observations" sortBy="#{accEntries.description}" filterBy="#{accEntries.description}">
+                        <p:column headerText="Reason" sortBy="#{accEntries.description}" filterBy="#{accEntries.description}">
                             <h:outputText value="#{accEntries.description}" />
                         </p:column>
                         <p:column headerText="Status" sortBy="#{accEntries.status}" filterBy="#{accEntries.status}">
                             <h:outputText value="#{accEntries.status}" />
+                        </p:column>
+                        <p:column headerText="Recurrent" sortBy="#{accEntries.recurrent}" filterBy="#{accEntries.recurrent}">
+                            <h:outputText value="#{accEntries.recurrent}" />
                         </p:column>
                         <p:column headerText="Applied" styleClass="rollup-text-align-center">
                             <center>
@@ -124,6 +127,11 @@
                             </center>
                         </p:column>
                         <p:column headerText="Actions" align ="center" exportable="false">
+                        <p:commandButton icon="pi pi-pencil" update=":form:manage-code-contentMod" oncomplete="PF('entryDialogWVMod').show()"
+							styleClass="edit-button rounded-button ui-button-danger"	style="margin-right: 0.3em" process="@this"  >
+							<f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
+							<p:resetInput target=":form:manage-code-contentMod" />
+						</p:commandButton>
                             <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" actionListener="#{hfmaccentriesControllerBean.delete}" disabled="#{accEntries.applied eq 1}" update=":form:panelGridRollUpFFSS :form:messages" style="margin-right: 0.2em">
                                 <f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
                                 <p:confirm header="Confirmation" message="Delete entry #{accEntries.periodnm}?" icon="pi pi-exclamation-triangle" />
@@ -158,8 +166,7 @@
                                     <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                         <p:dataExporter type="xls" target="dtDetails" fileName="EntryDetails" />
                                     </p:commandButton>
-                                     <p:button value="Import" icon="pi pi-download" onclick="openPopUp();" />
-								
+                                     <p:button value="Import" icon="pi pi-download" onclick="openPopUp();" />								
                                 </p:toolbarGroup>
                             </p:toolbar>
                         </f:facet>
@@ -198,6 +205,7 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="Actions" exportable="false" width="15%">
+                        
                             <p:commandButton icon="pi pi-pencil" oncomplete="PF('entryDialogDetailWV').show()" update=":form:manage-code-contentDet :form:messages" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.2em" process="@this">
                                 <f:setPropertyActionListener value="#{entryDetail}" target="#{hfmaccentriesControllerBean.currentdet}" />
                                 <p:resetInput target=":form:manage-code-contentDet"/>
@@ -211,9 +219,9 @@
                 </p:panelGrid>
             </div>
 
-            <!-- This form is for add new o modify code for master table -->
+            <!-- This form is for add new  master table -->
 
-            <p:dialog header="Edit Entry" width="450" showEffect="fade" modal="true" widgetVar="entryDialogWV" responsive="true">
+            <p:dialog header="Add Entry" width="450" showEffect="fade" modal="true" widgetVar="entryDialogWV" responsive="true">
                 <p:outputPanel id="manage-code-content" class="ui-fluid">
                     <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentries}">
                         <div class="p-field">
@@ -230,11 +238,57 @@
                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstperiod}" var="itemf" itemLabel="#{itemf.periodnm}" itemValue="#{itemf.periodnm}" />
                             </p:selectOneMenu>
                         </div>
+                        <div class="p-field p-col-12 p-md-4">
+                                <p:outputLabel for="recurrent" value="Recurrent" />
+                                <p:selectOneMenu id="recurrent" value="#{hfmaccentriesControllerBean.currentries.recurrent}">
+                                    <f:selectItem itemLabel="NO" itemValue="N" />
+                                    <f:selectItem itemLabel="YES" itemValue="Y" />
+                                </p:selectOneMenu>
+                         </div>
+                         <div class="p-field">
+                            <p:outputLabel for="reason" value="Reason (maxlength=500)"  />
+                            <p:inputText id="reason" value="#{hfmaccentriesControllerBean.currentries.description}" maxlength="500"/>
+                        </div>
                     </p:outputPanel>
                 </p:outputPanel>
                 <f:facet name="footer">
                     <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.save}" update=":form:panelGridRollUpFFSS" process=":form:manage-code-content" />
                     <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('entryDialogWV').hide()" class="ui-button-secondary" update=":form:dtDetails:btnNewDetail"/>
+                </f:facet>
+            </p:dialog>
+
+
+<!-- This form is for  modify master table -->
+
+            <p:dialog header="Edit Entry" width="450" showEffect="fade" modal="true" widgetVar="entryDialogWVMod" responsive="true">
+                <p:outputPanel id="manage-code-contentMod" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty hfmaccentriesControllerBean.currentries}">
+<!--                         <div class="p-field"> -->
+<!--                             <p:outputLabel for="company" value="Company:" /> -->
+<!--                              <p:inputText id="company" value="#{hfmaccentriesControllerBean.currentries.companyid}" readonly="true" /> -->
+<!--                         </div> -->
+<!--                         <div class="p-field"> -->
+<!--                             <p:outputLabel for="@next" value="Period" /> -->
+<!--                             <p:selectOneMenu id="periodnme" editable="true" value="#{hfmaccentriesControllerBean.currentries.periodnm}" filter="true" filterMatchMode="startsWith"> -->
+<!--                                 <f:selectItems value="#{hfmaccentriesControllerBean.lstperiod}" var="itemf" itemLabel="#{itemf.periodnm}" itemValue="#{itemf.periodnm}" /> -->
+<!--                             </p:selectOneMenu> -->
+<!--                         </div> -->
+                        <div class="p-field p-col-12 p-md-4">
+                                <p:outputLabel for="recurrente" value="Recurrent" />
+                                <p:selectOneMenu id="recurrente" value="#{hfmaccentriesControllerBean.currentries.recurrent}">
+                                    <f:selectItem itemLabel="NO" itemValue="N" />
+                                    <f:selectItem itemLabel="YES" itemValue="Y" />
+                                </p:selectOneMenu>
+                         </div>
+                         <div class="p-field">
+                            <p:outputLabel for="reasone" value="Reason (maxlength=500)"  />
+                            <p:inputText id="reasone" value="#{hfmaccentriesControllerBean.currentries.description}" maxlength="500" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <p:commandButton value="Save" icon="pi pi-check" actionListener="#{hfmaccentriesControllerBean.save}" update=":form:panelGridRollUpFFSS" process=":form:manage-code-contentMod" />
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('entryDialogWVMod').hide()" class="ui-button-secondary" update=":form:dtDetails:btnNewDetail"/>
                 </f:facet>
             </p:dialog>
 

@@ -165,7 +165,7 @@ public class PayablesAccController {
 			
 			
 			currentPaytabx.getId().setCompanyid(new Long(viewPartnersICP.getorganizationid()));
-			currentPaytabx.getId().setSupplierno(viewPartnersICP.getSuppliernum());
+			currentPaytabx.getId().setSupplierno(Integer.parseInt(viewPartnersICP.getSuppliernum()));
 			currentPaytabx.setIcpcode(viewPartnersICP.getIcpcode());
 			//.setUserid(user.getUsername());
 			
@@ -196,7 +196,7 @@ public class PayablesAccController {
 
 			this.currentPaytab = new SetPayablesIcp();
 			this.currentPaytab.getId().setCompanyid(new Long(currentPay.getorganizationid()));
-			this.currentPaytab.getId().setSupplierno(currentPay.getSuppliernum());
+			this.currentPaytab.getId().setSupplierno(Integer.parseInt(currentPay.getSuppliernum()));
 			this.currentPaytab.setIcpcode(currentPay.getIcpcode());
 			//this.currentPaytab.setUserid(user.getUsername());
 	}

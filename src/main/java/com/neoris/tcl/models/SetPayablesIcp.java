@@ -59,11 +59,9 @@ public class SetPayablesIcp implements Serializable {
         this.userid = userid;
     }
 
-   
     @Override
-    public String toString() {
-        return String.format("SetPayablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid
-                );
-    }
+	public String toString() {
+		return "SetPayablesIcp [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + "]";
+	}
 
 }

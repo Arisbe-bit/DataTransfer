@@ -1,16 +1,29 @@
 package com.neoris.tcl.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +50,7 @@ import com.neoris.tcl.services.ISetIcpcodesService;
 import com.neoris.tcl.services.IViewCostCenterService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
+
 
 @Controller(value = "hfmaccentriesControllerBean")
 @Scope(ViewScope.VIEW)
@@ -90,6 +104,8 @@ public class HfmAccEntriesController {
 	private String vperiodnm;
 	private int numColums = 1;
 
+	
+	    
 	@PostConstruct
 	public void init() {
 
@@ -98,12 +114,12 @@ public class HfmAccEntriesController {
 		this.lstEntries = serviceEntries.findAll(); // this is for combobox
 
 		if (this.lstEntries != null && !this.lstEntries.isEmpty()) {
-			// Get the first company ID from list and set to current entry
+			// Get the first company ID from list and set to curent entry
 			// this.currentries.setCompanyid(this.lstEntries.get(0).getCompanyid().intValue());
 			this.vcompanyid = this.lstEntries.get(0).getCompanyid().intValue();
 
 			this.lstHfmcodes = serviceHfmcodes.findAll();
-			this.lstIcpcodes = serviceIcpCodes.findAll();
+			//this.lstIcpcodes = serviceIcpCodes.findAll();
 			// find the list of accent for first company...
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 
@@ -150,6 +166,7 @@ public class HfmAccEntriesController {
 			Functions.addErrorMessage("[save] Error", "Error saving:" + e.getMessage());
 		}
 		PrimeFaces.current().executeScript("PF('entryDialogWV').hide()");
+		PrimeFaces.current().executeScript("PF('entryDialogWVMod').hide()"); //add 270721
 		PrimeFaces.current().ajax().update("form:messages");
 		//refreshUI();
 	}
@@ -161,19 +178,24 @@ public class HfmAccEntriesController {
 		LOG.info("Entering to delete item => {}", this.currentries);
 
 		try {
-			LOG.info("[delete] Deleting Entries Detail....");
 			servicedet.deleteAll(this.currentries.getLstEntriesDet());
 			LOG.info("[delete] Done! Delete Entry....");
+		}
+		 catch (Exception e) {
+			 LOG.error("[delete] Exception deleting details -> {}", e.getMessage());
+		 }
+		
+		try {
+			LOG.info("[delete] Deleting Entries Detail....");
+			
 			service.delete(this.currentries);
 			this.currentries = null;
 			LOG.info("[delete] Done! Refreshing Entries List for company = {}", this.vcompanyid);
 			this.lstaccent = service.findByCompanyid(this.vcompanyid);
 			LOG.info("[delete] Done! lstaccent size = {} items!", this.lstaccent.size());
-			currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
-			LOG.info("[delete]  servicedet.findByItemid item size ={} ", currentries.getLstEntriesDet().size());
-
-			PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()");
-			PrimeFaces.current().ajax().update("form:dtDetails");
+			
+			PrimeFaces.current().executeScript("PF('dtDetailsWV').clearSelection()"); //add 270721
+			PrimeFaces.current().ajax().update("form:dtDetails"); //add 270721
 			Functions.addInfoMessage("Succes", "Entry and Entry Child Items Removed");
 		} catch (Exception e) {
 			Functions.addErrorMessage("Error", "Error deleting:" + e.getMessage());
@@ -560,7 +582,7 @@ public class HfmAccEntriesController {
 		} catch (Exception e) {
 			LOG.error("[applyprocess] Exception in applyprocess -> {}", e.getMessage());
 		}
-
+		this.lstaccent = service.findByCompanyid(this.vcompanyid);
 		PrimeFaces.current().ajax().update("form:dtParent", "form:dtDetails");
 		// this.refreshUI();
 	}
@@ -585,6 +607,7 @@ public class HfmAccEntriesController {
 			LOG.error("[unpostingprocess] Exception in unpostingprocess -> {}", e.getMessage());
 		}
 
+		this.lstaccent = service.findByCompanyid(this.vcompanyid);
 		PrimeFaces.current().ajax().update("form:dtParent", "form:dtDetails");
 		// this.refreshUI();
 	}
@@ -691,11 +714,11 @@ public class HfmAccEntriesController {
 		return retval;
 	}
 
+	
 	public void rcRefresh() {
 		LOG.info("Refreshing after upload file...");
 		currentries.setLstEntriesDet(servicedet.findByItemid(this.currentries.getItemid()));
 	}
-
 	/**
 	 * Clear filters and selection in details table.
 	 */

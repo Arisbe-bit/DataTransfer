@@ -50,7 +50,7 @@ public class HfmFfSsHist implements Serializable {
 
 	private String description;
 
-	
+	private int itemid;
 	private String periodid;
 
 	public HfmFfSsHist() {
@@ -58,10 +58,12 @@ public class HfmFfSsHist implements Serializable {
 		this.balance = new BigDecimal(0);
 	}
 
+	
+
 	public HfmFfSsHist(Long num, Long companyid, String currencyCode, String hfmcode, String period, BigDecimal balance,
 			String hfmcodeOld, Timestamp updated, String userid, String classification, String naturalb,
-			String errortext, String description, String periodid) {
-
+			String errortext, String description, int itemid, String periodid) {
+		
 		this.num = num;
 		this.companyid = companyid;
 		this.currencyCode = currencyCode;
@@ -75,8 +77,23 @@ public class HfmFfSsHist implements Serializable {
 		this.naturalb = naturalb;
 		this.errortext = errortext;
 		this.description = description;
+		this.itemid = itemid;
 		this.periodid = periodid;
 	}
+
+
+
+	public int getItemid() {
+		return itemid;
+	}
+
+
+
+	public void setItemid(int itemid) {
+		this.itemid = itemid;
+	}
+
+
 
 	public Long getNum() {
 		return num;
@@ -206,12 +223,17 @@ public class HfmFfSsHist implements Serializable {
 		this.periodid = periodid;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "HfmFfSsHist [num=" + num + ", companyid=" + companyid + ", currencyCode=" + currencyCode + ", hfmcode="
 				+ hfmcode + ", period=" + period + ", balance=" + balance + ", hfmcodeOld=" + hfmcodeOld + ", updated="
 				+ updated + ", userid=" + userid + ", classification=" + classification + ", naturalb=" + naturalb
-				+ ", errortext=" + errortext + ", description=" + description + ", periodid=" + periodid + "]";
+				+ ", errortext=" + errortext + ", description=" + description + ", itemid=" + itemid + ", periodid="
+				+ periodid + "]";
 	}
+
+	
 
 }

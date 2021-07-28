@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.neoris.tcl.models.HfmAccEntriesDet;
+import com.neoris.tcl.models.SetDefinedAccounts;
 import com.neoris.tcl.services.IHfmAccEntriesDetService;
+import com.neoris.tcl.services.ISetDefinedAccountsService;
 import com.neoris.tcl.utils.ExcelReader;
 import com.neoris.tcl.utils.Functions;
 
@@ -30,6 +32,9 @@ public class FileUploadController {
 
 	@Autowired
 	private IHfmAccEntriesDetService servicedet;
+	
+	@Autowired
+	private ISetDefinedAccountsService servicesoac;
 
 	public FileUploadController() {
 
@@ -48,6 +53,20 @@ public class FileUploadController {
 			List<HfmAccEntriesDet> lstHfmAccEntriesDet = reader.readFile(file.getInputStream());
 			lstHfmAccEntriesDet.forEach(i -> LOG.info(i.toString()));
 			servicedet.saveAll(lstHfmAccEntriesDet);
+		} catch (IOException e) {
+			LOG.error("** IOException **: {}", e.getMessage(), e);
+		}
+		return "fileUpload.xhtml";
+	}
+	
+	@PostMapping("/uploadHfmSourceAccounts")
+	public String handlePostHfSourceAccountsFile(@RequestParam("filexls") MultipartFile file) {
+		LOG.info("[handlePostHfSourceAccountsFile] recibo archivo:{}", file.getOriginalFilename());
+		try {
+			ExcelReader<SetDefinedAccounts> reader = new ExcelReader<>(SetDefinedAccounts.class);
+			List<SetDefinedAccounts> lstHfmSourceAcc = reader.readFile(file.getInputStream());
+			lstHfmSourceAcc.forEach(i -> LOG.info(i.toString()));
+			servicesoac.saveAll(lstHfmSourceAcc);
 		} catch (IOException e) {
 			LOG.error("** IOException **: {}", e.getMessage(), e);
 		}

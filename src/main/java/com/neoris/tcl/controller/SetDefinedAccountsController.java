@@ -1,6 +1,7 @@
 package com.neoris.tcl.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ActionEvent;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import com.neoris.tcl.models.HfmOracleAcc;
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.SetDefinedAccounts;
+import com.neoris.tcl.models.SetHfmCodes;
 import com.neoris.tcl.models.SetMatchAccounts;
 import com.neoris.tcl.models.ViewCostCenter;
 import com.neoris.tcl.security.models.User;
@@ -62,6 +64,8 @@ public class SetDefinedAccountsController {
 	private int lcompanyid;
 
 	private User user;
+	
+	private boolean isNewLine;
 
 	@PostConstruct
 	public void init() {
@@ -96,6 +100,7 @@ public class SetDefinedAccountsController {
 		this.curtpAccs = new SetDefinedAccounts();
 		this.curtpAccs.getId().setCompanyid(this.lcompanyid);
 		this.curtpAccs.setUserid(this.user.getUsername());
+		this.isNewLine = true;
 		LOG.info("[openNew] => curtpAccs = {}", curtpAccs);
 
 	}
@@ -103,11 +108,30 @@ public class SetDefinedAccountsController {
 	public void save(SetDefinedAccounts curtpAccs) {
 		LOG.info("save form curtpAccs...");
 		this.curtpAccs = curtpAccs;
+		
+		
 		save();
 	}
 
 	public void save() {
 		LOG.info("Entering to save Accounting Accounts => {}", this.curtpAccs);
+		
+		/*LOG.info("save getid ={}",this.curtpAccs.getId());
+		if(this.isNewLine) {
+			LOG.info("isNewLine"); 
+            Optional<SetDefinedAccounts> code = service.findById(this.curtpAccs.getId());
+            if(code.isPresent()) {
+            	
+                 
+                Functions.addInfoMessage("Warning", "The record with code = %s already exist with value= %s. Can't create new record.");
+                PrimeFaces.current().ajax().update("form:messages");
+                
+                return;
+            }
+               
+        }*/
+		
+		
 		this.curtpAccs.setUserid(user.getUsername());
 		this.curtpAccs = service.save(curtpAccs);
 
@@ -347,6 +371,11 @@ public class SetDefinedAccountsController {
 	public void setLcompanyid(int lcompanyid) {
 		LOG.info("[setLcompanyid] Receive companyid = {}", lcompanyid);
 		this.lcompanyid = lcompanyid;
+	}
+	
+	public void rcRefresh() {
+		LOG.info("Refreshing after upload file...");
+		this.lsttpAccs = service.findByIdCompanyid(lcompanyid);
 	}
 
 }

@@ -46,14 +46,14 @@ public class SetHfmCodes implements Serializable {
 	private String userid;
 	
 	
-	private int intercom;
+	private String intercom;
 
 	public SetHfmCodes() {
 	}
 
 	
 	public SetHfmCodes(String hfmcode, String tptype, String classification, String naturalb, String globalval,
-			int ordernum, int naturalsign, String description, String userid, int intercom) {
+			int ordernum, int naturalsign, String description, String userid, String intercom) {
 		
 		this.hfmcode = hfmcode;
 		this.tptype = tptype;
@@ -148,11 +148,11 @@ public class SetHfmCodes implements Serializable {
 		this.description = description;
 	}
 
-	public int getIntercom() {
+	public String getIntercom() {
 		return intercom;
 	}
 
-	public void setIntercom(int intercom) {
+	public void setIntercom(String intercom) {
 		this.intercom = intercom;
 	}
 
