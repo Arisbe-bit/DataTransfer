@@ -116,7 +116,7 @@
                         <p:column headerText="Status" sortBy="#{accEntries.status}" filterBy="#{accEntries.status}">
                             <h:outputText value="#{accEntries.status}" />
                         </p:column>
-                        <p:column headerText="Recurrent" sortBy="#{accEntries.recurrent}" filterBy="#{accEntries.recurrent}">
+                        <p:column headerText="Recurring" sortBy="#{accEntries.recurrent}" filterBy="#{accEntries.recurrent}">
                             <h:outputText value="#{accEntries.recurrent}" />
                         </p:column>
                         <p:column headerText="Applied" styleClass="rollup-text-align-center">
@@ -128,7 +128,7 @@
                         </p:column>
                         <p:column headerText="Actions" align ="center" exportable="false">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-code-contentMod" oncomplete="PF('entryDialogWVMod').show()"
-							styleClass="edit-button rounded-button ui-button-danger"	style="margin-right: 0.3em" process="@this"  >
+							styleClass="edit-button rounded-button ui-button-danger"	style="margin-right: 0.3em" disabled="#{accEntries.applied eq 1}" process="@this"  >
 							<f:setPropertyActionListener value="#{accEntries}" target="#{hfmaccentriesControllerBean.currentries}" />
 							<p:resetInput target=":form:manage-code-contentMod" />
 						</p:commandButton>
@@ -239,7 +239,7 @@
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field p-col-12 p-md-4">
-                                <p:outputLabel for="recurrent" value="Recurrent" />
+                                <p:outputLabel for="recurrent" value="Recurring" />
                                 <p:selectOneMenu id="recurrent" value="#{hfmaccentriesControllerBean.currentries.recurrent}">
                                     <f:selectItem itemLabel="NO" itemValue="N" />
                                     <f:selectItem itemLabel="YES" itemValue="Y" />
@@ -274,7 +274,7 @@
 <!--                             </p:selectOneMenu> -->
 <!--                         </div> -->
                         <div class="p-field p-col-12 p-md-4">
-                                <p:outputLabel for="recurrente" value="Recurrent" />
+                                <p:outputLabel for="recurrente" value="Recurring" />
                                 <p:selectOneMenu id="recurrente" value="#{hfmaccentriesControllerBean.currentries.recurrent}">
                                     <f:selectItem itemLabel="NO" itemValue="N" />
                                     <f:selectItem itemLabel="YES" itemValue="Y" />

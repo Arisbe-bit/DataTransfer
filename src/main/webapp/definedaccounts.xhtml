@@ -16,21 +16,12 @@
             <h:outputText value="#{setdefaccountsControllerBean.title}" />
         </h1>
     </ui:define>
-	<ui:define name="js">
-        <script type="text/javascript">
-		   	  function openPopUp() {
-		             var uploadWindow = window.open('fileUpload.xhtml?id=uploadHfmSourceAccounts', 'Upload File', 'location=no,width=650,height=200,scrollbars=yes,resizable = no');
-		             $(uploadWindow).on('unload', function() {
-		                 rcRefresh();
-		             });
-		   	  }
-        </script>
-    </ui:define>
+
     <ui:define name="content">
         <h:form id="form">
             <div class="card">
                 <p:growl id="messages" showDetail="true" />
-				<p:remoteCommand name="rcRefresh" update=":form:dt-defined-account :form:messages" actionListener="#{setdefaccountsControllerBean.rcRefresh}" />
+
                 <div class="products-buttonbar">
                     <div>
                         <p:toolbar>
@@ -53,7 +44,6 @@
                                 <p:commandButton value="Export" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
                                     <p:dataExporter type="xls" target="dt-defined-account" fileName="${setdefaccountsControllerBean.title}" />
                                 </p:commandButton>
-                                
                             </p:toolbarGroup>
                         </p:toolbar>
                     </div>
@@ -113,7 +103,7 @@
                                 <p:outputLabel for="companyid" value="Company" />
                                 <p:selectOneMenu id="companyid" value="#{setdefaccountsControllerBean.curtpAccs.id.companyid}" filter="true" filterMatchMode="startsWith" disabled="true">
                                     <f:selectItems value="#{setdefaccountsControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChange}" execute="@this" render=":form:accountid"/>
+                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChange}" execute="@this" render=":form:costcenter"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">

@@ -116,7 +116,10 @@
                         </p:column>                                               
                          <p:column headerText="Status" sortBy="#{currentid.status}" filterBy="#{currentid.status}" >
                             <h:outputText value="#{currentid.status}" />
-                        </p:column>                    
+                        </p:column>    
+                         <p:column headerText="Recurring" sortBy="#{currentid.recurrent}" filterBy="#{currentid.recurrent}">
+                            <h:outputText value="#{currentid.recurrent}" />
+                        </p:column>                
                         <p:column headerText="User Id" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}" >
                             <h:outputText value="#{currentid.userid}" />
                         </p:column>

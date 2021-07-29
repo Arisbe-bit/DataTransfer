@@ -73,6 +73,9 @@ public class SetDefinedAccountsController {
 			this.lcompanyid = lstcompany.get(0).getCompanyid().intValue();
 		}
 		curtpAccs.getId().setCompanyid(lcompanyid);
+		curtpAccs.getId().setAccountid("0");
+		curtpAccs.getId().setAccountidfin("0");
+		
 		this.lsttpAccs = service.findByIdCompanyid(lcompanyid);
 
 		try {
