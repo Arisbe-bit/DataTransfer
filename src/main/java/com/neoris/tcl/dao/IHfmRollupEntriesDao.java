@@ -21,7 +21,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_SEGMENT.- Segment
 	 * @param p_userid.-  User ID
 	 */
-	@Procedure("rollup_start_test")
+	@Procedure("rollup_start")
 	void rollUpStart(int P_ORGID, String P_PERIOD, String P_YEAR, String P_SEGMENT, String P_USERID);
 
 	/**
@@ -151,7 +151,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_YEAR
 	 * @param P_USERID
 	 */
-	@Procedure("rollup_match_accounts_test")
+	@Procedure("rollup_match_accounts")
 	void rollUpMatchAccounts(int p_orgid, String p_period, String p_year, String p_userid);
 	
 	/**
