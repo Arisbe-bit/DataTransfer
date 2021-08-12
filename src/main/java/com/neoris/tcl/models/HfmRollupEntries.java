@@ -321,6 +321,7 @@ public class HfmRollupEntries implements Serializable {
 		this.attribute4 = status;
 		this.attribute5 = status;
 		this.attribute6 = status;
+		this.validations = status;
 		this.stockvar = status;
 	}
 

@@ -18,12 +18,12 @@ public class SetPayablesIcpPK implements Serializable {
     private static final long serialVersionUID = -4625003557488333132L;
 
     private Long companyid;
-    private String supplierno;
+    private int supplierno;
 
     public SetPayablesIcpPK() {
     }
 
-    public SetPayablesIcpPK(Long companyid, String supplierno) {
+    public SetPayablesIcpPK(Long companyid, int supplierno) {
         this.companyid = companyid;
         this.supplierno = supplierno;
     }
@@ -36,11 +36,11 @@ public class SetPayablesIcpPK implements Serializable {
         this.companyid = companyid;
     }
 
-    public String getSupplierno() {
+    public int getSupplierno() {
         return this.supplierno;
     }
 
-    public void setSupplierno(String supplierno) {
+    public void setSupplierno(int supplierno) {
         this.supplierno = supplierno;
     }
 

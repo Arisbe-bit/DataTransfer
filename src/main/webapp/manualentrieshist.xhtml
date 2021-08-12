@@ -55,14 +55,14 @@
 						 <p:toolbar>  
 						  <p:toolbarGroup align="left">
 						 	<p:outputLabel for="periodini" value="Select Initial Period :  " />
-                            <p:selectOneMenu id="periodini" editable="true" value="#{viewentriesControllerBean.zperiodini}" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu id="periodini"  value="#{viewentriesControllerBean.zperiodini}" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
                                 var="itemf" itemLabel="#{itemf.periodnm}" 
                                 itemValue="#{itemf.periodid}" />
                             </p:selectOneMenu>
                            
 						 	<p:outputLabel for="periodfin" value="Select Final Period :  " />
-                            <p:selectOneMenu id="periodfin" editable="true" value="#{viewentriesControllerBean.zperiodfin}" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu id="periodfin"  value="#{viewentriesControllerBean.zperiodfin}" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{viewentriesControllerBean.lstperiod}" 
                                 var="itemf" itemLabel="#{itemf.periodnm}" 
                                 itemValue="#{itemf.periodid}" />
@@ -84,16 +84,7 @@
                         </p:column>
                         <p:column headerText="Period Name" sortBy="#{currentid.periodnm}" filterBy="#{currentid.periodnm}" >
                             <h:outputText value="#{currentid.periodnm}" />
-                        </p:column>
-                        <p:column headerText="User Id" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}" >
-                            <h:outputText value="#{currentid.userid}" />
-                        </p:column>
-                         <p:column headerText="Observations" width="20%" sortBy="#{currentid.description}" filterBy="#{currentid.description}" >
-                            <h:outputText value="#{currentid.description}" />
-                        </p:column>                        
-                         <p:column headerText="Status" sortBy="#{currentid.status}" filterBy="#{currentid.status}" >
-                            <h:outputText value="#{currentid.status}" />
-                        </p:column>
+                        </p:column>  
                          <p:column headerText="HfmCode" sortBy="#{currentid.hfmcode}" filterBy="#{currentid.hfmcode}">
                             <h:outputText value="#{currentid.hfmcode}" />
                         </p:column>
@@ -122,6 +113,15 @@
                             <h:outputText value="#{currentid.amount}">
                                 <f:convertNumber pattern="###,###,###,###.##"/>
                             </h:outputText>
+                        </p:column>                                               
+                         <p:column headerText="Status" sortBy="#{currentid.status}" filterBy="#{currentid.status}" >
+                            <h:outputText value="#{currentid.status}" />
+                        </p:column>    
+                         <p:column headerText="Recurring" sortBy="#{currentid.recurrent}" filterBy="#{currentid.recurrent}">
+                            <h:outputText value="#{currentid.recurrent}" />
+                        </p:column>                
+                        <p:column headerText="User Id" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}" >
+                            <h:outputText value="#{currentid.userid}" />
                         </p:column>
 				</p:dataTable>
 

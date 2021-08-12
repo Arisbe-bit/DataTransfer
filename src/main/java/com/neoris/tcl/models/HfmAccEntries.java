@@ -31,6 +31,7 @@ public class HfmAccEntries implements Serializable {
 	private int companyid;
 	private String periodnm;
 	private String userid;
+	private String recurrent;
 
 	@ColumnDefault(value = "0")
 	private int applied;
@@ -49,18 +50,23 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = new ArrayList<HfmAccEntriesDet>();
 	}
 
-	public HfmAccEntries(Long itemid, int companyid, java.lang.String periodnm, java.lang.String userid, int applied,
-			java.lang.String description, java.lang.String status, List<HfmAccEntriesDet> lstEntriesDet) {
+	
 
+	public HfmAccEntries(Long itemid, int companyid, String periodnm, String userid, String recurrent, int applied,
+			String description, String status, List<HfmAccEntriesDet> lstEntriesDet) {
+		
 		this.itemid = itemid;
 		this.companyid = companyid;
 		this.periodnm = periodnm;
 		this.userid = userid;
+		this.recurrent = recurrent;
 		this.applied = applied;
 		this.description = description;
 		this.status = status;
 		this.lstEntriesDet = lstEntriesDet;
 	}
+
+
 
 	public String getDescription() {
 		return description;
@@ -127,11 +133,21 @@ public class HfmAccEntries implements Serializable {
 		this.lstEntriesDet = lstEntriesDet;
 	}
 
+	public String getRecurrent() {
+		return recurrent;
+	}
+
+	public void setRecurrent(String recurrent) {
+		this.recurrent = recurrent;
+	}
+
 	@Override
 	public String toString() {
 		return "HfmAccEntries [itemid=" + itemid + ", companyid=" + companyid + ", periodnm=" + periodnm + ", userid="
-				+ userid + ", applied=" + applied + ", description=" + description + ", status=" + status
-				+ ", lstEntriesDet=" + lstEntriesDet + "]";
+				+ userid + ", recurrent=" + recurrent + ", applied=" + applied + ", description=" + description
+				+ ", status=" + status + ", lstEntriesDet=" + lstEntriesDet + "]";
 	}
+
+	
 
 }

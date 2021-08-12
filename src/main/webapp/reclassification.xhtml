@@ -42,7 +42,7 @@
                 	var="currentid" value="#{setreclassifaccControllerBean.lstref}"
                 	reflow="true" styleClass="products-table"
                 	selection="#{setreclassifaccControllerBean.lstSlctdref}"
-                	rowKey="#{currentid.id.partnerid}" paginator="true"
+                	rowKey="#{currentid.hashCode()}" paginator="true"
                 	rows="10" rowSelectMode="add" size="small" paginatorPosition="bottom">
                     <f:facet name="header">
                         <h:outputText value="#{setreclassifaccControllerBean.title}" style="font-weight: bold" />
@@ -149,7 +149,7 @@
                                 <p:outputLabel for="custno" value="Customer No." />
                                 <p:selectOneMenu id="custno" value="#{setreclassifaccControllerBean.vpartnerid}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{setreclassifaccControllerBean.lstCustno}" var="itemc" itemLabel="#{itemc.custname}" itemValue="#{itemc.custno}" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstCustno}" var="itemc" itemLabel="#{itemc.custno}" itemValue="#{itemc.custno}" />
                                 </p:selectOneMenu>
                             </div>
                             
@@ -157,7 +157,7 @@
                                 <p:outputLabel for="suppno" value="Supplier No." />
                                 <p:selectOneMenu id="suppno" value="#{setreclassifaccControllerBean.vpartnerids}" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Select One" itemValue="" />
-                                    <f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}" var="items" itemLabel="#{items.vendorname}" itemValue="#{items.suppliernum}" />
+                                    <f:selectItems value="#{setreclassifaccControllerBean.lstSuppno}" var="items" itemLabel="#{items.suppliernum}" itemValue="#{items.suppliernum}" />
                                 </p:selectOneMenu>
                                
                             </div>

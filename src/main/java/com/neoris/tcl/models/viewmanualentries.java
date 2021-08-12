@@ -35,6 +35,7 @@ public class viewmanualentries implements Serializable{
 	private String tptype;
 	private Date periodname;
 	private int periodid;
+	private String recurrent;
 	
 	public viewmanualentries() {
 		
@@ -42,12 +43,10 @@ public class viewmanualentries implements Serializable{
 	
 	
 
-
-
-
 	public viewmanualentries(Long num, Long itemid, String entity, int companyid, String periodnm, String userid,
 			int applied, String description, String status, Long movid, String hfmcode, BigDecimal amount,
-			String icpcode, String areaid, String currencyid, String tptype, Date periodname, int periodid) {
+			String icpcode, String areaid, String currencyid, String tptype, Date periodname, int periodid,
+			String recurrent) {
 		
 		this.num = num;
 		this.itemid = itemid;
@@ -67,10 +66,20 @@ public class viewmanualentries implements Serializable{
 		this.tptype = tptype;
 		this.periodname = periodname;
 		this.periodid = periodid;
+		this.recurrent = recurrent;
 	}
 
 
 
+	public String getRecurrent() {
+		return recurrent;
+	}
+
+
+
+	public void setRecurrent(String recurrent) {
+		this.recurrent = recurrent;
+	}
 
 
 
@@ -219,20 +228,18 @@ public class viewmanualentries implements Serializable{
 
 
 
-
-
-
 	@Override
 	public String toString() {
 		return "viewmanualentries [num=" + num + ", itemid=" + itemid + ", entity=" + entity + ", companyid="
 				+ companyid + ", periodnm=" + periodnm + ", userid=" + userid + ", applied=" + applied
 				+ ", description=" + description + ", status=" + status + ", movid=" + movid + ", hfmcode=" + hfmcode
 				+ ", amount=" + amount + ", icpcode=" + icpcode + ", areaid=" + areaid + ", currencyid=" + currencyid
-				+ ", tptype=" + tptype + ", periodname=" + periodname + ", periodid=" + periodid + "]";
+				+ ", tptype=" + tptype + ", periodname=" + periodname + ", periodid=" + periodid + ", recurrent="
+				+ recurrent + "]";
 	}
 
 
-	
+
 	
 	
 }

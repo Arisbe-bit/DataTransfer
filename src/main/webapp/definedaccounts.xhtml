@@ -103,7 +103,7 @@
                                 <p:outputLabel for="companyid" value="Company" />
                                 <p:selectOneMenu id="companyid" value="#{setdefaccountsControllerBean.curtpAccs.id.companyid}" filter="true" filterMatchMode="startsWith" disabled="true">
                                     <f:selectItems value="#{setdefaccountsControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChange}" execute="@this" render=":form:accountid"/>
+                                    <f:ajax event="change" listener="#{setdefaccountsControllerBean.companyidChange}" execute="@this" render=":form:costcenter"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">

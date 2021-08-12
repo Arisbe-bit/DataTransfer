@@ -44,4 +44,8 @@ public class Functions {
 		}
 		return user;
     }
+
+	public static String getContextPath() {
+		return FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+	}
 }

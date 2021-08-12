@@ -22,7 +22,6 @@ import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.KeyValue;
 import com.neoris.tcl.utils.ViewScope;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +90,7 @@ public class ReceivablesAccController {
 
 	public void save() {
 		this.currentRecTab.setUserid(user.getUsername());
-		//this.currentRecTab.setModified(LocalDate.now().toString());
+		
 		LOG.info("Entering to save Trading Partner  => {}", this.currentRecTab);
 
 		this.currentRecTab = service.save(this.currentRecTab);

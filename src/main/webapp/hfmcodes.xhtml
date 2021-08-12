@@ -78,7 +78,7 @@
                         <h:outputText value="#{hfmcodes.globalval}" />
                     </p:column>
 					<p:column headerText="Intercompany" sortBy="#{hfmcodes.intercom}" filterBy="#{hfmcodes.intercom}">
-                        <h:outputText value="#{hfmcodes.intercom}" styleClass="#{hfmcodes.intercom eq 0 ? 'Yes': 'No'}" />
+                        <h:outputText value="#{hfmcodes.intercom}"  />
                     </p:column>
                     <p:column headerText="Ordering" sortBy="#{hfmcodes.ordernuml}" filterBy="#{hfmcodes.ordernum}">
                         <h:outputText value="#{hfmcodes.ordernum}" />
@@ -144,8 +144,8 @@
                             <div class="p-field p-col-12 p-md-4">
                                 <p:outputLabel for="intercom" value="Intercompany" />
                                 <p:selectOneMenu id="intercom" value="#{hfmControllerBean.hfmcode.intercom}">
-                                    <f:selectItem itemLabel="YES" itemValue="1" />
-                                    <f:selectItem itemLabel="NO" itemValue="0" />
+                                    <f:selectItem itemLabel="YES" itemValue="Y" />
+                                    <f:selectItem itemLabel="NO" itemValue="N" />
                                 </p:selectOneMenu>
                             </div>
                         </p:outputPanel>

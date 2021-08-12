@@ -25,12 +25,15 @@ private static final long serialVersionUID = -732130139597244868L;
 		
 	}
 
+
 	public ViewCustReceivables(String custno, String custname, int organizationid) {
 		
 		this.custno = custno;
 		this.custname = custname;
 		this.organizationid = organizationid;
 	}
+
+
 
 	public String getCustno() {
 		return custno;
@@ -48,19 +51,25 @@ private static final long serialVersionUID = -732130139597244868L;
 		this.custname = custname;
 	}
 
-	public int getorganizationid() {
+
+	
+	
+	public int getOrganizationid() {
 		return organizationid;
 	}
 
-	public void setorganizationid(int organizationid) {
+	public void setOrganizationid(int organizationid) {
 		this.organizationid = organizationid;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "ViewCustReceivables [custno=" + custno + ", custname=" + custname + ", organizationid="
-				+ organizationid + "]";
+		return "ViewCustReceivables [custno=" + custno + ", custname=" + custname + ", organizationid=" + organizationid
+				+ "]";
 	}
+
 	
 
 }

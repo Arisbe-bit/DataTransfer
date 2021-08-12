@@ -59,16 +59,19 @@ public class HfmFfss implements Serializable {
 	private String errortext;
 
 	private String description;
+	private int itemid;
 
 	public HfmFfss() {
 
 		this.balance = new BigDecimal(0);
 	}
 
+	
+
 	public HfmFfss(Long num, Long companyId, String currencyCode, String hfmcode, String period, BigDecimal balance,
 			String hfmcodeOld, Timestamp updated, String userid, String classification, String naturalb,
-			String errortext, String description) {
-
+			String errortext, String description, int itemid) {
+	
 		this.num = num;
 		this.companyId = companyId;
 		this.currencyCode = currencyCode;
@@ -82,7 +85,10 @@ public class HfmFfss implements Serializable {
 		this.naturalb = naturalb;
 		this.errortext = errortext;
 		this.description = description;
+		this.itemid = itemid;
 	}
+
+
 
 	public Long getNum() {
 		return num;
@@ -204,12 +210,22 @@ public class HfmFfss implements Serializable {
 		this.description = description;
 	}
 
+	public int getItemid() {
+		return itemid;
+	}
+
+	public void setItemid(int itemid) {
+		this.itemid = itemid;
+	}
+
 	@Override
 	public String toString() {
 		return "HfmFfss [num=" + num + ", companyId=" + companyId + ", currencyCode=" + currencyCode + ", hfmcode="
 				+ hfmcode + ", period=" + period + ", balance=" + balance + ", hfmcodeOld=" + hfmcodeOld + ", updated="
 				+ updated + ", userid=" + userid + ", classification=" + classification + ", naturalb=" + naturalb
-				+ ", errortext=" + errortext + ", description=" + description + "]";
+				+ ", errortext=" + errortext + ", description=" + description + ", itemid=" + itemid + "]";
 	}
+
+	
 
 }

@@ -60,10 +60,9 @@ public class SetReceivablesIcp implements Serializable {
 		this.userid = userid;
 	}
 
-
 	@Override
 	public String toString() {
-		return String.format("SetReceivablesIcp [id=%s, icpcode=%s, userid=%s, modified=%s]", id, icpcode, userid);
+		return String.format("SetReceivablesIcp [id=%s, icpcode=%s, userid=%s]", id, icpcode, userid);
 	}
 
 }

@@ -108,42 +108,42 @@
                         <f:ajax event="change" listener="#{rollup.changeItemValue}" execute="@this" render="@none" />
                     </h:selectOneMenu>
                 </p:column>
-                <p:column headerText="Start Date">
+                <p:column headerText="Start Date" sortBy="#{rollup.iniDateId}">
                     <div id="#{rollup.iniDateId}">
                         <h:outputText value="#{rollup.initdate}"/>
                     </div>
                 </p:column>
-                <p:column headerText="End Date">
+                <p:column headerText="End Date" sortBy="#{rollup.finDateId}">
                     <div id="#{rollup.finDateId}">
                         <h:outputText value="#{rollup.findate}" />
                     </div>
                 </p:column>
-                <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-bal-va">
+                <p:column headerText="Balance Validation" styleClass="rollup-text-align-center rollup-process-status" sortBy="#{rollup.attribute1}" id="col-bal-va">
                     <i class="#{rollup.trialBalanceIcon}" id="#{rollup.balanceValidationID}">
                         <h:outputText value="#{rollup.attribute1}" class="#{empty rollup.trialBalanceIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
-                <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-tra-pa-va">
+                <p:column headerText="Trading Partner Validation" styleClass="rollup-text-align-center rollup-process-status" sortBy="#{rollup.attribute4}" id="col-tra-pa-va">
                     <i class="#{rollup.balanceValidationIcon}" id="#{rollup.tradingPartnerValidationID}">
                         <h:outputText value="#{rollup.attribute4}" class="#{empty rollup.balanceValidationIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
-                <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center rollup-process-status" id="col-cos-ce-va">
+                <p:column headerText="Cost Center Validation" styleClass="rollup-text-align-center rollup-process-status" sortBy="#{rollup.attribute5}" id="col-cos-ce-va">
                     <i class="#{rollup.costCenterValidationIcon}" id="#{rollup.costCenterValidationID}">
                         <h:outputText value="#{rollup.attribute5}" class="#{empty rollup.costCenterValidationIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
-                <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center rollup-process-status" id="col-acc-bal-va">
+                <p:column headerText="Accounts balance Vs ICP " styleClass="rollup-text-align-center rollup-process-status" sortBy="#{rollup.validations}" id="col-acc-bal-va">
                     <i class="#{rollup.validationsIcon}" id="#{rollup.accountBalanceValidationID}">
                         <h:outputText value="#{rollup.validations}" class="#{empty rollup.validationsIcon ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
-                <p:column headerText="Stock Variation" styleClass="rollup-text-align-center rollup-process-status" id="col-stock-va">
+                <p:column headerText="Stock Variation" styleClass="rollup-text-align-center rollup-process-status" sortBy="#{rollup.stockvar}" id="col-stock-va">
                     <i class="#{rollup.stockvarIcon}" id="#{rollup.stockvarValidationID}">
                         <h:outputText value="#{rollup.stockvar}" class="#{empty rollup.stockvarValidationID ? '': 'sr-only'}"/>
                     </i>
                 </p:column>
-                <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status" id="col-finish-process">
+                <p:column headerText="Finished Process" styleClass="rollup-text-align-center rollup-process-status"  sortBy="#{rollup.attribute6}" id="col-finish-process">
                     <i class="#{rollup.finishedProcessIcon}" id="#{rollup.finishProcessID}">
                         <h:outputText value="#{rollup.attribute6}" class="#{empty rollup.finishedProcessIcon ? '': 'sr-only'}"/>
                     </i>
