@@ -62,6 +62,7 @@ public class HfmFFSSDetailsHist implements Serializable {
 	@Column(name = "ICPID")
     private String icpid;
     private String posting;
+    
 
 	public HfmFFSSDetailsHist() {
 		this.setId(new HfmFfssDetailsHistPK());

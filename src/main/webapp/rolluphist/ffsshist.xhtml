@@ -58,8 +58,12 @@
 	                    <h:outputText value="#{hfmffss.formatedBalance}">
 	                    </h:outputText>
 	                </p:column>
-	                <p:column headerText="Currency Code" sortBy="#{hfmffss.currencyCode}" filterBy="#{hfmffss.currencyCode}">
+	                <p:column headerText="CurrencyId" sortBy="#{hfmffss.currencyCode}" filterBy="#{hfmffss.currencyCode}">
 	                    <h:outputText value="#{hfmffss.currencyCode}">
+	                    </h:outputText>
+	                </p:column>	                
+	                <p:column headerText="PostId" sortBy="#{hfmffss.itemid}" filterBy="#{hfmffss.itemid}">
+	                    <h:outputText value="#{hfmffss.itemid}">
 	                    </h:outputText>
 	                </p:column>
 	                <p:column headerText="Rollup Errors"  sortBy="#{hfmffss.errortext}" filterBy="#{hfmffss.errortext}" >

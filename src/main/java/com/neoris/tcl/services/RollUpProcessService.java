@@ -158,6 +158,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 		costmanagerThread.run();
 
 
+
 		try {
 
 			payablesThreadA.join();
@@ -178,30 +179,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 	}
 	
 
-	/**
-	 * Step process 3
-	 * 
-	 * @param rollUp
-	 */
-	/*private void processCostManager(HfmRollupEntries rollUp) {
-
-		ProcessRollUps rollUpCostManager = getProcessRollUpsInstance(rollUp, P_COSTMANAGER, 0, false, false);
-		rollUp.setAttribute3(HfmRollupEntries.STATUS_PROCESSING);
-		webSocketService.sendPushNotification(rollUp);
-
-		Thread costmanagerThread = createRollUpTread(rollUpCostManager);
-		costmanagerThread.run();
-
-		// Wait for process to finish....
-		try {
-			costmanagerThread.join();
-			webSocketService.sendPushNotification(rollUp.getCompanyid());
-		} catch (InterruptedException e) {
-			LOG.error("Error running costmanager: {}", e.getMessage(), e);
-			rollUp.setAttribute3(HfmRollupEntries.STATUS_ERROR);
-			webSocketService.sendPushNotification(e.getMessage(), "Error running Cost manager", "error", rollUp);
-		}
-	}*/
+	
 
 	/**
 	 * 
@@ -498,79 +476,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 		LOG.info("****Thread for rollUp Finish!*******");
 	}
 
-  /*
-	private void processDrills(HfmRollupEntries rollUp) {
-		rollUp.setAttribute4(HfmRollupEntries.STATUS_PROCESSING);
-		webSocketService.sendPushNotification(rollUp);
-
-		ProcessRollUps drillRollUp1 = getProcessRollUpsInstance(rollUp, "", 1, false, false);
-		ProcessRollUps drillRollUp2 = getProcessRollUpsInstance(rollUp, "", 2, false, false);
-		ProcessRollUps drillRollUp3 = getProcessRollUpsInstance(rollUp, "", 3, false, false);
-		ProcessRollUps drillRollUp4 = getProcessRollUpsInstance(rollUp, "", 4, false, false);
-		ProcessRollUps drillRollUp5 = getProcessRollUpsInstance(rollUp, "", 5, false, false);
-		ProcessRollUps drillRollUp6 = getProcessRollUpsInstance(rollUp, "", 6, false, false);
-		ProcessRollUps drillRollUp7 = getProcessRollUpsInstance(rollUp, "", 7, false, false);
-		ProcessRollUps drillRollUp8 = getProcessRollUpsInstance(rollUp, "", 8, false, false);
-		ProcessRollUps drillRollUp9 = getProcessRollUpsInstance(rollUp, "", 9, false, false);
-
-		Thread drillRollUp1Tread = createRollUpTread(drillRollUp1);
-		Thread drillRollUp2Tread = createRollUpTread(drillRollUp2);
-		Thread drillRollUp3Tread = createRollUpTread(drillRollUp3);
-		Thread drillRollUp4Tread = createRollUpTread(drillRollUp4);
-		Thread drillRollUp5Tread = createRollUpTread(drillRollUp5);
-		Thread drillRollUp6Tread = createRollUpTread(drillRollUp6);
-		Thread drillRollUp7Tread = createRollUpTread(drillRollUp7);
-		Thread drillRollUp8Tread = createRollUpTread(drillRollUp8);
-		Thread drillRollUp9Tread = createRollUpTread(drillRollUp9);
-
-		LOG.info("Starting Thread for rollUp drill process 1");
-		drillRollUp1Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 2");
-		drillRollUp2Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 3");
-		drillRollUp3Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 4");
-		drillRollUp4Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 5");
-		drillRollUp5Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 6");
-		drillRollUp6Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 7");
-		drillRollUp7Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 8");
-		drillRollUp8Tread.start();
-
-		LOG.info("Starting Thread for rollUp drill process 9");
-		drillRollUp9Tread.start();
-
-		// wait for finish
-		try {
-			drillRollUp1Tread.join();
-			drillRollUp2Tread.join();
-			drillRollUp3Tread.join();
-			drillRollUp4Tread.join();
-			drillRollUp5Tread.join();
-			drillRollUp6Tread.join();
-			drillRollUp7Tread.join();
-			drillRollUp8Tread.join();
-			drillRollUp9Tread.join();
-			webSocketService.sendPushNotification(rollUp.getCompanyid());
-		} catch (InterruptedException e) {
-			LOG.error("Error running Drills rollup: {}", e.getMessage(), e);
-			rollUp.setAttribute4(HfmRollupEntries.STATUS_ERROR);
-			webSocketService.sendPushNotification(e.getMessage(), "Error running Drills rollup", "error", rollUp);
-		}
-	}
-	
-	*/
-
+ 
 	/**
 	 * 
 	 * @param rollUp
@@ -612,18 +518,7 @@ public class RollUpProcessService implements IRollUpProcessService {
 
 	}
 	
-	/**
-	 * 
-	 * @param rollUp
-	 */
-	/*
-	private void processRollupStart(HfmRollupEntries rollUp) {
-		ProcessRollUps rollUpBalance = getProcessRollUpsInstance(rollUp, "", -2, false, false);
-		Thread balanceThread = createRollUpTread(rollUpBalance);
-		balanceThread.start();
-		
-
-	}*/
+	
 
 	/**
 	 * 

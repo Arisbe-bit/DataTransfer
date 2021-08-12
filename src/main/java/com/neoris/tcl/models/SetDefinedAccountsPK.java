@@ -84,7 +84,7 @@ public class SetDefinedAccountsPK implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyid, accountid, costcenter, source);
+		return Objects.hash(accountid, accountidfin, companyid, costcenter, source);
 	}
 
 	@Override
@@ -96,8 +96,12 @@ public class SetDefinedAccountsPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SetDefinedAccountsPK other = (SetDefinedAccountsPK) obj;
-		return Objects.equals(accountid, other.accountid) && Objects.equals(companyid, other.companyid)
-				&& Objects.equals(costcenter, other.costcenter) && Objects.equals(source, other.source);
+		return Objects.equals(accountid, other.accountid) && Objects.equals(accountidfin, other.accountidfin)
+				&& companyid == other.companyid && Objects.equals(costcenter, other.costcenter)
+				&& Objects.equals(source, other.source);
 	}
+
+	
+	
 
 }
