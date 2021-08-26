@@ -1,12 +1,16 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 /**
@@ -29,19 +33,30 @@ public class SetReclassifAccounts implements Serializable {
 	@Transient
 	private String uuid;
 	
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
+
+	
 	public SetReclassifAccounts() {
 	    this.setId(new SetReclassifAccountsPK());
 	    this.uuid = UUID.randomUUID().toString();
 	}
 
 	
+	
+
+
 	public SetReclassifAccounts(SetReclassifAccountsPK id, String userid, String segment1, String uuid) {
-		
+
 		this.id = id;
 		this.userid = userid;
 		this.segment1 = segment1;
 		this.uuid = uuid;
 	}
+
+
+
 
 
 	public SetReclassifAccountsPK getId() {
@@ -79,13 +94,25 @@ public class SetReclassifAccounts implements Serializable {
 		this.uuid = uuid;
 	}
 
+	
+	
+	public Date getModified() {
+		return modified;
+	}
+
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+
 	@Override
 	public String toString() {
 		return "SetReclassifAccounts [id=" + id + ", userid=" + userid + ", segment1=" + segment1 + ", uuid=" + uuid
-				+ "]";
+				+ ", modified=" + modified + "]";
 	}
 
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash( id, uuid);

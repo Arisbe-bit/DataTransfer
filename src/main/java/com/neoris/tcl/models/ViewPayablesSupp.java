@@ -1,11 +1,14 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ROLLUP_VEBS_SUPPLIERS")
@@ -19,6 +22,8 @@ private static final long serialVersionUID = -732130139597244868L;
 	
 	private String vendorname;
 	private int organizationid;
+	
+	
 	
 	public ViewPayablesSupp() {
 		
@@ -50,13 +55,13 @@ private static final long serialVersionUID = -732130139597244868L;
 	public void setOrganizationid(int organizationid) {
 		this.organizationid = organizationid;
 	}
+
 	@Override
 	public String toString() {
-		return "ViewSuppReceivables [suppliernum=" + suppliernum + ", vendorname=" + vendorname
-				+ ", organizationid=" + organizationid + "]";
+		return "ViewPayablesSupp [suppliernum=" + suppliernum + ", vendorname=" + vendorname + ", organizationid="
+				+ organizationid + "]";
 	}
-	
-	
+
 	
 	
 }

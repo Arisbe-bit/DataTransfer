@@ -36,14 +36,15 @@ public class HfmRollupEntriesController {
     
     //companies
     private List<ViewOrclCompany> lstcomp;
-    private IViewOrclCompanyService servcomp;
+    @Autowired
+    private IViewOrclCompanyService  servcomp;
 
     @PostConstruct
     public void init() {
         LOG.info("Initializing Rollup Entries...");
         this.lstEntries = service.findAll();
         
-        /*
+        
 		try{
 			LOG.info("Initializing lstcomp...");
 		
@@ -53,20 +54,25 @@ public class HfmRollupEntriesController {
 		}catch (Exception e) {
 			LOG.error("init lstcomp ERRor -> {}", e.getMessage());
 		}
-      */
+      
     }
 
     public void openNew() {
         this.currEntries = new HfmRollupEntries();
-        
+        this.newCode =true;
     }
 
     public void save() {
         LOG.info("Entering to save Entries => {}", currEntries);
 
         if (this.newCode) {
+         try {	
+        	LOG.info("newcode {}",currEntries.getCompanyid().intValue());
             Optional<HfmRollupEntries> code = service.findById(currEntries.getCompanyid());
+            LOG.info("code found  {}",code);
+            
             if (code.isPresent()) {
+            	LOG.info("isPresent");
                 String errorMessage = String.format(
                         "The record with code = %s already exist with value= %s. Can't create new record.",
                         currEntries.getCompanyid(), currEntries.getEntity());
@@ -74,7 +80,12 @@ public class HfmRollupEntriesController {
                 PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
                 return;
             }
-        }
+            
+         
+        }catch (Exception e) {
+			LOG.error("save-newcode ERRor -> {}", e.getMessage());
+		}
+      }
 
         currEntries = service.save(currEntries);
         this.lstEntries = service.findAll();

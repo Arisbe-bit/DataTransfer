@@ -19,7 +19,7 @@ public interface IViewManualEntriesDao extends JpaRepository<viewmanualentries,L
 	 		" from rollup_vmanual_entries v where v.periodid Between :periodini and :periodfin " )	*/
 	 //public List<viewmanualentries> findByPeriodidBetween(@Param("periodini") int periodini,@Param("periodfin") int periodfin);
 	 
-	 @Query(value="select v.num , v.amount , v.applied , v.areaid , v.companyid , v.currencyid , v.description , v.entity , v.hfmcode , v.icpcode , v.itemid , v.movid , v.periodid , v.periodname , v.periodnm , v.status , v.tptype , v.userid " + 
+	 @Query(value="select v.num , v.amount , v.applied , v.areaid , v.companyid , v.currencyid , v.description , v.entity , v.hfmcode , v.icpcode , v.itemid , v.movid , v.periodid , v.periodname , v.periodnm , v.status , v.tptype , v.userid,v.recurrent " + 
 		 		" from rollup_vmanual_entries v where v.periodid >= :periodini and v.periodid <= :periodfin ", nativeQuery = true )
 	 public List<viewmanualentries> findByPeriodidBetween(@Param("periodini") int periodini,@Param("periodfin") int periodfin);
 	 //public List<viewmanualentries> findByPeriodidreaterthanAndLessthan(@Param("periodini") int periodini,@Param("periodfin") int periodfin);

@@ -1,11 +1,14 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ROLLUP_VPARTNERS_PAYABLES")
@@ -27,6 +30,10 @@ public class ViewPartnersICP implements Serializable {
 	@Column
 	private String icpcode;
 	
+	private String userid;
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
 	
 	public String getIcpcode() {
 		return icpcode;
@@ -43,7 +50,10 @@ public class ViewPartnersICP implements Serializable {
 	}
 	
 	
-	public ViewPartnersICP(Long num,int organizationid, String companynm, String suppliernum,String vendorname , String icpcode) {
+	
+
+    public ViewPartnersICP(Long num, int organizationid, String companynm, String suppliernum, String vendorname,
+			String icpcode, String userid) {
 		
 		this.num = num;
 		this.organizationid = organizationid;
@@ -51,9 +61,10 @@ public class ViewPartnersICP implements Serializable {
 		this.suppliernum = suppliernum;
 		this.vendorname = vendorname;
 		this.icpcode = icpcode;
+		this.userid = userid;
 	}
 
-    public Long getNum() {
+	public Long getNum() {
         return num;
     }
 
@@ -102,10 +113,28 @@ public class ViewPartnersICP implements Serializable {
 	}
 
 
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
 	@Override
 	public String toString() {
 		return "ViewPartnersICP [num=" + num + ", organizationid=" + organizationid + ", companynm=" + companynm
-				+ ", suppliernum=" + suppliernum + ", vendorname=" + vendorname + ", icpcode=" + icpcode + "]";
+				+ ", suppliernum=" + suppliernum + ", vendorname=" + vendorname + ", icpcode=" + icpcode + ", userid="
+				+ userid + ", modified=" + modified + "]";
 	}
 
+	
 }

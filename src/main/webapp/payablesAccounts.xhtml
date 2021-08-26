@@ -117,7 +117,13 @@
 							<f:setPropertyActionListener value="#{currentId}" 	target="#{payablesaccControllerBean.currentPay}" />
 						</p:commandButton>
 					</p:column>
-
+ 					<p:column headerText="User ID" sortBy="#{currentId.userid}" filterBy="#{currentId.userid}">
+                        <h:outputText value="#{currentId.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{currentId.modified}" filterBy="#{currentId.modified}">
+                        <h:outputText value="#{currentId.modified}" >                        
+                        </h:outputText>
+                    </p:column>
 				</p:dataTable>
 				<!-- This form is for add new o modify a trading partner type -->
 				<p:dialog header="Trading Partner  Details" 

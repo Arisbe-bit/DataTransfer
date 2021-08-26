@@ -87,6 +87,13 @@
                             <f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
                         </p:commandButton>
                     </p:column>
+                     <p:column headerText="User ID" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}">
+                        <h:outputText value="#{currentid.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{currentid.modified}" filterBy="#{currentid.modified}">
+                        <h:outputText value="#{currentid.modified}" >                        
+                        </h:outputText>
+                    </p:column>
                 </p:dataTable>
 
                 <!-- This form is for add new o modify an account -->
@@ -97,8 +104,10 @@
                             <div class="p-field">
                                 <p:outputLabel for="companyid">Company Id</p:outputLabel>
                                 <p:selectOneMenu id="companyid" value="#{setreclassifaccControllerBean.curracc.id.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:accountidini :form:accountidfin :form:suppno :form:custno"/>
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this"
+											 render=":form:accountidini :form:accountidfin :form:suppno :form:custno"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">

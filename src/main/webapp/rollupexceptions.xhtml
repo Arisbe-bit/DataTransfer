@@ -42,7 +42,7 @@
                 	var="currentid" value="#{hfmexceptionsControllerBean.lstexcep}"
                 	reflow="true" styleClass="products-table"
                 	selection="#{hfmexceptionsControllerBean.lstdelexcep}"
-                	rowKey="#{currentid.id.partnerid}" paginator="true"
+                	rowKey="#{currentid.hashCode()}" paginator="true"
                 	rows="10" rowSelectMode="add" size="small" paginatorPosition="bottom">
                     <f:facet name="header">
                         <h:outputText value="#{hfmexceptionsControllerBean.title}" style="font-weight: bold" />
@@ -76,6 +76,13 @@
                         <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this" style="margin-left: 0.3em" oncomplete="PF('deleteCodeDialog').show()">
                             <f:setPropertyActionListener value="#{currentid}" target="#{hfmexceptionsControllerBean.curExcep}" />
                         </p:commandButton>
+                    </p:column>
+                    <p:column headerText="User ID" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}">
+                        <h:outputText value="#{currentid.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{currentid.modified}" filterBy="#{currentid.modified}">
+                        <h:outputText value="#{currentid.modified}" >                        
+                        </h:outputText>
                     </p:column>
                 </p:dataTable>
 

@@ -48,14 +48,14 @@
                     <p:ajax event="rowUnselectCheckbox" update=":form:#{hfmControllerBean.deleteCodesButton}" />
                     <p:ajax event="toggleSelect" update=":form:#{hfmControllerBean.deleteCodesButton}" />
 
-                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="10%">
+                    <p:column headerText="Select" selectionMode="multiple" exportable="false" width="5%">
                     </p:column>
 
                     <p:column headerText="Code" sortBy="#{hfmcodes.hfmcode}" filterBy="#{hfmcodes.hfmcode}">
                         <h:outputText value="#{hfmcodes.hfmcode}" />
                     </p:column>
 
-                    <p:column headerText="Description" sortBy="#{hfmcodes.description}" filterBy="#{hfmcodes.description}">
+                    <p:column headerText="Description" width="20%" sortBy="#{hfmcodes.description}" filterBy="#{hfmcodes.description}">
                         <h:outputText value="#{hfmcodes.description}" />
                     </p:column>
 
@@ -70,7 +70,7 @@
                     <p:column headerText="Account Tyoe" sortBy="#{hfmcodes.naturalb}" filterBy="#{hfmcodes.naturalb}">
                         <h:outputText value="#{hfmcodes.naturalb}" />
                     </p:column>
-                    <p:column headerText="Sign" sortBy="#{hfmcodes.naturalsign}" filterBy="#{hfmcodes.naturalsign}">
+                    <p:column headerText="Sign" width="5%" sortBy="#{hfmcodes.naturalsign}" filterBy="#{hfmcodes.naturalsign}">
                         <h:outputText value="#{hfmcodes.naturalsign}" />
                     </p:column>
 
@@ -83,7 +83,7 @@
                     <p:column headerText="Ordering" sortBy="#{hfmcodes.ordernuml}" filterBy="#{hfmcodes.ordernum}">
                         <h:outputText value="#{hfmcodes.ordernum}" />
                     </p:column>
-                    <p:column headerText="Actions" exportable="false" width="10%">
+                    <p:column headerText="Actions" exportable="false" width="5%">
                         <p:commandButton icon="pi pi-pencil" update=":form:manage-code-content" oncomplete="PF('#{hfmControllerBean.dialogName}').show()" styleClass="edit-button rounded-button ui-button-success" style="margin-right: 0.3em" process="@this">
                             <f:setPropertyActionListener value="#{hfmcodes}" target="#{hfmControllerBean.hfmcode}" />
                             <p:resetInput target=":form:manage-code-content" />
@@ -95,7 +95,13 @@
 
 
                     </p:column>
-
+					<p:column headerText="User ID" sortBy="#{hfmcodes.userid}" filterBy="#{hfmcodes.userid}">
+                        <h:outputText value="#{hfmcodes.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{hfmcodes.modified}" filterBy="#{hfmcodes.modified}">
+                        <h:outputText value="#{hfmcodes.modified}" >                        
+                        </h:outputText>
+                    </p:column>
                 </p:dataTable>
 
                 <!-- This form is for add new o modify a code -->
@@ -124,6 +130,13 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field p-col-12 p-md-4">
+                                <p:outputLabel for="naturalb" value="Account Type" />
+                                <p:selectOneMenu id="naturalb" value="#{hfmControllerBean.hfmcode.naturalb}">
+                                    <f:selectItem itemLabel="DEBIT" itemValue="DEBIT" />
+                                    <f:selectItem itemLabel="CREDIT" itemValue="CREDIT" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="p-field p-col-12 p-md-4">
                                 <p:outputLabel for="classification" value="Classification" />
                                 <p:selectOneMenu id="classification" value="#{hfmControllerBean.hfmcode.classification}">
                                     <f:selectItem itemLabel="Input" itemValue="INPUT" />
@@ -133,8 +146,8 @@
                             <div class="p-field p-col-12 p-md-4">
                                 <p:outputLabel for="globalval" value="Global validation?" />
                                 <p:selectOneMenu id="globalval" value="#{hfmControllerBean.hfmcode.globalval}">
-                                    <f:selectItem itemLabel="YES" itemValue="Y" />
                                     <f:selectItem itemLabel="NO" itemValue="N" />
+                                    <f:selectItem itemLabel="YES" itemValue="Y" />
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field p-col-12 p-md-4">
@@ -144,8 +157,8 @@
                             <div class="p-field p-col-12 p-md-4">
                                 <p:outputLabel for="intercom" value="Intercompany" />
                                 <p:selectOneMenu id="intercom" value="#{hfmControllerBean.hfmcode.intercom}">
-                                    <f:selectItem itemLabel="YES" itemValue="Y" />
                                     <f:selectItem itemLabel="NO" itemValue="N" />
+                                    <f:selectItem itemLabel="YES" itemValue="Y" />
                                 </p:selectOneMenu>
                             </div>
                         </p:outputPanel>
