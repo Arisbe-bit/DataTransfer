@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import com.neoris.tcl.models.HfmRollupEntries;
-import com.neoris.tcl.models.SetHfmCodes;
 
 @Repository
 public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Long> {
@@ -151,7 +150,7 @@ public interface IHfmRollupEntriesDao extends JpaRepository<HfmRollupEntries, Lo
 	 * @param P_YEAR
 	 * @param P_USERID
 	 */
-	@Procedure("rollup_match_accounts_stockv")
+	@Procedure("rollup_match_accounts")
 	void rollUpMatchAccounts(int p_orgid, String p_period, String p_year, String p_userid);
 	
 	/**
