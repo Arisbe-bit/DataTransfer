@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 /**
  * The persistent class for the hfm_ffss database table.
  * 
@@ -27,7 +29,7 @@ public class HfmFfss implements Serializable {
 	private static final long serialVersionUID = 5362381129863237217L;
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long num;
 	// private HfmFfssPK id;
 
@@ -59,6 +61,8 @@ public class HfmFfss implements Serializable {
 	private String errortext;
 
 	private String description;
+
+	@ColumnDefault(value = "0")
 	private int itemid;
 
 	public HfmFfss() {
@@ -66,12 +70,10 @@ public class HfmFfss implements Serializable {
 		this.balance = new BigDecimal(0);
 	}
 
-	
-
 	public HfmFfss(Long num, Long companyId, String currencyCode, String hfmcode, String period, BigDecimal balance,
 			String hfmcodeOld, Timestamp updated, String userid, String classification, String naturalb,
 			String errortext, String description, int itemid) {
-	
+
 		this.num = num;
 		this.companyId = companyId;
 		this.currencyCode = currencyCode;
@@ -87,8 +89,6 @@ public class HfmFfss implements Serializable {
 		this.description = description;
 		this.itemid = itemid;
 	}
-
-
 
 	public Long getNum() {
 		return num;
@@ -225,7 +225,5 @@ public class HfmFfss implements Serializable {
 				+ updated + ", userid=" + userid + ", classification=" + classification + ", naturalb=" + naturalb
 				+ ", errortext=" + errortext + ", description=" + description + ", itemid=" + itemid + "]";
 	}
-
-	
 
 }

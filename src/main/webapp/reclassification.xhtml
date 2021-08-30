@@ -10,7 +10,15 @@
             <h:outputText value="#{setreclassifaccControllerBean.title}" />
         </title>
     </ui:define>
-
+    <ui:define name="js">
+        <script>
+        function resetForm() {
+            PF('#{setreclassifaccControllerBean.dialogName}').hide();
+            PF('companyidWV').selectValue('');
+            PF('costcenterWV').selectValue('');
+        }
+        </script>
+    </ui:define>
     <ui:define name="header">
         <h1>
             <h:outputText value="#{setreclassifaccControllerBean.title}" />
@@ -174,7 +182,7 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Save" id="btnSave" icon="pi pi-check" actionListener="#{setreclassifaccControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
-                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="PF('#{setreclassifaccControllerBean.dialogName}').hide()" class="ui-button-secondary" />
+                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="resetForm()" class="ui-button-secondary" />
                     </f:facet>
                 </p:dialog>
 
