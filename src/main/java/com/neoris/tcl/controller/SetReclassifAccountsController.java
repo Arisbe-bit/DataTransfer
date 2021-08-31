@@ -108,7 +108,10 @@ public class SetReclassifAccountsController {
 
 	public void openNew(AjaxBehaviorEvent ev) {
 		LOG.info("[openNew] ev => {}", ev);
+		 PrimeFaces.current().resetInputs("form:manage-code-content");
 		openNew();
+		
+		
 	}
 
 	public void openNew() {
@@ -267,6 +270,11 @@ public class SetReclassifAccountsController {
 	public void setCurracc(SetReclassifAccounts curracc) {
 		this.curracc = curracc;
 		LOG.info("[setCurracc] => curracc = {}", curracc);
+		this.vsource = "Receivables";
+		LOG.info("[setCurracc] => curracc = {}, this.vsource {}", curracc,this.vsource);
+		lstCustno = servicecust.findByOrganizationid(curracc.getId().getCompanyid());
+		
+		LOG.info("[setCurracc] => lstCustno " + this.lstCustno.size());
 	}
 
 	public List<HfmOracleAcc> getLstOrcl() {

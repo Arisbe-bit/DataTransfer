@@ -182,7 +182,7 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Save" id="btnSave" icon="pi pi-check" actionListener="#{setreclassifaccControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
-                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="resetForm()" class="ui-button-secondary" />
+                        <p:commandButton value="Cancel" id="btnCancel" onclick="PF('manageCodeDialog').hide()" icon="pi pi-times"  class="ui-button-secondary" />
                     </f:facet>
                 </p:dialog>
 

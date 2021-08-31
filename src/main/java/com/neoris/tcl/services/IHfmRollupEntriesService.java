@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.ViewSegmentCompany;
 
 public interface IHfmRollupEntriesService {
 
@@ -45,6 +46,8 @@ public interface IHfmRollupEntriesService {
     public final static String P_COSTMANAGER = "COSTMANAGER";
 
     Optional<HfmRollupEntries> findById(Long id);
+    
+    
 
     List<HfmRollupEntries> findAll();
     
@@ -91,4 +94,6 @@ public interface IHfmRollupEntriesService {
     void rollupreclassification(int P_ORGID, String P_PERIOD, String P_YEAR, String P_USERID);
     
     void rollupreversals(int p_orgid, String p_period, String p_source);
+    
+    List<HfmRollupEntries> findByEntity(String entity);
 }

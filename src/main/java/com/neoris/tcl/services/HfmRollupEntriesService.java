@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.neoris.tcl.dao.IHfmRollupEntriesDao;
 import com.neoris.tcl.models.HfmRollupEntries;
+import com.neoris.tcl.models.ViewSegmentCompany;
 
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Service()
@@ -249,4 +250,11 @@ public class HfmRollupEntriesService implements IHfmRollupEntriesService {
 		
 		return (List<HfmRollupEntries>) data.findByCompanyid(companyid);
 	}
+
+	@Override
+	public List<HfmRollupEntries> findByEntity(String entity) {
+		return data.findByEntity(entity);
+	}
+
+
 }
