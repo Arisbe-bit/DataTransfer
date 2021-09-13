@@ -109,6 +109,13 @@
 							<f:setPropertyActionListener value="#{curtps}" target="#{tradingpartnerControllerBean.curtp}" />
 						</p:commandButton>
 					</p:column>
+					<p:column headerText="User ID" sortBy="#{curtps.userid}" filterBy="#{curtps.userid}">
+                        <h:outputText value="#{curtps.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{curtps.modified}" filterBy="#{curtps.modified}">
+                        <h:outputText value="#{curtps.modified}" >                        
+                        </h:outputText>
+                    </p:column>
 				</p:dataTable>
 
 				<!-- This form is for add new o modify a code -->

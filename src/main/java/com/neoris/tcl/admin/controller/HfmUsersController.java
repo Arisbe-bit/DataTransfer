@@ -12,9 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 
-import com.neoris.tcl.security.models.Role;
 import com.neoris.tcl.security.models.User;
-import com.neoris.tcl.security.service.IRoleService;
 import com.neoris.tcl.security.service.IUserService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
@@ -28,39 +26,37 @@ public class HfmUsersController {
 	@Autowired
 	private IUserService service;
 
-	//@Autowired
-	//private IRoleService roleService;
-
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
-	private boolean updatePassword;
+	private boolean newUser;
 
 	private List<User> lstUsers;
 	private List<User> lstSelectdUsers;
-	//private List<Role> lstRoles;
 	private User curUser;
 
 	@PostConstruct
 	public void init() {
 		LOG.info("Initializing lstUsers...");
 		this.lstUsers = service.findAll();
-
-		//LOG.info("Initializing lstRoles...");
-		//this.lstRoles = roleService.findAll();
 	}
 
 	public void openNew() {
 		this.curUser = new User();
+		this.newUser = true;
 	}
 
 	public void saveUser() {
 		LOG.info("Entering to save User = {}", this.curUser);
 		String message;
-		if (this.curUser.getUsername().length() > 0  || !this.curUser.getPassword().equals(this.curUser.getPasswordBackUp()) ) {
+		if (newUser){
 			this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
 			message = "User Added";
 		} else {
+			// check if password was changed.
+			if(!this.curUser.getPassword().equals(this.curUser.getPasswordBackUp())) {
+				this.curUser.setPassword(encoder.encode(this.curUser.getPassword()));
+			}
 			message = "User Updated";
 		}
 		this.curUser = service.saveUser(curUser);
@@ -69,6 +65,7 @@ public class HfmUsersController {
 		Functions.addInfoMessage("Save User", message);
 		PrimeFaces.current().executeScript("PF('manageUsersDialog').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-users");
+		this.newUser = false;
 	}
 
 	public void deleteUser() {
@@ -123,14 +120,6 @@ public class HfmUsersController {
 		this.lstSelectdUsers = lstSelectdUsers;
 	}
 
-	/*public List<Role> getLstRoles() {
-		return lstRoles;
-	}
-
-	public void setLstRoles(List<Role> lstRoles) {
-		this.lstRoles = lstRoles;
-	}*/
-
 	public User getCurUser() {
 		return curUser;
 	}
@@ -141,12 +130,8 @@ public class HfmUsersController {
 		this.curUser.setPasswordBackUp(this.curUser.getPassword());
 	}
 
-	public boolean isUpdatePassword() {
-		return updatePassword;
-	}
-
-	public void setUpdatePassword(boolean updatePassword) {
-		this.updatePassword = updatePassword;
+	public boolean isNewUser() {
+		return newUser;
 	}
 
 }

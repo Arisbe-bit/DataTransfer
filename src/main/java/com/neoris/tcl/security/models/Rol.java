@@ -16,8 +16,8 @@ public enum Rol {
     ROLLUP("RollUp Process"),
     ROLLUPHIST("RollUp History"),
     POLICIES("Manual Entries"),
-    DEFINEDACCOUNT("Defined Accounts"),
-	MANUALENTRIESHIST("Manuel Entries History"),
+    DEFINEDACCOUNT("Source Accounts"),
+	MANUALENTRIESHIST("Manual Entries History"),
 	RECLASSIFICATION("Reclassifications"),
 	ROLLEXCEPTIONS("Trading Partner Exceptions");
 

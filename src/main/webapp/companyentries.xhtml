@@ -100,7 +100,9 @@
 						filterBy="#{currentid.companyid}">
 						<h:outputText value="#{currentid.companyid}" />
 					</p:column>
-
+					<p:column headerText="Segment" sortBy="#{currentid.segment1}"	filterBy="#{currentid.segment1}">
+						<h:outputText value="#{currentid.segment1}" />
+					</p:column>
 					<p:column headerText="Actions" exportable="false" width="10%">
 						<p:commandButton icon="pi pi-pencil"
 							update=":form:manage-code-content"
@@ -162,12 +164,18 @@
 							</div>
 							<div class="p-field">
                                 <p:outputLabel for="companyid" value="Companyid" />
-                                <p:selectOneMenu id="companyid" editable="true"  value="rollupentriesControllerBean.currEntries.companyid}" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItems value="#{vieworclcompControllerBean.lstcomp}" 
+                                <p:selectOneMenu id="companyid"   required="true" value="#{rollupentriesControllerBean.currEntries.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{rollupentriesControllerBean.lstcomp}" 
                                     var="itemp" itemLabel="#{itemp.companycode}" itemValue="#{itemp.companyid}" />
                                 </p:selectOneMenu>
                             </div>
-							
+							<div class="p-field">
+                                <p:outputLabel for="csegment1" value="Segment" />
+                                <p:selectOneMenu id="csegment1" value="#{rollupentriesControllerBean.currEntries.segment1}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItems value="#{viewsegmentcompControllerBean.lstsegment}" 
+                                    var="itemse" itemLabel="#{itemse.segment1}" itemValue="#{itemse.segment1}" />
+                                </p:selectOneMenu>
+                            </div>
 						</p:outputPanel>
 					</p:outputPanel>
 					<f:facet name="footer">

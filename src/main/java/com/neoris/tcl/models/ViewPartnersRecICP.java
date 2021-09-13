@@ -1,11 +1,14 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ROLLUP_VPARTNERS_RECEIVABLES")
@@ -29,22 +32,32 @@ public class ViewPartnersRecICP implements Serializable {
     private String custname;
     @Column
     private String icpcode;
+    private String userid;
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
 
     public ViewPartnersRecICP() {
 
     }
 
+   
+
     public ViewPartnersRecICP(Long num, int organization_id, String companynm, String custno, String custname,
-            String icpcode) {
+			String icpcode, String userid) {
+		
+		this.num = num;
+		this.organization_id = organization_id;
+		this.companynm = companynm;
+		this.custno = custno;
+		this.custname = custname;
+		this.icpcode = icpcode;
+		this.userid = userid;
+	}
 
-        this.organization_id = organization_id;
-        this.companynm = companynm;
-        this.custno = custno;
-        this.custname = custname;
-        this.icpcode = icpcode;
-    }
 
-    public Long getNum() {
+
+	public Long getNum() {
         return num;
     }
 
@@ -92,11 +105,28 @@ public class ViewPartnersRecICP implements Serializable {
         this.icpcode = icpcode;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "ViewPartnersRecICP [num=%s, organization_id=%s, companynm=%s, custno=%s, custname=%s, icpcode=%s]",
-                num, organization_id, companynm, custno, custname, icpcode);
-    }
+    public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	@Override
+	public String toString() {
+		return "ViewPartnersRecICP [num=" + num + ", organization_id=" + organization_id + ", companynm=" + companynm
+				+ ", custno=" + custno + ", custname=" + custname + ", icpcode=" + icpcode + ", userid=" + userid
+				+ ", modified=" + modified + "]";
+	}
+
 
 }

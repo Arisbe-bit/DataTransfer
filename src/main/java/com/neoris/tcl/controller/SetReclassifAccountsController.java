@@ -108,11 +108,15 @@ public class SetReclassifAccountsController {
 
 	public void openNew(AjaxBehaviorEvent ev) {
 		LOG.info("[openNew] ev => {}", ev);
+		 PrimeFaces.current().resetInputs("form:manage-code-content");
 		openNew();
+		
+		
 	}
 
 	public void openNew() {
 		LOG.info("new");
+		
 		this.curracc = new SetReclassifAccounts();
 		if (lstcompany.size() > 0) {
 			curracc.getId().setCompanyid(lstcompany.get(0).getCompanyid().intValue());
@@ -130,9 +134,14 @@ public class SetReclassifAccountsController {
 		}
 
 		this.curracc.setUserid(this.user.getUsername());
-		LOG.info("[openNew] => curracc = {}", curracc);
+		this.vsource = "Receivables";
+		LOG.info("[openNew] => curracc = {}, this.vsource {}", curracc,this.vsource);
 
-		lstSuppno = servicessupp.findByOrganizationid(curracc.getId().getCompanyid());
+		
+		lstCustno = servicecust.findByOrganizationid(curracc.getId().getCompanyid());
+		
+		LOG.info(" lstCustno " + this.lstCustno.size());
+		//lstSuppno = servicessupp.findByOrganizationid(curracc.getId().getCompanyid());
 	}
 
 	/**
@@ -261,6 +270,11 @@ public class SetReclassifAccountsController {
 	public void setCurracc(SetReclassifAccounts curracc) {
 		this.curracc = curracc;
 		LOG.info("[setCurracc] => curracc = {}", curracc);
+		this.vsource = "Receivables";
+		LOG.info("[setCurracc] => curracc = {}, this.vsource {}", curracc,this.vsource);
+		lstCustno = servicecust.findByOrganizationid(curracc.getId().getCompanyid());
+		
+		LOG.info("[setCurracc] => lstCustno " + this.lstCustno.size());
 	}
 
 	public List<HfmOracleAcc> getLstOrcl() {
@@ -310,6 +324,24 @@ public class SetReclassifAccountsController {
 
 	public void setVsource(String vsource) {
 		this.vsource = vsource;
+		int lcompanyid = this.curracc.getId().getCompanyid();
+		
+		LOG.info("setvsource {}, lcompanyid {} ", this.vsource, lcompanyid);
+		
+		/*
+		if (this.vsource.equals("Receivables")) {
+			lstCustno = servicecust.findByOrganizationid(lcompanyid);
+			lstSuppno=null;
+			LOG.info("[setVsource]  return lstCustno con items => {}",
+					lstCustno != null ? lstCustno.size() : "is null");
+			
+			}else {
+				lstSuppno = servicessupp.findByOrganizationid(lcompanyid);
+				lstCustno =null;
+				LOG.info("[setVsource]  return lstSuppno con items => {}",
+						lstSuppno != null ? lstSuppno.size() : "is null");
+			}
+			*/
 	}
 
 	public List<ViewPayablesSupp> getLstSuppno() {
@@ -356,13 +388,16 @@ public class SetReclassifAccountsController {
 			LOG.info("[companyidChange] => curracc = {}", curracc);
 
 			int lcompanyid = this.curracc.getId().getCompanyid();
-			Long compid = Long.valueOf(Integer.toString(lcompanyid));
+			
 			
 			String costCenter = this.curracc.getId().getCostcenter();
 			LOG.info("[companyidChange] companyid  => {},costcenter  => {}", lcompanyid, costCenter);
 
 			lstOrcl = serviceOAS.findByOrgidAndCostcenter(lcompanyid, costCenter);
 			LOG.info("[companyidChange]  return lstOrcl con items => {}", lstOrcl != null ? lstOrcl.size() : "is null");
+			
+				
+			LOG.info("[companyidChange]  this.vsource => {}", this.vsource);
 			
 			
 			if (this.vsource.equals("Receivables")) {

@@ -1,10 +1,14 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the set_trading_partners_types database table.
@@ -24,6 +28,10 @@ public class SetTradingPartnersTypes implements Serializable {
 	private String description;
 	private String userid;
 
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
+	
 	public SetTradingPartnersTypes() {
 	}
 
@@ -62,12 +70,22 @@ public class SetTradingPartnersTypes implements Serializable {
 		this.description = description;
 	}
 
+	public Date getModified() {
+
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
 
 	@Override
 	public String toString() {
 		return "SetTradingPartnersTypes [tptype=" + tptype + ", description=" + description + ", userid=" + userid
-				+ "]";
+				+ ", modified=" + modified + "]";
 	}
+	
 
 	
 

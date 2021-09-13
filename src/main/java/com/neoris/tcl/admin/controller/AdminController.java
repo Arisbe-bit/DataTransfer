@@ -21,8 +21,7 @@ public class AdminController {
 	@PostConstruct
 	public void init() {
 		authentication = SecurityContextHolder.getContext().getAuthentication();		
-//		LOG.info("Initializing Admin Controller...");
-//		authentication.getAuthorities().forEach(ga -> LOG.info("Authority = {}", ga.getAuthority()));
+
 	}
 	
 	public String users() {

@@ -1,11 +1,15 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The persistent class for the set_icpcodes database table.
@@ -28,6 +32,10 @@ public class SetIcpcodes implements Serializable {
 	private String icpid;
 	private String tptype;
 	private String userid;
+	
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
 
 	public SetIcpcodes() {
 
@@ -87,10 +95,20 @@ public class SetIcpcodes implements Serializable {
 		this.icpcode = icpcode;
 	}
 
+	public Date getModified() {
+
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
 	@Override
 	public String toString() {
 		return "SetIcpcodes [icpcode=" + icpcode + ", icpdesc=" + icpdesc + ", icpid=" + icpid + ", tptype=" + tptype
-				+ ", userid=" + userid + "]";
+				+ ", userid=" + userid + ", modified=" + modified + "]";
 	}
+	
 
 }

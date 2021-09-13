@@ -15,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +23,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@DynamicUpdate
 @Table(name = "HFM_USERS")
 public class User implements UserDetails {
 
@@ -88,13 +90,13 @@ public class User implements UserDetails {
 
 	@ColumnDefault(value = "0")
 	private boolean definedaccounts;
-	
+
 	@ColumnDefault(value = "0")
 	private boolean manualentrieshist;
-	
+
 	@ColumnDefault(value = "0")
 	private boolean reclassification;
-	
+
 	@ColumnDefault(value = "0")
 	private boolean rollexceptions;
 
@@ -104,18 +106,17 @@ public class User implements UserDetails {
 	@Transient
 	private String passwordBackUp;
 
-
 	public User() {
 		passwordBackUp = "";
 		selectdRoles = new ArrayList<>();
 		setEnabled(true);
 	}
 
-	public User(
-			String username, String password, String name, boolean enabled, boolean admin,
-			boolean hfmcodes, boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
+	public User(String username, String password, String name, boolean enabled, boolean admin, boolean hfmcodes,
+			boolean hfmcodesoa, boolean hfmcodestypes, boolean partners, boolean payablesaccounts,
 			boolean receivablesaccounts, boolean matchaccounts, boolean dsvscompany, boolean rollup, boolean rolluphist,
-			boolean policies, boolean definedaccounts, boolean manualentrieshist, boolean reclassification, boolean rollexceptions) {
+			boolean policies, boolean definedaccounts, boolean manualentrieshist, boolean reclassification,
+			boolean rollexceptions) {
 		this.selectdRoles = new ArrayList<>();
 		this.username = username;
 		this.password = password;
@@ -133,11 +134,11 @@ public class User implements UserDetails {
 		this.rollup = rollup;
 		this.rolluphist = rolluphist;
 		this.policies = policies;
-		this.definedaccounts = definedaccounts; 
+		this.definedaccounts = definedaccounts;
 		this.manualentrieshist = manualentrieshist;
 		this.reclassification = reclassification;
 		this.rollexceptions = rollexceptions;
-		this.passwordBackUp ="";
+		this.passwordBackUp = "";
 		this.populateList();
 	}
 
@@ -156,7 +157,6 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -209,20 +209,20 @@ public class User implements UserDetails {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
 			selectdRoles.add(Rol.POLICIES);
 		}
-		if(definedaccounts) {
+		if (definedaccounts) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.POLICIES.name()));
 			selectdRoles.add(Rol.DEFINEDACCOUNT);
 		}
-		
-		if(manualentrieshist) {
+
+		if (manualentrieshist) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.MANUALENTRIESHIST.name()));
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
 		}
-		if(reclassification) {
+		if (reclassification) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.RECLASSIFICATION.name()));
 			selectdRoles.add(Rol.RECLASSIFICATION);
 		}
-		if(rollexceptions) {
+		if (rollexceptions) {
 			gaRoles.add(new SimpleGrantedAuthority(Rol.ROLLEXCEPTIONS.name()));
 			selectdRoles.add(Rol.ROLLEXCEPTIONS);
 		}
@@ -377,7 +377,7 @@ public class User implements UserDetails {
 
 	public List<Rol> getSelectdRoles() {
 		populateList();
-		LOG.info("[USers] Envio selectdRoles = {}", selectdRoles);
+		// LOG.info("[USers] Envio selectdRoles = {}", selectdRoles);
 		return selectdRoles;
 	}
 
@@ -385,16 +385,14 @@ public class User implements UserDetails {
 		return manualentrieshist;
 	}
 
-	
 	public void setManualentrieshist(boolean manualentrieshist) {
 		this.manualentrieshist = manualentrieshist;
 	}
-	
+
 	public boolean isReclassification() {
 		return reclassification;
 	}
 
-	
 	public void setReclassification(boolean Reclassification) {
 		this.reclassification = Reclassification;
 	}
@@ -403,14 +401,12 @@ public class User implements UserDetails {
 		return rollexceptions;
 	}
 
-	
 	public void setRollexceptions(boolean rollexceptions) {
 		this.rollexceptions = rollexceptions;
 	}
 
-	
 	public void setSelectdRoles(List<Rol> selectdRoles) {
-		LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
+		// LOG.info("[USers] Recibo selectdRoles = {}", selectdRoles);
 		this.selectdRoles = selectdRoles;
 		resetRoles();
 		for (Rol rol : selectdRoles) {
@@ -453,7 +449,7 @@ public class User implements UserDetails {
 			if (Rol.DEFINEDACCOUNT.equals(rol)) {
 				this.setDefinedaccounts(true);
 			}
-			
+
 			if (Rol.MANUALENTRIESHIST.equals(rol)) {
 				this.setManualentrieshist(true);
 			}
@@ -484,7 +480,7 @@ public class User implements UserDetails {
 		this.reclassification = false;
 		this.rollexceptions = false;
 	}
-	
+
 	private void populateList() {
 		selectdRoles = new ArrayList<>();
 		if (admin) {
@@ -526,21 +522,27 @@ public class User implements UserDetails {
 		if (definedaccounts) {
 			selectdRoles.add(Rol.DEFINEDACCOUNT);
 		}
-		
+
 		if (manualentrieshist) {
 			selectdRoles.add(Rol.MANUALENTRIESHIST);
 		}
-		
+
 		if (reclassification) {
 			selectdRoles.add(Rol.RECLASSIFICATION);
 		}
-		
+
 		if (rollexceptions) {
 			selectdRoles.add(Rol.ROLLEXCEPTIONS);
 		}
 	}
 
-
-
+	@Override
+	public String toString() {
+		return String.format(
+				"User [username=%s, password=%s, name=%s, enabled=%s, admin=%s, hfmcodes=%s, hfmcodesoa=%s, hfmcodestypes=%s, partners=%s, payablesaccounts=%s, receivablesaccounts=%s, matchaccounts=%s, dsvscompany=%s, rollup=%s, rolluphist=%s, policies=%s, definedaccounts=%s, manualentrieshist=%s, reclassification=%s, rollexceptions=%s, selectdRoles=%s, passwordBackUp=%s]",
+				username, password, name, enabled, admin, hfmcodes, hfmcodesoa, hfmcodestypes, partners,
+				payablesaccounts, receivablesaccounts, matchaccounts, dsvscompany, rollup, rolluphist, policies,
+				definedaccounts, manualentrieshist, reclassification, rollexceptions, selectdRoles, passwordBackUp);
+	}
 
 }

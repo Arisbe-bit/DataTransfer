@@ -10,7 +10,15 @@
             <h:outputText value="#{setreclassifaccControllerBean.title}" />
         </title>
     </ui:define>
-
+    <ui:define name="js">
+        <script>
+        function resetForm() {
+            PF('#{setreclassifaccControllerBean.dialogName}').hide();
+            PF('companyidWV').selectValue('');
+            PF('costcenterWV').selectValue('');
+        }
+        </script>
+    </ui:define>
     <ui:define name="header">
         <h1>
             <h:outputText value="#{setreclassifaccControllerBean.title}" />
@@ -87,6 +95,13 @@
                             <f:setPropertyActionListener value="#{currentid}" target="#{setreclassifaccControllerBean.curracc}" />
                         </p:commandButton>
                     </p:column>
+                     <p:column headerText="User ID" sortBy="#{currentid.userid}" filterBy="#{currentid.userid}">
+                        <h:outputText value="#{currentid.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{currentid.modified}" filterBy="#{currentid.modified}">
+                        <h:outputText value="#{currentid.modified}" >                        
+                        </h:outputText>
+                    </p:column>
                 </p:dataTable>
 
                 <!-- This form is for add new o modify an account -->
@@ -97,8 +112,10 @@
                             <div class="p-field">
                                 <p:outputLabel for="companyid">Company Id</p:outputLabel>
                                 <p:selectOneMenu id="companyid" value="#{setreclassifaccControllerBean.curracc.id.companyid}" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
                                     <f:selectItems value="#{setreclassifaccControllerBean.lstcompany}" var="itemp" itemLabel="#{itemp.entity}" itemValue="#{itemp.companyid}" />
-                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this" render=":form:accountidini :form:accountidfin :form:suppno :form:custno"/>
+                                    <f:ajax event="change" listener="#{setreclassifaccControllerBean.companyidChange}" execute="@this"
+											 render=":form:accountidini :form:accountidfin :form:suppno :form:custno"/>
                                 </p:selectOneMenu>
                             </div>
                             <div class="p-field">
@@ -165,7 +182,7 @@
                     </p:outputPanel>
                     <f:facet name="footer">
                         <p:commandButton value="Save" id="btnSave" icon="pi pi-check" actionListener="#{setreclassifaccControllerBean.save}" update="manage-code-content" process="manage-code-content @this" />
-                        <p:commandButton value="Cancel" id="btnCancel" icon="pi pi-times" onclick="PF('#{setreclassifaccControllerBean.dialogName}').hide()" class="ui-button-secondary" />
+                        <p:commandButton value="Cancel" id="btnCancel" onclick="PF('manageCodeDialog').hide()" icon="pi pi-times"  class="ui-button-secondary" />
                     </f:facet>
                 </p:dialog>
 
