@@ -135,11 +135,11 @@
 
 								<div class="p-field">
 									<p:outputLabel for="username" value="Username (maxlength 15)"/>
-									<p:inputText id="username" value="#{hfmUsersBean.curUser.username}" maxlength="15" required="true" requiredMessage="User is requiered" validatorMessage="User validations fails." />
+									<p:inputText id="username" value="#{hfmUsersBean.curUser.username}" maxlength="15" required="true" requiredMessage="User is requiered" validatorMessage="User validations fails." disabled="#{!hfmUsersBean.newUser}" />
 									<p:message for="@previous"/>
 								</div>
 								<div class="p-field">
-									<p:outputLabel for="password">Password ()maxlength 15)</p:outputLabel>
+									<p:outputLabel for="password">Password (maxlength 15)</p:outputLabel>
 									<p:password id="password" value="#{hfmUsersBean.curUser.password}" maxlength="15" toggleMask="true" feedback="true" redisplay="true" required="true" requiredMessage="Password is requiered" validatorMessage="Password validation fails"/>
 									<p:message for="@previous"/>
 								</div>
