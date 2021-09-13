@@ -108,7 +108,13 @@
 								target="#{tptypesControllerBean.curtptypes}" />
 						</p:commandButton>
 					</p:column>
-
+					<p:column headerText="User ID" sortBy="#{current.userid}" filterBy="#{current.userid}">
+                        <h:outputText value="#{current.userid}" />
+                    </p:column>
+                    <p:column headerText="Modified" sortBy="#{current.modified}" filterBy="#{current.modified}">
+                        <h:outputText value="#{current.modified}" >                        
+                        </h:outputText>
+                    </p:column>
 				</p:dataTable>
 				<!-- This form is for add new o modify a trading partner type -->
 				<p:dialog header="Trading PArtner Types Details" width="450"

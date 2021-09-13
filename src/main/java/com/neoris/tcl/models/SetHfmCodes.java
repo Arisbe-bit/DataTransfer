@@ -1,11 +1,14 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -47,6 +50,10 @@ public class SetHfmCodes implements Serializable {
 	
 	
 	private String intercom;
+	
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
 
 	public SetHfmCodes() {
 	}
@@ -156,12 +163,24 @@ public class SetHfmCodes implements Serializable {
 		this.intercom = intercom;
 	}
 
+	public Date getModified() {
+
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+
 	@Override
 	public String toString() {
 		return "SetHfmCodes [hfmcode=" + hfmcode + ", tptype=" + tptype + ", classification=" + classification
 				+ ", naturalb=" + naturalb + ", globalval=" + globalval + ", ordernum=" + ordernum + ", naturalsign="
-				+ naturalsign + ", description=" + description + ", userid=" + userid + ", intercom=" + intercom + "]";
+				+ naturalsign + ", description=" + description + ", userid=" + userid + ", intercom=" + intercom
+				+ ", modified=" + modified + "]";
 	}
+	
 
 	
 

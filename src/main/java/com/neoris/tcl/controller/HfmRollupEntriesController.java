@@ -15,8 +15,10 @@ import org.springframework.stereotype.Controller;
 
 import com.neoris.tcl.models.HfmRollupEntries;
 import com.neoris.tcl.models.ViewOrclCompany;
+import com.neoris.tcl.models.ViewSegmentCompany;
 import com.neoris.tcl.services.IHfmRollupEntriesService;
 import com.neoris.tcl.services.IViewOrclCompanyService;
+import com.neoris.tcl.services.IViewSegmentCompanyService;
 import com.neoris.tcl.utils.Functions;
 import com.neoris.tcl.utils.ViewScope;
 
@@ -34,16 +36,21 @@ public class HfmRollupEntriesController {
     private HfmRollupEntries currEntries;
     private boolean newCode;
     
+    private List<ViewSegmentCompany> lstsegment;
+    @Autowired
+    private IViewSegmentCompanyService servseg;
+    
     //companies
     private List<ViewOrclCompany> lstcomp;
-    private IViewOrclCompanyService servcomp;
+    @Autowired
+    private IViewOrclCompanyService  servcomp;
 
     @PostConstruct
     public void init() {
         LOG.info("Initializing Rollup Entries...");
         this.lstEntries = service.findAll();
         
-        /*
+        
 		try{
 			LOG.info("Initializing lstcomp...");
 		
@@ -53,20 +60,29 @@ public class HfmRollupEntriesController {
 		}catch (Exception e) {
 			LOG.error("init lstcomp ERRor -> {}", e.getMessage());
 		}
-      */
+		
+		this.newCode =false;
+		
     }
 
     public void openNew() {
         this.currEntries = new HfmRollupEntries();
-        
+        this.newCode =true;
+       
     }
 
     public void save() {
         LOG.info("Entering to save Entries => {}", currEntries);
 
-        if (this.newCode) {
+        if (this.newCode == true) {
+         try {	
+        	LOG.info("newcode {}",currEntries.getCompanyid().intValue());
             Optional<HfmRollupEntries> code = service.findById(currEntries.getCompanyid());
-            if (code.isPresent()) {
+            List<HfmRollupEntries> codeentity = service.findByEntity(currEntries.getEntity());
+            LOG.info("code found  {},codeentity {}",code,codeentity);
+            
+            if (code.isPresent() || !codeentity.isEmpty()) {
+            	LOG.info("isPresent");
                 String errorMessage = String.format(
                         "The record with code = %s already exist with value= %s. Can't create new record.",
                         currEntries.getCompanyid(), currEntries.getEntity());
@@ -74,7 +90,12 @@ public class HfmRollupEntriesController {
                 PrimeFaces.current().ajax().update("form:messages", "form:" + getDataTableName());
                 return;
             }
-        }
+            
+         
+        }catch (Exception e) {
+			LOG.error("save-newcode ERRor -> {}", e.getMessage());
+		}
+      }
 
         currEntries = service.save(currEntries);
         this.lstEntries = service.findAll();
@@ -167,6 +188,7 @@ public class HfmRollupEntriesController {
 
     public void setCurrEntries(HfmRollupEntries currEntries) {
         this.currEntries = currEntries;
+        this.newCode =false;
     }
 
 	public List<ViewOrclCompany> getLstcomp() {
@@ -175,6 +197,14 @@ public class HfmRollupEntriesController {
 
 	public void setLstcomp(List<ViewOrclCompany> lstcomp) {
 		this.lstcomp = lstcomp;
+	}
+
+	public List<ViewSegmentCompany> getLstSegment() {
+		return lstsegment;
+	}
+
+	public void setLstSegment(List<ViewSegmentCompany> lstSegment) {
+		this.lstsegment = lstSegment;
 	}
 
     

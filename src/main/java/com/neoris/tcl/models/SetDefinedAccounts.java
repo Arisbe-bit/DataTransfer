@@ -1,13 +1,18 @@
 package com.neoris.tcl.models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "set_defined_accounts")
@@ -20,6 +25,12 @@ public class SetDefinedAccounts implements Serializable {
 	private String icpcode;
 	private String userid;
 	private String cperiod;
+	
+	
+    
+	@Column(name = "modified",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable=false)
+	@Temporal(TemporalType.DATE)
+	private Date modified;
 
 	@Transient
 	private String uuid;
@@ -71,12 +82,20 @@ public class SetDefinedAccounts implements Serializable {
 	public String getUuid() {
 		return uuid;
 	}
+	
 
-	@Override
-	public String toString() {
-		return String.format("SetDefinedAccounts [id=%s, icpcode=%s, userid=%s, cperiod=%s, uuid=%s]", id, icpcode,
-				userid, cperiod, uuid);
+
+	public Date getModified() {
+
+		return modified;
 	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+	
+
+	 
 
 	@Override
 	public int hashCode() {
@@ -93,6 +112,12 @@ public class SetDefinedAccounts implements Serializable {
 			return false;
 		SetDefinedAccounts other = (SetDefinedAccounts) obj;
 		return Objects.equals(uuid, other.uuid);
+	}
+
+	@Override
+	public String toString() {
+		return "SetDefinedAccounts [id=" + id + ", icpcode=" + icpcode + ", userid=" + userid + ", cperiod=" + cperiod
+				+ ", modified=" + modified + ", uuid=" + uuid + "]";
 	}
 
 	
